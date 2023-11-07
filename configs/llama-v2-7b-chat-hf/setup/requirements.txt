@@ -1,0 +1,10 @@
+accelerate
+bitsandbytes
+datasets
+peft
+scikit-learn
+sentencepiece
+trl
+protobuf
+ipykernel
+wandb
