@@ -1,7 +1,7 @@
 {
     "models": [
     {
-        "name": "meta-llama/Llama-2-7b-hf",
+        "name": "meta-llama/Llama-2-7b",
         "numberOfParams": 7000000000,
         "Size": "9.6 GB",
         "icon": "meta",
@@ -10,13 +10,13 @@
         "configPath": "olive-config.json",
         "initScriptPath": "setup/FirstTimeSetup.ps1",
         "workspaceTemplatePath": "configs/llama-v2-7b",
-        "availabilityLocations": ["HuggingFace", "Azure"],
+        "availabilityLocations": [{"providerType":"Azure","modelId":"meta-llama/Llama-2-7b"},{"providerType":"HuggingFace","modelId":"meta-llama/Llama-2-7b-hf"}],
         "type": "Text Generation",
         "modelCard":"https://huggingface.co/meta-llama/Llama-2-7b-hf/raw/main/README.md",
         "revision":"main"
     },
     {
-        "name": "meta-llama/Llama-2-7b-chat-hf",
+        "name": "meta-llama/Llama-2-7b-chat",
         "numberOfParams": 7000000000,
         "Size": "9.6 GB",
         "icon": "meta",
@@ -25,13 +25,13 @@
         "configPath": "olive-config.json",
         "initScriptPath": "setup/FirstTimeSetup.ps1",
         "workspaceTemplatePath": "configs/llama-v2-7b-chat-hf",
-        "availabilityLocations": ["HuggingFace", "Azure"],
+        "availabilityLocations": [{"providerType":"Azure","modelId":"meta-llama/Llama-2-7b-chat"},{"providerType":"HuggingFace","modelId":"Llama-2-7b-chat-hf"}],
         "type": "Text Generation",
         "modelCard":"https://huggingface.co/meta-llama/Llama-2-7b-chat-hf/raw/main/README.md",
         "revision":"main"
     },
     {
-        "name": "meta-llama/Llama-2-13b-hf",
+        "name": "meta-llama/Llama-2-13b",
         "numberOfParams": 13000000000,
         "Size": "19.6 GB",
         "icon": "meta",
@@ -40,7 +40,7 @@
         "configPath": "olive-config.json",
         "initScriptPath": "setup/FirstTimeSetup.ps1",
         "workspaceTemplatePath": "configs/llama-2-13b",
-        "availabilityLocations": ["HuggingFace", "Azure"],
+        "availabilityLocations": [{"providerType":"Azure","modelId":"meta-llama/Llama-2-13b"},{"providerType":"HuggingFace","modelId":"Llama-2-13b-hf"}],
         "type": "Text Generation",
         "modelCard":"https://huggingface.co/meta-llama/Llama-2-13b-hf/raw/main/README.md",
         "revision":"main"
@@ -55,7 +55,7 @@
         "configPath": "olive-config.json",
         "initScriptPath": "setup/FirstTimeSetup.ps1",
         "workspaceTemplatePath": "configs/llama-v2-13b-chat-hf",
-        "availabilityLocations": ["HuggingFace", "Azure"],
+        "availabilityLocations": [{"providerType":"Azure","modelId":"meta-llama/Llama-2-13b-chat"},{"providerType":"HuggingFace","modelId":"Llama-2-13b-chat-hf"}],
         "type": "Text Generation",
         "modelCard":"https://huggingface.co/meta-llama/Llama-2-13b-chat-hf/raw/main/README.md",
         "revision":"main"
