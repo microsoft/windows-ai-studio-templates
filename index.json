@@ -23,7 +23,6 @@
         }
       ],
       "type": "Text Generation",
-      "modelCard": "https://huggingface.co/meta-llama/Llama-2-7b-hf/raw/main/README.md",
       "revision": "main"
     },
     {
@@ -49,7 +48,6 @@
         }
       ],
       "type": "Text Generation",
-      "modelCard": "https://huggingface.co/meta-llama/Llama-2-7b-chat-hf/raw/main/README.md",
       "revision": "main"
     },
     {
@@ -75,7 +73,6 @@
         }
       ],
       "type": "Text Generation",
-      "modelCard": "https://huggingface.co/meta-llama/Llama-2-13b-hf/raw/main/README.md",
       "revision": "main"
     },
     {
@@ -101,7 +98,6 @@
         }
       ],
       "type": "Text Generation",
-      "modelCard": "https://huggingface.co/meta-llama/Llama-2-13b-chat-hf/raw/main/README.md",
       "revision": "main"
     },
     {
@@ -122,7 +118,6 @@
         }
       ],
       "type": "Text Generation",
-      "modelCard": "https://huggingface.co/microsoft/phi-1_5/raw/main/README.md",
       "revision": "d38e6f954ec29b96fe2cf033937dad64e279b5d9"
     }
   ]
