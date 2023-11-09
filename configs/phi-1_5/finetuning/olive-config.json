@@ -35,7 +35,8 @@
                         "text_template": "<text_template>",
                         "corpus_strategy": "<line_by_line>",
                         "source_max_len": <source_max_len>,
-                        "pad_to_max_len": <pad_to_max_len>
+                        "pad_to_max_len": <pad_to_max_len>,
+                        "use_attention_mask": false
                     }
                 }
             }
