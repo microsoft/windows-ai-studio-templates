@@ -1,67 +1,42 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT license.
+
 import sys
+
 import torch
-from peft import PeftModel    
+from utils import (load_tokenizer, load_model, load_peft_model, get_device, 
+                   generate_text, run_prompt, check_adapter_path)
 
-from promptflow import tool
+def main(model_name, adapters_name, torch_dtype, quant_type):
+    """
+    The main execution function that loads the model, tokenizer, and runs the prompt.
+    Args:
+    model_name (str): The name of the model to load.
+    adapters_name (str): Path to the adapters file.
+    torch_dtype (torch.dtype): The data type for model weights (e.g., torch.bfloat16).
+    quant_type (str): The quantization type to use.
+    """
+    check_adapter_path(adapters_name)
+    tokenizer = load_tokenizer(model_name)
 
-from transformers import AutoModelForCausalLM, AutoTokenizer, StoppingCriteria, StoppingCriteriaList, TextIteratorStreamer,BitsAndBytesConfig,TextStreamer
-
-model_name = "model-cache/microsoft/phi-1_5"
-adapters_name = "cache/models/<finetuned_adapters_file_path>"
-
-# Check the current value of the variable
-if adapters_name == "cache/models/<finetuned_adapters_file_path>":
-    print("Please replace the <finetuned_adapters_file_path> with your adapter location.")
-    sys.exit()
-
-print(f"Starting to load the model {model_name} into memory")
-
-tok = AutoTokenizer.from_pretrained(model_name, device_map='auto',trust_remote_code=True)
-
-# set pad token
-tok.add_special_tokens({'pad_token': '[PAD]'})
-
-# Set the padding direction to the right
-tok.padding_side = 'left'
-
-m = AutoModelForCausalLM.from_pretrained(
-        pretrained_model_name_or_path=model_name,
-        trust_remote_code=True,
-        device_map='auto',
-        torch_dtype=torch.<compute_dtype>,
-        # 4-bit quantization configuration
-        quantization_config=BitsAndBytesConfig(
-            load_in_4bit=True,
-            bnb_4bit_compute_dtype=torch.<compute_dtype>,
-            bnb_4bit_use_double_quant=True,
-            bnb_4bit_quant_type='<quant_type>'
-        ),
-    )
-
-# Resize the embeddings bacuse of the PAD token
-m.resize_token_embeddings(len(tok))
-
-m = PeftModel.from_pretrained(m, adapters_name)
-
-print(f"Successfully loaded the model {model_name} into memory")
-
-template = "### Question: {}\n### Answer: \n"
-
-device = "cuda:0"
-
-user_input = ""
-while True:
-    new_input = input("Enter your text (type #end to stop): ")
-    if new_input == "#end":
-        break
-
-    inputs = tok(template.format(new_input), return_tensors="pt").to(device)
-    streamer = TextStreamer(tok)
-
-    # Despite returning the usual output, the streamer will also print the generated text to stdout.
-    _ = m.generate(**inputs, streamer=streamer, 
-                # Generation Configuration
-                   max_new_tokens=1024,
-                   pad_token_id=tok.pad_token_id,
-                   eos_token_id=tok.eos_token_id)
+    model = load_model(model_name, torch_dtype, quant_type)
+    model.resize_token_embeddings(len(tokenizer))
     
+    model = load_peft_model(model, adapters_name)
+    device = get_device()
+    model.to(device)
+    print(f"Model {model_name} loaded successfully on {device}")
+    template = "### Question: {}\n### Answer: \n"
+    run_prompt(model, tokenizer, device, template)
+
+if __name__ == "__main__":
+    model_name = "model-cache/microsoft/phi-1_5"
+    adapters_name = "models/qlora/qlora/gpu-cpu_model/adapter"  # Ensure this path is correctly set before running
+    torch_dtype = torch.bfloat16  # Set the appropriate torch data type
+    quant_type = 'nf4'  # Set the appropriate quantization type
+
+    try:
+        main(model_name, adapters_name, torch_dtype, quant_type)
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        sys.exit(1)

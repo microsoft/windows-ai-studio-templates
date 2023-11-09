@@ -1,90 +1,65 @@
 import sys
 import os
-import re
 
 import torch
-from peft import PeftModel    
+from utils import load_tokenizer, load_model, load_peft_model, get_last_folder_alphabetically, get_device
 from promptflow import tool
 
-from transformers import AutoModelForCausalLM, AutoTokenizer, StoppingCriteria, StoppingCriteriaList, TextIteratorStreamer,BitsAndBytesConfig,TextStreamer
-
 class ChatBot:
+    # Class attributes to hold the model and tokenizer. Initialized to None.
     m = None
     tok = None
 
     @staticmethod
     def init_model():
+        # Only initializes the model if it has not already been initialized.
         if ChatBot.m is None or ChatBot.tok is None:
+            # Define the model name and retrieve the latest model checkpoint.
             model_name = "../model-cache/microsoft/phi-1_5"
-            last_model_checkpoint = ChatBot.get_last_folder_alphabetically("../cache/models")
+            last_model_checkpoint = get_last_folder_alphabetically("../cache/models")
             adapters_name = os.path.join(last_model_checkpoint, "output_model", "adapter")
 
-            # Code to initialize ChatBot.m and ChatBot.tok
+            # Logging the model loading process.
             print(f"Starting to load the model {model_name} into memory")
 
-            ChatBot.tok = AutoTokenizer.from_pretrained(model_name, device_map='auto', trust_remote_code=True)
-            ChatBot.tok.add_special_tokens({'pad_token': '[PAD]'})
-            ChatBot.tok.padding_side = 'left'
+            # Load the tokenizer from the utility function.
+            ChatBot.tok = load_tokenizer(model_name)
 
-            ChatBot.m = AutoModelForCausalLM.from_pretrained(
-                pretrained_model_name_or_path=model_name,
-                trust_remote_code=True,
-                device_map='auto',
-                torch_dtype=torch.bfloat16,
-                quantization_config=BitsAndBytesConfig(
-                    load_in_4bit=True,
-                    bnb_4bit_compute_dtype=torch.bfloat16,
-                    bnb_4bit_use_double_quant=True,
-                    bnb_4bit_quant_type='nf4'
-                ),
-            )
-
-            ChatBot.m.resize_token_embeddings(len(ChatBot.tok))
-            ChatBot.m = PeftModel.from_pretrained(ChatBot.m, adapters_name)
-
-            print(f"Successfully loaded the model {model_name} into memory")
+            # Load the model with the specified configuration from the utility function.
+            ChatBot.m = load_model(model_name, torch.bfloat16, 'nf4')
             
-    @staticmethod
-    def natural_sort_key(s):
-        return [int(text) if text.isdigit() else text.lower() for text in re.split('([0-9]+)', s)]
-    
-    @staticmethod
-    def get_last_folder_alphabetically(directory_path):
-        if not os.path.exists(directory_path):
-            return "Directory does not exist."
+            # Load the PEFT model with the adapters from the utility function.
+            ChatBot.m = load_peft_model(ChatBot.m, adapters_name)
 
-        all_files_and_folders = os.listdir(directory_path)
-
-        # Filter out only directories
-        only_folders = [f for f in all_files_and_folders if os.path.isdir(os.path.join(directory_path, f))]
-
-        if not only_folders:
-            return "No folders found in the directory."
-
-        # Sort them using natural sort
-        only_folders.sort(key=ChatBot.natural_sort_key)
-        
-        # Get the last folder alphabetically
-        last_folder = only_folders[-1]
-
-        return os.path.join(directory_path, last_folder)
+            # Logging the successful model loading.
+            print(f"Successfully loaded the model {model_name} into memory")
 
     @staticmethod
     def chat(prompt: str) -> str:
+        # Ensure the model is initialized before trying to chat.
         ChatBot.init_model()
 
+        # Define the template that formats the chat input.
         template = "### Question: {}\n### Answer: \n"
-        device = "cuda:0"
+        
+        # Retrieve the appropriate device for model computations.
+        device = get_device()
+        
+        # Process the input with the tokenizer and move it to the correct device.
         inputs = ChatBot.tok(template.format(prompt), return_tensors="pt").to(device)
 
+        # Generate the response using the model.
         outputs = ChatBot.m.generate(**inputs,
-                                      max_new_tokens=1024,
-                                      pad_token_id=ChatBot.tok.pad_token_id,
-                                      eos_token_id=ChatBot.tok.eos_token_id)
+                                     max_new_tokens=1024,
+                                     pad_token_id=ChatBot.tok.pad_token_id,
+                                     eos_token_id=ChatBot.tok.eos_token_id)
 
+        # Decode the generated tokens to a string and return.
         text = ChatBot.tok.batch_decode(outputs)[0]
         return text
 
+# Decorator to expose the chat method as a standalone function.
 @tool
 def chat(prompt: str) -> str:
+    # Invokes the chat method of ChatBot class with the given prompt.
     return ChatBot.chat(prompt)
