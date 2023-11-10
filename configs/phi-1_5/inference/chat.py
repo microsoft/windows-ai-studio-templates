@@ -19,8 +19,7 @@ class ChatBot:
         if ChatBot.m is None or ChatBot.tok is None:
             # Define the model name and retrieve the latest model checkpoint.
             model_name = "../model-cache/microsoft/phi-1_5"
-            last_model_checkpoint = get_last_folder_alphabetically("../cache/models")
-            adapters_name = os.path.join(last_model_checkpoint, "output_model", "adapter")
+            adapters_name = "../models/qlora/qlora/gpu-cpu_model/adapter"
 
             # Logging the model loading process.
             print(f"Starting to load the model {model_name} into memory")
@@ -29,7 +28,7 @@ class ChatBot:
             ChatBot.tok = load_tokenizer(model_name)
 
             # Load the model with the specified configuration from the utility function.
-            ChatBot.m = load_model(model_name, torch.bfloat16, 'nf4')
+            ChatBot.m = load_model(model_name, torch.<compute_dtype>, '<quant_type>')
             
             # Load the PEFT model with the adapters from the utility function.
             ChatBot.m = load_peft_model(ChatBot.m, adapters_name)
@@ -43,7 +42,7 @@ class ChatBot:
         ChatBot.init_model()
 
         # Define the template that formats the chat input.
-        template = "### Question: {}\n### Answer: \n"
+        template = "<text_template>"
         
         # Retrieve the appropriate device for model computations.
         device = get_device()

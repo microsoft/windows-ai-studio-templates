@@ -52,7 +52,7 @@
         "label": "Source Max length:",
         "replaceToken": "<source_max_len>",
         "defaultValue": 1024
-      },
+      },     
       {
         "type": "Boolean",
         "label": "Pad to Max length:",
@@ -150,6 +150,12 @@
         "label": "Learning rate:",
         "replaceToken": "<learning_rate>",
         "defaultValue": 0.0002
+      },
+      {
+        "type": "Integer",
+        "label": "Number of Epochs:",
+        "replaceToken": "<num_train_epochs>",
+        "defaultValue": 3
       },
       {
         "type": "Integer",

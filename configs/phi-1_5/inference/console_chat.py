@@ -26,14 +26,14 @@ def main(model_name, adapters_name, torch_dtype, quant_type):
     device = get_device()
     model.to(device)
     print(f"Model {model_name} loaded successfully on {device}")
-    template = "### Question: {}\n### Answer: \n"
+    template = "<text_template>"
     run_prompt(model, tokenizer, device, template)
 
 if __name__ == "__main__":
     model_name = "model-cache/microsoft/phi-1_5"
     adapters_name = "models/qlora/qlora/gpu-cpu_model/adapter"  # Ensure this path is correctly set before running
-    torch_dtype = torch.bfloat16  # Set the appropriate torch data type
-    quant_type = 'nf4'  # Set the appropriate quantization type
+    torch_dtype = torch.<compute_dtype>  # Set the appropriate torch data type
+    quant_type = '<quant_type>'  # Set the appropriate quantization type
 
     try:
         main(model_name, adapters_name, torch_dtype, quant_type)
