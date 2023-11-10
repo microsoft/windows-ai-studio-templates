@@ -1,4 +1,4 @@
-# Windows AI Studio
+# Windows AI Studio Preview
 
 ## Overview
 [Windows AI Studio](add link to Studio) simplifies generative AI app development by bringing together cutting-edge AI development tools and models from Azure AI Studio Catalog and other catalogs like Hugging Face. You will be able browse the AI models catalog powered by Azure ML and Hugging Face for public models that you can download locally, fine- tune, test and add them to your Windows application.
@@ -8,11 +8,35 @@
 
 In this section you will learn how to quickly start with Windows AI Studio
 
-### Install Windows AI Studio
+### Install Windows AI Studio Preview
 
 Windows AI Studio is shipped as [Visual Studio Code Extension](https://code.visualstudio.com/docs/setup/additional-components#_vs-code-extensions), so you need to install [VS Code](https://code.visualstudio.com/docs/setup/windows) first and dowload the Windows AI Studio from the [VS Marketplace](https://marketplace.visualstudio.com/VSCode).
 
+### Available Actions
 
+Upon lanching Windows AI Studio, there are several actions you can do:
+- Start Model Finetuning
+- Start Dataset Generation
+
+![Actions](/Images/studio_Actions.png)
+
+### Start Model Finetuning
+
+To initiate the local finetuning session using QLoRA, select a model you want to finetune from our catalog powered by AzureML.
+
+> ***Note*** You do not need Azure Account to download the models
+
+Once, a model is selected it is time to configure the project. You will be promp to download the project template. But first, you can set configuration settings via UI.
+
+![Configure the model](/Images/fineTune.jpg)
+
+After all the parameters are set, click **Generate Progect**.
+That will:
+ - Initiate the model download
+ - Install all prerequisites and dependencies
+ - Create VS Code workspace
+
+When the model is downloaded, you can launch you project
 ## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
