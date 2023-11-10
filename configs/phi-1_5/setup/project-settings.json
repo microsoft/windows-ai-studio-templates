@@ -1,5 +1,16 @@
 [
-
+  {
+    "groupId": "model_inference",
+    "title": "Model Inference Settings",
+    "fields": [
+      {
+        "type": "String",
+        "label": "Inference Prompt Template",
+        "replaceToken": "<prompt_template>",
+        "defaultValue": "### Question: {}\\n### The answer is:\\n"
+      }
+    ]
+  },
   {
     "groupId": "data_configs",
     "title": "Data settings",

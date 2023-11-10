@@ -26,7 +26,7 @@ def main(model_name, adapters_name, torch_dtype, quant_type):
     device = get_device()
     model.to(device)
     print(f"Model {model_name} loaded successfully on {device}")
-    template = "<text_template>"
+    template = "<prompt_template>"
     run_prompt(model, tokenizer, device, template)
 
 if __name__ == "__main__":
