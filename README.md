@@ -1,14 +1,17 @@
-# Project
+# Windows AI Studio
 
-> This repo has been populated by an initial template to help get you started. Please
-> make sure to update the content to build a great experience for community-building.
+## Overview
+[Windows AI Studio](add link to Studio) simplifies generative AI app development by bringing together cutting-edge AI development tools and models from Azure AI Studio Catalog and other catalogs like Hugging Face. You will be able browse the AI models catalog powered by Azure ML and Hugging Face for public models that you can download locally, fine- tune, test and add them to your Windows application.
+[Windows AI Studio](add link to Studio)
 
-As the maintainer of this project, please make a few updates:
+## Quick Start
 
-- Improving this README.MD file to provide a great experience
-- Updating SUPPORT.MD with content about this project's support experience
-- Understanding the security reporting process in SECURITY.MD
-- Remove this section from the README
+In this section you will learn how to quickly start with Windows AI Studio
+
+### Install Windows AI Studio
+
+Windows AI Studio is shipped as [Visual Studio Code Extension](https://code.visualstudio.com/docs/setup/additional-components#_vs-code-extensions), so you need to install [VS Code](https://code.visualstudio.com/docs/setup/windows) first and dowload the Windows AI Studio from the [VS Marketplace](https://marketplace.visualstudio.com/VSCode).
+
 
 ## Contributing
 
