@@ -42,7 +42,7 @@ class ChatBot:
         ChatBot.init_model()
 
         # Define the template that formats the chat input.
-        template = "<text_template>"
+        template = "<prompt_template>"
         
         # Retrieve the appropriate device for model computations.
         device = get_device()

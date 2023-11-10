@@ -29,7 +29,7 @@ print(f"Model {model_name} loaded successfully on {device}")
 
 # Function to run the text generation process
 def run_generation(user_text, top_p, temperature, top_k, max_new_tokens):
-    template = "<text_template>"
+    template = "<prompt_template>"
     model_inputs = tokenizer(template.format(user_text), return_tensors="pt")
     model_inputs = model_inputs.to(device)
 
