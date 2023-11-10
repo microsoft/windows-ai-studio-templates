@@ -7,9 +7,10 @@ from utils import check_adapter_path, load_model, load_peft_model, load_tokenize
 
 # Define model and adapter paths, data type, and quantization type
 model_name = "../model-cache/microsoft/phi-1_5"
-adapters_name = "../models/qlora/qlora/gpu-cpu_model/adapter"
-torch_dtype = torch.bfloat16
-quant_type = 'nf4'
+adapters_name = "models/qlora/qlora/gpu-cpu_model/adapter"  # Ensure this path is correctly set before running
+torch_dtype = torch.<compute_dtype>  # Set the appropriate torch data type
+quant_type = '<quant_type>'  # Set the appropriate quantization type
+
 
 # Display device and CPU thread information
 print("Running on device:", get_device())
@@ -28,7 +29,7 @@ print(f"Model {model_name} loaded successfully on {device}")
 
 # Function to run the text generation process
 def run_generation(user_text, top_p, temperature, top_k, max_new_tokens):
-    template = "### Question: {}\n### Answer: \n"
+    template = "<text_template>"
     model_inputs = tokenizer(template.format(user_text), return_tensors="pt")
     model_inputs = model_inputs.to(device)
 

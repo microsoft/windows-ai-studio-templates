@@ -62,6 +62,7 @@
                     "gradient_accumulation_steps": <gradient_accumulation_steps>,
                     "gradient_checkpointing": <gradient_checkpointing>,
                     "learning_rate": <learning_rate>,
+                    "num_train_epochs":<num_train_epochs>,
                     "max_steps": <max_steps>,
                     "logging_steps": 10,
                     "evaluation_strategy": "steps",
