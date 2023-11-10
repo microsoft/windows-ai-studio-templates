@@ -19,12 +19,12 @@ print("CPU threads:", torch.get_num_threads())
 # Load model and tokenizer, and set up the model
 check_adapter_path(adapters_name)
 tokenizer = load_tokenizer(model_name)
-tokenizer.padding_side = 'right'
+
 model = load_model(model_name, torch_dtype, quant_type)
 model.resize_token_embeddings(len(tokenizer))
 model = load_peft_model(model, adapters_name)
 device = get_device()
-model.to(device)
+
 print(f"Model {model_name} loaded successfully on {device}")
 
 # Function to run the text generation process
