@@ -1,0 +1,24 @@
+{
+  "name": "Python 3",
+  "build": {
+    "dockerfile": "../Dockerfile"
+  },
+  // Set *default* container specific settings.json values on container create.
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "editor.tabSize": 4,
+        "createEnvironment.contentButton": "hide",
+        "python.terminal.activateEnvInCurrentTerminal": true,
+        "python.defaultInterpreterPath": "${workspaceFolder}/.direnv/python"
+      },
+      // Add the IDs of extensions you want installed when the container is created.
+      "extensions": [
+        "ms-python.python",
+        "ms-toolsai.jupyter",
+        "esbenp.prettier-vscode"
+      ]
+    }
+  },
+  "postCreateCommand": "./.devcontainer/postCreateCommand.sh"
+}

@@ -2,4 +2,5 @@
     "editor.tabSize": 4,
     "createEnvironment.contentButton": "hide",
     "python.terminal.activateEnvInCurrentTerminal": true,
+    "python.defaultInterpreterPath": "${workspaceFolder}/.direnv/python",
 }
