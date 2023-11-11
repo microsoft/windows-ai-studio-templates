@@ -59,7 +59,7 @@
       "description": "Description for Llama-v2-13b",
       "configPath": "olive-config.json",
       "initScriptPath": "setup/FirstTimeSetup.ps1",
-      "workspaceTemplatePath": "configs/llama-2-13b",
+      "workspaceTemplatePath": "configs/llama-v2-13b",
       "availabilityLocations": [
         {
           "providerType": "Azure",
