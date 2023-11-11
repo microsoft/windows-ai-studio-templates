@@ -3,7 +3,7 @@
         "type": "PyTorchModel",
         "config": {
             "hf_config": {
-                "model_name": "model-cache/meta-llama/Llama-2-7b-hf",
+                "model_name": "model-cache/meta-llama/Llama-2-7b",
                 "task": "text-generation"
             }
         }
@@ -58,6 +58,7 @@
                     "gradient_accumulation_steps": <gradient_accumulation_steps>,
                     "gradient_checkpointing": <gradient_checkpointing>,
                     "learning_rate": <learning_rate>,
+                    "num_train_epochs":<num_train_epochs>,
                     "max_steps": <max_steps>,
                     "logging_steps": 10,
                     "evaluation_strategy": "steps",

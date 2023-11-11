@@ -1,5 +1,16 @@
 [
-
+  {
+    "groupId": "model_inference",
+    "title": "Model Inference Settings",
+    "fields": [
+      {
+        "type": "String",
+        "label": "Inference Prompt Template",
+        "replaceToken": "<prompt_template>",
+        "defaultValue": "### Question: {}\\n### The answer is:\\n"
+      }
+    ]
+  },
   {
     "groupId": "data_configs",
     "title": "Data settings",
@@ -149,6 +160,12 @@
         "label": "Learning rate:",
         "replaceToken": "<learning_rate>",
         "defaultValue": 0.0002
+      },
+      {
+        "type": "Integer",
+        "label": "Number of Epochs:",
+        "replaceToken": "<num_train_epochs>",
+        "defaultValue": 3
       },
       {
         "type": "Integer",
