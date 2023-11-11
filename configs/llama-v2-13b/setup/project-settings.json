@@ -1,0 +1,167 @@
+[
+
+  {
+    "groupId": "data_configs",
+    "title": "Data settings",
+    "fields": [
+      {
+        "type": "String",
+        "label": "Data container type:",
+        "replaceToken": "<container_type>",
+        "defaultValue": "HuggingfaceContainer"
+      },
+      {
+        "type": "String",
+        "label": "Dataset Name:",
+        "replaceToken": "<data_configs_data_name>",
+        "defaultValue": "nampdn-ai/tiny-codes"
+      },
+      {
+        "type": "String",
+        "label": "Split:",
+        "replaceToken": "<data_configs_split>",
+        "defaultValue": "train"
+      },
+      {
+        "type": "String",
+        "label": "Dataset type:",
+        "replaceToken": "<dataset_type>",
+        "defaultValue": "corpus"
+      },
+      {
+        "type": "String",
+        "label": "Text cols:",
+        "replaceToken": "<text_cols>",
+        "defaultValue": [ "prompt", "response" ]
+      },
+      {
+        "type": "String",
+        "label": "Text template:",
+        "replaceToken": "<text_template>",
+        "defaultValue": "### Question: {prompt}\\n### The answer is:\\n{response}"
+      },
+      {
+        "type": "String",
+        "label": "Corpus strategy:",
+        "replaceToken": "<line_by_line>",
+        "defaultValue": "join",
+        "optionValues": ["line-by-line", "join"]
+      },
+      {
+        "type": "Integer",
+        "label": "Source Max length:",
+        "replaceToken": "<source_max_len>",
+        "defaultValue": 1024
+      },
+      {
+        "type": "Boolean",
+        "label": "Pad to Max length:",
+        "replaceToken": "<pad_to_max_len>",
+        "defaultValue": false
+      }
+    ]
+  },
+  {
+    "groupId": "fine_tune",
+    "title": "Fine tune settings",
+    "fields": [
+      {
+        "type": "String",
+        "label": "Compute Dtype:",
+        "replaceToken": "<compute_dtype>",
+        "optionValues": ["bfloat16", "float16"],
+        "defaultValue": "bfloat16"
+      },
+      {
+        "type": "String",
+        "label": "Quant type:",
+        "replaceToken": "<quant_type>",
+        "defaultValue": "nf4"
+      },
+      {
+        "type": "Boolean",
+        "label": "Double quant:",
+        "replaceToken": "<double_quant>",
+        "defaultValue": true
+      },
+      {
+        "type": "Integer",
+        "label": "Lora r:",
+        "replaceToken": "<lora_r>",
+        "defaultValue": 64
+      },
+      {
+        "type": "Integer",
+        "label": "Lora alpha:",
+        "replaceToken": "<lora_alpha>",
+        "defaultValue": 16
+      },
+      {
+        "type": "Number",
+        "label": "Lora dropout:",
+        "replaceToken": "<lora_dropout>",
+        "defaultValue": 0.1
+      },
+      {
+        "type": "Integer",
+        "label": "Eval dataset size:",
+        "replaceToken": "<eval_dataset_size>",
+        "defaultValue": 1024
+      },    
+      {
+        "type": "Integer",
+        "label": "Seed:",
+        "replaceToken": "<training_args_seed>",
+        "defaultValue": 0
+      },
+      {
+        "type": "Integer",
+        "label": "Data Seed:",
+        "replaceToken": "<training_args_data_seed>",
+        "defaultValue": 42
+      },
+      {
+        "type": "Integer",
+        "label": "Per device train batch size:",
+        "replaceToken": "<per_device_train_batch_size>",
+        "defaultValue": 8
+      },
+      {
+        "type": "Integer",
+        "label": "Per device eval batch size:",
+        "replaceToken": "<per_device_eval_batch_size>",
+        "defaultValue": 8
+      },
+      {
+        "type": "Integer",
+        "label": "Gradient accumulation steps:",
+        "replaceToken": "<gradient_accumulation_steps>",
+        "defaultValue": 4
+      },
+      {
+        "type": "Boolean",
+        "label": "Enable Gradient checkpointing:",
+        "replaceToken": "<gradient_checkpointing>",
+        "defaultValue": true
+      },
+      {
+        "type": "Number",
+        "label": "Learning rate:",
+        "replaceToken": "<learning_rate>",
+        "defaultValue": 0.0002
+      },
+      {
+        "type": "Integer",
+        "label": "Max steps:",
+        "replaceToken": "<max_steps>",
+        "defaultValue": 1000
+      },
+      {
+        "type": "String",
+        "label": "Checkpoint output dir",
+        "replaceToken": "<output_dir>",
+        "defaultValue": "models/checkpoints"
+      }
+    ]
+  }    
+]

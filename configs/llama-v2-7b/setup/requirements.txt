@@ -1,3 +1,8 @@
+--extra-index-url https://download.pytorch.org/whl/cu118
+torch
+torchvision
+torchaudio
+transformers==4.34.1
 accelerate==0.23.0
 bitsandbytes==0.41.1
 datasets==2.14.5
@@ -9,4 +14,7 @@ protobuf==3.20.3
 ipykernel==6.25.2
 wandb==0.15.12
 onnxruntime-gpu==1.16.1
-file:olive_ai-0.4.0-py3-none-any.whl
+einops
+olive-ai==0.3.3
+promptflow==0.1.0b8
+promptflow-tools==0.1.0b10

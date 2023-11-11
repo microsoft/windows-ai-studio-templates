@@ -1,24 +1,35 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/miniconda
 {
-  "name": "Python 3",
-  "build": {
-    "dockerfile": "../Dockerfile"
-  },
-  // Set *default* container specific settings.json values on container create.
-  "customizations": {
-    "vscode": {
-      "settings": {
-        "editor.tabSize": 4,
-        "createEnvironment.contentButton": "hide",
-        "python.terminal.activateEnvInCurrentTerminal": true,
-        "python.defaultInterpreterPath": "${workspaceFolder}/.direnv/python"
-      },
-      // Add the IDs of extensions you want installed when the container is created.
-      "extensions": [
-        "ms-python.python",
-        "ms-toolsai.jupyter",
-        "esbenp.prettier-vscode"
-      ]
-    }
-  },
-  "postCreateCommand": "./.devcontainer/postCreateCommand.sh"
+	"name": "Miniconda (Python 3)",
+	"build": { 
+		"context": "..",
+		"dockerfile": "Dockerfile"
+	},
+	"features": {
+		"ghcr.io/devcontainers/features/conda:1": {},
+		"ghcr.io/devcontainers/features/git:1": {},
+		"ghcr.io/devcontainers/features/git-lfs:1": {},
+		"ghcr.io/devcontainers/features/nvidia-cuda:1": {},
+		"ghcr.io/devcontainers/features/python:1": {}
+	},
+	"runArgs": [
+		"--gpus",
+		"all"
+	]
+
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	// "features": {},
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// "postCreateCommand": "python --version",
+
+	// Configure tool-specific properties.
+	// "customizations": {},
+
+	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+	// "remoteUser": "root"
 }
