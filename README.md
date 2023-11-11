@@ -26,9 +26,29 @@ To initiate the local finetuning session using QLoRA, select a model you want to
 
 > ***Note*** You do not need Azure Account to download the models
 
-Once, a model is selected it is time to configure the project. You will be promp to download the project template. But first, you can set configuration settings via UI.
+Once, a model is selected it is time to configure the project. You will be promp to download the project template. But first, you can set configuration settings via UI. We use [Olive](https://microsoft.github.io/Olive/overview/olive.html) to run QLoRA fine-tuning on a PyTorch model from our catalog. All of the setting are preset with the default values to optimize to runthe finetuning process locally with optimized use of memory.
 
 ![Configure the model](/Images/fineTune.jpg)
+
+| Setting                       | Data Type | Default Value | Description |
+| ----------------------------- | --------- | --------------| ----------- |
+| Compute Dtype                 | Str       | bfloat16      | Data type for model weights and adapter weights. For 4bit quantized model, it is also the computation data type for the quantized modules. Should be one of bfloat16, float16 or float32 |
+| Quant type                    |           | nf4           | Quantization data type to use. Should be one of fp4 or nf4 |
+| Double quant                  | Bool      | yes           | Whether to use nested quantization where the quantization constants from the first quantization are quantized again |
+| Lora r                        | Int       | 64            | Lora attention dimension |
+| Lora alpha                    | Float     | 16            | The alpha parameter for Lora scaling |
+| Lora dropout                  | Float     | 0.1           | The dropout probability for Lora layers |
+| Eval dataset size             | Float     | 1024          | Size of the validation dataset |
+| Seed                          | Int       | 0             | Random seed for initialization |
+| Data Seed                     | Int       | 42            | Random seed to be used with data samplers |
+| Per device train batch size   | Int       | 1             | The batch size per GPU for training |
+| Per device eval batch size    | Int       | 1             | The batch size per GPU for evaluation |
+| Gradient accumulation steps   | Int       | 4             | Number of updates steps to accumulate the gradients for, before performing a backward/update pass |
+| Enable Gradient checkpointing | Bool      | yes           | Use gradient checkpointing. Recommended to save the memory |
+| Learning rate                 | Float     | 0.00002       |The initial learning rate for AdamW |
+| Max steps                     |           |               |             |
+
+
 
 After all the parameters are set, click **Generate Progect**.
 That will:
@@ -36,7 +56,13 @@ That will:
  - Install all prerequisites and dependencies
  - Create VS Code workspace
 
-When the model is downloaded, you can launch you project
+When the model is downloaded, you can launch you project from the Windows AI Studio.
+
+
+### Start Dataset Generation
+
+**Coming soon!**
+
 ## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
