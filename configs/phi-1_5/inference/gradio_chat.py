@@ -7,7 +7,7 @@ from utils import check_adapter_path, load_model, load_peft_model, load_tokenize
 
 # Define model and adapter paths, data type, and quantization type
 model_name = "../model-cache/microsoft/phi-1_5"
-adapters_name = "models/qlora/qlora/gpu-cpu_model/adapter"  # Ensure this path is correctly set before running
+adapters_name = "../models/qlora/qlora/gpu-cpu_model/adapter"  # Ensure this path is correctly set before running
 torch_dtype = torch.<compute_dtype>  # Set the appropriate torch data type
 quant_type = '<quant_type>'  # Set the appropriate quantization type
 
