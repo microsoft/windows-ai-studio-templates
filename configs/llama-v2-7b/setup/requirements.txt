@@ -18,3 +18,4 @@ einops
 olive-ai==0.3.3
 promptflow==0.1.0b8
 promptflow-tools==0.1.0b10
+gradio
