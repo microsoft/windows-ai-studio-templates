@@ -76,7 +76,7 @@
       "revision": "main"
     },
     {
-      "name": "meta-llama/Llama-2-13b-chat-hf",
+      "name": "meta-llama/Llama-2-13b-chat",
       "numberOfParams": 13000000000,
       "Size": "19.6 GB",
       "icon": "meta",
