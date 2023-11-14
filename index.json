@@ -101,7 +101,7 @@
       "revision": "main"
     },
     {
-      "name": "microsoft/phi-2",
+      "name": "microsoft/phi-1_5",
       "numberOfParams": 1300000000,
       "Size": "9.6 GB",
       "icon": "ms",
