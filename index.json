@@ -13,8 +13,8 @@
       "availabilityLocations": [
         {
           "providerType": "Azure",
-          "modelId": "meta-llama/Llama-2-7b",
-          "revision": "versions/12"
+          "modelId": "azureml://registries/azureml-meta/models/Llama-2-7b/versions/13",
+          "revision": "versions/13"
         },
         {
           "providerType": "HuggingFace",
@@ -38,8 +38,8 @@
       "availabilityLocations": [
         {
           "providerType": "Azure",
-          "modelId": "meta-llama/Llama-2-7b-chat",
-          "revision": "versions/12"
+          "modelId": "azureml://registries/azureml-meta/models/Llama-2-7b-chat/versions/13",
+          "revision": "versions/13"
         },
         {
           "providerType": "HuggingFace",
@@ -63,8 +63,8 @@
       "availabilityLocations": [
         {
           "providerType": "Azure",
-          "modelId": "meta-llama/Llama-2-13b",
-          "revision": "versions/12"
+          "modelId": "azureml://registries/azureml-meta/models/Llama-2-13b/versions/13",
+          "revision": "versions/13"
         },
         {
           "providerType": "HuggingFace",
@@ -88,8 +88,8 @@
       "availabilityLocations": [
         {
           "providerType": "Azure",
-          "modelId": "meta-llama/Llama-2-13b-chat",
-          "revision": "versions/12"
+          "modelId": "azureml://registries/azureml-meta/models/Llama-2-13b-chat/versions/13",
+          "revision": "versions/13"
         },
         {
           "providerType": "HuggingFace",
@@ -119,7 +119,25 @@
       ],
       "type": "Text Generation",
       "revision": "d38e6f954ec29b96fe2cf033937dad64e279b5d9"
+    },
+    {
+      "name": "microsoft/phi-2",
+      "numberOfParams": 1300000000,
+      "Size": "9.6 GB",
+      "icon": "ms",
+      "author": "Microsoft",
+      "description": "Description for Phi 2 ",
+      "configPath": "olive-config.json",
+      "initScriptPath": "setup/FirstTimeSetup.ps1",
+      "workspaceTemplatePath": "configs/phi-2",
+      "availabilityLocations": [
+        {
+          "providerType": "Azure",
+          "modelId": "azureml://registries/azureml-msr/models/microsoft-phi-2/versions/2",
+          "revision": "versions/2"
+        }
+      ],
+      "type": "Text Generation",
     }
-
   ]
 }
