@@ -135,7 +135,7 @@
           "providerType": "Azure",
           "modelId": "microsoft-phi-2",
           "revision": "versions/2"
-        },
+        }
       ],
       "type": "Text Generation",
       "revision": "d38e6f954ec29b96fe2cf033937dad64e279b5d9"
