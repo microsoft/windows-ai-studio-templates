@@ -12,23 +12,14 @@
         }
     },
     "data_configs": {
-        "tiny-codes_train": {
-            "name": "tiny-codes",
+        "dataset-default_train": {
+            "name": "dataset-default",
             "type": "<container_type>",
-            "user_script": "finetuning/qlora_user_script.py",
-            "components": {
-                "load_dataset": {
-                    "type": "load_tiny_code_dataset"
-                }
-            },
             "params_config": {
-                "dataset_name": "<data_configs_data_name>",
+                "data_name": "<data_file_extension>",
+                "data_files":"<data_file>",
                 "split": "<data_configs_split>",
                 "component_kwargs": {
-                    "load_dataset": {
-                        "language": "Rust",
-                        "token": true
-                    },
                     "pre_process_data": {
                         "dataset_type": "<dataset_type>",
                         "text_cols": <text_cols>,
