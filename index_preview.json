@@ -1,0 +1,143 @@
+{
+  "models": [
+    {
+      "name": "meta-llama/Llama-2-7b",
+      "numberOfParams": 7000000000,
+      "Size": "9.6 GB",
+      "icon": "meta",
+      "author": "Meta",
+      "description": "Description for Llama-v2-7b",
+      "configPath": "olive-config.json",
+      "initScriptPath": "setup/FirstTimeSetup.ps1",
+      "workspaceTemplatePath": "configs/llama-v2-7b",
+      "availabilityLocations": [
+        {
+          "providerType": "Azure",
+          "modelId": "azureml://registries/azureml-meta/models/Llama-2-7b/versions/13",
+          "revision": "versions/13"
+        },
+        {
+          "providerType": "HuggingFace",
+          "modelId": "meta-llama/Llama-2-7b-hf",
+          "revision": "main"
+        }
+      ],
+      "type": "Text Generation",
+      "revision": "main"
+    },
+    {
+      "name": "meta-llama/Llama-2-7b-chat",
+      "numberOfParams": 7000000000,
+      "Size": "9.6 GB",
+      "icon": "meta",
+      "author": "Meta",
+      "description": "A powerful natural language processing model.",
+      "configPath": "olive-config.json",
+      "initScriptPath": "setup/FirstTimeSetup.ps1",
+      "workspaceTemplatePath": "configs/llama-v2-7b-chat-hf",
+      "availabilityLocations": [
+        {
+          "providerType": "Azure",
+          "modelId": "azureml://registries/azureml-meta/models/Llama-2-7b-chat/versions/13",
+          "revision": "versions/13"
+        },
+        {
+          "providerType": "HuggingFace",
+          "modelId": "Llama-2-7b-chat-hf",
+          "revision": "main"
+        }
+      ],
+      "type": "Text Generation",
+      "revision": "main"
+    },
+    {
+      "name": "meta-llama/Llama-2-13b",
+      "numberOfParams": 13000000000,
+      "Size": "19.6 GB",
+      "icon": "meta",
+      "author": "Meta",
+      "description": "Description for Llama-v2-13b",
+      "configPath": "olive-config.json",
+      "initScriptPath": "setup/FirstTimeSetup.ps1",
+      "workspaceTemplatePath": "configs/llama-v2-13b",
+      "availabilityLocations": [
+        {
+          "providerType": "Azure",
+          "modelId": "azureml://registries/azureml-meta/models/Llama-2-13b/versions/13",
+          "revision": "versions/13"
+        },
+        {
+          "providerType": "HuggingFace",
+          "modelId": "Llama-2-13b-hf",
+          "revision": "main"
+        }
+      ],
+      "type": "Text Generation",
+      "revision": "main"
+    },
+    {
+      "name": "meta-llama/Llama-2-13b-chat",
+      "numberOfParams": 13000000000,
+      "Size": "19.6 GB",
+      "icon": "meta",
+      "author": "Meta",
+      "description": "A powerful natural language processing model.",
+      "configPath": "olive-config.json",
+      "initScriptPath": "setup/FirstTimeSetup.ps1",
+      "workspaceTemplatePath": "configs/llama-v2-13b-chat-hf",
+      "availabilityLocations": [
+        {
+          "providerType": "Azure",
+          "modelId": "azureml://registries/azureml-meta/models/Llama-2-13b-chat/versions/13",
+          "revision": "versions/13"
+        },
+        {
+          "providerType": "HuggingFace",
+          "modelId": "Llama-2-13b-chat-hf",
+          "revision": "main"
+        }
+      ],
+      "type": "Text Generation",
+      "revision": "main"
+    },
+    {
+      "name": "microsoft/phi-1_5",
+      "numberOfParams": 1300000000,
+      "Size": "9.6 GB",
+      "icon": "ms",
+      "author": "Microsoft",
+      "description": "Description for Phi 1.5 ",
+      "configPath": "olive-config.json",
+      "initScriptPath": "setup/FirstTimeSetup.ps1",
+      "workspaceTemplatePath": "configs/phi-1_5",
+      "availabilityLocations": [
+        {
+          "providerType": "HuggingFace",
+          "modelId": "microsoft/phi-1_5",
+          "revision": "d38e6f954ec29b96fe2cf033937dad64e279b5d9"
+        }
+      ],
+      "type": "Text Generation",
+      "revision": "d38e6f954ec29b96fe2cf033937dad64e279b5d9"
+    },
+    {
+      "name": "microsoft/phi-2",
+      "numberOfParams": 1300000000,
+      "Size": "9.6 GB",
+      "icon": "ms",
+      "author": "Microsoft",
+      "description": "Description for Phi 2 ",
+      "configPath": "olive-config.json",
+      "initScriptPath": "setup/FirstTimeSetup.ps1",
+      "workspaceTemplatePath": "configs/phi-2",
+      "availabilityLocations": [
+        {
+          "providerType": "Azure",
+          "modelId": "azureml://registries/azureml-msr/models/microsoft-phi-2/versions/2",
+          "revision": "versions/2"
+        }
+      ],
+      "type": "Text Generation"
+    }
+  ]
+}
