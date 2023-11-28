@@ -56,7 +56,7 @@
         "type": "String",
         "label": "Text template:",
         "replaceToken": "<text_template>",
-        "defaultValue": "### Text: {prompt}\\n### The tone is:\\n{response}"
+        "defaultValue": "### Text: {phrase}\\n### The tone is:\\n{tone}"
       },
       {
         "type": "String",
