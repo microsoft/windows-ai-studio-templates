@@ -50,7 +50,7 @@
         "type": "String",
         "label": "Text cols:",
         "replaceToken": "<text_cols>",
-        "defaultValue": [ "prompt", "response" ]
+        "defaultValue": [ "phrase", "tone" ]
       },
       {
         "type": "String",
