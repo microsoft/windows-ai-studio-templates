@@ -16,8 +16,8 @@
             "name": "dataset-default",
             "type": "<container_type>",
             "params_config": {
-                "data_name": "<data_file_extension>",
-                "data_files":"<data_file>",
+                "data_name": "<data_configs_data_file_extension>",
+                "data_files":"<data_configs_data_files>",
                 "split": "<data_configs_split>",
                 "component_kwargs": {
                     "pre_process_data": {
