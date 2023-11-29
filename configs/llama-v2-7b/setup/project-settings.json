@@ -24,9 +24,15 @@
       {
         "type": "String",
         "label": "Dataset Name:",
-        "replaceToken": "<data_configs_data_name>",
-        "optionValues": ["nampdn-ai/tiny-codes"],
-        "defaultValue": "nampdn-ai/tiny-codes"
+        "replaceToken": "<data_configs_data_files>",
+        "optionValues": ["dataset/dataset-classification.jsonl"],
+        "defaultValue": "dataset/dataset-classification.jsonl"
+      },
+      {
+        "type": "String",
+        "label": "Dataset File Extension:",
+        "replaceToken": "<data_configs_data_file_extension>",
+        "defaultValue": "json"
       },
       {
         "type": "String",
@@ -100,13 +106,13 @@
         "type": "Integer",
         "label": "Lora r:",
         "replaceToken": "<lora_r>",
-        "defaultValue": 64
+        "defaultValue": 32
       },
       {
         "type": "Integer",
         "label": "Lora alpha:",
         "replaceToken": "<lora_alpha>",
-        "defaultValue": 16
+        "defaultValue": 64
       },
       {
         "type": "Number",
