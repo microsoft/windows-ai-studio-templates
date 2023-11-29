@@ -7,7 +7,7 @@
         "type": "String",
         "label": "Inference Prompt Template",
         "replaceToken": "<prompt_template>",
-        "defaultValue": "### Question: {}\\n### The answer is:\\n"
+        "defaultValue": "### Text: {}\\n### The tone is:\\n"
       }
     ]
   },
@@ -50,13 +50,13 @@
         "type": "String",
         "label": "Text cols:",
         "replaceToken": "<text_cols>",
-        "defaultValue": [ "prompt", "response" ]
+        "defaultValue": [ "phrase", "tone" ]
       },
       {
         "type": "String",
         "label": "Text template:",
         "replaceToken": "<text_template>",
-        "defaultValue": "### Question: {prompt}\\n### The answer is:\\n{response}"
+        "defaultValue": "### Text: {phrase}\\n### The tone is:\\n{tone}"
       },
       {
         "type": "String",
