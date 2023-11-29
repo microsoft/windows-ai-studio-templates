@@ -40,7 +40,7 @@
                 "lora_r": <lora_r>,
                 "lora_alpha": <lora_alpha>,
                 "lora_dropout": <lora_dropout>,
-                "train_data_config": "tiny-codes_train",
+                "train_data_config": "dataset-default_train",
                 "eval_dataset_size": <eval_dataset_size>,
                 "training_args": {
                     "seed": <training_args_seed>,
