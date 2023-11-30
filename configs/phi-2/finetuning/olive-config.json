@@ -3,7 +3,7 @@
         "type": "PyTorchModel",
         "config": {
             "hf_config": {
-                "model_name": "model-cache/microsoft/phi-1_5",
+                "model_name": "model-cache/microsoft/phi-2",
                 "task": "text-generation",
                 "model_loading_args": {
                     "trust_remote_code": true
