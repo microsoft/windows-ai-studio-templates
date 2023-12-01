@@ -14,7 +14,7 @@
     "data_configs": {
         "dataset-default_train": {
             "name": "dataset-default",
-            "type": "<container_type>",
+            "type": "HuggingfaceContainer",
             "params_config": {
                 "data_name": "<data_configs_data_file_extension>",
                 "data_files":"<data_configs_data_files>",
