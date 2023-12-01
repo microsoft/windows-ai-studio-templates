@@ -16,8 +16,8 @@
 	"runArgs": [
 		"--gpus",
 		"all"
-	]
-
+	],
+	"postCreateCommand": "conda init"
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
 
