@@ -10,13 +10,16 @@ In this section you will learn how to quickly start with Windows AI Studio
 
 ### Install Windows AI Studio Preview
 
-Windows AI Studio is shipped as [Visual Studio Code Extension](https://code.visualstudio.com/docs/setup/additional-components#_vs-code-extensions), so you need to install [VS Code](https://code.visualstudio.com/docs/setup/windows) first and dowload the Windows AI Studio from the [VS Marketplace](https://marketplace.visualstudio.com/VSCode).
+Windows AI Studio is shipped as [Visual Studio Code Extension](https://code.visualstudio.com/docs/setup/additional-components#_vs-code-extensions), so you need to install [VS Code](https://code.visualstudio.com/docs/setup/windows) first and download the Windows AI Studio from the [VS Marketplace](https://marketplace.visualstudio.com/VSCode).
 
 ### Available Actions
 
-Upon lanching Windows AI Studio, there are several actions you can do:
+Upon launching Windows AI Studio, there are several actions you can do:
 - Start Model Finetuning
-- Start Dataset Generation
+- Start RAG Project
+- Phi-2 Model Playground
+- Windows Optimized Models
+
 
 ![Actions](/Images/studio_Actions.png)
 
@@ -26,7 +29,7 @@ To initiate the local finetuning session using QLoRA, select a model you want to
 
 > ***Note*** You do not need Azure Account to download the models
 
-Once, a model is selected it is time to configure the project. You will be promp to download the project template. But first, you can set configuration settings via UI. We use [Olive](https://microsoft.github.io/Olive/overview/olive.html) to run QLoRA fine-tuning on a PyTorch model from our catalog. All of the setting are preset with the default values to optimize to runthe finetuning process locally with optimized use of memory.
+Once, a model is selected it is time to configure the project. You will be prompt to download the project template. But first, you can set configuration settings via UI. We use [Olive](https://microsoft.github.io/Olive/overview/olive.html) to run QLoRA fine-tuning on a PyTorch model from our catalog. All of the setting are preset with the default values to optimize to run the finetuning process locally with optimized use of memory.
 
 ![Configure the model](/Images/fineTune.jpg)
 
@@ -44,13 +47,13 @@ Once, a model is selected it is time to configure the project. You will be promp
 | Per device train batch size   | Int       | 1             | The batch size per GPU for training |
 | Per device eval batch size    | Int       | 1             | The batch size per GPU for evaluation |
 | Gradient accumulation steps   | Int       | 4             | Number of updates steps to accumulate the gradients for, before performing a backward/update pass |
-| Enable Gradient checkpointing | Bool      | yes           | Use gradient checkpointing. Recommended to save the memory |
+| Enable Gradient check pointing | Bool      | yes           | Use gradient check pointing. Recommended to save the memory |
 | Learning rate                 | Float     | 0.00002       |The initial learning rate for AdamW |
 | Max steps                     |           |               |             |
 
 
 
-After all the parameters are set, click **Generate Progect**.
+After all the parameters are set, click **Generate Project**.
 That will:
  - Initiate the model download
  - Install all prerequisites and dependencies
@@ -59,9 +62,17 @@ That will:
 When the model is downloaded, you can launch you project from the Windows AI Studio.
 
 
-### Start Dataset Generation
+### Start RAG Project
 
 **Coming soon!**
+
+### Phi-2 Model Playground
+
+**Coming soon!**
+
+### Windows Optimized Models
+
+Collection of models already optimized for Windows. The models are stored in the different locations like Hugging Face, GitHub and others, but you can browse the models and find all of them in one place.
 
 ## Contributing
 
