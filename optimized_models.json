@@ -1,14 +1,6 @@
 {
   "models": [
     {
-      "name": "meta-llama/Llama-2-7b",
-      "icon": "meta",
-      "author": "Meta",
-      "description": "Description for Llama-v2-7b",
-      "link":"www.microsoft.com",
-      "type": "Text Generation"
-    },
-    {
       "name": "meta-llama/Llama-2-7b-Onnx-Dml",
       "icon": "meta",
       "author": "Meta",
