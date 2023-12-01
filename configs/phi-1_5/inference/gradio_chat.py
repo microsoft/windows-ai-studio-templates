@@ -42,7 +42,9 @@ def run_generation(user_text, top_p, temperature, top_k, max_new_tokens):
         do_sample=True,
         top_p=top_p,
         temperature=float(temperature),
-        top_k=top_k
+        top_k=top_k,
+        pad_token_id=tokenizer.pad_token_id,
+        eos_token_id=tokenizer.eos_token_id
     )
     t = Thread(target=model.generate, kwargs=generate_kwargs)
     t.start()
