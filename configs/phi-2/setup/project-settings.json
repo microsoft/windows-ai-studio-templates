@@ -1,7 +1,7 @@
 [
   {
     "groupId": "model_inference",
-    "title": "Model Inference Settings",
+    "title": "Model inference settings",
     "fields": [
       {
         "type": "String",
@@ -174,7 +174,7 @@
       },
       {
         "type": "Boolean",
-        "label": "Enable Gradient checkpointing:",
+        "label": "Enable gradient checkpointing:",
         "info": "Use gradient checkpointing. Recommended to save the memory.",
         "replaceToken": "<gradient_checkpointing>",
         "defaultValue": true
@@ -184,7 +184,7 @@
         "label": "Learning rate:",
         "info": "The initial learning rate for AdamW",
         "replaceToken": "<learning_rate>",
-        "defaultValue": 0.0002
+        "defaultValue": 0.0001
       },
       {
         "type": "Integer",
@@ -198,7 +198,7 @@
         "label": "Max steps:",
         "info":"Training will be stopped when this number of steps is reached, regardless of the number of epochs.",
         "replaceToken": "<max_steps>",
-        "defaultValue": 1875
+        "defaultValue": 1500
       },
       {
         "type": "String",
