@@ -114,14 +114,14 @@
         "label": "Lora r:",
         "info": "Lora attention dimension.",
         "replaceToken": "<lora_r>",
-        "defaultValue": 32
+        "defaultValue": 8
       },
       {
         "type": "Integer",
         "label": "Lora alpha:",
         "info": "The alpha parameter for Lora scaling",
         "replaceToken": "<lora_alpha>",
-        "defaultValue": 64
+        "defaultValue": 16
       },
       {
         "type": "Number",
