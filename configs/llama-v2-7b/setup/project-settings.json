@@ -46,6 +46,7 @@
       },
       {
         "type": "String",
+        "isArray": true,
         "label": "Text columns:",
         "info": "Columns that match your dataset to populate the training prompt.",
         "replaceToken": "<text_cols>",
