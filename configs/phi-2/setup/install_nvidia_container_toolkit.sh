@@ -28,16 +28,21 @@ sudo apt-get install -y curl gnupg lsb-release || error_exit "Failed to install 
 
 # Add the NVIDIA GPG key
 echo "Adding the NVIDIA GPG key..."
-curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add - || error_exit "Failed to add NVIDIA GPG key."
+yes | curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add - || error_exit "Failed to add NVIDIA GPG key."
 
 # Add the repository configuration
-echo "Adding the repository configuration..."
-curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg \
-  && curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | \
-    sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
-    sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list \
-  && \
-    sudo apt-get update || error_exit "Failed to add repository configuration."
+FILE=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg
+if [ -f "$FILE" ]; then
+    sudo rm "$FILE"
+fi
+curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg
+
+curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | \
+sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
+sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+
+sudo apt-get update
+
 
 # Install the NVIDIA Container Toolkit packages
 echo "Installing the NVIDIA Container Toolkit packages..."
