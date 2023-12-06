@@ -19,7 +19,7 @@
 #data_configs_data_files_extension_start
             <!--    "data_name": "<data_configs_data_files_extension>", -->
 #data_configs_data_files_extension_end
-                "data_files":"<data_configs_data_files>",
+                "<data_files>":"<data_configs_data_files>",
                 "split": "<data_configs_split>",
                 "component_kwargs": {
                     "pre_process_data": {
