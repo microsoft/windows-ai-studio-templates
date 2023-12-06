@@ -115,14 +115,14 @@
         "label": "Lora r:",
         "info": "Lora attention dimension.",
         "replaceToken": "<lora_r>",
-        "defaultValue": 8
+        "defaultValue": 64
       },
       {
         "type": "Integer",
         "label": "Lora alpha:",
         "info": "The alpha parameter for Lora scaling",
         "replaceToken": "<lora_alpha>",
-        "defaultValue": 16
+        "defaultValue": 64
       },
       {
         "type": "Number",
@@ -199,7 +199,7 @@
         "label": "Max steps:",
         "info":"Training will be stopped when this number of steps is reached, regardless of the number of epochs.",
         "replaceToken": "<max_steps>",
-        "defaultValue": 1500
+        "defaultValue": 1200
       },
       {
         "type": "String",

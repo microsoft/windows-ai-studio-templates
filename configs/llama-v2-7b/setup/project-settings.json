@@ -199,7 +199,7 @@
         "label": "Max steps:",
         "info":"Training will be stopped when this number of steps is reached, regardless of the number of epochs.",
         "replaceToken": "<max_steps>",
-        "defaultValue": 1875
+        "defaultValue": 100
       },
       {
         "type": "String",
