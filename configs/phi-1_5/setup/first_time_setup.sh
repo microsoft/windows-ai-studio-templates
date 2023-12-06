@@ -26,11 +26,11 @@ done
 if [ ! -d "$WORKING_DIR/.direnv" ] || [ "$FORCE_RESET" = true ]; then
     if [ "$FORCE_RESET" = true ] && [ -d "$WORKING_DIR/.direnv" ]; then
         echo "Removing existing .direnv directory..."
-        conda env remove -p "$WORKING_DIR/.direnv"
+        /opt/miniconda/bin/conda env remove -p "$WORKING_DIR/.direnv"
     fi
 
     echo "Creating or resetting Conda environment from $SCRIPT_DIR/conda-environment.yml..."
-    conda env create -f "$SCRIPT_DIR/conda-environment.yml" -p "$WORKING_DIR/.direnv"
+    /opt/miniconda/bin/conda env create -f "$SCRIPT_DIR/conda-environment.yml" -p "$WORKING_DIR/.direnv"
 else
     echo "Environment directory .direnv already exists. Use -force to reset. Skipping environment creation."
 fi
