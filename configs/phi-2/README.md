@@ -5,6 +5,13 @@
 2. Run `huggingface-cli login`, if you are using HF for dataset ustilization
 3. `Olive` key settings explanations for anything that modifies memory usage. 
 
+### Activate Conda
+Since we ware using WSL environment and is shared you need to manually acitvate the conda environment. After this step you can run finetunning or inference.
+
+```bash
+conda activate [conda-env-name] 
+```
+
 ### Model fine-tuning and inferencing
 
 Once the workspace is opened in a dev container, open a terminal (the default path is project root), then run the command below to fine tune a LLM on the selected dataset.
