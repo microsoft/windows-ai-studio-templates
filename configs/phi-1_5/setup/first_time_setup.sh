@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# Set the script to exit immediately on any command error
+# set -e
+
+# Get the directory of the current script
+SCRIPT_DIR="$(dirname "$0")"
+
+# Get the current working directory
+WORKING_DIR="$(pwd)"
+
+# Check for the -force flag
+FORCE_RESET=false
+for arg in "$@"; do
+    if [ "$arg" == "-force" ]; then
+        FORCE_RESET=true
+        break
+    fi
+done
+
+# Create or reset environment from conda.yaml located in the script's directory
+if [ ! -d "$WORKING_DIR/.direnv" ] || [ "$FORCE_RESET" = true ]; then
+    if [ "$FORCE_RESET" = true ] && [ -d "$WORKING_DIR/.direnv" ]; then
+        echo "Removing existing .direnv directory..."
+        conda env remove -p "$WORKING_DIR/.direnv"
+    fi
+
+    echo "Creating or resetting Conda environment from $SCRIPT_DIR/conda-environment.yaml..."
+    conda env create -f "$SCRIPT_DIR/conda-environment.yaml" -p "$WORKING_DIR/.direnv"
+else
+    echo "Environment directory .direnv already exists. Use -force to reset. Skipping environment creation."
+fi
+
+echo "Script execution completed."
