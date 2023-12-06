@@ -33,13 +33,6 @@
       },
       {
         "type": "String",
-        "label": "Dataset file fxtension:",
-        "info":"Dataset file extension to be loaded.",
-        "replaceToken": "<data_configs_data_file_extension>",
-        "defaultValue": "json"
-      },
-      {
-        "type": "String",
         "label": "Training split:",
         "info": "Training split name for your dataset.",
         "replaceToken": "<data_configs_split>",
