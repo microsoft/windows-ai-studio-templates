@@ -1,12 +1,17 @@
 # Windows AI Studio Preview
 
 ## Overview
-[Windows AI Studio](https://aka.ms/AIforWindows) simplifies generative AI app development by bringing together cutting-edge AI development tools and models from Azure AI Studio Catalog and other catalogs like Hugging Face. You will be able browse the AI models catalog powered by Azure ML and Hugging Face for public models that you can download locally, fine- tune, test and use them in your Windows application.
+[Windows AI Studio](https://aka.ms/AIforWindows) simplifies generative AI app development by bringing together cutting-edge AI development tools and models from Azure AI Studio Catalog and other catalogs like Hugging Face. You will be able browse the AI models catalog powered by Azure ML and Hugging Face for public models that you can download locally, fine-tune, test and use them in your Windows application.
 As all of the computation happens locally, please make sure your device can handle the load.
 
 ## Quick Start
 
 In this section you will learn how to quickly start with Windows AI Studio.
+
+### Prerequisites
+
+Windows AI Studio will run only on NVIDIA GPUs for the preview, so please make sure to check your device spec.
+WSL Ubuntu distro 18.4 or greater should be installed and is set to default prior to using Windows AI Studio. [learn more how to install Windows subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/install) and [changing default distribution](https://learn.microsoft.com/en-us/windows/wsl/install#change-the-default-linux-distribution-installed)
 
 ### Install Windows AI Studio Preview
 
@@ -15,24 +20,24 @@ Windows AI Studio is shipped as a [Visual Studio Code Extension](https://code.vi
 ### Available Actions
 
 Upon launching Windows AI Studio, you can select from the following options:
-- Start Model fine- tuning
-- Start RAG Project
+- Model Fine-tuning
+- RAG Project
 - Phi-2 Model Playground
 - Windows Optimized Models
 
 
 ![Actions](/Images/studio_Actions.png)
 
-### Start Model Fine- tuning
+### Model Fine-tuning
 
-To initiate the local fine- tuning session using QLoRA, select a model you want to fine- tune from our catalog powered by AzureML.
+To initiate the local fine-tuning session using QLoRA, select a model you want to fine-tune from our catalog powered by AzureML.
 
 > ***Note*** You do not need an Azure Account to download the models
 
 Start by selecting a project name and location. Next, select a model from the model catalog. You will be prompted to download the project template. You can then click Configure Project to adjust various settings. 
-We use [Olive](https://microsoft.github.io/Olive/overview/olive.html) to run QLoRA fine-tuning on a PyTorch model from our catalog. All of the settings are preset with the default values to optimize to run the fine- tuning process locally with optimized use of memory.
+We use [Olive](https://microsoft.github.io/Olive/overview/olive.html) to run QLoRA fine-tuning on a PyTorch model from our catalog. All of the settings are preset with the default values to optimize to run the fine-tuning process locally with optimized use of memory.
 
-![Configure the model](/Images/fine- tune.jpg)
+![Configure the model](/Images/finetune.jpg)
 
 | Settings                       | Data Type | Default Value | Description |
 | ----------------------------- | --------- | --------------| ----------- |
@@ -63,7 +68,7 @@ This will:
 When the model is downloaded, you can launch the project from Windows AI Studio.
 
 
-### Start RAG Project
+### RAG Project
 
 **Coming soon!**
 
@@ -76,6 +81,7 @@ When the model is downloaded, you can launch the project from Windows AI Studio.
 This is the collection of publicly available AI models already optimized for Windows. The models are stored in the different locations including Hugging Face, GitHub and others, but you can browse the models and find all of them in one place ready for downloading and using in your Windows application.
 
 ### Q&A
+Please refer to our [Q&A page](QA.md) for most common issues and resolutions
 
 ## Contributing
 
