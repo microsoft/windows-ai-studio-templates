@@ -54,6 +54,40 @@
         }
       ],
       "type": "Text Generation"
+    },
+    {
+      "name": "mistralai/Mistral-7B",
+      "icon": "hf",
+      "author": "Mistral AI",
+      "description": "The Mistral-7B-v0.1 Large Language Model (LLM) is a pretrained generative text model with 7 billion parameters. Mistral-7B-v0.1 outperforms Llama 2 13B on all benchmarks we tested",
+      "configPath": "olive-config.json",
+      "workspaceTemplatePath": "configs/mistral-7b",
+      "availabilityLocations": [
+        {
+          "providerType": "HuggingFace",
+          "modelId": "mistralai/Mistral-7B-v0.1",
+          "revision": "main"
+        }
+      ],
+      "type": "Text Generation",
+      "revision": "main"
+    },
+    {
+      "name": "HuggingFaceH4/zephyr-7b-beta",
+      "icon": "hf",
+      "author": "Hugging Face",
+      "description": "Zephyr is a series of language models that are trained to act as helpful assistants. Zephyr-7B-β is the second model in the series, and is a fine-tuned version of mistralai/Mistral-7B-v0.1",
+      "configPath": "olive-config.json",
+      "workspaceTemplatePath": "configs/mistral-7b",
+      "availabilityLocations": [
+        {
+          "providerType": "HuggingFace",
+          "modelId": "HuggingFaceH4/zephyr-7b-beta",
+          "revision": "main"
+        }
+      ],
+      "type": "Text Generation",
+      "revision": "main"
     }
   ]
 }
