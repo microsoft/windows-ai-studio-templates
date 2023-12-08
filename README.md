@@ -10,12 +10,22 @@ In this section you will learn how to quickly start with Windows AI Studio.
 
 ### Prerequisites
 
-Windows AI Studio will run only on NVIDIA GPUs for the preview, so please make sure to check your device spec.
+Windows AI Studio will run only on NVIDIA GPUs for the preview, so please make sure to check your device spec prior to installing it.
 WSL Ubuntu distro 18.4 or greater should be installed and is set to default prior to using Windows AI Studio. [learn more how to install Windows subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/install) and [changing default distribution](https://learn.microsoft.com/en-us/windows/wsl/install#change-the-default-linux-distribution-installed)
 
 ### Install Windows AI Studio Preview
 
 Windows AI Studio is shipped as a [Visual Studio Code Extension](https://code.visualstudio.com/docs/setup/additional-components#_vs-code-extensions), so you need to install [VS Code](https://code.visualstudio.com/docs/setup/windows) first, and download Windows AI Studio from the [VS Marketplace](https://marketplace.visualstudio.com/VSCode).
+
+### Prerequisites Check
+
+After the Windows AI Studio is installed, we will check your system to make sure you have the right resources to run it. After prerequisites check is completed, you can complete the environment set up by clicking "Set Up WSL Environment" button.
+
+Now, you are ready to use the extension!
+You will be prompted to sign in to GitHub, so please click "Allow" to continue. You will be redirected to GitHub signing page.
+Please sign in and follow the process steps. After successful completion, you will be redirected to VS Code.
+
+Let's explore the available actions!
 
 ### Available Actions
 
@@ -34,8 +44,9 @@ To initiate the local fine-tuning session using QLoRA, select a model you want t
 
 > ***Note*** You do not need an Azure Account to download the models
 
-Start by selecting a project name and location. Next, select a model from the model catalog. You will be prompted to download the project template. You can then click Configure Project to adjust various settings. 
-We use [Olive](https://microsoft.github.io/Olive/overview/olive.html) to run QLoRA fine-tuning on a PyTorch model from our catalog. All of the settings are preset with the default values to optimize to run the fine-tuning process locally with optimized use of memory.
+Start by selecting a project name and location. 
+Next, select a model from the model catalog. You will be prompted to download the project template. You can then click "Configure Project" to adjust various settings. 
+We use [Olive](https://microsoft.github.io/Olive/overview/olive.html) to run QLoRA fine-tuning on a PyTorch model from our catalog. All of the settings are preset with the default values to optimize to run the fine-tuning process locally with optimized use of memory, but it can be adjusted for your scenario.
 
 ![Configure the model](/Images/finetune.jpg)
 
