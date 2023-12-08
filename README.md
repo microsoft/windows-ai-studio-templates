@@ -77,6 +77,7 @@ This will:
  - Create VS Code workspace
 
 When the model is downloaded, you can launch the project from Windows AI Studio.
+You can now fine-tune and test the model by following the instructions from Readme page in the project folder.
 
 
 ### RAG Project
