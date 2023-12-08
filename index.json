@@ -2,13 +2,10 @@
   "models": [
     {
       "name": "meta-llama/Llama-2-7b",
-      "numberOfParams": 7000000000,
-      "Size": "9.6 GB",
       "icon": "meta",
       "author": "Meta",
       "description": "Description for Llama-v2-7b",
       "configPath": "olive-config.json",
-      "initScriptPath": "setup/FirstTimeSetup.ps1",
       "workspaceTemplatePath": "configs/llama-v2-7b",
       "availabilityLocations": [
         {
@@ -27,13 +24,10 @@
     },
     {
       "name": "microsoft/phi-1_5",
-      "numberOfParams": 1300000000,
-      "Size": "9.6 GB",
       "icon": "ms",
       "author": "Microsoft",
       "description": "Description for Phi 1.5 ",
       "configPath": "olive-config.json",
-      "initScriptPath": "setup/FirstTimeSetup.ps1",
       "workspaceTemplatePath": "configs/phi-1_5",
       "availabilityLocations": [
         {
@@ -47,13 +41,10 @@
     },
     {
       "name": "microsoft/phi-2",
-      "numberOfParams": 1300000000,
-      "Size": "9.6 GB",
       "icon": "ms",
       "author": "Microsoft",
       "description": "Description for Phi 2 ",
       "configPath": "olive-config.json",
-      "initScriptPath": "setup/FirstTimeSetup.ps1",
       "workspaceTemplatePath": "configs/phi-2",
       "availabilityLocations": [
         {
