@@ -1,36 +1,45 @@
 # Windows AI Studio Preview
 
 ## Overview
-[Windows AI Studio](add link to Studio) simplifies generative AI app development by bringing together cutting-edge AI development tools and models from Azure AI Studio Catalog and other catalogs like Hugging Face. You will be able browse the AI models catalog powered by Azure ML and Hugging Face for public models that you can download locally, fine- tune, test and add them to your Windows application.
-[Windows AI Studio](add link to Studio)
+[Windows AI Studio](https://aka.ms/AIforWindows) simplifies generative AI app development by bringing together cutting-edge AI development tools and models from Azure AI Studio Catalog and other catalogs like Hugging Face. You will be able browse the AI models catalog powered by Azure ML and Hugging Face for public models that you can download locally, fine-tune, test and use them in your Windows application.
+As all of the computation happens locally, please make sure your device can handle the load.
 
 ## Quick Start
 
-In this section you will learn how to quickly start with Windows AI Studio
+In this section you will learn how to quickly start with Windows AI Studio.
+
+### Prerequisites
+
+Windows AI Studio will run only on NVIDIA GPUs for the preview, so please make sure to check your device spec.
+WSL Ubuntu distro 18.4 or greater should be installed and is set to default prior to using Windows AI Studio. [learn more how to install Windows subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/install) and [changing default distribution](https://learn.microsoft.com/en-us/windows/wsl/install#change-the-default-linux-distribution-installed)
 
 ### Install Windows AI Studio Preview
 
-Windows AI Studio is shipped as [Visual Studio Code Extension](https://code.visualstudio.com/docs/setup/additional-components#_vs-code-extensions), so you need to install [VS Code](https://code.visualstudio.com/docs/setup/windows) first and dowload the Windows AI Studio from the [VS Marketplace](https://marketplace.visualstudio.com/VSCode).
+Windows AI Studio is shipped as a [Visual Studio Code Extension](https://code.visualstudio.com/docs/setup/additional-components#_vs-code-extensions), so you need to install [VS Code](https://code.visualstudio.com/docs/setup/windows) first, and download Windows AI Studio from the [VS Marketplace](https://marketplace.visualstudio.com/VSCode).
 
 ### Available Actions
 
-Upon lanching Windows AI Studio, there are several actions you can do:
-- Start Model Finetuning
-- Start Dataset Generation
+Upon launching Windows AI Studio, you can select from the following options:
+- Model Fine-tuning
+- RAG Project
+- Phi-2 Model Playground
+- Windows Optimized Models
+
 
 ![Actions](/Images/studio_Actions.png)
 
-### Start Model Finetuning
+### Model Fine-tuning
 
-To initiate the local finetuning session using QLoRA, select a model you want to finetune from our catalog powered by AzureML.
+To initiate the local fine-tuning session using QLoRA, select a model you want to fine-tune from our catalog powered by AzureML.
 
-> ***Note*** You do not need Azure Account to download the models
+> ***Note*** You do not need an Azure Account to download the models
 
-Once, a model is selected it is time to configure the project. You will be promp to download the project template. But first, you can set configuration settings via UI. We use [Olive](https://microsoft.github.io/Olive/overview/olive.html) to run QLoRA fine-tuning on a PyTorch model from our catalog. All of the setting are preset with the default values to optimize to runthe finetuning process locally with optimized use of memory.
+Start by selecting a project name and location. Next, select a model from the model catalog. You will be prompted to download the project template. You can then click Configure Project to adjust various settings. 
+We use [Olive](https://microsoft.github.io/Olive/overview/olive.html) to run QLoRA fine-tuning on a PyTorch model from our catalog. All of the settings are preset with the default values to optimize to run the fine-tuning process locally with optimized use of memory.
 
-![Configure the model](/Images/fineTune.jpg)
+![Configure the model](/Images/finetune.jpg)
 
-| Setting                       | Data Type | Default Value | Description |
+| Settings                       | Data Type | Default Value | Description |
 | ----------------------------- | --------- | --------------| ----------- |
 | Compute Dtype                 | Str       | bfloat16      | Data type for model weights and adapter weights. For 4bit quantized model, it is also the computation data type for the quantized modules. Should be one of bfloat16, float16 or float32 |
 | Quant type                    |           | nf4           | Quantization data type to use. Should be one of fp4 or nf4 |
@@ -44,24 +53,35 @@ Once, a model is selected it is time to configure the project. You will be promp
 | Per device train batch size   | Int       | 1             | The batch size per GPU for training |
 | Per device eval batch size    | Int       | 1             | The batch size per GPU for evaluation |
 | Gradient accumulation steps   | Int       | 4             | Number of updates steps to accumulate the gradients for, before performing a backward/update pass |
-| Enable Gradient checkpointing | Bool      | yes           | Use gradient checkpointing. Recommended to save the memory |
-| Learning rate                 | Float     | 0.00002       |The initial learning rate for AdamW |
-| Max steps                     |           |               |             |
+| Enable Gradient checkpoint    | Bool      | yes           | Use gradient checkpointing. Recommended to save the memory |
+| Learning rate                 | Float     | 0.0002       |The initial learning rate for AdamW |
+| Max steps                     | Int       | -1           |If set to a positive number, the total number of training steps to perform. Overrides num_train_epochs. In case of using a finite iterable dataset the training may stop before reaching the set number of steps when all data is exhausted|
 
 
 
-After all the parameters are set, click **Generate Progect**.
-That will:
+After all the parameters are set, click **Generate Project**.
+This will:
  - Initiate the model download
  - Install all prerequisites and dependencies
  - Create VS Code workspace
 
-When the model is downloaded, you can launch you project from the Windows AI Studio.
+When the model is downloaded, you can launch the project from Windows AI Studio.
 
 
-### Start Dataset Generation
+### RAG Project
 
 **Coming soon!**
+
+### Phi-2 Model Playground
+
+**Coming soon!**
+
+### Windows Optimized Models
+
+This is the collection of publicly available AI models already optimized for Windows. The models are stored in the different locations including Hugging Face, GitHub and others, but you can browse the models and find all of them in one place ready for downloading and using in your Windows application.
+
+### Q&A
+Please refer to our [Q&A page](QA.md) for most common issues and resolutions
 
 ## Contributing
 
