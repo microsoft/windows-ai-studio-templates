@@ -8,7 +8,7 @@
         "label": "Conda environment name:",
         "info": "Name of the conda environment to activate in WSL.",
         "replaceToken": "<conda_env_name>",
-        "defaultValue": "llama-7b-env"
+        "defaultValue": "mistral-7b-env"
       },
       {
         "type": "String",
