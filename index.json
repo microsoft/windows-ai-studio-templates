@@ -76,9 +76,9 @@
       "name": "HuggingFaceH4/zephyr-7b-beta",
       "icon": "hf",
       "author": "Hugging Face",
-      "description": "Zephyr is a series of language models that are trained to act as helpful assistants. Zephyr-7B-β is the second model in the series, and is a fine-tuned version of mistralai/Mistral-7B-v0.1",
+      "description": "Zephyr is a series of language models that are trained to act as helpful assistants.",
       "configPath": "olive-config.json",
-      "workspaceTemplatePath": "configs/mistral-7b",
+      "workspaceTemplatePath": "configs/zephyr-7b-beta",
       "availabilityLocations": [
         {
           "providerType": "HuggingFace",
