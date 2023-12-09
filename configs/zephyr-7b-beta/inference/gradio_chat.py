@@ -6,7 +6,7 @@ from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, TextIteratorStrea
 from utils import check_adapter_path, load_model, load_peft_model, load_tokenizer, get_device
 
 # Define model and adapter paths, data type, and quantization type
-model_name = "../model-cache/meta-llama/llama-2-7b"
+model_name = "../model-cache/HuggingFaceH4/zephyr-7b-beta"
 adapters_name = "../models/qlora/qlora/gpu-cpu_model/adapter"  # Ensure this path is correctly set before running
 torch_dtype = torch.<compute_dtype>  # Set the appropriate torch data type
 quant_type = '<quant_type>'  # Set the appropriate quantization type
