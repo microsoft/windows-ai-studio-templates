@@ -56,7 +56,7 @@
                     "max_steps": <max_steps>,
                     "logging_steps": 10,
                     "evaluation_strategy": "steps",
-                    "eval_steps": 187,
+                    "eval_steps": 40,
                     "group_by_length": true,
                     "adam_beta2": 0.999,
                     "max_grad_norm": 0.3,
