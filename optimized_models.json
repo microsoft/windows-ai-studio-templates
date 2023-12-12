@@ -1,0 +1,39 @@
+{
+  "models": [
+    {
+      "name": "meta-llama/Llama-2-7b-Onnx-Dml",
+      "icon": "meta",
+      "author": "Meta",
+      "link":"https://github.com/microsoft/Llama-2-Onnx",
+      "type": "Text Generation"
+    },
+    {
+      "name": "microsoft/Mistral-7B-v0.1-onnx",
+      "icon": "hf",
+      "author": "mistralai",
+      "link":"https://huggingface.co/microsoft/Mistral-7B-v0.1-onnx",
+      "type": "Text Generation"
+    },
+    {
+      "name": "microsoft/falcon-7B-onnx",
+      "icon": "hf",
+      "author": "tiiuae",
+      "link":"https://huggingface.co/microsoft/falcon-7B-onnx",
+      "type": "Text Generation"
+    },
+    {
+      "name": "stabilityai/sdxl-vae",
+      "icon": "hf",
+      "author": "stabilityai",
+      "link":"https://huggingface.co/stabilityai/sdxl-vae",
+      "type": "Image Generation"
+    },
+    {
+      "name": "NVlabs/stylegan2-ada-pytorch",
+      "icon": "hf",
+      "author": "NVLabs",
+      "link":"https://github.com/NVlabs/stylegan2-ada-pytorch",
+      "type": "Image Generation"
+    }
+  ]
+}
