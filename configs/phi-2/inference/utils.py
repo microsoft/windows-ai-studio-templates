@@ -7,6 +7,16 @@ import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig, TextStreamer
 from peft import PeftModel
 
+def get_device_map():
+    num_gpus = torch.cuda.device_count()
+
+    if num_gpus > 1:
+        print("More than one GPU found. Setting device_map to use CUDA device 0.")
+        return 'cuda:0'
+    else:
+        print("Using the available device (CUDA device 0).")
+        return 'cuda'
+
 def check_adapter_path(adapters_name):
     """
     Checks if the adapter path is correctly set and not a placeholder.
@@ -26,7 +36,7 @@ def load_tokenizer(model_name):
     Returns:
     AutoTokenizer: The loaded tokenizer with special tokens added and padding side set.
     """
-    tok = AutoTokenizer.from_pretrained(model_name, device_map='auto', trust_remote_code=True)
+    tok = AutoTokenizer.from_pretrained(model_name, device_map=get_device_map(), trust_remote_code=True)
     tok.add_special_tokens({'pad_token': '[PAD]'})
     tok.padding_side = 'right'  # TRL requires right padding
     return tok
@@ -46,7 +56,7 @@ def load_model(model_name, torch_dtype, quant_type):
         model = AutoModelForCausalLM.from_pretrained(
             pretrained_model_name_or_path=model_name,
             trust_remote_code=True,
-            device_map='auto',
+            device_map=get_device_map(),
             torch_dtype=torch_dtype,
             quantization_config=BitsAndBytesConfig(
                 load_in_4bit=True,
@@ -55,8 +65,7 @@ def load_model(model_name, torch_dtype, quant_type):
                 bnb_4bit_quant_type=quant_type
             ),
         )
-        if torch.cuda.device_count() > 1:
-            model = torch.nn.DataParallel(model)
+      
         return model
     except Exception as e:
         raise RuntimeError(f"Error loading model: {e}")
