@@ -1,9 +1,21 @@
 # Import necessary libraries
 from threading import Thread
+import argparse
+import os
 import torch
 import gradio as gr
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, TextIteratorStreamer
 from utils import check_adapter_path, load_model, load_peft_model, load_tokenizer, get_device
+
+# Create the parser
+parser = argparse.ArgumentParser(description='Check model usage.')
+
+# Add the arguments
+parser.add_argument('--baseonly', action='store_true', 
+                    help='A boolean switch to indicate base only mode')
+
+# Execute the parse_args() method
+args = parser.parse_args()
 
 # Define model and adapter paths, data type, and quantization type
 model_name = "../model-cache/microsoft/phi-1_5"
@@ -22,7 +34,12 @@ tokenizer = load_tokenizer(model_name)
 
 model = load_model(model_name, torch_dtype, quant_type)
 model.resize_token_embeddings(len(tokenizer))
-model = load_peft_model(model, adapters_name)
+
+usingAdapter = False
+if os.path.exists(adapters_name) and not args.baseonly:
+    usingAdapter = true
+    model = load_peft_model(model, adapters_name)
+
 device = get_device()
 
 print(f"Model {model_name} loaded successfully on {device}")
@@ -30,7 +47,7 @@ print(f"Model {model_name} loaded successfully on {device}")
 # Function to run the text generation process
 def run_generation(user_text, top_p, temperature, top_k, max_new_tokens):
     template = "<prompt_template>"
-    model_inputs = tokenizer(template.format(user_text), return_tensors="pt")
+    model_inputs = tokenizer(template.format(user_text) if usingAdapter else user_text, return_tensors="pt")
     model_inputs = model_inputs.to(device)
 
     # Generate text in a separate thread
