@@ -14,8 +14,7 @@ def get_device_map():
         print("More than one GPU found. Setting device_map to use CUDA device 0.")
         return 'cuda:0'
     else:
-        print("Using the available device (CUDA device 0).")
-        return 'cuda'
+        return 'auto'
 
 def check_adapter_path(adapters_name):
     """
