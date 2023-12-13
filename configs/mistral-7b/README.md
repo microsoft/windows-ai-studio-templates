@@ -12,6 +12,17 @@ Since we ware using WSL environment and is shared you need to manually acitvate 
 conda activate [conda-env-name] 
 ```
 
+### Base model fine-tuning only
+To just try try the base model without fine-tuning you can run this command after activating conda.
+
+```bash
+cd inference
+
+# Web browser interface allows to adjust a few parameters like max new token length, temperature and so on.
+# User has to manually open the link (e.g. http://127.0.0.1:7860) in a browser after gradio initiates the connections.
+python gradio_chat.py --baseonly
+```
+
 ### Model fine-tuning and inferencing
 
 Once the workspace is opened in a dev container, open a terminal (the default path is project root), then run the command below to fine tune a LLM on the selected dataset.
