@@ -48,6 +48,11 @@
       "workspaceTemplatePath": "configs/phi-2",
       "availabilityLocations": [
         {
+          "providerType": "HuggingFace",
+          "modelId": "microsoft/phi-2",
+          "revision": "d3186761bf5c4409f7679359284066c25ab668ee"
+        },
+        {
           "providerType": "Azure",
           "modelId": "azureml://registries/azureml-msr/models/microsoft-phi-2/versions/2",
           "revision": "versions/2"
