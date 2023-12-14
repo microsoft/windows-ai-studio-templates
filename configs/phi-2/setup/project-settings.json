@@ -204,7 +204,7 @@
         "label": "Enable gradient checkpointing:",
         "info": "Use gradient checkpointing. Recommended to save the memory.",
         "replaceToken": "<gradient_checkpointing>",
-        "defaultValue": true,
+        "defaultValue": false,
         "learnMore": "Can you tell me more about the Hugging Face trainer parameter gradient_checkpointing?"
       },
       {
