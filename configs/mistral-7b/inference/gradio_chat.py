@@ -37,7 +37,7 @@ model.resize_token_embeddings(len(tokenizer))
 
 usingAdapter = False
 if os.path.exists(adapters_name) and not args.baseonly:
-    usingAdapter = true
+    usingAdapter = True
     model = load_peft_model(model, adapters_name)
 
 device = get_device()
