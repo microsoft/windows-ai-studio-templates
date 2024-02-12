@@ -29,9 +29,9 @@
         "info": "Dataset to train the model from a local file.",
         "replaceToken": "<data_configs_data_files>",
         "optionValues": [
-          "dataset/dataset-classification.json"
+          "dataset/dataset-classification.jsonl"
         ],
-        "defaultValue": "dataset/dataset-classification.json"
+        "defaultValue": "dataset/dataset-classification.jsonl"
       },
       {
         "type": "String",

@@ -30,7 +30,7 @@
                 "model_name": "microsoft/phi-2",
                 "task": "text-generation",
                 "from_pretrained_args": {
-                "trust_remote_code": true
+                    "trust_remote_code": true
                 }
             }
         }
@@ -43,8 +43,7 @@
 #data_configs_data_files_extension_start
                 <!--    "data_name": "<data_configs_data_files_extension>", -->
 #data_configs_data_files_extension_end
-                "<data_files>":
-                {
+                "data_files": {
                     "type": "azureml_datastore",
                     "config": {
                     "azureml_client":
