@@ -1,3 +1,6 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT license.
+
 import argparse
 import sys
 import json
@@ -42,7 +45,7 @@ def main():
         file_path = os.path.join(os.getcwd(), 'finetuning/olive-config.json')
         olive_run(file_path)
     else:
-        dataset_local_path = "dataset/dataset-classification.jsonl"
+        dataset_local_path = "dataset/dataset-classification.json"
         dataset_name = "phi2_train_dataset"
         dataset_version = "1"
         docker_context_path = "finetuning/docker-contexts/wais_phi2_env"
