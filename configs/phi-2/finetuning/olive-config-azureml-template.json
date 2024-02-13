@@ -110,7 +110,7 @@
             "CUDAExecutionProvider"
         ],
         "host": "aml_system",
-        "cache_dir": "cache",
+        "cache_dir": "model_cache",
         "output_dir": "outputs/models/qlora",
         "target": "aml_system"
     }
