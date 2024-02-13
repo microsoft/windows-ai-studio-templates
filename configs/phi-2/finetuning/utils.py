@@ -1,3 +1,6 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT license.
+
 # Handle to the workspace
 from azure.ai.ml import MLClient
 
