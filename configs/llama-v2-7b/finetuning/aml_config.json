@@ -1,0 +1,8 @@
+{
+    "subscription_id": "<subscription_id>",
+    "resource_group": "<resource_group>",
+    "workspace_name": "<workspace_name>",
+    "aml_compute_name": "<aml_compute_name>",
+    "hf_token": "<hf_token>",
+    "keyvault_name": "<keyvault_name>"
+}
