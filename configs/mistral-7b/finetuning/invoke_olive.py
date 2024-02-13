@@ -46,7 +46,7 @@ def main():
         dataset_name = "mistral_7b_train_dataset"
         dataset_version = "1"
         docker_context_path = "finetuning/docker-contexts/wais_mistral_7b_env"
-        azure_olive_config_template_path = "finetuning/olive-config-azureml_template.json"
+        azure_olive_config_template_path = "finetuning/olive-config-azureml-template.json"
         azure_olive_config_path = "finetuning/olive-config-azureml.json"
         azure_environment_name = "wais_mistral_7b_env"
             
