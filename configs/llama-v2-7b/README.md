@@ -31,6 +31,8 @@ Once the workspace is opened in a dev container, open a terminal (the default pa
 python finetuning/invoke_olive.py 
 ```
 
+Checkpoints and final model will be saved in `models` folder.
+
 ### Model fine-tuning on Azure
 
 Please make sure that you have created the Azure ML workspace according to the following directions:
@@ -61,8 +63,7 @@ python finetuning/invoke_olive.py --azure --aml_config finetuning/aml_config.jso
 This will submit an AML job which can be monitored using the link printed by the program. After training finishes, the trained model can be downloaded from the outputs folder.
 
 
-
-Checkpoints and final model will be saved in `models` folder.
+### Inference
 
 Next run inferencing with the fune-tuned model through chats in a `console`, `web browser` or `prompt flow`.
 
