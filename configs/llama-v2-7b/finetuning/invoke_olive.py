@@ -22,8 +22,7 @@ def parse_aml_config(aml_config):
         subscription_id = aml_config["subscription_id"]
         resource_group = aml_config["resource_group"]
         workspace_name = aml_config["workspace_name"]
-        aml_compute_name = aml_config["aml_compute_name"]          
-        hf_token = aml_config["hf_token"]
+        aml_compute_name = aml_config["aml_compute_name"]        
         keyvault_name = aml_config["keyvault_name"]
     except KeyError as e:
         print(f"KeyError: {e} not found in aml_config.json")
