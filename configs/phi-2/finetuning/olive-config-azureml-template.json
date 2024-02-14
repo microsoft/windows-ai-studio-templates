@@ -1,11 +1,35 @@
 {
-    "input_model":{
+    "azureml_client": {
+        "aml_config_path": "<aml_config_path>",
+        "read_timeout": 4000,
+        "max_operation_retries": 4,
+        "operation_retry_interval": 5
+    },
+    "systems": {
+        "local_system": {
+            "type": "LocalSystem"
+        },
+        "aml_system": {
+            "type": "AzureML",
+            "config": {
+                "aml_compute": "<aml_compute_name>",
+                "accelerators": [
+                    "gpu"
+                ],
+                "aml_environment_config": {            
+                    "name": "<aml_environment_name>",            
+                    "version": "<aml_environment_version>"  
+                }               
+            }
+        }
+    },
+    "input_model": {
         "type": "PyTorchModel",
         "config": {
             "hf_config": {
-                "model_name": "model-cache/HuggingFaceH4/zephyr-7b-beta",
+                "model_name": "microsoft/phi-2",
                 "task": "text-generation",
-                "from_pretrained_args":  {
+                "from_pretrained_args": {
                     "trust_remote_code": true
                 }
             }
@@ -17,9 +41,19 @@
             "type": "HuggingfaceContainer",
             "params_config": {
 #data_configs_data_files_extension_start
-            <!--    "data_name": "<data_configs_data_files_extension>", -->
+                <!--    "data_name": "<data_configs_data_files_extension>", -->
 #data_configs_data_files_extension_end
-                "<data_files>":"<data_configs_data_files>",
+                "data_files": {
+                    "type": "azureml_datastore",
+                    "config": {
+                    "azureml_client":
+                        {
+                            "aml_config_path": "<aml_config_path>"
+                        },
+                    "datastore_name": "workspaceblobstore",
+                    "relative_path": "<data_configs_data_files>"
+                    }
+                },
                 "split": "<data_configs_split>",
                 "component_kwargs": {
                     "pre_process_data": {
@@ -59,11 +93,11 @@
                     "max_steps": <max_steps>,
                     "logging_steps": 10,
                     "evaluation_strategy": "steps",
-                    "eval_steps": 50,
+                    "eval_steps": 187,
                     "group_by_length": true,
                     "adam_beta2": 0.999,
                     "max_grad_norm": 0.3,
-                    "output_dir": "<output_dir>"
+                    "output_dir": "outputs/<output_dir>"
                 }
             }
         }
@@ -72,14 +106,12 @@
         "log_severity_level": 0,
         "search_strategy": false,
         "evaluate_input_model": false,
-        "target": {
-            "type": "LocalSystem",
-            "config": {
-                "accelerators": ["gpu"]
-            }
-        },
-        "execution_providers": ["CPUExecutionProvider"],
-        "cache_dir": "cache",
-        "output_dir" : "models/qlora"
+        "execution_providers": [
+            "CUDAExecutionProvider"
+        ],
+        "host": "aml_system",
+        "cache_dir": "model_cache",
+        "output_dir": "outputs/models/qlora",
+        "target": "aml_system"
     }
 }
