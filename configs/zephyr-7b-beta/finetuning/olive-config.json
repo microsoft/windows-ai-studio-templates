@@ -4,7 +4,7 @@
         "config": {
             "hf_config": {
                 "model_name": "model-cache/HuggingFaceH4/zephyr-7b-beta",
-                "task": "text-generation"
+                "task": "text-generation",
                 "from_pretrained_args":  {
                     "trust_remote_code": true
                 }
