@@ -10,7 +10,7 @@
           "cd /mount", 
           "pip install -r ./setup/requirements.txt",
           "git lfs install",
-          "git clone https://huggingface.co/microsoft/phi-1_5", 
+          "git clone https://huggingface.co/microsoft/phi-1_5 ./model-cache/microsoft/phi-1_5", 
           "python3 ./finetuning/invoke_olive.py"
         ]
       },
