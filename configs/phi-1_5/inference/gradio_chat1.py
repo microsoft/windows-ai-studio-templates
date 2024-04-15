@@ -72,6 +72,20 @@ def run_generation(user_text, top_p, temperature, top_k, max_new_tokens):
         yield model_output
     return model_output
 
+def run_generation1(user_text, top_p, temperature, top_k, max_new_tokens):
+    model_output = "Just Test: "
+    model_output += os.linesep
+    model_output += user_text
+    model_output += os.linesep
+    model_output += "Top-p: " + str(top_p)
+    model_output += os.linesep
+    model_output += "Temperature: " + str(temperature)
+    model_output += os.linesep
+    model_output += "Top-k: " + str(top_k)
+    model_output += os.linesep
+    model_output += "Max New Tokens: " + str(max_new_tokens)
+    yield model_output
+
 # Gradio UI setup
 with gr.Blocks() as demo:
     with gr.Row():
@@ -86,7 +100,7 @@ with gr.Blocks() as demo:
             top_k = gr.Slider(minimum=1, maximum=50, value=50, step=1, label="Top-k")
             temperature = gr.Slider(minimum=0.1, maximum=5.0, value=0.8, step=0.1, label="Temperature")
 
-    user_text.submit(run_generation, [user_text, top_p, temperature, top_k, max_new_tokens], model_output)
-    button_submit.click(run_generation, [user_text, top_p, temperature, top_k, max_new_tokens], model_output)
+    user_text.submit(run_generation1, [user_text, top_p, temperature, top_k, max_new_tokens], model_output)
+    button_submit.click(run_generation1, [user_text, top_p, temperature, top_k, max_new_tokens], model_output)
 
     demo.queue(max_size=32).launch(server_name="0.0.0.0", server_port=7860)
