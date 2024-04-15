@@ -89,4 +89,4 @@ with gr.Blocks() as demo:
     user_text.submit(run_generation, [user_text, top_p, temperature, top_k, max_new_tokens], model_output)
     button_submit.click(run_generation, [user_text, top_p, temperature, top_k, max_new_tokens], model_output)
 
-    demo.queue(max_size=32).launch()
+    demo.queue(max_size=32).launch(server_name="0.0.0.0", server_port=7860)
