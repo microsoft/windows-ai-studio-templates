@@ -1,3 +1,5 @@
+// WIP - CPU tested, GPU in progress
+
 param location string = 'eastus'
 param resourcePrefix string = 'qidoninf1'
 param storageAccountName string = '${resourcePrefix}storage'
