@@ -1,3 +1,57 @@
+### Use Windows AI Studio to fine-tune the model remotely.
+#### Prerequisites
+To run the model fine-tuning in your remote Azure Container App Environment, you will need:
+- [Windows AI Studio Visual Studio Code Extension](https://marketplace.visualstudio.com/items?itemName=ms-windows-ai-studio.windows-ai-studio)
+- Make sure your subscription have enough GPU capacity amount. Submit a [support ticket](https://azure.microsoft.com/support/create-ticket/) to request the capacity amount required for your application.
+
+
+#### Provision Azure Resources for Fine-tuning
+In the `./infra` folder, you'll find templates for provisioning Azure resources. To provision new Azure resources for fine-tuning, execute the Command Palette `Windows AI Studio Tools: Provision Azure Container Apps job for fine-tuning`.
+
+##### Configure Existing Azure Resources
+If you already have Azure resources and need to configure them for fine-tuning, simply specify their names in `./infra/finetuning.parameters.json` file, then execute the Command Palette `Windows AI Studio Tools: Provision Azure Container Apps job for fine-tuning`. The specified resources will be updated and the others will be created.
+
+For example, if you have an existing Azure container environment, the `./infra/finetuning.parameters.json` will be
+
+```json
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      ...
+      "acaEnvironmentName": {
+        "value": "<your-aca-env-name>"
+      },
+      "acaEnvironmentStorageName": {
+        "value": null
+      },
+      ...
+    }
+  }
+```
+
+##### Manual Configuration
+If you've created and configured all the Azure resources without using the *Windows AI Studio Visual Studio Code Extension* command palette or if you prefer manual configuration, you can fill in the resource names in `finetune.config.json` instead of running the provision command palette. For example,
+```json
+{
+  "SUBSCRIPTION_ID": "<your-subscription-id>",
+  "RESOURCE_GROUP_NAME": "<your-resource-group-name>",
+  "STORAGE_ACCOUNT_NAME": "<your-storage-account-name>",
+  "FILE_SHARE_NAME": "<your-file-share-name>",
+  "ACA_JOB_NAME": "<your-aca-job-name>",
+  "COMMANDS": [
+    "cd /mount",
+    "pip install -r ./setup/requirements.txt",
+    "git lfs install",
+    "git clone https://huggingface.co/microsoft/phi-1_5 ./model-cache/microsoft/phi-1_5",
+    "python3 ./finetuning/invoke_olive.py"
+  ]
+}
+```
+
+#### Run Fine-tuning Job
+Execute `Windows AI Studio Tools: Run fine-tuning` to initiate the fine-tuning job remotely. You can monitor its status in the Azure portal.
+
 
 ### Preparations
 
