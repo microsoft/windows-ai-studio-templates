@@ -6,7 +6,7 @@ param storageAccountName string = 'waisstorage${resourceSuffix}'
 param fileShareName string = 'waisfileshare${resourceSuffix}'
 param acaEnvironmentName string = 'waisenv${resourceSuffix}'
 param acaEnvironmentStorageName string = 'waisenvstorage${resourceSuffix}'
-param acaAppName string = 'waisacajob${resourceSuffix}'
+param acaAppName string = 'waisacaapp${resourceSuffix}'
 param acaLogAnalyticsName string = 'waislog${resourceSuffix}'
 
 var defaultCommand = join(defaultCommands, '; ')
