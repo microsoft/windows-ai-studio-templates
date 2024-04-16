@@ -52,6 +52,13 @@ If you've created and configured all the Azure resources without using the *Wind
 #### Run Fine-tuning Job
 Execute `Windows AI Studio Tools: Run fine-tuning` to initiate the fine-tuning job remotely. You can monitor its status in the Azure portal.
 
+#### Provision Azure Resource for inference API
+To provision new Azure resources for inference, use the Command Palette and select `Windows AI Studio Tools: Provision Azure Container Apps for inferencing`.
+
+Similar to Fine-tuning, if you already have existing Azure resources, update `./infra/inferencing.parameters.json` before executing the provision command palette.
+
+Alternatively, if you prefer not to use the provision command palette and deploy the Bicep file `inferencing.bicep` manually, you can specify your resource names in `inference.config.json`.
+
 
 ## Local Run
 ### Preparations
