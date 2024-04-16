@@ -1,3 +1,34 @@
 {
-    "placeholder": "gitkeep"
-}
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "location": {
+        "value": "westus3"
+      },
+      "defaultCommands": {
+        "value": [
+          "cd /mount", 
+          "pip install -r ./setup/requirements.txt",
+          "python3 ./inference/gradio_chat.py"
+        ]
+      },
+      "storageAccountName": {
+        "value": null
+      },
+      "fileShareName": {
+        "value": null
+      },
+      "acaEnvironmentName": {
+        "value": null
+      },
+      "acaEnvironmentStorageName": {
+        "value": null
+      },
+      "acaAppName": {
+        "value": null
+      },
+      "acaLogAnalyticsName": {
+        "value": null
+      }
+    }
+  }
