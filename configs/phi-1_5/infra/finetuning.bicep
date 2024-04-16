@@ -2,12 +2,12 @@ param location string
 param defaultCommands array
 
 param resourceSuffix string = substring(uniqueString(resourceGroup().id), 0, 5)
-param storageAccountName string = 'wasistorage${resourceSuffix}'
-param fileShareName string = 'wasifileshare${resourceSuffix}'
-param acaEnvironmentName string = 'wasienv${resourceSuffix}'
-param acaEnvironmentStorageName string = 'wasienvstorage${resourceSuffix}'
-param acaJobName string = 'wasiacajob${resourceSuffix}'
-param acaLogAnalyticsName string = 'wasilog${resourceSuffix}'
+param storageAccountName string = 'waisstorage${resourceSuffix}'
+param fileShareName string = 'waisfileshare${resourceSuffix}'
+param acaEnvironmentName string = 'waisenv${resourceSuffix}'
+param acaEnvironmentStorageName string = 'waisenvstorage${resourceSuffix}'
+param acaJobName string = 'waisacajob${resourceSuffix}'
+param acaLogAnalyticsName string = 'waislog${resourceSuffix}'
 
 var defaultCommand = join(defaultCommands, '; ')
 
