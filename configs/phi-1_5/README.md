@@ -53,6 +53,7 @@ If you've created and configured all the Azure resources without using the *Wind
 Execute `Windows AI Studio Tools: Run fine-tuning` to initiate the fine-tuning job remotely. You can monitor its status in the Azure portal.
 
 
+## Local Run
 ### Preparations
 
 1. Make sure NVIDIA driver are installed in the host. 
