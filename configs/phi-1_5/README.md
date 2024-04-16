@@ -2,7 +2,7 @@
 #### Prerequisites
 To run the model fine-tuning in your remote Azure Container App Environment, you will need:
 - [Windows AI Studio Visual Studio Code Extension](https://marketplace.visualstudio.com/items?itemName=ms-windows-ai-studio.windows-ai-studio)
-- Make sure your subscription have enough GPU capacity amount. Submit a [support ticket](https://azure.microsoft.com/support/create-ticket/) to request the capacity amount required for your application.
+- Make sure your subscription have enough GPU capacity amount. Submit a [support ticket](https://azure.microsoft.com/support/create-ticket/) to request the capacity amount required for your application. [Learn More about GPU capacity](https://learn.microsoft.com/en-us/azure/container-apps/workload-profiles-overview)
 
 
 #### Provision Azure Resources for Fine-tuning
