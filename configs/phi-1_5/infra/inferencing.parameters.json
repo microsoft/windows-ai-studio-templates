@@ -7,9 +7,9 @@
       },
       "defaultCommands": {
         "value": [
-          "cd /mount", 
-          "pip install -r ./setup/requirements.txt",
-          "python3 ./inference/gradio_chat.py"
+          "cd /mount/inference", 
+          "pip install -r ./requirements.txt",
+          "python3 ./gradio_chat.py"
         ]
       },
       "storageAccountName": {
