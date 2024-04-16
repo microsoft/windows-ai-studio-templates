@@ -194,4 +194,5 @@ output RESOURCE_GROUP_NAME string = resourceGroup().name
 output STORAGE_ACCOUNT_NAME string = storageAccount.name
 output FILE_SHARE_NAME string = fileShare.name
 output ACA_APP_NAME string = acaApp.name
+output ACA_APP_ENDPOINT string = acaApp.properties.configuration.ingress.fqdn
 output COMMANDS array = defaultCommands
