@@ -31,7 +31,7 @@ For example, if you have an existing Azure container environment, the `./infra/f
 ```
 
 ##### Manual Configuration
-If you've created and configured all the Azure resources without using the *Windows AI Studio Visual Studio Code Extension* command palette or if you prefer manual configuration, you can fill in the resource names in `finetune.config.json` instead of running the provision command palette. For example,
+If you've created and configured all the Azure resources without using the *Windows AI Studio Visual Studio Code Extension* command palette, you can fill in the resource names in `finetune.config.json` instead of running the provision command palette. For example,
 ```json
 {
   "SUBSCRIPTION_ID": "<your-subscription-id>",
