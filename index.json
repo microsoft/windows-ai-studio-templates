@@ -16,6 +16,44 @@
       ],
       "type": "Text Generation",
       "revision": "d38e6f954ec29b96fe2cf033937dad64e279b5d9"
+    },
+    {
+      "name": "microsoft/phi-2",
+      "icon": "ms",
+      "author": "Microsoft",
+      "description": "Description for Phi 2 ",
+      "configPath": "olive-config.json",
+      "workspaceTemplatePath": "configs/phi-2",
+      "availabilityLocations": [
+        {
+          "providerType": "HuggingFace",
+          "modelId": "microsoft/phi-2",
+          "revision": "d3186761bf5c4409f7679359284066c25ab668ee"
+        },
+        {
+          "providerType": "Azure",
+          "modelId": "azureml://registries/azureml-msr/models/microsoft-phi-2/versions/2",
+          "revision": "versions/2"
+        }
+      ],
+      "type": "Text Generation"
+    },
+    {
+      "name": "mistralai/Mistral-7B",
+      "icon": "hf",
+      "author": "Mistral AI",
+      "description": "The Mistral-7B-v0.1 Large Language Model (LLM) is a pretrained generative text model with 7 billion parameters. Mistral-7B-v0.1 outperforms Llama 2 13B on all benchmarks we tested",
+      "configPath": "olive-config.json",
+      "workspaceTemplatePath": "configs/mistral-7b",
+      "availabilityLocations": [
+        {
+          "providerType": "HuggingFace",
+          "modelId": "mistralai/Mistral-7B-v0.1",
+          "revision": "main"
+        }
+      ],
+      "type": "Text Generation",
+      "revision": "main"
     }
   ]
 }
