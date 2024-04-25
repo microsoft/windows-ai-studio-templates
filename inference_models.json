@@ -1,0 +1,43 @@
+[
+    {
+      "Name": "phi-2-int4-cpu-onnx",
+      "ProvideType": "HuggingFace",
+      "Uri": "vrdevs/phi-2-int4-cpu",
+      "ModelType": "onnx"
+    },
+    {
+      "Name": "Phi-3-mini-4k-cuda-fp16-onnx",
+      "ProvideType": "HuggingFace",
+      "Uri": "microsoft/Phi-3-mini-4k-instruct-onnx",
+      "Path": "cuda/cuda-fp16",
+      "ModelType": "onnx"
+    },
+    {
+      "Name": "Phi-3-mini-4k-cuda-int4-onnx",
+      "ProvideType": "HuggingFace",
+      "Uri": "microsoft/Phi-3-mini-4k-instruct-onnx",
+      "Path": "cuda/cuda-int4-rtn-block-32",
+      "ModelType": "onnx"
+    },
+    {
+      "Name": "Phi-3-mini-4k-cpu-int4-rtn-block-32-acc-level-4-onnx",
+      "ProvideType": "HuggingFace",
+      "Uri": "microsoft/Phi-3-mini-4k-instruct-onnx",
+      "Path": "cpu_and_mobile/cpu-int4-rtn-block-32-acc-level-4",
+      "ModelType": "onnx"
+    },
+    {
+      "Name": "Phi-3-mini-4k-cpu-int4-rtn-block-32-onnx",
+      "ProvideType": "HuggingFace",
+      "Uri": "microsoft/Phi-3-mini-4k-instruct-onnx",
+      "Path": "cpu_and_mobile/cpu-int4-rtn-block-32",
+      "ModelType": "onnx"
+    },
+    {
+      "Name": "Phi-3-mini-4k-directml-int4-awq-block-128-onnx",
+      "ProvideType": "HuggingFace",
+      "Uri": "microsoft/Phi-3-mini-4k-instruct-onnx",
+      "Path": "directml/directml-int4-awq-block-128",
+      "ModelType": "onnx"
+    }
+  ]
