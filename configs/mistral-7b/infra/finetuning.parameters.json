@@ -9,7 +9,7 @@
       "value": [
         "cd /mount",
         "pip install -r ./setup/requirements.txt",
-        "huggingface-cli download microsoft/phi-1_5 --revision d38e6f954ec29b96fe2cf033937dad64e279b5d9 --local-dir ./model-cache/microsoft/phi-1_5 --local-dir-use-symlinks False",
+        "huggingface-cli download mistralai/Mistral-7B --revision main --local-dir ./model-cache/mistralai/Mistral-7B --local-dir-use-symlinks False",
         "python3 ./finetuning/invoke_olive.py"
       ]
     },
