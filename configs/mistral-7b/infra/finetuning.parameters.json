@@ -9,7 +9,8 @@
       "value": [
         "cd /mount",
         "pip install -r ./setup/requirements.txt",
-        "huggingface-cli download mistralai/Mistral-7B --revision main --local-dir ./model-cache/mistralai/Mistral-7B --local-dir-use-symlinks False",
+        "huggingface-cli login --token <token>",
+        "huggingface-cli download mistralai/Mistral-7B --local-dir ./model-cache/mistralai/Mistral-7B --local-dir-use-symlinks False",
         "python3 ./finetuning/invoke_olive.py"
       ]
     },

@@ -158,7 +158,43 @@ resource acaApp 'Microsoft.App/containerApps@2023-11-02-preview' = {
             cpu: 24
             memory: '220Gi'
           }
-          probes: []
+          probes: [
+            {
+              type: 'Liveness'
+              httpGet: {
+                path: '/'
+                port: 7860
+                scheme: 'HTTP'
+              }
+              initialDelaySeconds: 60
+              periodSeconds: 10
+              successThreshold: 1
+              timeoutSeconds: 1
+              failureThreshold: 3
+            }
+            {
+              type: 'Readiness'
+              httpGet: {
+                path: '/'
+                port: 7860
+                scheme: 'HTTP'
+              }
+              initialDelaySeconds: 60
+              periodSeconds: 10
+              failureThreshold: 3
+            }
+            {
+              type: 'Startup'
+              httpGet: {
+                path: '/'
+                port: 7860
+                scheme: 'HTTP'
+              }
+              initialDelaySeconds: 60
+              periodSeconds: 10
+              failureThreshold: 60
+            }
+          ]
           volumeMounts: [
             {
               volumeName: '${fileShareName}volume'
@@ -188,7 +224,6 @@ resource acaApp 'Microsoft.App/containerApps@2023-11-02-preview' = {
   }
 }
 
-// output TENANT_ID string = subscription().tenantId
 output SUBSCRIPTION_ID string = subscription().subscriptionId
 output RESOURCE_GROUP_NAME string = resourceGroup().name
 output STORAGE_ACCOUNT_NAME string = storageAccount.name
