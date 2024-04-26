@@ -4,12 +4,5 @@
   "STORAGE_ACCOUNT_NAME": null,
   "FILE_SHARE_NAME": null,
   "ACA_APP_NAME": null,
-  "ACA_APP_ENDPOINT": null,
-  "COMMANDS": [
-    "cd /mount",
-    "pip install -r ./setup/requirements.txt",
-    "cd /mount/inference",
-    "pip install -r ./requirements.txt",
-    "python3 ./gradio_chat.py"
-  ]
+  "ACA_APP_ENDPOINT": null
 }

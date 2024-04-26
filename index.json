@@ -1,6 +1,28 @@
 {
   "models": [
     {
+      "name": "meta-llama/Llama-2-7b",
+      "icon": "meta",
+      "author": "Meta",
+      "description": "Description for Llama-v2-7b",
+      "configPath": "olive-config.json",
+      "workspaceTemplatePath": "configs/llama-v2-7b",
+      "availabilityLocations": [
+        {
+          "providerType": "Azure",
+          "modelId": "azureml://registries/azureml-meta/models/Llama-2-7b/versions/13",
+          "revision": "versions/13"
+        },
+        {
+          "providerType": "HuggingFace",
+          "modelId": "meta-llama/Llama-2-7b-hf",
+          "revision": "main"
+        }
+      ],
+      "type": "Text Generation",
+      "revision": "main"
+    },
+    {
       "name": "microsoft/phi-1_5",
       "icon": "ms",
       "author": "Microsoft",
@@ -49,6 +71,23 @@
         {
           "providerType": "HuggingFace",
           "modelId": "mistralai/Mistral-7B-v0.1",
+          "revision": "main"
+        }
+      ],
+      "type": "Text Generation",
+      "revision": "main"
+    },
+    {
+      "name": "HuggingFaceH4/zephyr-7b-beta",
+      "icon": "hf",
+      "author": "Hugging Face",
+      "description": "Zephyr is a series of language models that are trained to act as helpful assistants.",
+      "configPath": "olive-config.json",
+      "workspaceTemplatePath": "configs/zephyr-7b-beta",
+      "availabilityLocations": [
+        {
+          "providerType": "HuggingFace",
+          "modelId": "HuggingFaceH4/zephyr-7b-beta",
           "revision": "main"
         }
       ],
