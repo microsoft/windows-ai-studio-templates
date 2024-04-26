@@ -1,4 +1,3 @@
-## Local Run
 ### Preparations
 
 1. Make sure NVIDIA driver are installed in the host. 
