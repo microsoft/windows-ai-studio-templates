@@ -37,7 +37,11 @@
       "Uri": "microsoft/Phi-3-mini-4k-instruct-onnx",
       "Path": "cuda/cuda-fp16",
       "ModelType": "onnx",
-      "PromptTemplate": "<|system|>{SystemMessage}<|end|><|user|>{UserMessage}<|end|><|assistant|>"
+      "PromptTemplate": {
+        "system":"<|system|>{Content}<|end|>",
+        "user":"<|user|>{Content}<|user|>",
+        "assistant":"<|assistant|>{Content}<|assistant|>"
+      }
     },
     {
       "Name": "Phi-3-mini-4k-cuda-int4-onnx",
@@ -45,7 +49,11 @@
       "Uri": "microsoft/Phi-3-mini-4k-instruct-onnx",
       "Path": "cuda/cuda-int4-rtn-block-32",
       "ModelType": "onnx",
-      "PromptTemplate": "<|system|>{SystemMessage}<|end|><|user|>{UserMessage}<|end|><|assistant|>"
+      "PromptTemplate": {
+        "system":"<|system|>{Content}<|end|>",
+        "user":"<|user|>{Content}<|user|>",
+        "assistant":"<|assistant|>{Content}<|assistant|>"
+      }
     },
     {
       "Name": "Phi-3-mini-4k-cpu-int4-rtn-block-32-acc-level-4-onnx",
@@ -53,7 +61,11 @@
       "Uri": "microsoft/Phi-3-mini-4k-instruct-onnx",
       "Path": "cpu_and_mobile/cpu-int4-rtn-block-32-acc-level-4",
       "ModelType": "onnx",
-      "PromptTemplate": "<|system|>{SystemMessage}<|end|><|user|>{UserMessage}<|end|><|assistant|>"
+      "PromptTemplate": {
+        "system":"<|system|>{Content}<|end|>",
+        "user":"<|user|>{Content}<|user|>",
+        "assistant":"<|assistant|>{Content}<|assistant|>"
+      }
     },
     {
       "Name": "Phi-3-mini-4k-cpu-int4-rtn-block-32-onnx",
@@ -61,7 +73,11 @@
       "Uri": "microsoft/Phi-3-mini-4k-instruct-onnx",
       "Path": "cpu_and_mobile/cpu-int4-rtn-block-32",
       "ModelType": "onnx",
-      "PromptTemplate": "<|system|>{SystemMessage}<|end|><|user|>{UserMessage}<|end|><|assistant|>"
+      "PromptTemplate": {
+        "system":"<|system|>{Content}<|end|>",
+        "user":"<|user|>{Content}<|user|>",
+        "assistant":"<|assistant|>{Content}<|assistant|>"
+      }
     },
     {
       "Name": "Phi-3-mini-4k-directml-int4-awq-block-128-onnx",
@@ -69,6 +85,10 @@
       "Uri": "microsoft/Phi-3-mini-4k-instruct-onnx",
       "Path": "directml/directml-int4-awq-block-128",
       "ModelType": "onnx",
-      "PromptTemplate": "<|system|>{SystemMessage}<|end|><|user|>{UserMessage}<|end|><|assistant|>"
+      "PromptTemplate": {
+        "system":"<|system|>{Content}<|end|>",
+        "user":"<|user|>{Content}<|user|>",
+        "assistant":"<|assistant|>{Content}<|assistant|>"
+      }
     }
 ]
