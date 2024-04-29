@@ -1,0 +1,39 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "value": "westus3"
+    },
+    "defaultCommands": {
+      "value": [
+        "cd /mount",
+        "pip install -r ./setup/requirements.txt",
+        "[ \"$HUGGINGFACE_TOKEN\" != \"null\" ] && huggingface-cli login --token \"$HUGGINGFACE_TOKEN\"",
+        "huggingface-cli download microsoft/phi-2 --revision d3186761bf5c4409f7679359284066c25ab668ee --local-dir ./model-cache/microsoft/phi-2 --local-dir-use-symlinks False",
+        "python3 ./finetuning/invoke_olive.py"
+      ]
+    },
+    "huggingfaceTokenSecretName": {
+      "value": null
+    },
+    "storageAccountName": {
+      "value": null
+    },
+    "fileShareName": {
+      "value": null
+    },
+    "acaEnvironmentName": {
+      "value": null
+    },
+    "acaEnvironmentStorageName": {
+      "value": null
+    },
+    "acaJobName": {
+      "value": null
+    },
+    "acaLogAnalyticsName": {
+      "value": null
+    }
+  }
+}

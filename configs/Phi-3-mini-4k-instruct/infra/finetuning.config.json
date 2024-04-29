@@ -1,0 +1,15 @@
+{
+  "SUBSCRIPTION_ID": null,
+  "RESOURCE_GROUP_NAME": null,
+  "STORAGE_ACCOUNT_NAME": null,
+  "FILE_SHARE_NAME": null,
+  "ACA_JOB_NAME": null,
+  "COMMANDS": [
+    "cd /mount",
+    "pip install -r ./setup/requirements.txt",
+    "[ \"$HUGGINGFACE_TOKEN\" != \"null\" ] && huggingface-cli login --token \"$HUGGINGFACE_TOKEN\"",
+    "huggingface-cli download microsoft/phi-2 --revision d3186761bf5c4409f7679359284066c25ab668ee --local-dir ./model-cache/microsoft/phi-2 --local-dir-use-symlinks False",
+    "python3 ./finetuning/invoke_olive.py"
+  ],
+  "HUGGINGFACE_TOKEN_SECRET_NAME": "huggingface-token"
+}
