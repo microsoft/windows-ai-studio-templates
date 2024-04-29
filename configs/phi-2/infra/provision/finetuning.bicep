@@ -153,7 +153,7 @@ resource acajob 'Microsoft.App/jobs@2023-11-02-preview' = {
           ]
           env: [
             {
-              name: 'HUGGINGFACE_TOKEN'
+              name: huggingfaceTokenSecretName
               secretRef: huggingfaceTokenSecretName
             }
           ]

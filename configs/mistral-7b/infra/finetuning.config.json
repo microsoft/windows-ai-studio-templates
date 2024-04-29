@@ -7,7 +7,7 @@
   "COMMANDS": [
     "cd /mount",
     "pip install -r ./setup/requirements.txt",
-    "[ \"$HUGGINGFACE_TOKEN\" != \"null\" ] && huggingface-cli login --token \"$HUGGINGFACE_TOKEN\"",
+    "[ \"$huggingface-token\" != \"null\" ] && huggingface-cli login --token \"$huggingface-token\"",
     "huggingface-cli download mistralai/Mistral-7B-v0.1 --local-dir ./model-cache/mistralai/Mistral-7B --local-dir-use-symlinks False",
     "python3 ./finetuning/invoke_olive.py"
   ],
