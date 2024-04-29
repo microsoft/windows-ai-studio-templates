@@ -8,7 +8,7 @@ param acaEnvironmentName string = 'waisenv${resourceSuffix}'
 param acaEnvironmentStorageName string = 'waisenvstorage${resourceSuffix}'
 param acaJobName string = 'waisacajob${resourceSuffix}'
 param acaLogAnalyticsName string = 'waislog${resourceSuffix}'
-param huggingfaceTokenSecretName string = 'huggingface-token'
+param huggingfaceTokenSecretName string = 'hftoken'
 
 var defaultCommand = join(defaultCommands, '; ')
 
