@@ -5,7 +5,8 @@
       "Uri": "vrdevs/phi-2-int4-cpu",
       "ModelType": "onnx",
       "Task": "Text Generation",
-      "Icon": "ms"
+      "Icon": "ms",
+      "FineTuningTemplateName": "microsoft/phi-2"
     },
     {
       "Name": "phi2-int4-cuda",
@@ -13,7 +14,8 @@
       "Uri": "vrdevs/phi2-int4-cuda",
       "ModelType": "onnx",
       "Task": "Text Generation",
-      "Icon": "ms"
+      "Icon": "ms",
+      "FineTuningTemplateName": "microsoft/phi-2"
     },
     {
       "Name": "mistral-7b-v01-int4-cpu",
@@ -21,7 +23,8 @@
       "Uri": "vrdevs/mistral-7b-v01-int4-cpu",
       "ModelType": "onnx",
       "Task": "Text Generation",
-      "Icon": "hf"
+      "Icon": "hf",
+      "FineTuningTemplateName": "mistralai/Mistral-7B"
     },
     {
       "Name": "mistral-7b-v01-int4-cuda",
@@ -29,7 +32,8 @@
       "Uri": "vrdevs/mistral-7b-v01-int4-cuda",
       "ModelType": "onnx",
       "Task": "Text Generation",
-      "Icon": "hf"
+      "Icon": "hf",
+      "FineTuningTemplateName": "mistralai/Mistral-7B"
     },
     {
       "Name": "Phi-3-mini-4k-cuda-fp16-onnx",
