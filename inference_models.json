@@ -45,7 +45,7 @@
       "PromptTemplate": {
         "system":"<|system|>{Content}<|end|>",
         "user":"<|user|>{Content}<|user|>",
-        "assistant":"<|assistant|>{Content}<|assistant|>",
+        "assistant":"<|assistant|>{Content}<|end|>",
         "prompt":"<|user|>\n{Content}<|end|>\n<|assistant|>"
       }
     },
@@ -59,7 +59,7 @@
       "PromptTemplate": {
         "system":"<|system|>{Content}<|end|>",
         "user":"<|user|>{Content}<|user|>",
-        "assistant":"<|assistant|>{Content}<|assistant|>",
+        "assistant":"<|assistant|>{Content}<|end|>",
         "prompt":"<|user|>\n{Content}<|end|>\n<|assistant|>"
       }
     },
@@ -73,7 +73,7 @@
       "PromptTemplate": {
         "system":"<|system|>{Content}<|end|>",
         "user":"<|user|>{Content}<|user|>",
-        "assistant":"<|assistant|>{Content}<|assistant|>",
+        "assistant":"<|assistant|>{Content}<|end|>",
         "prompt":"<|user|>\n{Content}<|end|>\n<|assistant|>"
       }
     },
@@ -87,7 +87,7 @@
       "PromptTemplate": {
         "system":"<|system|>{Content}<|end|>",
         "user":"<|user|>{Content}<|user|>",
-        "assistant":"<|assistant|>{Content}<|assistant|>",
+        "assistant":"<|assistant|>{Content}<|end|>",
         "prompt":"<|user|>\n{Content}<|end|>\n<|assistant|>"
       }
     },
@@ -101,7 +101,7 @@
       "PromptTemplate": {
         "system":"<|system|>{Content}<|end|>",
         "user":"<|user|>{Content}<|user|>",
-        "assistant":"<|assistant|>{Content}<|assistant|>",
+        "assistant":"<|assistant|>{Content}<|end|>",
         "prompt":"<|user|>\n{Content}<|end|>\n<|assistant|>"
       }
     }
