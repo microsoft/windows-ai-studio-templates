@@ -43,9 +43,9 @@
       "ModelType": "onnx",
       "Task": "Text Generation",
       "PromptTemplate": {
-        "system":"<|system|>{Content}<|end|>",
-        "user":"<|user|>{Content}<|end|>",
-        "assistant":"<|assistant|>{Content}<|end|>",
+        "system":"<|system|>\n{Content}<|end|>",
+        "user":"<|user|>\n{Content}<|end|>",
+        "assistant":"<|assistant|>\n{Content}<|end|>",
         "prompt":"<|user|>{Content}<|end|>\n<|assistant|>"
       }
     },
@@ -57,9 +57,9 @@
       "ModelType": "onnx",
       "Task": "Text Generation",
       "PromptTemplate": {
-        "system":"<|system|>{Content}<|end|>",
-        "user":"<|user|>{Content}<|end|>",
-        "assistant":"<|assistant|>{Content}<|end|>",
+        "system":"<|system|>\n{Content}<|end|>",
+        "user":"<|user|>\n{Content}<|end|>",
+        "assistant":"<|assistant|>\n{Content}<|end|>",
         "prompt":"<|user|>{Content}<|end|>\n<|assistant|>"
       }
     },
@@ -71,9 +71,9 @@
       "ModelType": "onnx",
       "Task": "Text Generation",
       "PromptTemplate": {
-        "system":"<|system|>{Content}<|end|>",
-        "user":"<|user|>{Content}<|end|>",
-        "assistant":"<|assistant|>{Content}<|end|>",
+        "system":"<|system|>\n{Content}<|end|>",
+        "user":"<|user|>\n{Content}<|end|>",
+        "assistant":"<|assistant|>\n{Content}<|end|>",
         "prompt":"<|user|>{Content}<|end|>\n<|assistant|>"
       }
     },
@@ -85,9 +85,9 @@
       "ModelType": "onnx",
       "Task": "Text Generation",
       "PromptTemplate": {
-        "system":"<|system|>{Content}<|end|>",
-        "user":"<|user|>{Content}<|end|>",
-        "assistant":"<|assistant|>{Content}<|end|>",
+        "system":"<|system|>\n{Content}<|end|>",
+        "user":"<|user|>\n{Content}<|end|>",
+        "assistant":"<|assistant|>\n{Content}<|end|>",
         "prompt":"<|user|>{Content}<|end|>\n<|assistant|>"
       }
     },
@@ -99,9 +99,79 @@
       "ModelType": "onnx",
       "Task": "Text Generation",
       "PromptTemplate": {
-        "system":"<|system|>{Content}<|end|>",
-        "user":"<|user|>{Content}<|end|>",
-        "assistant":"<|assistant|>{Content}<|end|>",
+        "system":"<|system|>\n{Content}<|end|>",
+        "user":"<|user|>\n{Content}<|end|>",
+        "assistant":"<|assistant|>\n{Content}<|end|>",
+        "prompt":"<|user|>{Content}<|end|>\n<|assistant|>"
+      }
+    },
+    {
+      "Name": "Phi-3-mini-128k-cuda-fp16-onnx",
+      "ProviderType": "HuggingFace",
+      "Uri": "microsoft/Phi-3-mini-128k-instruct-onnx",
+      "Path": "cuda/cuda-fp16",
+      "ModelType": "onnx",
+      "Task": "Text Generation",
+      "PromptTemplate": {
+        "system":"<|system|>\n{Content}<|end|>",
+        "user":"<|user|>\n{Content}<|end|>",
+        "assistant":"<|assistant|>\n{Content}<|end|>",
+        "prompt":"<|user|>{Content}<|end|>\n<|assistant|>"
+      }
+    },
+    {
+      "Name": "Phi-3-mini-128k-cuda-int4-onnx",
+      "ProviderType": "HuggingFace",
+      "Uri": "microsoft/Phi-3-mini-128k-instruct-onnx",
+      "Path": "cuda/cuda-int4-rtn-block-32",
+      "ModelType": "onnx",
+      "Task": "Text Generation",
+      "PromptTemplate": {
+        "system":"<|system|>\n{Content}<|end|>",
+        "user":"<|user|>\n{Content}<|end|>",
+        "assistant":"<|assistant|>\n{Content}<|end|>",
+        "prompt":"<|user|>{Content}<|end|>\n<|assistant|>"
+      }
+    },
+    {
+      "Name": "Phi-3-mini-128k-cpu-int4-rtn-block-32-acc-level-4-onnx",
+      "ProviderType": "HuggingFace",
+      "Uri": "microsoft/Phi-3-mini-128k-instruct-onnx",
+      "Path": "cpu_and_mobile/cpu-int4-rtn-block-32-acc-level-4",
+      "ModelType": "onnx",
+      "Task": "Text Generation",
+      "PromptTemplate": {
+        "system":"<|system|>\n{Content}<|end|>",
+        "user":"<|user|>\n{Content}<|end|>",
+        "assistant":"<|assistant|>\n{Content}<|end|>",
+        "prompt":"<|user|>{Content}<|end|>\n<|assistant|>"
+      }
+    },
+    {
+      "Name": "Phi-3-mini-128k-cpu-int4-rtn-block-32-onnx",
+      "ProviderType": "HuggingFace",
+      "Uri": "microsoft/Phi-3-mini-128k-instruct-onnx",
+      "Path": "cpu_and_mobile/cpu-int4-rtn-block-32",
+      "ModelType": "onnx",
+      "Task": "Text Generation",
+      "PromptTemplate": {
+        "system":"<|system|>\n{Content}<|end|>",
+        "user":"<|user|>\n{Content}<|end|>",
+        "assistant":"<|assistant|>\n{Content}<|end|>",
+        "prompt":"<|user|>{Content}<|end|>\n<|assistant|>"
+      }
+    },
+    {
+      "Name": "Phi-3-mini-128k-directml-int4-awq-block-128-onnx",
+      "ProviderType": "HuggingFace",
+      "Uri": "microsoft/Phi-3-mini-128k-instruct-onnx",
+      "Path": "directml/directml-int4-awq-block-128",
+      "ModelType": "onnx",
+      "Task": "Text Generation",
+      "PromptTemplate": {
+        "system":"<|system|>\n{Content}<|end|>",
+        "user":"<|user|>\n{Content}<|end|>",
+        "assistant":"<|assistant|>\n{Content}<|end|>",
         "prompt":"<|user|>{Content}<|end|>\n<|assistant|>"
       }
     }
