@@ -44,9 +44,9 @@
       "Task": "Text Generation",
       "PromptTemplate": {
         "system":"<|system|>{Content}<|end|>",
-        "user":"<|user|>{Content}<|user|>",
+        "user":"<|user|>{Content}<|end|>",
         "assistant":"<|assistant|>{Content}<|end|>",
-        "prompt":"<|user|>\n{Content}<|end|>\n<|assistant|>"
+        "prompt":"<|user|>{Content}<|end|>\n<|assistant|>"
       }
     },
     {
@@ -58,9 +58,9 @@
       "Task": "Text Generation",
       "PromptTemplate": {
         "system":"<|system|>{Content}<|end|>",
-        "user":"<|user|>{Content}<|user|>",
+        "user":"<|user|>{Content}<|end|>",
         "assistant":"<|assistant|>{Content}<|end|>",
-        "prompt":"<|user|>\n{Content}<|end|>\n<|assistant|>"
+        "prompt":"<|user|>{Content}<|end|>\n<|assistant|>"
       }
     },
     {
@@ -72,9 +72,9 @@
       "Task": "Text Generation",
       "PromptTemplate": {
         "system":"<|system|>{Content}<|end|>",
-        "user":"<|user|>{Content}<|user|>",
+        "user":"<|user|>{Content}<|end|>",
         "assistant":"<|assistant|>{Content}<|end|>",
-        "prompt":"<|user|>\n{Content}<|end|>\n<|assistant|>"
+        "prompt":"<|user|>{Content}<|end|>\n<|assistant|>"
       }
     },
     {
@@ -86,9 +86,9 @@
       "Task": "Text Generation",
       "PromptTemplate": {
         "system":"<|system|>{Content}<|end|>",
-        "user":"<|user|>{Content}<|user|>",
+        "user":"<|user|>{Content}<|end|>",
         "assistant":"<|assistant|>{Content}<|end|>",
-        "prompt":"<|user|>\n{Content}<|end|>\n<|assistant|>"
+        "prompt":"<|user|>{Content}<|end|>\n<|assistant|>"
       }
     },
     {
@@ -100,9 +100,9 @@
       "Task": "Text Generation",
       "PromptTemplate": {
         "system":"<|system|>{Content}<|end|>",
-        "user":"<|user|>{Content}<|user|>",
+        "user":"<|user|>{Content}<|end|>",
         "assistant":"<|assistant|>{Content}<|end|>",
-        "prompt":"<|user|>\n{Content}<|end|>\n<|assistant|>"
+        "prompt":"<|user|>{Content}<|end|>\n<|assistant|>"
       }
     }
 ]
