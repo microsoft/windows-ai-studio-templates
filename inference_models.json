@@ -27,7 +27,7 @@
         "system":"<|system|>\n{Content}<|end|>",
         "user":"<|user|>\n{Content}<|end|>",
         "assistant":"<|assistant|>\n{Content}<|end|>",
-        "prompt":"<|user|>{Content}<|end|>\n<|assistant|>"
+        "prompt":"<|user|>\n{Content}<|end|>\n<|assistant|>"
       }
     },
     {
@@ -40,7 +40,7 @@
         "system":"<|system|>\n{Content}<|end|>",
         "user":"<|user|>\n{Content}<|end|>",
         "assistant":"<|assistant|>\n{Content}<|end|>",
-        "prompt":"<|user|>{Content}<|end|>\n<|assistant|>"
+        "prompt":"<|user|>\n{Content}<|end|>\n<|assistant|>"
       }
     },
     {
@@ -54,7 +54,7 @@
         "system":"<|system|>\n{Content}<|end|>",
         "user":"<|user|>\n{Content}<|end|>",
         "assistant":"<|assistant|>\n{Content}<|end|>",
-        "prompt":"<|user|>{Content}<|end|>\n<|assistant|>"
+        "prompt":"<|user|>\n{Content}<|end|>\n<|assistant|>"
       }
     },
     {
@@ -68,7 +68,7 @@
         "system":"<|system|>\n{Content}<|end|>",
         "user":"<|user|>\n{Content}<|end|>",
         "assistant":"<|assistant|>\n{Content}<|end|>",
-        "prompt":"<|user|>{Content}<|end|>\n<|assistant|>"
+        "prompt":"<|user|>\n{Content}<|end|>\n<|assistant|>"
       }
     },
     {
@@ -82,7 +82,7 @@
         "system":"<|system|>\n{Content}<|end|>",
         "user":"<|user|>\n{Content}<|end|>",
         "assistant":"<|assistant|>\n{Content}<|end|>",
-        "prompt":"<|user|>{Content}<|end|>\n<|assistant|>"
+        "prompt":"<|user|>\n{Content}<|end|>\n<|assistant|>"
       }
     },
     {
@@ -95,7 +95,7 @@
         "system":"<|system|>\n{Content}<|end|>",
         "user":"<|user|>\n{Content}<|end|>",
         "assistant":"<|assistant|>\n{Content}<|end|>",
-        "prompt":"<|user|>{Content}<|end|>\n<|assistant|>"
+        "prompt":"<|user|>\n{Content}<|end|>\n<|assistant|>"
       }
     },
     {
@@ -108,7 +108,7 @@
         "system":"<|system|>\n{Content}<|end|>",
         "user":"<|user|>\n{Content}<|end|>",
         "assistant":"<|assistant|>\n{Content}<|end|>",
-        "prompt":"<|user|>{Content}<|end|>\n<|assistant|>"
+        "prompt":"<|user|>\n{Content}<|end|>\n<|assistant|>"
       }
     },
     {
@@ -122,7 +122,7 @@
         "system":"<|system|>\n{Content}<|end|>",
         "user":"<|user|>\n{Content}<|end|>",
         "assistant":"<|assistant|>\n{Content}<|end|>",
-        "prompt":"<|user|>{Content}<|end|>\n<|assistant|>"
+        "prompt":"<|user|>\n{Content}<|end|>\n<|assistant|>"
       }
     },
     {
@@ -136,7 +136,7 @@
         "system":"<|system|>\n{Content}<|end|>",
         "user":"<|user|>\n{Content}<|end|>",
         "assistant":"<|assistant|>\n{Content}<|end|>",
-        "prompt":"<|user|>{Content}<|end|>\n<|assistant|>"
+        "prompt":"<|user|>\n{Content}<|end|>\n<|assistant|>"
       }
     },
     {
@@ -150,7 +150,7 @@
         "system":"<|system|>\n{Content}<|end|>",
         "user":"<|user|>\n{Content}<|end|>",
         "assistant":"<|assistant|>\n{Content}<|end|>",
-        "prompt":"<|user|>{Content}<|end|>\n<|assistant|>"
+        "prompt":"<|user|>\n{Content}<|end|>\n<|assistant|>"
       }
     }
 ]
