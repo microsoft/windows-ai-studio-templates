@@ -9,6 +9,15 @@
       "FineTuningTemplateName": "microsoft/phi-2"
     },
     {
+      "Name": "phi2-int4-cuda",
+      "ProviderType": "HuggingFace",
+      "Uri": "vrdevs/phi2-int4-cuda",
+      "ModelType": "onnx",
+      "Task": "Text Generation",
+      "Icon": "ms",
+      "FineTuningTemplateName": "microsoft/phi-2"
+    },
+    {
       "Name": "mistral-7b-v01-int4-cpu",
       "ProviderType": "HuggingFace",
       "Uri": "vrdevs/mistral-7b-v01-int4-cpu",
@@ -18,9 +27,19 @@
       "FineTuningTemplateName": "mistralai/Mistral-7B"
     },
     {
-      "Name": "Phi-3-mini-4k-dml-fp16-onnx",
+      "Name": "mistral-7b-v01-int4-cuda",
       "ProviderType": "HuggingFace",
-      "Uri": "cloudnbits/Phi-3-mini-4k-instruct-dml-fp16-onnx",
+      "Uri": "vrdevs/mistral-7b-v01-int4-cuda",
+      "ModelType": "onnx",
+      "Task": "Text Generation",
+      "Icon": "hf",
+      "FineTuningTemplateName": "mistralai/Mistral-7B"
+    },
+    {
+      "Name": "Phi-3-mini-4k-cuda-fp16-onnx",
+      "ProviderType": "HuggingFace",
+      "Uri": "microsoft/Phi-3-mini-4k-instruct-onnx",
+      "Path": "cuda/cuda-fp16",
       "ModelType": "onnx",
       "Task": "Text Generation",
       "PromptTemplate": {
@@ -31,9 +50,10 @@
       }
     },
     {
-      "Name": "Phi-3-mini-4k-dml-int4-onnx",
+      "Name": "Phi-3-mini-4k-cuda-int4-onnx",
       "ProviderType": "HuggingFace",
-      "Uri": "cloudnbits/Phi-3-mini-4k-instruct-dml-int4-onnx",
+      "Uri": "microsoft/Phi-3-mini-4k-instruct-onnx",
+      "Path": "cuda/cuda-int4-rtn-block-32",
       "ModelType": "onnx",
       "Task": "Text Generation",
       "PromptTemplate": {
@@ -86,9 +106,10 @@
       }
     },
     {
-      "Name": "Phi-3-mini-128k-dml-fp16-onnx",
+      "Name": "Phi-3-mini-128k-cuda-fp16-onnx",
       "ProviderType": "HuggingFace",
-      "Uri": "cloudnbits/Phi-3-mini-128k-instruct-dml-fp16-onnx",
+      "Uri": "microsoft/Phi-3-mini-128k-instruct-onnx",
+      "Path": "cuda/cuda-fp16",
       "ModelType": "onnx",
       "Task": "Text Generation",
       "PromptTemplate": {
@@ -99,9 +120,10 @@
       }
     },
     {
-      "Name": "Phi-3-mini-128k-dml-int4-onnx",
+      "Name": "Phi-3-mini-128k-cuda-int4-onnx",
       "ProviderType": "HuggingFace",
-      "Uri": "cloudnbits/Phi-3-mini-128k-instruct-dml-int4-onnx",
+      "Uri": "microsoft/Phi-3-mini-128k-instruct-onnx",
+      "Path": "cuda/cuda-int4-rtn-block-32",
       "ModelType": "onnx",
       "Task": "Text Generation",
       "PromptTemplate": {
