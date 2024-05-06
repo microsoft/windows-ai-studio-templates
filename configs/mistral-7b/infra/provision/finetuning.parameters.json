@@ -9,13 +9,9 @@
       "value": [
         "cd /mount",
         "pip install -r ./setup/requirements.txt",
-        "[ \"$hftoken\" != \"null\" ] && huggingface-cli login --token \"$hftoken\"",
         "huggingface-cli download mistralai/Mistral-7B-v0.1 --local-dir ./model-cache/mistralai/Mistral-7B --local-dir-use-symlinks False",
         "python3 ./finetuning/invoke_olive.py"
       ]
-    },
-    "huggingfaceTokenSecretName": {
-      "value": "hftoken"
     },
     "storageAccountName": {
       "value": null
