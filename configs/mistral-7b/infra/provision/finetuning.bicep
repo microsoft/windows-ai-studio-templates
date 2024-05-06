@@ -1,5 +1,6 @@
 param location string
 param defaultCommands array
+param maximumInstanceCount int
 
 param resourceSuffix string = substring(uniqueString(resourceGroup().id), 0, 5)
 param storageAccountName string = 'waisstorage${resourceSuffix}'
@@ -89,8 +90,8 @@ resource environment 'Microsoft.App/managedEnvironments@2023-11-02-preview' = {
       {
         workloadProfileType: 'NC24-A100'
         name: 'GPU'
-        minimumCount: 1
-        maximumCount: 1
+        minimumCount: 0
+        maximumCount: maximumInstanceCount
       }
     ]
     appInsightsConfiguration: null
