@@ -43,7 +43,7 @@
       "Architecture": "Phi-3",
       "ParameterSize": "3.8B",
       "FileSize": "7.64 GB",
-      "Runtime": "cuda"
+      "Runtime": "directml"
     },
     {
       "Name": "Phi-3-mini-4k-dml-int4-onnx",
@@ -61,7 +61,7 @@
       "Architecture": "Phi-3",
       "ParameterSize": "3.8B",
       "FileSize": "2.29 GB",
-      "Runtime": "cuda"
+      "Runtime": "directml"
     },
     {
       "Name": "Phi-3-mini-4k-cpu-int4-rtn-block-32-acc-level-4-onnx",
@@ -136,7 +136,7 @@
       "Architecture": "Phi-3",
       "ParameterSize": "3.8B",
       "FileSize": "7.64 GB",
-      "Runtime": "cuda"
+      "Runtime": "directml"
     },
     {
       "Name": "Phi-3-mini-128k-dml-int4-onnx",
@@ -154,7 +154,7 @@
       "Architecture": "Phi-3",
       "ParameterSize": "3.8B",
       "FileSize": "2.29 GB",
-      "Runtime": "cuda"
+      "Runtime": "directml"
     },
     {
       "Name": "Phi-3-mini-128k-cpu-int4-rtn-block-32-acc-level-4-onnx",
