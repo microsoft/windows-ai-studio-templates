@@ -9,13 +9,9 @@
       "value": [
         "cd /mount",
         "pip install -r ./setup/requirements.txt",
-        "[ \"$HUGGINGFACE_TOKEN\" != \"null\" ] && huggingface-cli login --token \"$HUGGINGFACE_TOKEN\"",
         "huggingface-cli download microsoft/Phi-3-mini-4k-instruct --revision main --local-dir ./model-cache/microsoft/Phi-3-mini-4k-instruct --local-dir-use-symlinks False",
         "python3 ./finetuning/invoke_olive.py"
       ]
-    },
-    "huggingfaceTokenSecretName": {
-      "value": null
     },
     "storageAccountName": {
       "value": null

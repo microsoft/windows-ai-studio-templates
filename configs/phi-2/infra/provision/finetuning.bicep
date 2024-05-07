@@ -8,7 +8,6 @@ param acaEnvironmentName string = 'waisenv${resourceSuffix}'
 param acaEnvironmentStorageName string = 'waisenvstorage${resourceSuffix}'
 param acaJobName string = 'waisacajob${resourceSuffix}'
 param acaLogAnalyticsName string = 'waislog${resourceSuffix}'
-param huggingfaceTokenSecretName string = 'hftoken'
 
 var defaultCommand = join(defaultCommands, '; ')
 
@@ -123,13 +122,7 @@ resource acajob 'Microsoft.App/jobs@2023-11-02-preview' = {
     environmentId: environment.id
     workloadProfileName: 'GPU'
     configuration: {
-      secrets: [
-        {
-          // The HuggingFace token will be set when the job is triggered
-          name: huggingfaceTokenSecretName
-          value: 'null'
-        }
-      ]
+      secrets: null
       triggerType: 'Manual'
       replicaTimeout: 3600
       replicaRetryLimit: 0
@@ -150,12 +143,6 @@ resource acajob 'Microsoft.App/jobs@2023-11-02-preview' = {
             '/bin/bash'
             '-c'
             defaultCommand
-          ]
-          env: [
-            {
-              name: huggingfaceTokenSecretName
-              secretRef: huggingfaceTokenSecretName
-            }
           ]
           resources: {
             cpu: 24
@@ -190,4 +177,3 @@ output STORAGE_ACCOUNT_NAME string = storageAccount.name
 output FILE_SHARE_NAME string = fileShare.name
 output ACA_JOB_NAME string = acajob.name
 output COMMANDS array = defaultCommands
-output HUGGINGFACE_TOKEN_SECRET_NAME string = huggingfaceTokenSecretName

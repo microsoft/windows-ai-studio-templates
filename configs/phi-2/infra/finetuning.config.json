@@ -7,9 +7,7 @@
   "COMMANDS": [
     "cd /mount",
     "pip install -r ./setup/requirements.txt",
-    "[ \"$hftoken\" != \"null\" ] && huggingface-cli login --token \"$hftoken\"",
     "huggingface-cli download microsoft/phi-2 --revision d3186761bf5c4409f7679359284066c25ab668ee --local-dir ./model-cache/microsoft/phi-2 --local-dir-use-symlinks False",
     "python3 ./finetuning/invoke_olive.py"
-  ],
-  "HUGGINGFACE_TOKEN_SECRET_NAME": "hftoken"
+  ]
 }
