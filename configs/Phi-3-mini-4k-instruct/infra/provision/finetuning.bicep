@@ -137,7 +137,7 @@ resource acajob 'Microsoft.App/jobs@2023-11-02-preview' = {
     template: {
       containers: [
         {
-          image: 'docker.io/huggingface/transformers-all-latest-gpu'
+          image: 'mcr.microsoft.com/azureml/minimal-ubuntu20.04-py38-cuda11.6.2-gpu-inference'
           name: acaJobName
           command: [
             '/bin/bash'
