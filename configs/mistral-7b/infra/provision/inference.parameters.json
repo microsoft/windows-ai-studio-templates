@@ -14,6 +14,9 @@
           "python3 ./gradio_chat.py"
         ]
       },
+      "maximumInstanceCount": {
+        "value": 2
+      },
       "storageAccountName": {
         "value": null
       },
