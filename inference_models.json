@@ -6,7 +6,12 @@
       "ModelType": "onnx",
       "Task": "Text Generation",
       "Icon": "ms",
-      "FineTuningTemplateName": "microsoft/phi-2"
+      "FineTuningTemplateName": "microsoft/phi-2",
+      "Publisher": "Microsoft",
+      "Architecture": "Phi-2",
+      "ParameterSize": "2.7B",
+      "FileSize": "2.18 GB",
+      "Runtime": "cpu"
     },
     {
       "Name": "mistral-7b-v01-int4-cpu",
@@ -14,8 +19,13 @@
       "Uri": "vrdevs/mistral-7b-v01-int4-cpu",
       "ModelType": "onnx",
       "Task": "Text Generation",
-      "Icon": "hf",
-      "FineTuningTemplateName": "mistralai/Mistral-7B"
+      "Icon": "mistralai",
+      "FineTuningTemplateName": "mistralai/Mistral-7B",
+      "Publisher": "Mistral AI",
+      "Architecture": "mistral",
+      "ParameterSize": "7B",
+      "FileSize": "4.99 GB",
+      "Runtime": "cpu"
     },
     {
       "Name": "Phi-3-mini-4k-dml-fp16-onnx",
@@ -28,7 +38,12 @@
         "user":"<|user|>\n{Content}<|end|>",
         "assistant":"<|assistant|>\n{Content}<|end|>",
         "prompt":"<|user|>\n{Content}<|end|>\n<|assistant|>"
-      }
+      },
+      "Publisher": "Microsoft",
+      "Architecture": "Phi-3",
+      "ParameterSize": "3.8B",
+      "FileSize": "7.64 GB",
+      "Runtime": "directml"
     },
     {
       "Name": "Phi-3-mini-4k-dml-int4-onnx",
@@ -41,7 +56,12 @@
         "user":"<|user|>\n{Content}<|end|>",
         "assistant":"<|assistant|>\n{Content}<|end|>",
         "prompt":"<|user|>\n{Content}<|end|>\n<|assistant|>"
-      }
+      },
+      "Publisher": "Microsoft",
+      "Architecture": "Phi-3",
+      "ParameterSize": "3.8B",
+      "FileSize": "2.29 GB",
+      "Runtime": "directml"
     },
     {
       "Name": "Phi-3-mini-4k-cpu-int4-rtn-block-32-acc-level-4-onnx",
@@ -55,7 +75,12 @@
         "user":"<|user|>\n{Content}<|end|>",
         "assistant":"<|assistant|>\n{Content}<|end|>",
         "prompt":"<|user|>\n{Content}<|end|>\n<|assistant|>"
-      }
+      },
+      "Publisher": "Microsoft",
+      "Architecture": "Phi-3",
+      "ParameterSize": "3.8B",
+      "FileSize": "2.72 GB",
+      "Runtime": "cpu"
     },
     {
       "Name": "Phi-3-mini-4k-cpu-int4-rtn-block-32-onnx",
@@ -69,7 +94,12 @@
         "user":"<|user|>\n{Content}<|end|>",
         "assistant":"<|assistant|>\n{Content}<|end|>",
         "prompt":"<|user|>\n{Content}<|end|>\n<|assistant|>"
-      }
+      },
+      "Publisher": "Microsoft",
+      "Architecture": "Phi-3",
+      "ParameterSize": "3.8B",
+      "FileSize": "2.72 GB",
+      "Runtime": "cpu"
     },
     {
       "Name": "Phi-3-mini-4k-directml-int4-awq-block-128-onnx",
@@ -83,7 +113,12 @@
         "user":"<|user|>\n{Content}<|end|>",
         "assistant":"<|assistant|>\n{Content}<|end|>",
         "prompt":"<|user|>\n{Content}<|end|>\n<|assistant|>"
-      }
+      },
+      "Publisher": "Microsoft",
+      "Architecture": "Phi-3",
+      "ParameterSize": "3.8B",
+      "FileSize": "2.13 GB",
+      "Runtime": "directml"
     },
     {
       "Name": "Phi-3-mini-128k-dml-fp16-onnx",
@@ -96,7 +131,12 @@
         "user":"<|user|>\n{Content}<|end|>",
         "assistant":"<|assistant|>\n{Content}<|end|>",
         "prompt":"<|user|>\n{Content}<|end|>\n<|assistant|>"
-      }
+      },
+      "Publisher": "Microsoft",
+      "Architecture": "Phi-3",
+      "ParameterSize": "3.8B",
+      "FileSize": "7.64 GB",
+      "Runtime": "directml"
     },
     {
       "Name": "Phi-3-mini-128k-dml-int4-onnx",
@@ -109,7 +149,12 @@
         "user":"<|user|>\n{Content}<|end|>",
         "assistant":"<|assistant|>\n{Content}<|end|>",
         "prompt":"<|user|>\n{Content}<|end|>\n<|assistant|>"
-      }
+      },
+      "Publisher": "Microsoft",
+      "Architecture": "Phi-3",
+      "ParameterSize": "3.8B",
+      "FileSize": "2.29 GB",
+      "Runtime": "directml"
     },
     {
       "Name": "Phi-3-mini-128k-cpu-int4-rtn-block-32-acc-level-4-onnx",
@@ -123,7 +168,12 @@
         "user":"<|user|>\n{Content}<|end|>",
         "assistant":"<|assistant|>\n{Content}<|end|>",
         "prompt":"<|user|>\n{Content}<|end|>\n<|assistant|>"
-      }
+      },
+      "Publisher": "Microsoft",
+      "Architecture": "Phi-3",
+      "ParameterSize": "3.8B",
+      "FileSize": "2.72 GB",
+      "Runtime": "cpu"
     },
     {
       "Name": "Phi-3-mini-128k-cpu-int4-rtn-block-32-onnx",
@@ -137,7 +187,12 @@
         "user":"<|user|>\n{Content}<|end|>",
         "assistant":"<|assistant|>\n{Content}<|end|>",
         "prompt":"<|user|>\n{Content}<|end|>\n<|assistant|>"
-      }
+      },
+      "Publisher": "Microsoft",
+      "Architecture": "Phi-3",
+      "ParameterSize": "3.8B",
+      "FileSize": "2.72 GB",
+      "Runtime": "cpu"
     },
     {
       "Name": "Phi-3-mini-128k-directml-int4-awq-block-128-onnx",
@@ -151,6 +206,11 @@
         "user":"<|user|>\n{Content}<|end|>",
         "assistant":"<|assistant|>\n{Content}<|end|>",
         "prompt":"<|user|>\n{Content}<|end|>\n<|assistant|>"
-      }
+      },
+      "Publisher": "Microsoft",
+      "Architecture": "Phi-3",
+      "ParameterSize": "3.8B",
+      "FileSize": "2.13 GB",
+      "Runtime": "directml"
     }
 ]
