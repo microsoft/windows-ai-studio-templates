@@ -10,7 +10,6 @@
                 "task": "text-generation",
                 "from_pretrained_args": {
                     "trust_remote_code": true,
-                    "_attn_implementation": "eager",
                     "sliding_window": null
                 }
             }
