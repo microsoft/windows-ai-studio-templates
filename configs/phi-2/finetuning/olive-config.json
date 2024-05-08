@@ -2,11 +2,16 @@
     "input_model":{
         "type": "PyTorchModel",
         "config": {
+            "model_script": "finetuning/qlora_user_script.py",
+            "io_config": "get_merged_decoder_with_past_io_config",
+            "dummy_inputs_func": "get_merged_decoder_with_past_dummy_inputs",
             "hf_config": {
                 "model_name": "model-cache/microsoft/phi-2",
                 "task": "text-generation",
                 "from_pretrained_args": {
-                    "trust_remote_code": true
+                    "trust_remote_code": true,
+                    "_attn_implementation": "eager",
+                    "sliding_window": null
                 }
             }
         }
@@ -21,12 +26,23 @@
                     }
                 ]
             }
-        }
+        },
+        "target_system": {
+            "type": "LocalSystem",
+            "config": {
+              "accelerators": [
+                {
+                  "device": "gpu"
+                }
+              ]
+            }
+          }
     },
-    "data_configs": {
-        "dataset_default_train": {
-            "name": "dataset_default",
+    "data_configs": [
+        {
+            "name": "dataset_default_train",
             "type": "HuggingfaceContainer",
+            "user_script": "finetuning/qlora_user_script.py",
             "params_config": {
 #data_configs_data_files_extension_start
             <!--    "data_name": "<data_configs_data_files_extension>", -->
@@ -46,7 +62,7 @@
                 }
             }
         }
-    },
+    ],
     "passes": {
         "qlora": {
             "type": "QLoRA",
@@ -86,7 +102,7 @@
         "search_strategy": false,
         "evaluate_input_model": false,
         "host": "local_system",
-        "target": "local_system",
+        "target": "target_system",
         "cache_dir": "cache",
         "output_dir" : "models/qlora"
     }
