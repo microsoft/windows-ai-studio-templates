@@ -2,7 +2,7 @@
 torch
 torchvision
 torchaudio
-transformers==4.34.1
+transformers==4.36.2
 accelerate==0.23.0
 bitsandbytes==0.41.1
 datasets==2.14.5
@@ -15,7 +15,7 @@ ipykernel==6.25.2
 wandb==0.15.12
 onnxruntime-gpu==1.16.1
 einops
-olive-ai==0.3.3
 promptflow==0.1.0b8
 promptflow-tools==0.1.0b10
 gradio
+git+https://github.com/microsoft/Olive.git@150bae1f75a24c5512fdcdac41a09824f24ecba8
