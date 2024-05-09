@@ -50,7 +50,7 @@
         {
           "providerType": "HuggingFace",
           "modelId": "microsoft/phi-2",
-          "revision": "d3186761bf5c4409f7679359284066c25ab668ee"
+          "revision": "main"
         },
         {
           "providerType": "Azure",
