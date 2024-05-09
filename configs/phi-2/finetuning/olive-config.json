@@ -9,8 +9,7 @@
                 "model_name": "model-cache/microsoft/phi-2",
                 "task": "text-generation",
                 "from_pretrained_args": {
-                    "trust_remote_code": true,
-                    "sliding_window": null
+                    "trust_remote_code": true
                 }
             }
         }
