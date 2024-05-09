@@ -1,0 +1,38 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "value": "westus3"
+    },
+    "defaultCommands": {
+      "value": [
+        "cd /mount",
+        "pip install -r ./setup/requirements.txt",
+        "huggingface-cli download microsoft/phi-1_5 --revision d38e6f954ec29b96fe2cf033937dad64e279b5d9 --local-dir ./model-cache/microsoft/phi-1_5 --local-dir-use-symlinks False",
+        "python3 ./finetuning/invoke_olive.py"
+      ]
+    },
+    "maximumInstanceCount": {
+      "value": 2
+    },
+    "storageAccountName": {
+      "value": null
+    },
+    "fileShareName": {
+      "value": null
+    },
+    "acaEnvironmentName": {
+      "value": null
+    },
+    "acaEnvironmentStorageName": {
+      "value": null
+    },
+    "acaJobName": {
+      "value": null
+    },
+    "acaLogAnalyticsName": {
+      "value": null
+    }
+  }
+}
