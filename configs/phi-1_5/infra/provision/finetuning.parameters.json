@@ -2,9 +2,6 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "location": {
-      "value": "westus3"
-    },
     "defaultCommands": {
       "value": [
         "cd /mount",
@@ -18,6 +15,9 @@
     },
     "timeout": {
       "value": 10800
+    },
+    "location": {
+      "value": null
     },
     "storageAccountName": {
       "value": null
