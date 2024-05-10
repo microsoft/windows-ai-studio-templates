@@ -15,7 +15,6 @@ ipykernel==6.29.4
 wandb==0.17.0
 onnxruntime-gpu==1.17.1
 einops==0.8.0
-olive-ai==0.3.3
 promptflow==1.10.1
 promptflow-tools==1.4.0
 gradio==4.29.0
