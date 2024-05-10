@@ -1,6 +1,6 @@
-param location string
 param defaultCommands array
 param maximumInstanceCount int
+param location string = resourceGroup().location
 
 param resourceSuffix string = substring(uniqueString(resourceGroup().id), 0, 5)
 param storageAccountName string = 'waisstorage${resourceSuffix}'
