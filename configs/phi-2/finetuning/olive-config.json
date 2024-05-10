@@ -28,13 +28,13 @@
         "target_system": {
             "type": "LocalSystem",
             "config": {
-              "accelerators": [
-                {
-                  "device": "gpu"
-                }
-              ]
+                "accelerators": [
+                    {
+                        "device": "gpu"
+                    }
+                ]
             }
-          }
+        }
     },
     "data_configs": [
         {
