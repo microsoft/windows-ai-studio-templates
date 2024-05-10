@@ -1,6 +1,7 @@
 param location string
 param defaultCommands array
 param maximumInstanceCount int
+param timeout int
 
 param resourceSuffix string = substring(uniqueString(resourceGroup().id), 0, 5)
 param storageAccountName string = 'waisstorage${resourceSuffix}'
@@ -125,7 +126,7 @@ resource acajob 'Microsoft.App/jobs@2023-11-02-preview' = {
     configuration: {
       secrets: null
       triggerType: 'Manual'
-      replicaTimeout: 10800
+      replicaTimeout: timeout
       replicaRetryLimit: 0
       manualTriggerConfig: {
         replicaCompletionCount: 1
