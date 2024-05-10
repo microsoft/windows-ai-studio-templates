@@ -16,6 +16,9 @@
     "maximumInstanceCount": {
       "value": 2
     },
+    "timeout": {
+      "value": 10800
+    },
     "storageAccountName": {
       "value": null
     },
