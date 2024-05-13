@@ -51,7 +51,9 @@ To use `prompt flow` in VS Code, please refer to this [Quick Start](https://micr
 
 ## Remote Development
 ### Prerequisites
-To run the model fine-tuning in your remote Azure Container App Environment, you need to make sure your subscription have enough GPU capacity amount. Submit a [support ticket](https://azure.microsoft.com/support/create-ticket/) to request the capacity amount required for your application. [Learn More about GPU capacity](https://learn.microsoft.com/en-us/azure/container-apps/workload-profiles-overview)
+1. To run the model fine-tuning in your remote Azure Container App Environment, you need to make sure your subscription have enough GPU capacity amount. Submit a [support ticket](https://azure.microsoft.com/support/create-ticket/) to request the capacity amount required for your application. [Learn More about GPU capacity](https://learn.microsoft.com/en-us/azure/container-apps/workload-profiles-overview)
+2. Make sure you have a [HuggingFace account](https://huggingface.co/) and [generate an access token](https://huggingface.co/docs/hub/security-tokens)
+3. Accept the LICENSE of [Mistral](https://huggingface.co/mistralai/Mistral-7B-v0.1) on HuggingFace. 
 
 ### Provision Azure Resources
 To get started, you need provision the Azure Resource for remote fine-tuning. This can be done by running the `AI Toolkit: Provision Azure Container Apps job for fine-tuning.` from command palette.
@@ -59,7 +61,7 @@ To get started, you need provision the Azure Resource for remote fine-tuning. Th
 You can monitor the progress of the provision via the link that is displayed in the output channel.
 
 ### Add Huggingface Token to the ACA Secret
-If you're using Mistral, ensure to accept the LICENSE provided by HuggingFace. 
+If you're using Mistral, ensure to accept the LICENSE of [Mistral](https://huggingface.co/mistralai/Mistral-7B-v0.1) on HuggingFace. 
 Following this, to bypass the need for manual login on the Hugging Face Hub, you should set your HuggingFace token as an environment variable. 
 You can do this using the `AI Toolkit: Add Azure Container Apps Job secret for fine-tuning command`. With this command, you can set the secret name as [`HUGGING_FACE_HUB_TOKEN`](https://huggingface.co/docs/huggingface_hub/package_reference/environment_variables#hftoken) and use your Hugging Face token as the secret value.
 
