@@ -18,7 +18,7 @@ parser.add_argument('--baseonly', action='store_true',
 args = parser.parse_args()
 
 # Define model and adapter paths, data type, and quantization type
-model_name = "../model-cache/meta-llama/llama-2-7b"
+model_name = "../model-cache/meta-llama/Llama-v3-8b"
 adapters_name = "../models/qlora/qlora/gpu-cpu_model/adapter"  # Ensure this path is correctly set before running
 torch_dtype = torch.<compute_dtype>  # Set the appropriate torch data type
 quant_type = '<quant_type>'  # Set the appropriate quantization type

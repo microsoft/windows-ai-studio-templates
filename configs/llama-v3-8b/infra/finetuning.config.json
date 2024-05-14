@@ -7,7 +7,7 @@
   "COMMANDS": [
     "cd /mount",
     "pip install -r ./setup/requirements.txt",
-    "huggingface-cli download meta-llama/Llama-2-7b-hf --revision main --local-dir ./model-cache/meta-llama/Llama-2-7b --local-dir-use-symlinks False --cache-dir ./cache/hfdownload",
+    "huggingface-cli download meta-llama/Meta-Llama-3-8B --revision main --local-dir ./model-cache/meta-llama/Llama-v3-8b --local-dir-use-symlinks False --cache-dir ./cache/hfdownload",
     "python3 ./finetuning/invoke_olive.py"
   ]
 }
