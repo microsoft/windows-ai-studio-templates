@@ -2,6 +2,9 @@
     "input_model":{
         "type": "PyTorchModel",
         "config": {
+            "model_script": "finetuning/qlora_user_script.py",
+            "io_config": "get_merged_decoder_with_past_io_config",
+            "dummy_inputs_func": "get_merged_decoder_with_past_dummy_inputs",
             "hf_config": {
                 "model_name": "model-cache/microsoft/Phi-3-mini-4k-instruct",
                 "task": "text-generation",
@@ -23,10 +26,11 @@
             }
         }
     },
-    "data_configs": {
-        "dataset_default_train": {
-            "name": "dataset_default",
+    "data_configs": [
+        {
+            "name": "dataset_default_train",
             "type": "HuggingfaceContainer",
+            "user_script": "finetuning/qlora_user_script.py",
             "params_config": {
 #data_configs_data_files_extension_start
             <!--    "data_name": "<data_configs_data_files_extension>", -->
@@ -46,7 +50,7 @@
                 }
             }
         }
-    },
+    ],
     "passes": {
         "qlora": {
             "type": "QLoRA",
@@ -75,8 +79,7 @@
                     "group_by_length": true,
                     "adam_beta2": 0.999,
                     "max_grad_norm": 0.3,
-                    "output_dir": "<output_dir>",
-                    "report_to": "wandb"
+                    "output_dir": "<output_dir>"
                 }
             }
         }
