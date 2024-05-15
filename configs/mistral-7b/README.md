@@ -1,4 +1,4 @@
-
+## Local Development
 ### Preparations
 
 1. Make sure NVIDIA driver are installed in the host. 
@@ -47,3 +47,44 @@ python gradio_chat.py
 ```
 
 To use `prompt flow` in VS Code, please refer to this [Quick Start](https://microsoft.github.io/promptflow/how-to-guides/quick-start.html).
+
+
+## Remote Development
+### Prerequisites
+1. To run the model fine-tuning in your remote Azure Container App Environment, you need to make sure your subscription have enough GPU capacity amount. Submit a [support ticket](https://azure.microsoft.com/support/create-ticket/) to request the capacity amount required for your application. [Learn More about GPU capacity](https://learn.microsoft.com/en-us/azure/container-apps/workload-profiles-overview)
+2. Make sure you have a [HuggingFace account](https://huggingface.co/) and [generate an access token](https://huggingface.co/docs/hub/security-tokens)
+3. Accept the LICENSE of [Mistral](https://huggingface.co/mistralai/Mistral-7B-v0.1) on HuggingFace. 
+
+### Provision Azure Resources
+To get started, you need provision the Azure Resource for remote fine-tuning. This can be done by running the `AI Toolkit: Provision Azure Container Apps job for fine-tuning.` from command palette.
+
+You can monitor the progress of the provision via the link that is displayed in the output channel.
+
+### Add Huggingface Token to the ACA Secret
+If you're using Mistral, ensure to accept the LICENSE of [Mistral](https://huggingface.co/mistralai/Mistral-7B-v0.1) on HuggingFace. 
+Following this, to bypass the need for manual login on the Hugging Face Hub, you should set your HuggingFace token as an environment variable. 
+You can do this using the `AI Toolkit: Add Azure Container Apps Job secret for fine-tuning command`. With this command, you can set the secret name as [`HUGGING_FACE_HUB_TOKEN`](https://huggingface.co/docs/huggingface_hub/package_reference/environment_variables#hftoken) and use your Hugging Face token as the secret value.
+
+### Run Fine-tuning
+To start the remote fine-tuning job, execute the `AI Toolkit: Run fine-tuning` command.
+
+To view the system and console logs, you can visit the Azure portal using the link in the output panel (more steps at [View and Query Logs on Azure](https://aka.ms/ai-toolkit/remote-provision#view-and-query-logs-on-azure)). Alternatively, you can view the console logs directly in the VSCode output panel by running the command `AI Toolkit: Show the running fine-tuning job streaming logs`. 
+> **Note:** The job might take a few minutes to initiate. If there is already a running job, the current one may be queued to start later.
+    
+During this process, QLoRA will be used for fine-tuning, and will create LoRA adapters for the model to use during inference.
+The results of the fine-tuning will be stored in the Azure Files.
+
+### Provision Inference Endpoint
+After the adapters are trained in the remote environment, you can use a simple Gradio application to interact with the model.  
+Similar to the fine-tuning process, you need to set up the Azure Resources for remote inference by executing the `AI Toolkit: Provision Azure Container Apps for inference.` from the command palette. 
+   
+By default, the subscription and the resource group for inference should match those used for fine-tuning. The inference will use the same Azure Container App Environment and access the model and model adapter stored in Azure Files, which were generated during the fine-tuning step. 
+
+
+### Deploy the Inference Endpoint
+If you wish to revise the inference code or reload the inference model, please execute the `AI Toolkit: Deploy for inference` command. This will synchronize your latest code with ACA and restart the replica.  
+
+Once deployment is successfully completed, you can find the web API endpoint under `ACA_APP_ENDPOINT` within `./infra/inference.config.json`. You are now ready to evaluate the model using this endpoint.
+
+### Advanced usage
+For more information on remote development with AI Toolkit, refer to the [Fine-Tuning models remotely](https://aka.ms/ai-toolkit/remote-provision) and [Inferencing with the fine-tuned model](https://aka.ms/ai-toolkit/remote-inference) documentation.
