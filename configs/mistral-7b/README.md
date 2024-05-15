@@ -60,7 +60,7 @@ To get started, you need to provision the Azure Resource for remote fine-tuning.
 
 Monitor the progress of the provision through the link displayed in the output channel.
 
-### Add Huggingface Token to the ACA Secret
+### Add Huggingface Token to the Azure Container App Secret
 If you're using Mistral, ensure to accept the LICENSE of [Mistral](https://huggingface.co/mistralai/Mistral-7B-v0.1) on HuggingFace. 
 Following this, set your HuggingFace token as an environment variable to avoid the need for manual login on the Hugging Face Hub.
 You can do this using the `AI Toolkit: Add Azure Container Apps Job secret for fine-tuning command`. With this command, you can set the secret name as [`HUGGING_FACE_HUB_TOKEN`](https://huggingface.co/docs/huggingface_hub/package_reference/environment_variables#hftoken) and use your Hugging Face token as the secret value.
@@ -82,7 +82,7 @@ By default, the subscription and the resource group for inference should match t
 
 
 ### Deploy the Inference Endpoint
-If you wish to revise the inference code or reload the inference model, please execute the `AI Toolkit: Deploy for inference` command. This will synchronize your latest code with ACA and restart the replica.  
+If you wish to revise the inference code or reload the inference model, please execute the `AI Toolkit: Deploy for inference` command. This will synchronize your latest code with Azure Container App and restart the replica.  
 
 Once deployment is successfully completed, you can access the inference API by clicking on the "*Go to Inference Endpoint*" button displayed in the VSCode notification. Alternatively, the web API endpoint can be found under `ACA_APP_ENDPOINT` in `./infra/inference.config.json` and in the output panel. You are now ready to evaluate the model using this endpoint.
 
