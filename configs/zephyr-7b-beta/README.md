@@ -68,7 +68,7 @@ To start the remote fine-tuning job, execute the `AI Toolkit: Run fine-tuning` c
 
 <<<<<<< HEAD
 To view the system and console logs, you can visit the Azure portal using the link in the output panel. Alternatively, you can view the console logs directly in the VSCode output panel by running the command `AI Toolkit: Show the running fine-tuning job streaming logs`. 
-> **Note:** The job might be queued due to insufficient resources. If the log is not displayed when the job starts, wait for a while and then execute the `AI Toolkit: Show the running fine-tuning job streaming logs` command to re-connect to the streaming log.
+> **Note:** The job might be queued due to insufficient resources. If the log is not displayed after execute the `AI Toolkit: Show the running fine-tuning job streaming logs` command, wait for a while and then execute the command again to re-connect to the streaming log.
 =======
 To view the system and console logs, you can visit the Azure portal using the link in the output panel (more steps at [View and Query Logs on Azure](https://aka.ms/ai-toolkit/remote-provision#view-and-query-logs-on-azure)). Alternatively, you can view the console logs directly in the VSCode output panel by running the command `AI Toolkit: Show the running fine-tuning job streaming logs`. 
 > **Note:** The job might take a few minutes to initiate. If there is already a running job, the current one may be queued to start later.
