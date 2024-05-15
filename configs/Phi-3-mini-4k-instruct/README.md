@@ -71,8 +71,8 @@ You can do this using the `AI Toolkit: Add Azure Container Apps Job secret for f
 ### Run Fine-tuning
 To start the remote fine-tuning job, execute the `AI Toolkit: Run fine-tuning` command.
 
-The job streaming log will be displayed in the output panel if the job has started running. 
-> **Note:** The job might be queued if there are insufficient resources available. If the log fails to display when the job starts, you can wait for a while and then execute the `AI Toolkit: Show the running fine-tuning job streaming logs` command to re-connect to the streaming log.
+To view the system and console logs, you can visit the Azure portal using the link in the output panel. Alternatively, you can view the console logs directly in the VSCode output panel by running the command `AI Toolkit: Show the running fine-tuning job streaming logs`. 
+> **Note:** The job might take a few minutes to initiate. If there is already a running job, the current one may be queued to start later.
     
 During this process, QLoRA will be used for fine-tuning, and will create LoRA adapters for the model to use during inference.
 The results of the fine-tuning will be stored in the Azure Files.
@@ -83,10 +83,11 @@ Similar to the fine-tuning process, you need to set up the Azure Resources for r
    
 By default, the subscription and the resource group for inference should match those used for fine-tuning. The inference will use the same Azure Container App Environment and access the model and model adapter stored in Azure Files, which were generated during the fine-tuning step. 
 
-Once provisioning is successfully completed, you can find the web API endpoint under `ACA_APP_ENDPOINT` within `./infra/inference.config.json`. You are now ready to evaluate the model using this endpoint.
 
-### Modifying the Inference Code  
-If you wish to revise the inference code, please execute the `AI Toolkit: Update code for inference` command. This will synchronize your latest code with ACA and restart the replica.  
+### Deploy the Inference Endpoint
+If you wish to revise the inference code or reload the inference model, please execute the `AI Toolkit: Deploy for inference` command. This will synchronize your latest code with ACA and restart the replica.  
+
+Once deployment is successfully completed, you can find the web API endpoint under `ACA_APP_ENDPOINT` within `./infra/inference.config.json`. You are now ready to evaluate the model using this endpoint.
 
 ### Advanced usage
 For more information on remote development with AI Toolkit, refer to the [Fine-Tuning models remotely](https://aka.ms/ai-toolkit/remote-provision) and [Inferencing with the fine-tuned model](https://aka.ms/ai-toolkit/remote-inference) documentation.
