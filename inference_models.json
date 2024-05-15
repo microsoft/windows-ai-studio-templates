@@ -131,46 +131,6 @@
       "Runtime": "directml"
     },
     {
-      "Name": "Phi-3-mini-128k-dml-fp16-onnx",
-      "ProviderType": "HuggingFace",
-      "Uri": "cloudnbits/Phi-3-mini-128k-instruct-dml-fp16-onnx",
-      "ModelType": "onnx",
-      "Task": "Text Generation",
-      "Icon": "ms",
-      "FineTuningTemplateName": "microsoft/Phi-3-mini-4k-instruct",
-      "PromptTemplate": {
-        "system":"<|system|>\n{Content}<|end|>",
-        "user":"<|user|>\n{Content}<|end|>",
-        "assistant":"<|assistant|>\n{Content}<|end|>",
-        "prompt":"<|user|>\n{Content}<|end|>\n<|assistant|>"
-      },
-      "Publisher": "Microsoft",
-      "Architecture": "Phi-3",
-      "ParameterSize": "3.8B",
-      "FileSize": "7.64 GB",
-      "Runtime": "directml"
-    },
-    {
-      "Name": "Phi-3-mini-128k-dml-int4-onnx",
-      "ProviderType": "HuggingFace",
-      "Uri": "cloudnbits/Phi-3-mini-128k-instruct-dml-int4-onnx",
-      "ModelType": "onnx",
-      "Task": "Text Generation",
-      "Icon": "ms",
-      "FineTuningTemplateName": "microsoft/Phi-3-mini-4k-instruct",
-      "PromptTemplate": {
-        "system":"<|system|>\n{Content}<|end|>",
-        "user":"<|user|>\n{Content}<|end|>",
-        "assistant":"<|assistant|>\n{Content}<|end|>",
-        "prompt":"<|user|>\n{Content}<|end|>\n<|assistant|>"
-      },
-      "Publisher": "Microsoft",
-      "Architecture": "Phi-3",
-      "ParameterSize": "3.8B",
-      "FileSize": "2.29 GB",
-      "Runtime": "directml"
-    },
-    {
       "Name": "Phi-3-mini-128k-cpu-int4-rtn-block-32-acc-level-4-onnx",
       "ProviderType": "HuggingFace",
       "Uri": "microsoft/Phi-3-mini-128k-instruct-onnx",
