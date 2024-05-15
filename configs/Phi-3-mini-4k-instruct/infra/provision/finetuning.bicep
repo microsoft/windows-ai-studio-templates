@@ -4,12 +4,12 @@ param timeout int
 param location string = resourceGroup().location
 
 param resourceSuffix string = substring(uniqueString(resourceGroup().id), 0, 5)
-param storageAccountName string = 'waisstorage${resourceSuffix}'
-param fileShareName string = 'waisfileshare${resourceSuffix}'
-param acaEnvironmentName string = 'waisenv${resourceSuffix}'
-param acaEnvironmentStorageName string = 'waisenvstorage${resourceSuffix}'
-param acaJobName string = 'waisacajob${resourceSuffix}'
-param acaLogAnalyticsName string = 'waislog${resourceSuffix}'
+param storageAccountName string = 'aistorage${resourceSuffix}'
+param fileShareName string = 'aifileshare${resourceSuffix}'
+param acaEnvironmentName string = 'aienv${resourceSuffix}'
+param acaEnvironmentStorageName string = 'aienvstorage${resourceSuffix}'
+param acaJobName string = 'aiacajob${resourceSuffix}'
+param acaLogAnalyticsName string = 'ailog${resourceSuffix}'
 
 var defaultCommand = join(defaultCommands, '; ')
 
