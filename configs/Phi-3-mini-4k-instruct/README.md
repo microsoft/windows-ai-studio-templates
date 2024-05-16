@@ -1,5 +1,5 @@
 # Overview
-This project is created by the AI Toolkit for VSCode. The toolkit simplifies generative AI app development by bringing together cutting-edge AI development tools and models from Azure AI Studio Catalog and other catalogs like Hugging Face. You will be able to fine-tune, test, and use the models either locally or on a remote Azure Container App.
+This project is created by the AI Toolkit for VSCode. The toolkit simplifies generative AI app development by bringing together AI development tools and models from Azure AI Studio Catalog and other catalogs like Hugging Face. You will be able to fine-tune, test, and inference the models either locally or on a remote Azure Container App.
 - [Local Development](#local-development)
     - [Preparations](#preparations)
     - [Activate Conda](#activate-conda)
