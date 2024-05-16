@@ -200,6 +200,7 @@
       "Path": "cuda/cuda-fp16",
       "ModelType": "onnx",
       "Task": "Text Generation",
+      "FineTuningTemplateName": "microsoft/Phi-3-mini-4k-instruct",
       "PromptTemplate": {
         "system":"<|system|>\n{Content}<|end|>",
         "user":"<|user|>\n{Content}<|end|>",
@@ -219,6 +220,7 @@
       "Path": "cuda/cuda-int4-rtn-block-32",
       "ModelType": "onnx",
       "Task": "Text Generation",
+      "FineTuningTemplateName": "microsoft/Phi-3-mini-4k-instruct",
       "PromptTemplate": {
         "system":"<|system|>\n{Content}<|end|>",
         "user":"<|user|>\n{Content}<|end|>",
@@ -238,6 +240,7 @@
       "Path": "cuda/cuda-fp16",
       "ModelType": "onnx",
       "Task": "Text Generation",
+      "FineTuningTemplateName": "microsoft/Phi-3-mini-4k-instruct",
       "PromptTemplate": {
         "system":"<|system|>\n{Content}<|end|>",
         "user":"<|user|>\n{Content}<|end|>",
@@ -257,6 +260,7 @@
       "Path": "cuda/cuda-int4-rtn-block-32",
       "ModelType": "onnx",
       "Task": "Text Generation",
+      "FineTuningTemplateName": "microsoft/Phi-3-mini-4k-instruct",
       "PromptTemplate": {
         "system":"<|system|>\n{Content}<|end|>",
         "user":"<|user|>\n{Content}<|end|>",
