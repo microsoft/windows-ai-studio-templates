@@ -1,3 +1,25 @@
+# Welcome to AI Toolkit for VS Code
+AI Toolkit for VS Code brings together various models from Azure AI Studio Catalog and other catalogs like Hugging Face. The toolkit streamlines the common development tasks for building AI apps with generative AI tools and models through:
+- Get started with model discovery and playground.
+- Model fine-tuning and inference using local computing resources.
+- **[Private Preview]** One-click provisioning for Azure Container Apps to run model fine-tuning and inference in the cloud.
+
+Now let's jump into your AI app development:
+
+- [Local Development](#local-development)
+    - [Preparations](#preparations)
+    - [Activate Conda](#activate-conda)
+    - [Base model fine-tuning only](#base-model-fine-tuning-only)
+    - [Model fine-tuning and inferencing](#model-fine-tuning-and-inferencing)
+- [**[Private Preview]** Remote Development](#remote-development)
+    - [Prerequisites](#prerequisites)
+    - [Provision Azure Resources](#provision-azure-resources)
+    - [Add Huggingface Token to the Azure Container App Secret](#add-huggingface-token-to-the-azure-container-app-secret)
+    - [Run Fine-tuning](#run-fine-tuning)
+    - [Provision Inference Endpoint](#provision-inference-endpoint)
+    - [Deploy the Inference Endpoint](#deploy-the-inference-endpoint)
+    - [Advanced usage](#advanced-usage)
+
 ## Local Development
 ### Preparations
 
