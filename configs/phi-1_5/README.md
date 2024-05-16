@@ -14,7 +14,6 @@ This project is created by the AI Toolkit for VSCode. The toolkit simplifies gen
     - [Deploy the Inference Endpoint](#deploy-the-inference-endpoint)
     - [Advanced usage](#advanced-usage)
 
-
 ## Local Development
 ### Preparations
 
