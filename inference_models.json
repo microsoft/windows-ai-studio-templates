@@ -192,5 +192,85 @@
       "ParameterSize": "3.8B",
       "FileSize": "2.13 GB",
       "Runtime": "directml"
+    },
+    {
+      "Name": "Phi-3-mini-4k-cuda-fp16-onnx",
+      "ProviderType": "HuggingFace",
+      "Uri": "microsoft/Phi-3-mini-4k-instruct-onnx",
+      "Path": "cuda/cuda-fp16",
+      "ModelType": "onnx",
+      "Task": "Text Generation",
+      "FineTuningTemplateName": "microsoft/Phi-3-mini-4k-instruct",
+      "PromptTemplate": {
+        "system":"<|system|>\n{Content}<|end|>",
+        "user":"<|user|>\n{Content}<|end|>",
+        "assistant":"<|assistant|>\n{Content}<|end|>",
+        "prompt":"<|user|>\n{Content}<|end|>\n<|assistant|>"
+      },
+      "Publisher": "Microsoft",
+      "Architecture": "Phi-3",
+      "ParameterSize": "3.8B",
+      "FileSize": "7.66 GB",
+      "Runtime": "cuda"
+    },
+    {
+      "Name": "Phi-3-mini-4k-cuda-int4-onnx",
+      "ProviderType": "HuggingFace",
+      "Uri": "microsoft/Phi-3-mini-4k-instruct-onnx",
+      "Path": "cuda/cuda-int4-rtn-block-32",
+      "ModelType": "onnx",
+      "Task": "Text Generation",
+      "FineTuningTemplateName": "microsoft/Phi-3-mini-4k-instruct",
+      "PromptTemplate": {
+        "system":"<|system|>\n{Content}<|end|>",
+        "user":"<|user|>\n{Content}<|end|>",
+        "assistant":"<|assistant|>\n{Content}<|end|>",
+        "prompt":"<|user|>\n{Content}<|end|>\n<|assistant|>"
+      },
+      "Publisher": "Microsoft",
+      "Architecture": "Phi-3",
+      "ParameterSize": "3.8B",
+      "FileSize": "2.30 GB",
+      "Runtime": "cuda"
+    },
+    {
+      "Name": "Phi-3-mini-128k-cuda-fp16-onnx",
+      "ProviderType": "HuggingFace",
+      "Uri": "microsoft/Phi-3-mini-128k-instruct-onnx",
+      "Path": "cuda/cuda-fp16",
+      "ModelType": "onnx",
+      "Task": "Text Generation",
+      "FineTuningTemplateName": "microsoft/Phi-3-mini-4k-instruct",
+      "PromptTemplate": {
+        "system":"<|system|>\n{Content}<|end|>",
+        "user":"<|user|>\n{Content}<|end|>",
+        "assistant":"<|assistant|>\n{Content}<|end|>",
+        "prompt":"<|user|>\n{Content}<|end|>\n<|assistant|>"
+      },
+      "Publisher": "Microsoft",
+      "Architecture": "Phi-3",
+      "ParameterSize": "3.8B",
+      "FileSize": "7.66 GB",
+      "Runtime": "cuda"
+    },
+    {
+      "Name": "Phi-3-mini-128k-cuda-int4-onnx",
+      "ProviderType": "HuggingFace",
+      "Uri": "microsoft/Phi-3-mini-128k-instruct-onnx",
+      "Path": "cuda/cuda-int4-rtn-block-32",
+      "ModelType": "onnx",
+      "Task": "Text Generation",
+      "FineTuningTemplateName": "microsoft/Phi-3-mini-4k-instruct",
+      "PromptTemplate": {
+        "system":"<|system|>\n{Content}<|end|>",
+        "user":"<|user|>\n{Content}<|end|>",
+        "assistant":"<|assistant|>\n{Content}<|end|>",
+        "prompt":"<|user|>\n{Content}<|end|>\n<|assistant|>"
+      },
+      "Publisher": "Microsoft",
+      "Architecture": "Phi-3",
+      "ParameterSize": "3.8B",
+      "FileSize": "2.30 GB",
+      "Runtime": "cuda"
     }
 ]
