@@ -80,7 +80,9 @@ To use `prompt flow` in VS Code, please refer to this [Quick Start](https://micr
 3. Enable Remote Fine-tuning and Inference feature flag in the AI Toolkit for VS Code
    1. Open the VS Code Settings by selecting *File -> Preferences -> Settings*.
    2. Navigate to *Extensions* and select *AI Toolkit*.
-   3. Select the *“Enable to run fine-tuning and inference on Azure Container Apps”* option
+   3. Select the *"Enable Remote Fine-tuning And Inference"* option.
+   4. Reload VS Code to take effect.
+
 
 ### Setting Up a Remote Development Project
 1. Execute the command palette `AI Toolkit: Focus on Resource View`.
