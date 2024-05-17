@@ -70,20 +70,20 @@ To use `prompt flow` in VS Code, please refer to this [Quick Start](https://micr
 2. Make sure you have a [HuggingFace account](https://huggingface.co/) and [generate an access token](https://huggingface.co/docs/hub/security-tokens)
 3. Accept the LICENSE of [llama](https://huggingface.co/meta-llama/Llama-2-7b-hf) on HuggingFace. 
 4. Enable Remote Fine-tuning and Inference feature flag in the AI Toolkit for VS Code
-   1. Open the VS Code Settings by selecting "File -> Preferences -> Settings".
+   1. Open the VS Code Settings by selecting *File -> Preferences -> Settings*.
    2. Navigate to *Extensions* and select *AI Toolkit*.
-   3. Select the "Enable Remote Fine-tuning and Inference" option
+   3. Select the *“Enable to run fine-tuning and inference on Azure Container Apps”* option
 
 ### Setting Up a Remote Development Project
 1. Execute the command palette `AI Toolkit: Focus on Resource View`.
 2. Navigate to *Model Fine-tuning* to access the model catalog. Assign a name to your project and select its location on your machine. Then, hit the *"Configure Project"* button.
 3. Project Configuration
-    1. Avoid enabling the **"Fine-tune locally"** option.
+    1. Avoid enabling the *"Fine-tune locally"* option.
     2. The Olive configuration settings will appear with pre-set default values. Please adjust and fill in these configurations as required.
     3. Move on to *Generate Project*. This stage leverages WSL and involves setting up a new Conda environment, preparing for future updates that include Dev Containers.
 4. Click on *"Relaunch Window In Workspace"* to open your remote development project.
 
-> **Note:** The project currently works either locally or remotely within the AI Toolkit for VS Code. If you choose **"Fine-tune locally"** during project creation, it will operate exclusively in WSL without remote development capabilities. On the other hand, if you forego enabling **"Fine-tune locally"**, the project will be restricted to the remote Azure Container App environment.
+> **Note:** The project currently works either locally or remotely within the AI Toolkit for VS Code. If you choose *"Fine-tune locally"* during project creation, it will operate exclusively in WSL without remote development capabilities. On the other hand, if you forego enabling *"Fine-tune locally"*, the project will be restricted to the remote Azure Container App environment.
 
 ### Provision Azure Resources
 To get started, you need to provision the Azure Resource for remote fine-tuning. Do this by running the `AI Toolkit: Provision Azure Container Apps job for fine-tuning` from the command palette.
