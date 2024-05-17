@@ -1,0 +1,28 @@
+id: template_standard_flow
+name: Template Standard Flow
+environment:
+  python_requirements_txt: requirements.txt
+inputs:
+  question:
+    type: string
+    default: ""
+    is_chat_input: true
+    is_chat_history: false
+  chat_history:
+    type: list
+    default: []
+    is_chat_input: false
+    is_chat_history: true
+outputs:
+  answer:
+    type: string
+    reference: ${model_chat.output}
+    is_chat_output: true
+nodes:
+- name: model_chat
+  type: python
+  source:
+    type: code
+    path: chat.py
+  inputs:
+    prompt: ${inputs.question}

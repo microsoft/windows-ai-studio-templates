@@ -1,6 +1,23 @@
 {
   "models": [
     {
+      "name": "meta-llama/Llama-v3-8b",
+      "icon": "meta",
+      "author": "Meta",
+      "description": "Description for Llama-v3-8b",
+      "configPath": "olive-config.json",
+      "workspaceTemplatePath": "configs/llama-v3-8b",
+      "availabilityLocations": [
+        {
+          "providerType": "Azure",
+          "modelId": "azureml://registries/azureml-meta/models/Meta-Llama-3-8B/versions/2",
+          "revision": "versions/2"
+        }
+      ],
+      "type": "Text Generation",
+      "revision": "main"
+    },
+    {
       "name": "meta-llama/Llama-2-7b",
       "icon": "meta",
       "author": "Meta",

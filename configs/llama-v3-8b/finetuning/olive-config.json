@@ -1,0 +1,107 @@
+{
+    "input_model":{
+        "type": "PyTorchModel",
+        "config": {
+            "model_script": "finetuning/qlora_user_script.py",
+            "io_config": "get_merged_decoder_with_past_io_config",
+            "dummy_inputs_func": "get_merged_decoder_with_past_dummy_inputs",
+            "hf_config": {
+                "model_name": "model-cache/meta-llama/Llama-v3-8b",
+                "task": "text-generation",
+                "from_pretrained_args": {
+                    "trust_remote_code": true
+                }
+            }
+        }
+    },
+    "systems": {
+        "local_system": {
+            "type": "LocalSystem",
+            "config": {
+                "accelerators": [
+                    {
+                        "device": "gpu"
+                    }
+                ]
+            }
+        },
+        "target_system": {
+            "type": "LocalSystem",
+            "config": {
+              "accelerators": [
+                {
+                  "device": "gpu",
+                  "execution_providers": ["CPUExecutionProvider"]
+                }
+              ]
+            }
+          }
+    },
+    "data_configs": [
+        {
+            "name": "dataset_default_train",
+            "type": "HuggingfaceContainer",
+            "user_script": "finetuning/qlora_user_script.py",
+            "params_config": {
+#data_configs_data_files_extension_start
+            <!--    "data_name": "<data_configs_data_files_extension>", -->
+#data_configs_data_files_extension_end
+                "<data_files>":"<data_configs_data_files>",
+                "split": "<data_configs_split>",
+                "component_kwargs": {
+                    "pre_process_data": {
+                        "dataset_type": "<dataset_type>",
+                        "text_cols": <text_cols>,
+                        "text_template": "<text_template>",
+                        "corpus_strategy": "<line_by_line>",
+                        "source_max_len": <source_max_len>,
+                        "pad_to_max_len": <pad_to_max_len>,
+                        "use_attention_mask": false
+                    }
+                }
+            }
+        }
+    ],
+    "passes": {
+        "qlora": {
+            "type": "QLoRA",
+            "config": {
+                "compute_dtype": "<compute_dtype>",
+                "quant_type": "<quant_type>",
+                "double_quant": <double_quant>,
+                "lora_r": <lora_r>,
+                "lora_alpha": <lora_alpha>,
+                "lora_dropout": <lora_dropout>,
+                "train_data_config": "dataset_default_train",
+                "eval_dataset_size": <eval_dataset_size>,
+                "training_args": {
+                    "seed": <training_args_seed>,
+                    "data_seed": <training_args_data_seed>,
+                    "per_device_train_batch_size": <per_device_train_batch_size>,
+                    "per_device_eval_batch_size": <per_device_eval_batch_size>,
+                    "gradient_accumulation_steps": <gradient_accumulation_steps>,
+                    "gradient_checkpointing": <gradient_checkpointing>,
+                    "learning_rate": <learning_rate>,
+                    "num_train_epochs":<num_train_epochs>,
+                    "max_steps": <max_steps>,
+                    "logging_steps": 10,
+                    "evaluation_strategy": "steps",
+                    "eval_steps": 187,
+                    "group_by_length": true,
+                    "adam_beta2": 0.999,
+                    "max_grad_norm": 0.3,
+                    "output_dir": "<output_dir>"
+                }
+            }
+        }
+    },
+    "engine": {
+        "log_severity_level": 0,
+        "search_strategy": false,
+        "evaluate_input_model": false,
+        "host": "local_system",
+        "target": "target_system",
+        "cache_dir": "cache",
+        "output_dir" : "models/qlora"
+    }
+}
