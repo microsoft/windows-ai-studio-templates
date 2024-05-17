@@ -11,8 +11,10 @@ Now let's jump into your AI app development:
     - [Activate Conda](#activate-conda)
     - [Base model fine-tuning only](#base-model-fine-tuning-only)
     - [Model fine-tuning and inferencing](#model-fine-tuning-and-inferencing)
-- [**[Private Preview]** Remote Development](#remote-development)
+- [**[Private Preview]** Remote Development](#private-preview-remote-development)
     - [Prerequisites](#prerequisites)
+    - [Setting Up a Remote Development Project
+](#setting-up-a-remote-development-project)
     - [Provision Azure Resources](#provision-azure-resources)
     - [Add Huggingface Token to the Azure Container App Secret](#add-huggingface-token-to-the-azure-container-app-secret)
     - [Run Fine-tuning](#run-fine-tuning)

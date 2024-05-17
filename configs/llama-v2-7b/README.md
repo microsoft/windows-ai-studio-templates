@@ -11,8 +11,10 @@ Now let's jump into your AI app development:
     - [Activate Conda](#activate-conda)
     - [Base model fine-tuning only](#base-model-fine-tuning-only)
     - [Model fine-tuning and inferencing](#model-fine-tuning-and-inferencing)
-- [**[Private Preview]** Remote Development](#remote-development)
+- [**[Private Preview]** Remote Development](#private-preview-remote-development)
     - [Prerequisites](#prerequisites)
+    - [Setting Up a Remote Development Project
+](#setting-up-a-remote-development-project)
     - [Provision Azure Resources](#provision-azure-resources)
     - [Add Huggingface Token to the Azure Container App Secret](#add-huggingface-token-to-the-azure-container-app-secret)
     - [Run Fine-tuning](#run-fine-tuning)
@@ -62,7 +64,7 @@ python gradio_chat.py
 
 To use `prompt flow` in VS Code, please refer to this [Quick Start](https://microsoft.github.io/promptflow/how-to-guides/quick-start.html).
 
-## Remote Development
+## **[Private Preview]** Remote Development
 ### Prerequisites
 1. To run the model fine-tuning in your remote Azure Container App Environment, make sure your subscription has enough GPU capacity. Submit a [support ticket](https://azure.microsoft.com/support/create-ticket/) to request the required capacity for your application. [Get More Info about GPU capacity](https://learn.microsoft.com/en-us/azure/container-apps/workload-profiles-overview)
 2. Make sure you have a [HuggingFace account](https://huggingface.co/) and [generate an access token](https://huggingface.co/docs/hub/security-tokens)
