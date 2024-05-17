@@ -1,10 +1,10 @@
 # Welcome to AI Toolkit for VS Code
-AI Toolkit for VS Code brings together various models from Azure AI Studio Catalog and other catalogs like Hugging Face. The toolkit streamlines the common development tasks for building intelligent apps with generative AI tools and models through:
+AI Toolkit for VS Code brings together various models from Azure AI Studio Catalog and other catalogs like Hugging Face. The toolkit streamlines the common development tasks for building AI apps with generative AI tools and models through:
 - Get started with model discovery and playground.
-- Model fine-tune and inference using local computing resources.
+- Model fine-tuning and inference using local computing resources.
 - **[Private Preview]** One-click provisioning for Azure Container Apps to run model fine-tuning and inference in the cloud.
 
-Now let's jump into your intelligent app development:
+Now let's jump into your AI app development:
 
 - [Local Development](#local-development)
     - [Preparations](#preparations)
