@@ -18,4 +18,4 @@ einops==0.8.0
 promptflow==1.10.1
 promptflow-tools==1.4.0
 gradio==4.29.0
-./setup/olive_ai-0.6.0-py3-none-any.whl
+olive-ai==0.6.0
