@@ -148,7 +148,7 @@ resource acaApp 'Microsoft.App/containerApps@2023-11-02-preview' = {
       terminationGracePeriodSeconds: null
       containers: [
         {
-          image: 'mcr.microsoft.com/azureml/curated/foundation-model-inference:latest'
+          image: 'docker.io/pytorch/pytorch:2.3.0-cuda11.8-cudnn8-runtime'
           name: acaAppName
           command: [
             '/bin/bash'
