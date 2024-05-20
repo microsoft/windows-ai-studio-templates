@@ -5,8 +5,9 @@
     "defaultCommands": {
       "value": [
         "cd /mount",
-        "pip install -r ./setup/requirements.txt",
+        "pip install huggingface-hub==0.22.2",
         "huggingface-cli download microsoft/phi-2 --revision d3186761bf5c4409f7679359284066c25ab668ee --local-dir ./model-cache/microsoft/phi-2 --local-dir-use-symlinks False --cache-dir ./cache/hfdownload",
+        "pip install -r ./setup/requirements.txt",
         "python3 ./finetuning/invoke_olive.py && find models/ -print | grep adapter/adapter"
       ]
     },

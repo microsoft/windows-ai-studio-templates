@@ -95,7 +95,7 @@ Monitor the progress of the provision through the link displayed in the output c
 ### Add Huggingface Token to the Azure Container App Secret
 If you're using Llama, ensure to accept the LICENSE of [llama](https://huggingface.co/meta-llama/Llama-2-7b-hf) on HuggingFace. 
 Following this, set your HuggingFace token as an environment variable to avoid the need for manual login on the Hugging Face Hub.
-You can do this using the `AI Toolkit: Add Azure Container Apps Job secret for fine-tuning command`. With this command, you can set the secret name as [`HUGGING_FACE_HUB_TOKEN`](https://huggingface.co/docs/huggingface_hub/package_reference/environment_variables#hftoken) and use your Hugging Face token as the secret value.
+You can do this using the `AI Toolkit: Add Azure Container Apps Job secret for fine-tuning command`. With this command, you can set the secret name as [`HF_TOKEN`](https://huggingface.co/docs/huggingface_hub/package_reference/environment_variables#hftoken) and use your Hugging Face token as the secret value.
 
 ### Run Fine-tuning
 To start the remote fine-tuning job, execute the `AI Toolkit: Run fine-tuning` command.
