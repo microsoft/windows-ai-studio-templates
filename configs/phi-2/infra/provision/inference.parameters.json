@@ -5,9 +5,10 @@
     "defaultCommands": {
       "value": [
         "cd /mount",
-        "pip install -r ./setup/requirements.txt",
+        "mkdir .cache",
+        "pip install -r ./setup/requirements.txt torch==2.3.0 torchvision==0.18.0 torchaudio==2.3.0 --cache-dir /mount/.cache",
         "cd /mount/inference",
-        "pip install -r ./requirements.txt",
+        "pip install -r ./requirements.txt --cache-dir /mount/.cache",
         "python3 ./gradio_chat.py"
       ]
     },
