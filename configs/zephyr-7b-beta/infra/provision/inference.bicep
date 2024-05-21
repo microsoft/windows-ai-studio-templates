@@ -192,7 +192,7 @@ resource acaApp 'Microsoft.App/containerApps@2023-11-02-preview' = {
                 scheme: 'HTTP'
               }
               initialDelaySeconds: 60
-              periodSeconds: 240
+              periodSeconds: 120
               failureThreshold: 10
             }
           ]
