@@ -111,6 +111,23 @@
       "revision": "main"
     },
     {
+      "name": "mistralai/Mistral-7B-Instruct-v0.2",
+      "icon": "hf",
+      "author": "Mistral AI",
+      "description": "The mistralai/Mistral-7B-Instruct-v0.2 Large Language Model (LLM) is a pretrained generative text model with 7 billion parameters.",
+      "configPath": "olive-config.json",
+      "workspaceTemplatePath": "configs/mistral-7b-v02",
+      "availabilityLocations": [
+        {
+          "providerType": "HuggingFace",
+          "modelId": "mistralai/Mistral-7B-Instruct-v0.2",
+          "revision": "main"
+        }
+      ],
+      "type": "Text Generation",
+      "revision": "main"
+    },
+    {
       "name": "HuggingFaceH4/zephyr-7b-beta",
       "icon": "hf",
       "author": "Hugging Face",
