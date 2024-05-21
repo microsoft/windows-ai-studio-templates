@@ -31,7 +31,7 @@ def main(model_name, adapters_name, torch_dtype, quant_type):
 
 if __name__ == "__main__":
     model_name = "../model-cache/meta-llama/llama-2-7b"
-    adapters_name = "../models/qlora/qlora/gpu-cpu_model/adapter"  # Ensure this path is correctly set before running
+    adapters_name = "../models/qlora/qlora/gpu_model/adapter"  # Ensure this path is correctly set before running
     torch_dtype = torch.<compute_dtype>  # Set the appropriate torch data type
     quant_type = '<quant_type>'  # Set the appropriate quantization type
 
