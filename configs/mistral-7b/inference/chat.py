@@ -19,7 +19,7 @@ class ChatBot:
         if ChatBot.m is None or ChatBot.tok is None:
             # Define the model name and retrieve the latest model checkpoint.
             model_name = "../model-cache/mistralai/Mistral-7B"
-            adapters_name = "../models/qlora/qlora/gpu-cpu_model/adapter"
+            adapters_name = "../models/qlora/qlora/gpu_model/adapter"
 
             # Logging the model loading process.
             print(f"Starting to load the model {model_name} into memory")
