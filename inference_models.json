@@ -281,6 +281,9 @@
         "prompt":"<|user|>\n{Content}<|end|>\n<|assistant|>"
       },
       "Publisher": "Microsoft",
-      "Architecture": "Phi-3"
+      "Architecture": "Phi-3",
+      "ParameterSize": "3.8B",
+      "FileSize": "2.30 GB",
+      "Runtime": "cuda"    
     }
 ]
