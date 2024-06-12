@@ -264,5 +264,26 @@
       "ParameterSize": "3.8B",
       "FileSize": "2.30 GB",
       "Runtime": "cuda"
+    },
+    {
+      "Name": "Phi-3-vision-128k-cuda-fp16-onnx",
+      "ProviderType": "HuggingFace",
+      "Uri": "Phi-3-vision-128k-instruct-onnx-cuda",
+      "Path": "cuda-fp16",
+      "ModelType": "onnx",
+      "Task": "Text Generation",
+      "FineTuningTemplateName": "microsoft/Phi-3-vision-128k-instruct",
+      "PromptTemplate": {
+        "system":"<|system|>\n{Content}<|end|>",
+        "user":"<|user|>\n{Content}<|end|>",
+        "assistant":"<|assistant|>\n{Content}<|end|>",
+        "prompt":"<|user|>\n{Content}<|end|>\n<|assistant|>",
+        "prompt_image":"<|user|>\n<|image_1|>\n{Content}<|end|>\n<|assistant|>"
+      },
+      "Publisher": "Microsoft",
+      "Architecture": "Phi-3-vision",
+      "ParameterSize": "3.8B",
+      "FileSize": "2.30 GB",
+      "Runtime": "cuda"
     }
 ]
