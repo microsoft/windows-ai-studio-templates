@@ -238,6 +238,13 @@
         "replaceToken": "<output_dir>",
         "defaultValue": "models/checkpoints",
         "learnMore": "Can you tell me more about the Hugging Face trainer parameter output_dir?"
+      },
+      {
+        "type": "String",
+        "label": "Model download location",
+        "info": "Directory where ML model is located.",
+        "replaceToken": "<model-download-location>",
+        "defaultValue": "{home}/.aitk/models"
       }
     ]
   }
