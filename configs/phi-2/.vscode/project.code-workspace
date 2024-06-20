@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": "./.."
+		},
+		{
+			"path": "<model-download-location>"
+		}
+	],
+	"settings": {}
+}
