@@ -244,7 +244,7 @@
         "label": "Model download location",
         "info": "Directory where ML model is located.",
         "replaceToken": "<model-download-location>",
-        "defaultValue": "{home}/.aitk/model-cache"
+        "defaultValue": "/mnt/c/users/kacruz/.aitk/models/microsoft/phi-2"
       }
     ]
   }
