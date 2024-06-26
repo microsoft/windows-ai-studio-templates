@@ -4,7 +4,7 @@
 			"path": "./.."
 		},
 		{
-			"path": "<model-download-location>"
+			"path": "<model-download-location>" // should be /mnt/c/Users/<username>/.aitk/model-cache
 		}
 	],
 	"settings": {}
