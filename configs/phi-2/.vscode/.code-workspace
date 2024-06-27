@@ -1,0 +1,34 @@
+{
+  "folders": [
+    {
+      "path": "./.."
+    },
+    {
+      "path": "<model-download-location>" // should be /mnt/c/Users/<username>/.aitk/model-cache
+    }
+  ],
+  "extensions": {
+    "recommendations": ["prompt-flow.prompt-flow"]
+  },
+  "settings": {
+    "editor.tabSize": 4,
+    "createEnvironment.contentButton": "hide",
+    "python.terminal.activateEnvInCurrentTerminal": true
+  },
+  "launch": {
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Python: Current File",
+        "type": "python",
+        "request": "launch",
+        "program": "${file}",
+        "console": "integratedTerminal",
+        "justMyCode": false
+      }
+    ]
+  }
+}
