@@ -16,7 +16,7 @@
     "createEnvironment.contentButton": "hide",
     "python.terminal.activateEnvInCurrentTerminal": true,
     "files.readonlyInclude": {
-      "<model-download-location>": true // should be /mnt/c/Users/<username>/.aitk/model-cache
+      "<model-download-location>/*": true // should be /mnt/c/Users/<username>/.aitk/model-cache
     }
   },
   "launch": {
