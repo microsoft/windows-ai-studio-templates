@@ -18,7 +18,7 @@ parser.add_argument('--baseonly', action='store_true',
 args = parser.parse_args()
 
 # Define model and adapter paths, data type, and quantization type
-model_name = "../model-cache/HuggingFaceH4/zephyr-7b-beta"
+model_name = "<model-download-location>"
 adapters_name = "../models/qlora/qlora/gpu-cpu_model/adapter"  # Ensure this path is correctly set before running
 torch_dtype = torch.<compute_dtype>  # Set the appropriate torch data type
 quant_type = '<quant_type>'  # Set the appropriate quantization type

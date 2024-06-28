@@ -30,7 +30,7 @@ def main(model_name, adapters_name, torch_dtype, quant_type):
     run_prompt(model, tokenizer, device, template)
 
 if __name__ == "__main__":
-    model_name = "../model-cache/HuggingFaceH4/zephyr-7b-beta"
+    model_name = "<model-download-location>"
     adapters_name = "../models/qlora/qlora/gpu-cpu_model/adapter"  # Ensure this path is correctly set before running
     torch_dtype = torch.<compute_dtype>  # Set the appropriate torch data type
     quant_type = '<quant_type>'  # Set the appropriate quantization type
