@@ -1,11 +1,13 @@
 {
   "folders": [
     {
-      "name": "", // setting name to empty results in project folder being named according to file structure rather than .code-workspace
+      // Setting name to empty results in project folder being named according to file structure,
+      // rather than being overridden as {folder name}.code-workspace
+      "name": "", // 
       "path": "./.."
     },
     {
-      "path": "<model-download-location>" // should be /mnt/c/Users/<username>/.aitk/model-cache
+      "path": "<model-download-location>"
     }
   ],
   "extensions": {
@@ -16,7 +18,7 @@
     "createEnvironment.contentButton": "hide",
     "python.terminal.activateEnvInCurrentTerminal": true,
     "files.readonlyInclude": {
-      "<model-download-location>/*": true // should be /mnt/c/Users/<username>/.aitk/model-cache
+      "<model-download-location>/*": true
     }
   },
   "launch": {
