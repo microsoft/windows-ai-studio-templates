@@ -18,7 +18,7 @@ class ChatBot:
         # Only initializes the model if it has not already been initialized.
         if ChatBot.m is None or ChatBot.tok is None:
             # Define the model name and retrieve the latest model checkpoint.
-            model_name = "../model-cache/microsoft/phi-1_5"
+            model_name = "<model-download-location>"
             adapters_name = "../models/qlora/qlora/gpu-cpu_model/adapter"
 
             # Logging the model loading process.
