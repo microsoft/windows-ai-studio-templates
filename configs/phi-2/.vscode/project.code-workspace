@@ -1,6 +1,7 @@
 {
   "folders": [
     {
+      "name": "", // setting name to empty results in project folder being named according to file structure rather than .code-workspace
       "path": "./.."
     },
     {
