@@ -1,0 +1,15 @@
+{
+    "finetuningCommands": [
+        "cd /mount",
+        "pip install huggingface-hub==0.22.2",
+        "huggingface-cli download meta-llama/Llama-2-7b-hf --revision main --local-dir ./model-cache/meta-llama/Llama-2-7b --local-dir-use-symlinks False --cache-dir ./cache/hfdownload",
+        "pip install -r ./setup/requirements.txt",
+        "python3 ./finetuning/invoke_olive.py && find models/ -print | grep adapter/adapter"
+    ],
+    "inferenceCommands": [
+        "cd /mount",
+        "pip install torch==2.3.0 transformers==4.41.0 bitsandbytes==0.43.1 peft==0.10.0 gradio==4.29.0",
+        "cd /mount/inference",
+        "python3 ./gradio_chat.py"
+    ]
+}

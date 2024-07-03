@@ -1,0 +1,47 @@
+[
+  {
+    "groupId": "modelInference",
+    "configs": {
+      "condaEnvName": "llama-7b-env",
+      "promptTemplate": "### Text: {}\\n### The tone is:\\n"
+    }
+  },
+  {
+    "groupId": "dataConfigs",
+    "configs": {
+      "dataConfigsDataFiles": "dataset/dataset-classification.json",
+      "dataConfigsSplit": "train",
+      "datasetType": "corpus",
+      "textCols": [
+        "phrase",
+        "tone"
+      ],
+      "textTemplate": "### Text: {phrase}\\n### The tone is:\\n{tone}",
+      "lineByLine": "join",
+      "sourceMaxLen": 1024,
+      "padToMaxLen": false
+    }
+  },
+  {
+    "groupId": "modelFinetuning",
+    "configs": {
+      "computeDtype": "bfloat16",
+      "quantType": "nf4",
+      "doubleQuant": true,
+      "loraR": 64,
+      "loraAlpha": 64,
+      "loraDropout": 0.1,
+      "evalDatasetSize": 0.3,
+      "trainingArgsSeed": 0,
+      "trainingArgsDataSeed": 42,
+      "perDeviceTrainBatchSize": 8,
+      "perDeviceEvalBatchSize": 8,
+      "gradientAccumulationSteps": 4,
+      "gradientCheckpointing": true,
+      "learningRate": 0.0002,
+      "numTrainEpochs": 3,
+      "maxSteps": 100,
+      "outputDir": "models/checkpoints"
+    }
+  }
+]

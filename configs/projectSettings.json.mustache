@@ -1,0 +1,214 @@
+[
+  {
+    "groupId": "modelInference",
+    "title": "Model inference settings",
+    "fields": [
+      {
+        "type": "String",
+        "label": "Conda environment name:",
+        "info": "Name of the conda environment to activate in WSL.",
+        "defaultValue": "{{condaEnvName}}"
+      },
+      {
+        "type": "String",
+        "label": "Inference prompt template:",
+        "info": "Prompt template used at inference time, make sure it matches the finetuned version.",
+        "defaultValue": "{{promptTemplate}}"
+      }
+    ]
+  },  
+  {
+    "groupId": "dataConfigs",
+    "title": "Data settings",
+    "fields": [
+      {
+        "type": "String",
+        "label": "Dataset name:",
+        "info": "Dataset to train the model from a local file.",
+        "optionValues": [
+          "dataset/dataset-classification.json"
+        ],
+        "defaultValue": "{{dataConfigsDataFiles}}"
+      },
+      {
+        "type": "String",
+        "label": "Training split:",
+        "info": "Training split name for your dataset.",
+        "defaultValue": "{{dataConfigsSplit}}"
+      },
+      {
+        "type": "String",
+        "label": "Dataset type:",
+        "defaultValue": "{{datasetType}}"
+      },
+      {
+        "type": "String",
+        "isArray": true,
+        "label": "Text columns:",
+        "info": "Columns that match your dataset to populate the training prompt.",
+        "defaultValue": {{textCols}}
+      },
+      {
+        "type": "String",
+        "label": "Text template:",
+        "info": "Prompt template to finetune the model, it uses replacement from with the columns.",
+        "defaultValue": "{{textTemplate}}"
+      },
+      {
+        "type": "String",
+        "label": "Corpus strategy:",
+        "info": "Do you want to join the samples or process them one by one.",
+        "defaultValue": "{{lineByLine}}",
+        "optionValues": [
+          "line-by-line",
+          "join"
+        ]
+      },
+      {
+        "type": "Integer",
+        "label": "Source max length:",
+        "info": "Max numbers of tokens per traning sample.",
+        "defaultValue": {{sourceMaxLen}}
+      },
+      {
+        "type": "Boolean",
+        "label": "Pad to max length:",
+        "info": "Add PAD token to the training sample until the max number of tokens.",
+        "defaultValue": {{padToMaxLen}}
+      }
+    ]
+  },
+  {
+    "groupId": "modelFinetuning",
+    "title": "Fine tune settings",
+    "fields": [
+      {
+        "type": "String",
+        "label": "Compute dtype:",
+        "info": "Data type for model weights and adapter weights.",    
+        "optionValues": [
+          "bfloat16",
+          "float16"
+        ],           
+        "defaultValue": "{{computeDtype}}",
+        "learnMore": "Can you tell me more about the Hugging Face trainer parameter compute_dtype?" 
+      },
+      {
+        "type": "String",
+        "label": "Quant type:",
+        "info": "Quantization data type to use. Should be one of fp4 or nf4.",
+        "optionValues": [
+          "nf4",
+          "fp4"
+        ],
+        "defaultValue": "{{quantType}}",
+        "learnMore": "Can you tell me more about the Hugging Face trainer parameter quant_type?"
+      },
+      {
+        "type": "Boolean",
+        "label": "Double quant:",
+        "info": "Whether to use nested quantization where the quantization constants from the first quantization are quantized again.",
+        "defaultValue": "{{doubleQuant}}",
+        "learnMore": "Can you tell me more about the Hugging Face trainer parameter double_quant?"
+      },
+      {
+        "type": "Integer",
+        "label": "Lora r:",
+        "info": "Lora attention dimension.",
+        "defaultValue": "{{loraR}}",
+        "learnMore": "Can you tell me more about the Hugging Face trainer parameter lora_r?"
+      },
+      {
+        "type": "Integer",
+        "label": "Lora alpha:",
+        "info": "The alpha parameter for Lora scaling",
+        "defaultValue": "{{loraAlpha}}",
+        "learnMore": "Can you tell me more about the Hugging Face trainer parameter lora_alpha?"
+      },
+      {
+        "type": "Number",
+        "label": "Lora dropout:",
+        "info": "The dropout probability for Lora layers",
+        "defaultValue": "{{loraDropout}}",
+        "learnMore": "Can you tell me more about the Hugging Face trainer parameter lora_dropout?"
+      },
+      {
+        "type": "Integer",
+        "label": "Eval dataset size:",
+        "info": "Size of the validation dataset, a number or 0-1 percentage.",
+        "defaultValue": "{{evalDatasetSize}}",
+        "learnMore": "Can you tell me more about the Hugging Face trainer parameter eval_dataset_size?"
+      },
+      {
+        "type": "Integer",
+        "label": "Seed:",
+        "info": "Random seed for initialization.",
+        "defaultValue": "{{trainingArgsSeed}}",
+        "learnMore": "Can you tell me more about the Hugging Face trainer parameter training_args_seed?"
+      },
+      {
+        "type": "Integer",
+        "label": "Data seed:",
+        "info": "Random seed to be used with data samplers.",
+        "defaultValue": "{{trainingArgsDataSeed}}",
+        "learnMore": "Can you tell me more about the Hugging Face trainer parameter training_args_data_seed?"
+      },
+      {
+        "type": "Integer",
+        "label": "Per device train batch size:",
+        "info": "The batch size per GPU for training.",
+        "defaultValue": "{{perDeviceTrainBatchSize}}",
+        "learnMore": "Can you tell me more about the Hugging Face trainer parameter per_device_train_batch_size?"
+      },
+      {
+        "type": "Integer",
+        "label": "Per device eval batch size:",
+        "info": "The batch size per GPU for evaluation.",
+        "defaultValue": "{{perDeviceEvalBatchSize}}",
+        "learnMore": "Can you tell me more about the Hugging Face trainer parameter per_device_eval_batch_size?"
+      },
+      {
+        "type": "Integer",
+        "label": "Gradient accumulation steps:",
+        "info": "Number of updates steps to accumulate the gradients for, before performing a backward/update pass",
+        "defaultValue": "{{gradientAccumulationSteps}}",
+        "learnMore": "Can you tell me more about the Hugging Face trainer parameter gradient_accumulation_steps?"
+      },
+      {
+        "type": "Boolean",
+        "label": "Enable gradient checkpointing:",
+        "info": "Use gradient checkpointing. Recommended to save the memory.",
+        "defaultValue": "{{gradientCheckpointing}}",
+        "learnMore": "Can you tell me more about the Hugging Face trainer parameter gradient_checkpointing?"
+      },
+      {
+        "type": "Number",
+        "label": "Learning rate:",
+        "info": "The initial learning rate for AdamW",
+        "defaultValue": "{{learningRate}}",
+        "learnMore": "Can you tell me more about the Hugging Face trainer parameter learning_rate?"
+      },
+      {
+        "type": "Integer",
+        "label": "Number of epochs:",
+        "info": "How many complete passes the model will make over the entire training dataset.",
+        "defaultValue": "{{numTrainEpochs}}",
+        "learnMore": "Can you tell me more about the Hugging Face trainer parameter num_train_epochs?"
+      },
+      {
+        "type": "Integer",
+        "label": "Max steps:",
+        "info": "Training will be stopped when this number of steps is reached, regardless of the number of epochs.",
+        "defaultValue": "{{maxSteps}}",
+        "learnMore": "Can you tell me more about the Hugging Face trainer parameter max_steps?"
+      },
+      {
+        "type": "String",
+        "label": "Checkpoint output dir",
+        "info": "Directory to save the checkpoints.",
+        "defaultValue": "{{outputDir}}",
+        "learnMore": "Can you tell me more about the Hugging Face trainer parameter output_dir?"
+      }
+    ]
+  }
+]

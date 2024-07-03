@@ -6,7 +6,7 @@
       "author": "Meta",
       "description": "Description for Llama-v3-8b",
       "configPath": "olive-config.json",
-      "workspaceTemplatePath": "configs/llama-v3-8b",
+      "workspaceTemplatePath": "models/llama-v3-8b",
       "availabilityLocations": [
         {
           "providerType": "Azure",
@@ -23,7 +23,7 @@
       "author": "Meta",
       "description": "Description for Llama-v2-7b",
       "configPath": "olive-config.json",
-      "workspaceTemplatePath": "configs/llama-v2-7b",
+      "workspaceTemplatePath": "models/llama-v2-7b",
       "availabilityLocations": [
         {
           "providerType": "Azure",
@@ -45,7 +45,7 @@
       "author": "Microsoft",
       "description": "Description for Phi 1.5 ",
       "configPath": "olive-config.json",
-      "workspaceTemplatePath": "configs/phi-1_5",
+      "workspaceTemplatePath": "models/phi-1_5",
       "availabilityLocations": [
         {
           "providerType": "HuggingFace",
@@ -62,7 +62,7 @@
       "author": "Microsoft",
       "description": "Description for Phi 2 ",
       "configPath": "olive-config.json",
-      "workspaceTemplatePath": "configs/phi-2",
+      "workspaceTemplatePath": "models/phi-2",
       "availabilityLocations": [
         {
           "providerType": "HuggingFace",
@@ -83,7 +83,7 @@
       "author": "Microsoft",
       "description": "The Phi-3-Mini-4K-Instruct is a 3.8B parameters, lightweight, state-of-the-art open model trained with the Phi-3 datasets that includes both synthetic data and the filtered publicly available websites data with a focus on high-quality and reasoning dense properties.",
       "configPath": "olive-config.json",
-      "workspaceTemplatePath": "configs/Phi-3-mini-4k-instruct",
+      "workspaceTemplatePath": "models/Phi-3-mini-4k-instruct",
       "availabilityLocations": [
         {
           "providerType": "HuggingFace",
@@ -99,7 +99,7 @@
       "author": "Mistral AI",
       "description": "The Mistral-7B-v0.1 Large Language Model (LLM) is a pretrained generative text model with 7 billion parameters. Mistral-7B-v0.1 outperforms Llama 2 13B on all benchmarks we tested",
       "configPath": "olive-config.json",
-      "workspaceTemplatePath": "configs/mistral-7b",
+      "workspaceTemplatePath": "models/mistral-7b",
       "availabilityLocations": [
         {
           "providerType": "HuggingFace",
@@ -116,7 +116,7 @@
       "author": "Mistral AI",
       "description": "The mistralai/Mistral-7B-Instruct-v0.2 Large Language Model (LLM) is a pretrained generative text model with 7 billion parameters.",
       "configPath": "olive-config.json",
-      "workspaceTemplatePath": "configs/mistral-7b-v02",
+      "workspaceTemplatePath": "models/mistral-7b-v02",
       "availabilityLocations": [
         {
           "providerType": "HuggingFace",
@@ -133,7 +133,7 @@
       "author": "Hugging Face",
       "description": "Zephyr is a series of language models that are trained to act as helpful assistants.",
       "configPath": "olive-config.json",
-      "workspaceTemplatePath": "configs/zephyr-7b-beta",
+      "workspaceTemplatePath": "models/zephyr-7b-beta",
       "availabilityLocations": [
         {
           "providerType": "HuggingFace",
