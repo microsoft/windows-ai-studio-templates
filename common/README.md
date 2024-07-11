@@ -1,3 +1,3 @@
-The `common` folder contains Mustache templates that can be shared among different fine-tuned models, helping to reduce duplicate code in the templates.
+The `common` folder contains Mustache templates that can be shared among different fine-tuning models, helping to reduce duplicate code in the templates.
 
 Template developers can add more reusable templates here if necessary and reuse them in model templates using [Mustache partials](https://mustache.github.io/mustache.5.html#Partials). For example, reusable fine-tuning provision bicep is defined in `common/finetuningProvision.mustache`, and model templates use `{{> finetuningProvision}}` to include this code snippet. The generator is responsible for expanding the reusable template and resolve variables defined in the template.
