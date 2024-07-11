@@ -5,7 +5,7 @@ This document provide guidance for AI toolkit templates development. A template 
 ## How to add new template?
 1. Add configuration for your model in [index.json](./index.json).
 
-1. Add your template code in folder `models/<your-model-name>/`. Template files should use the `.mustache` file extension if they contain dynamic content that the generator needs to process and define your dynamic content with [{{ mustache }}](https://mustache.github.io/) syntax. You can refer to the [sample template](./models/llama-v2-7b/) to add your template code.
+1. Add your template code in folder `models/<your-model-name>/`. Template files should use `.mustache` file extension if they contain dynamic content that the generator needs to process and define your dynamic content with [{{ mustache }}](https://mustache.github.io/) syntax. You can refer to the [sample template](./models/llama-v2-7b/) to add your template code.
 
 1. Add default values for project settings in `configs/<your-model-name>/defaultProjectSettings.json` file.
 

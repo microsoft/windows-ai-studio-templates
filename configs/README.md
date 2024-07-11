@@ -1,6 +1,6 @@
 The `configs` folder contains configuration files used to resolve Mustache template defined in `models`.
 
-There's three kinds of files defined in the `configs` folder:
+There are three kinds of files defined in the `configs` folder:
 
 - `projectSettings.json.mustache`: Mustache template consumed by scaffold workflow to render the configure-project WebView. Currently all fine-tuning models sharing the same projectSettings template. The value of the `defaultValue` property will be defined in a [{{ mustache }}](https://mustache.github.io/) variable since default value might vary between models. For example,
 
