@@ -94,9 +94,9 @@
             }
         },
         "onnx_conversion": {
-            "type": "OnnxConversion",
+            "type": "ModelBuilder",
             "config": {
-                "target_opset": 13
+                "precision": "int4"
             }
         },
         "extract": {
