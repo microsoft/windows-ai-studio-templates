@@ -82,6 +82,20 @@
                     "output_dir": "<output_dir>"
                 }
             }
+        },
+        "onnx_conversion": {
+            "type": "OnnxConversion",
+            "config": {
+                "target_opset": 13
+            }
+        },
+        "extract": {
+            "type": "ExtractAdapters",
+            "config": {
+                "save_as_external_data": true,
+                "all_tensors_to_one_file": true,
+                "make_inputs": true
+            }
         }
     },
     "engine": {
