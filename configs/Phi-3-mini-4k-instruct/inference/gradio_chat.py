@@ -6,7 +6,7 @@ import torch
 import gradio as gr
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, TextIteratorStreamer
 from utils import check_adapter_path, load_model, load_peft_model, load_tokenizer, get_device
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from sse_starlette.sse import EventSourceResponse
 import json
 from pydantic import BaseModel, Field
@@ -83,8 +83,7 @@ def inference_generator(request: ChatCompletionsRequest):
     # truncate input to fit within max_tokens and model context length
     user_messages = list(filter(lambda m: m.role == "user", request.messages))
     if len(user_messages) == 0:
-        # TODO
-        raise RuntimeError("invalid request")
+        raise HTTPException(status_code=400, detail="'messages' should contain at least 1 user message")
     input_message = user_messages[-1]
 
     prompt = template.format(input_message.content) if usingAdapter else input_message.content
