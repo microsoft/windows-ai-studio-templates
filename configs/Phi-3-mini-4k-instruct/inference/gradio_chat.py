@@ -61,15 +61,6 @@ class ChatCompletionsRequest(BaseModel):
     max_tokens: int = Field(256)
     temperature: float = Field(1)
     top_p: float = Field(1)
-    frequency_penalty: float = Field(1)
-    presence_penalty: float = Field(0)
-
-
-def calculate_token_count(tokenizer: AutoTokenizer, input: str):
-    result = tokenizer(input)
-    if 'input_ids' not in result:
-        return 0
-    return len(result['input_ids'])
 
 def calculate_token_count(tokenizer: AutoTokenizer, input: str):
     result = tokenizer(input)
@@ -80,7 +71,6 @@ def calculate_token_count(tokenizer: AutoTokenizer, input: str):
 # Host the model as an OpenAI chat completion compatible RESTful API
 def inference_generator(request: ChatCompletionsRequest):
     template = "<prompt_template>"
-    # truncate input to fit within max_tokens and model context length
     user_messages = list(filter(lambda m: m.role == "user", request.messages))
     if len(user_messages) == 0:
         raise HTTPException(status_code=400, detail="'messages' should contain at least 1 user message")
@@ -147,8 +137,8 @@ def configure_api(app: FastAPI):
 
 # Host the model as a Gradio web app
 def run_generation(user_text, top_p, temperature, top_k, max_new_tokens):
-    template = prompt_templates["prompt"]
-    model_inputs = tokenizer(template.format(Content=user_text) if usingAdapter else user_text, return_tensors="pt")
+    template = "<prompt_template>"
+    model_inputs = tokenizer(template.format(user_text) if usingAdapter else user_text, return_tensors="pt")
     model_inputs = model_inputs.to(device)
 
     # Generate text in a separate thread
