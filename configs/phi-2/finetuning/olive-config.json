@@ -41,7 +41,7 @@
             "name": "dataset_default_train",
             "type": "HuggingfaceContainer",
             "user_script": "finetuning/qlora_user_script.py",
-            "params_config": {
+            "load_dataset_config": {
 #data_configs_data_files_extension_start
             <!--    "data_name": "<data_configs_data_files_extension>", -->
 #data_configs_data_files_extension_end
