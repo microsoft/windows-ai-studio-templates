@@ -94,18 +94,13 @@
                 }
             }
         },
-        "onnx_conversion": {
-            "type": "OnnxConversion",
-            "config": {
-                "target_opset": 13
-            }
+        "merge_adapter_weights": {
+            "type": "MergeAdapterWeights"
         },
-        "extract": {
-            "type": "ExtractAdapters",
+        "builder": {
+            "type": "ModelBuilder",
             "config": {
-                "save_as_external_data": true,
-                "all_tensors_to_one_file": true,
-                "make_inputs": true
+                "precision": "int4"
             }
         }
     },
