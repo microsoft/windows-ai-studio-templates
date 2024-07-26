@@ -18,4 +18,4 @@ promptflow==1.10.1
 promptflow-tools==1.4.0
 gradio==4.29.0
 onnxruntime-genai==0.3.0
-git+https://github.com/microsoft/Olive@main
+git+https://github.com/microsoft/Olive@0b39dcd06b2f0f4bb26735217a4ca01bb6d5b6b3
