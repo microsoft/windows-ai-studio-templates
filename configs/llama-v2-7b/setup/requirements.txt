@@ -1,4 +1,5 @@
 --extra-index-url https://download.pytorch.org/whl/cu118
+--extra-index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/onnxruntime-genai/pypi/simple/
 torch==2.3.0+cu118
 torchvision==0.18.0+cu118
 torchaudio==2.3.0+cu118
@@ -17,4 +18,5 @@ einops==0.8.0
 promptflow==1.10.1
 promptflow-tools==1.4.0
 gradio==4.29.0
-olive-ai==0.6.0
+onnxruntime-genai-cuda
+git+https://github.com/microsoft/Olive@2c8abecef7b62a9f33986178c853e7beec29544cget
