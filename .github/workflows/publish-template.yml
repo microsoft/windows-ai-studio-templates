@@ -19,7 +19,7 @@ on:
         default: "false"
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   publish:
