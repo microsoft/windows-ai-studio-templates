@@ -13,6 +13,10 @@ on:
         description: "release type(alpha, rc, stable)"
         required: true
         default: "alpha"
+      add-tag:
+        description: "add tag to the release"
+        required: true
+        default: "false"
 
 permissions:
   contents: read
@@ -25,6 +29,12 @@ jobs:
         if: ${{ github.event.inputs.release-type != 'alpha' && github.event.inputs.release-type != 'rc' && github.event.inputs.release-type != 'stable' }}
         run: |
           echo "Invalid release type '${{ github.event.inputs.release-type }}' provided. Valid values are 'alpha', 'rc', 'stable'."
+          exit 1
+
+      - name: Validate add tag
+        if: ${{ github.event.inputs.add-tag != 'false' && github.event.inputs.add-tag != 'true' }}
+        run: |
+          echo "Invalid add tag '${{ github.event.inputs.add-tag }}' provided. Valid values are 'true', 'false'."
           exit 1
 
       - name: Checkout branch
@@ -54,3 +64,10 @@ jobs:
         with:
           name: ${{ env.TEMPLATE_NAME }}
           path: template.zip
+
+      - name: Release template ZIP file To GitHub Release
+        uses: softprops/action-gh-release@v2
+        if: ${{ github.event.inputs.add-tag == 'true' }}
+        with:
+          tag_name: ${{ env.TIMESTAMP }}-${{ inputs.publish-branch }}-${{ inputs.release-type }}
+          files: template.zip
