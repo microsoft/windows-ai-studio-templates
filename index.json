@@ -27,8 +27,8 @@
       "availabilityLocations": [
         {
           "providerType": "Azure",
-          "modelId": "azureml://registries/azureml-meta/models/Llama-2-7b/versions/13",
-          "revision": "versions/13"
+          "modelId": "azureml://registries/azureml-meta/models/Llama-2-7b/versions/22",
+          "revision": "versions/22"
         },
         {
           "providerType": "HuggingFace",
