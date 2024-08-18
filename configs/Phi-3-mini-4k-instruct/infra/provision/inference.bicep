@@ -10,7 +10,7 @@ param acaEnvironmentStorageName string = 'aienvstorage${resourceSuffix}'
 param acaAppName string = 'aiacaapp${resourceSuffix}'
 param acaLogAnalyticsName string = 'ailog${resourceSuffix}'
 
-var defaultCommand = join(defaultCommands, '; ')
+var defaultCommand = join(defaultCommands, '&& ')
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2023-01-01' = {
   sku: {
