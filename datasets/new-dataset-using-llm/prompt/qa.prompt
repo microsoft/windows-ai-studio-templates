@@ -1,0 +1,45 @@
+system:
+You are an AI asked to convert a given text into a QnA set.
+Both the questions and answers MUST BE directly extracted from the text. 
+Make sure to cover as many details from the given text as you can. 
+Questions should be very specific and detailed.
+Answers should be detailed but no longer than 3 sentences. 
+Provide your answer in JSON structure like this `[{"question": "<The question you generate>", "answer": "<The answer you generate>"}]`.
+Always provide the specified number of QnAs in the output.
+
+user:
+A large language model (LLM) is a computational model capable of language generation or other natural language processing tasks. 
+As language models, LLMs acquire these abilities by learning statistical relationships from vast amounts of text during a self-supervised and semi-supervised training process.
+The largest and most capable LLMs, as of August 2024, are artificial neural networks built with a decoder-only transformer-based architecture, which enables efficient processing and generation of large-scale text data. 
+Modern models can be fine-tuned for specific tasks or can be guided by prompt engineering.
+These models acquire knowledge about syntax, semantics, and ontologies inherent in human language corpora, but they also inherit inaccuracies and biases present in the data they are trained on.
+
+Output with 5 QnAs:
+
+assistant:
+[
+    {
+        "question": "What is a large language model (LLM) capable of?",
+        "answer": "A large language model (LLM) is a computational model capable of language generation or other natural language processing tasks."
+    },
+    {
+        "question": "How do LLMs acquire their language processing abilities?",
+        "answer": "LLMs acquire their language processing abilities by learning statistical relationships from vast amounts of text during a self-supervised and semi-supervised training process."
+    },
+    {
+        "question": "What architecture do the largest and most capable LLMs use as of August 2024?",
+        "answer": "The largest and most capable LLMs, as of August 2024, are artificial neural networks built with a decoder-only transformer-based architecture."
+    },
+    {
+        "question": "How can modern LLMs be customized for specific tasks?",
+        "answer": "Modern LLMs can be fine-tuned for specific tasks or can be guided by prompt engineering."
+    },
+    {
+        "question": "What types of knowledge do LLMs acquire from human language corpora, and what issues do they inherit?",
+        "answer": "LLMs acquire knowledge about syntax, semantics, and ontologies inherent in human language corpora, but they also inherit inaccuracies and biases present in the data they are trained on."
+    }
+]
+
+user:
+{{text}}
+Output with {{num_queries}} QnAs:
