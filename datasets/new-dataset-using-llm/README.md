@@ -4,9 +4,13 @@
 
 Leveraging large language models(LLM) is a crucial technique in synthetic data generation, capable of producing high-quality, diverse, and privacy-compliant datasets. This approach can be applied in various scenarios, including training machine learning models, fine-tuning different language models, and conducting evaluation and testing, among others.
 
-> **Important**: When using a large language model (LLM) to create datasets for developing other models, adherence to the relevant licensing agreements is essential.
+> **Important**: Ensure you follow the licensing agreements when using LLMs like Azure OpenAI or Phi-3 for dataset creation.
+> In this scenario, if you opt for the default Azure OpenAI service, it's imperative to comply with OpenAI's licensing terms, which include specific restrictions such as:
+>> What you cannot do:
+>> Use Output to develop models that compete with OpenAI.
 >
-> This document references Azure OpenAI and Phi-3 as examples. For more details, visit [Azure OpenAI](https://openai.com/policies/business-terms/) and [Phi-3](https://huggingface.co/microsoft/Phi-3-mini-4k-instruct/blob/main/LICENSE).
+> For more information, see [Azure OpenAI](https://openai.com/policies/business-terms/) and [Phi-3](https://huggingface.co/microsoft/Phi-3-mini-4k-instruct/blob/main/LICENSE).
+
 
 ## Benefits of synthetic data
 
