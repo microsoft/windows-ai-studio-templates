@@ -1,5 +1,5 @@
 system:
-You are an AI assigned to turn a given text into a QnA set.
+You are an AI asked to convert a given text into a QnA set.
 Both the questions and answers MUST BE directly extracted from the text. 
 Make sure to cover as many details from the given text as you can. 
 Questions should be very specific and detailed.

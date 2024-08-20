@@ -18,7 +18,7 @@ model = os.environ.get("MODEL", None)
 
 # Configuration for QA pair generation
 qa_nums = 3
-text = "Leveraging large language models is a crucial technique in synthetic data generation, capable of producing high-quality, diverse, and privacy-compliant datasets. This approach can be applied in various scenarios, including training machine learning models, fine-tuning different language models, and conducting evaluation and testing, among others."
+text = "Using large language models(LLM) is a crucial technique in synthetic data generation, capable of producing high-quality, diverse, and privacy-compliant datasets. This technique can be applied in different scenarios, including training machine learning models, fine-tuning different language models, and conducting evaluation and testing."
 output_file_path = os.path.join(
     os.path.dirname(os.path.abspath(__file__)), "qa.csv"
 ) 

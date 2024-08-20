@@ -2,14 +2,14 @@
 
 ## Overall
 
-Leveraging large language models(LLM) is a crucial technique in synthetic data generation, capable of producing high-quality, diverse, and privacy-compliant datasets. This approach can be applied in various scenarios, including training machine learning models, fine-tuning different language models, and conducting evaluation and testing, among others.
+Using large language models(LLM) is a crucial technique in synthetic data generation, capable of producing high-quality, diverse, and privacy-compliant datasets. This technique can be applied in different scenarios, including training machine learning models, fine-tuning different language models, and conducting evaluation and testing.
 
-> **Important**: Ensure you follow the licensing agreements when using LLMs like Azure OpenAI or Phi-3 for dataset creation.
-> In this scenario, if you opt for the default Azure OpenAI service, it's imperative to comply with OpenAI's licensing terms, which include specific restrictions such as:
+> **Important**: When using a large language model (LLM) to create datasets for developing other models, it's important to follow the licensing agreements.
+> This document mentions Azure OpenAI and Phi-3 as examples. For more details, visit [Azure OpenAI](https://openai.com/policies/business-terms/) and [Phi-3](https://huggingface.co/microsoft/Phi-3-mini-4k-instruct/blob/main/LICENSE).
+>
+> For example, if you opt for the default Azure OpenAI service, it's imperative to comply with OpenAI's licensing terms, which include specific restrictions such as:
 >> What you cannot do:
 >> Use Output to develop models that compete with OpenAI.
->
-> For more information, see [Azure OpenAI](https://openai.com/policies/business-terms/) and [Phi-3](https://huggingface.co/microsoft/Phi-3-mini-4k-instruct/blob/main/LICENSE).
 
 
 ## Benefits of synthetic data
@@ -26,17 +26,17 @@ Leveraging large language models(LLM) is a crucial technique in synthetic data g
 
   It can fill gaps in sparse datasets, making them richer and more diverse, which is useful for balancing datasets.
 
-- Unlimited Data Generation
+- Unlimited Data Creation
 
-  You can generate synthetic data on-demand and at a large scale, providing a cost-effective way to get more training data.
+  You can create synthetic data on-demand and at a large scale, providing a cost-effective way to obtain more training data.
 
 - Bias Reduction
 
   Synthetic data can help reduce bias in AI models by balancing out biased datasets, leading to fairer AI systems.
 
-## Generate a synthetic dataset
+## Create a synthetic dataset
 
-**Step 1: Setup the Python Environment**
+**Step 1: Set up the Python Environment**
 
 Install the required Python packages:
 
@@ -52,7 +52,7 @@ To set up your language model inference endpoint, you can use Azure OpenAI by de
   1. Create an Azure OpenAI resource and deploy a model. Detailed instructions can be found [here](https://learn.microsoft.com/azure/ai-services/openai/how-to/create-resource).
   2. Configure environment variables
 
-     Set up the necessary environment variables in the `generate_qa_dataset.py` script. This involves specifying the Azure OpenAI inference API endpoint and your API key.
+     Set up the necessary environment variables in the `create_qa_dataset.py` script. This involves specifying the Azure OpenAI inference API endpoint and your API key.
 
       ```python
       # Define the Azure OpenAI inference API endpoint  
@@ -63,11 +63,11 @@ To set up your language model inference endpoint, you can use Azure OpenAI by de
       ```
 
 - **[Option 2]** Use the Local Model Inference Endpoint in AI Toolkit
-  1. Execute the command palette `AI Toolkit: Download an inference model`.
-  2. Choose a model to generate the dataset, e.g., `Phi-3-mini-4k-cpu-int4-rtn-block-32-acc-level-4-onnx`.
+  1. Run the command palette `AI Toolkit: Download an inference model`.
+  2. Choose a model to create the dataset, e.g., `Phi-3-mini-4k-cpu-int4-rtn-block-32-acc-level-4-onnx`.
   3. Configure environment variables
 
-     Set up the necessary environment variables in the `generate_qa_dataset.py` script. This involves specifying the local inference API endpoint and the model name.
+     Set up the necessary environment variables in the `create_qa_dataset.py` script. This involves specifying the local inference API endpoint and the model name.
 
       ```python
       # Define the inference API endpoint, the default is for the local API in AI Toolkit
@@ -78,7 +78,7 @@ To set up your language model inference endpoint, you can use Azure OpenAI by de
 
 **Step 3: Update the Context for QA Sets**
 
-Update the context within the script as needed to generate the QA sets.
+Update the context within the script as needed to create the QA sets.
 
 ```python
 # Configuration for QA pair generation
@@ -91,7 +91,7 @@ text = "<your-context>"
 Run the script to generate the synthetic dataset:
 
 ```sh
-python generate_qa_dataset.py
+python create_qa_dataset.py
 ```
 
-The generated synthetic dataset will be saved in `qa.jsonl`.
+The created synthetic dataset will be saved in `qa.jsonl`.
