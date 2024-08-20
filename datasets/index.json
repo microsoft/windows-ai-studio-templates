@@ -9,7 +9,7 @@
     "scenarioTemplates": [
         {
             "name": "new-dataset-using-llm",
-            "diaplayName": "Using LLM to Generate Synthetic Dataset",
+            "diaplayName": "Using LLM to Create Synthetic Dataset",
             "path": "new-dataset-using-llm"
         }
     ]

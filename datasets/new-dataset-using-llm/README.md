@@ -88,7 +88,7 @@ text = "<your-context>"
 
 **Step 4: Run the script**
 
-Run the script to generate the synthetic dataset:
+Run the script to create the synthetic dataset:
 
 ```sh
 python create_qa_dataset.py

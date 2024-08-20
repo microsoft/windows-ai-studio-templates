@@ -5,7 +5,7 @@ import requests
 from jinja2 import Environment, FileSystemLoader
 import pandas as pd
 
-# Setup the local inference API endpoint
+# Set up the local inference API endpoint
 # [Option 1] Use the OpenAI API
 api_endpoint = os.environ.get("API_ENDPOINT", "https://<your-resource-name>.openai.azure.com/openai/deployments/gpt-4o/chat/completions?api-version=2024-02-15-preview") 
 api_key = os.environ.get("API_KEY", "<your-api-key>")
