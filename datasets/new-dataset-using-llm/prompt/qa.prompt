@@ -43,5 +43,3 @@ assistant:
 user:
 {{text}}
 Output with {{num_queries}} QnAs:
-
-
