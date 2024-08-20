@@ -1,0 +1,16 @@
+{
+    "basicTemplates": [
+        {
+            "name": "new-dataset",
+            "diaplayName": "Create a New Dataset",
+            "path": "new-dataset"
+        }
+    ],
+    "scenarioTemplates": [
+        {
+            "name": "new-dataset-using-llm",
+            "diaplayName": "Using LLM to Generate Synthetic Dataset",
+            "path": "new-dataset-using-llm"
+        }
+    ]
+}
