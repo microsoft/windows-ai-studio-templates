@@ -1,0 +1,48 @@
+# yaml-language-server: $schema=./yaml.schema.json
+
+version: v0.1
+
+workingDir: ai-project/	# default artifacts folder
+
+environmentFolder: ai-project/env/	# .env files location
+
+dataset:        # dataset feature definition
+  content:      # recognizable dataset files
+    - dataset/output/*.json 	# glob pattern
+
+evaluation:     # evaluation feature definition
+  result:       # recognizable evaluation results
+    - evaluation/result/*.json	# glob pattern
+
+
+finetuning: # finetuning feature definition
+  runOn: containerapp # running on Azure Container Apps (ACA)
+  provision:  # provision step definition
+    subscriptionId: ${{AZURE_SUBSCRIPTION_ID}}
+    resourceGroupName: ${{AZURE_RESOURCE_GROUP_NAME}}
+    templates:
+      - path: infra/finetuning.bicep
+        parameters: infra/finetuning.parameters.json
+  run:        # run step definition
+    job: ${{FINETUNING_JOB_RESOURCE_ID}}
+    fileShare: ${{FINETUNING_FILE_SHARE_RESOURCE_ID}}
+    command: ${{FINETUNING_COMMAND}}
+    artifact: # artifact to be synced to remote
+      - finetuning/*.*
+      - dataset/output/train.json
+
+inference:  # inference feature definition
+  runOn: containerapp # running on Azure Container Apps (ACA)
+  provision:  # provision step definition
+    subscriptionId: ${{AZURE_SUBSCRIPTION_ID}}
+    resourceGroupName: ${{AZURE_RESOURCE_GROUP_NAME}}
+    templates:
+      - path: infra/inferernce.bicep
+        parameters: infra/inferernce.parameters.json
+  deploy:     # deploy step definition
+    app: ${{INFERENCE_APP_RESOURCE_ID}}
+    fileShare: ${{INFERENCE_FILE_SHARE_RESOURCE_ID}}
+    artifact:
+      - inference/*.*
+
+projectId: c7107b4d-a82a-485d-a036-7a81e8453a55 # for telemetry
