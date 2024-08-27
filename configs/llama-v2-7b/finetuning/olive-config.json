@@ -89,21 +89,29 @@
                 }
             }
         },
-        "c": {
+        "OnnxConversion": {
             "type": "OnnxConversion",
             "target_opset": 17,
             "torch_dtype": "float32",
             "save_metadata_for_token_generation": true
         },
-        "o": {
+        "OrtTransformersOptimization": {
             "type": "OrtTransformersOptimization",
             "model_type": "gpt2",
             "opt_level": 0,
             "keep_io_types": false,
             "float16": true
         },
-        "e": { "type": "ExtractAdapters" },
-        "m": { "type": "ModelBuilder", "metadata_only": true, "precision": "fp16" }
+        "ExtractAdapters": { 
+            "type": "ExtractAdapters",
+            "make_inputs": true,
+            "pack_inputs": true
+        },
+        "ModelBuilder": { 
+            "type": "ModelBuilder",
+            "metadata_only": true, 
+            "precision": "fp16" 
+        }
     },
     "engine": {
         "log_severity_level": 0,
