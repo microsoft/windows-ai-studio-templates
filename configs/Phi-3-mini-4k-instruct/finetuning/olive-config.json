@@ -2,7 +2,17 @@
     "input_model":{
         "type": "HfModel",
         "model_path": "model-cache/microsoft/Phi-3-mini-4k-instruct",
-        "io_config": "get_merged_decoder_with_past_io_config"
+        "io_config": {
+            "input_names": [ "input_ids", "attention_mask", "position_ids" ],
+            "output_names": [ "logits" ],
+            "input_shapes": [ [ 2, 8 ], [ 2, 8 ], [ 2, 8 ] ],
+            "input_types": [ "int64", "int64", "int64" ],
+            "dynamic_axes": {
+                "input_ids": { "0": "batch_size", "1": "sequence_length" },
+                "attention_mask": { "0": "batch_size", "1": "total_sequence_length" },
+                "position_ids": { "0": "batch_size", "1": "sequence_length" }
+            }
+        }
     },
     "systems": {
         "local_system": {
@@ -13,7 +23,16 @@
                     "execution_providers": ["CUDAExecutionProvider"]
                 }
             ]
-        }
+        },
+        "target_system": {
+            "type": "LocalSystem",
+            "accelerators": [
+                {
+                  "device": "gpu",
+                  "execution_providers": ["CPUExecutionProvider"]
+                }
+              ]
+          }
     },
     "data_configs": [
         {
@@ -40,8 +59,8 @@
         }
     ],
     "passes": {
-        "lora": {
-            "type": "LoRA",
+        "qlora": {
+            "type": "QLoRA",
             "compute_dtype": "<compute_dtype>",
             "quant_type": "<quant_type>",
             "double_quant": <double_quant>,
@@ -70,12 +89,28 @@
                 "output_dir": "<output_dir>"
             }
         },
-        "merge_adapter_weights": {
-            "type": "MergeAdapterWeights"
+        "OnnxConversion": {
+            "type": "OnnxConversion",
+            "target_opset": 17,
+            "torch_dtype": "float32",
+            "save_metadata_for_token_generation": true
         },
-        "builder": {
+        "OrtTransformersOptimization": {
+            "type": "OrtTransformersOptimization",
+            "model_type": "gpt2",
+            "opt_level": 0,
+            "keep_io_types": false,
+            "float16": true
+        },
+        "ExtractAdapters": { 
+            "type": "ExtractAdapters",
+            "make_inputs": true,
+            "pack_inputs": true
+        },
+        "ModelBuilder": { 
             "type": "ModelBuilder",
-            "precision": "int4"
+            "metadata_only": true, 
+            "precision": "fp16" 
         }
     },
     "engine": {
@@ -83,8 +118,8 @@
         "search_strategy": false,
         "evaluate_input_model": false,
         "host": "local_system",
-        "target": "local_system",
+        "target": "target_system",
         "cache_dir": "cache",
-        "output_dir" : "models/lora"
+        "output_dir" : "models/qlora"
     }
 }

@@ -17,4 +17,5 @@ einops==0.8.0
 promptflow==1.10.1
 promptflow-tools==1.4.0
 gradio==4.29.0
-olive-ai==0.6.0
+onnxruntime-genai-cuda==0.4.0
+git+https://github.com/microsoft/Olive@2c8abecef7b62a9f33986178c853e7beec29544cget
