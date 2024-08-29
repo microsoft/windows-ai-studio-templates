@@ -50,11 +50,11 @@
         {
           "providerType": "HuggingFace",
           "modelId": "microsoft/phi-1_5",
-          "revision": "d38e6f954ec29b96fe2cf033937dad64e279b5d9"
+          "revision": "675aa382d814580b22651a30acb1a585d7c25963"
         }
       ],
       "type": "Text Generation",
-      "revision": "d38e6f954ec29b96fe2cf033937dad64e279b5d9"
+      "revision": "675aa382d814580b22651a30acb1a585d7c25963"
     },
     {
       "name": "microsoft/phi-2",
