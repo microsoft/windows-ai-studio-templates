@@ -55,8 +55,6 @@
                 "pad_to_max_len": <pad_to_max_len>,
                 "use_attention_mask": false
             }
-                
-            }
         }
     ],
     "passes": {
