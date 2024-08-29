@@ -12,7 +12,8 @@
                 "attention_mask": { "0": "batch_size", "1": "total_sequence_length" },
                 "position_ids": { "0": "batch_size", "1": "sequence_length" }
             }
-        }
+        },
+        "load_kwargs": { "trust_remote_code": true }
     },
     "systems": {
         "local_system": {
