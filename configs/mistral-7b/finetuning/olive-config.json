@@ -29,7 +29,7 @@
             "accelerators": [
                 {
                   "device": "gpu",
-                  "execution_providers": ["CPUExecutionProvider"]
+                  "execution_providers": ["CUDAExecutionProvider"]
                 }
               ]
           }
