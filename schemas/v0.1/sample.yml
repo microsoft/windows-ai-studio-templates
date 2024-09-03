@@ -11,8 +11,8 @@ dataset:        # dataset feature definition
     - dataset/output/*.json 	# glob pattern
 
 evaluation:     # evaluation feature definition
-  result:       # recognizable evaluation results
-    - evaluation/result/*.json	# glob pattern
+  results:       # recognizable evaluation results
+    - evaluation/results/*.json	# glob pattern
 
 
 finetuning: # finetuning feature definition
@@ -27,7 +27,7 @@ finetuning: # finetuning feature definition
     job: ${{FINETUNING_JOB_RESOURCE_ID}}
     fileShare: ${{FINETUNING_FILE_SHARE_RESOURCE_ID}}
     command: ${{FINETUNING_COMMAND}}
-    artifact: # artifact to be synced to remote
+    artifacts: # artifact to be synced to remote
       - finetuning/*.*
       - dataset/output/train.json
 
@@ -42,7 +42,7 @@ inference:  # inference feature definition
   deploy:     # deploy step definition
     app: ${{INFERENCE_APP_RESOURCE_ID}}
     fileShare: ${{INFERENCE_FILE_SHARE_RESOURCE_ID}}
-    artifact:
+    artifacts:
       - inference/*.*
 
 projectId: c7107b4d-a82a-485d-a036-7a81e8453a55 # for telemetry

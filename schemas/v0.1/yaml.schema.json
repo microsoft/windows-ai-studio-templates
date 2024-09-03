@@ -35,8 +35,7 @@
   },
   "required": [
     "version",
-    "workingDir",
-    "environmentFolder"
+    "workingDir"
   ],
   "definitions": {
     "datasetObject": {
@@ -62,7 +61,7 @@
       "additionalProperties": false,
       "description": "The Evaluation feature definition.",
       "properties": {
-        "result": {
+        "results": {
           "type": "array",
           "additionalProperties": false,
           "description": "The list of evaluation result file patterns.",
@@ -72,7 +71,7 @@
         }
       },
       "required": [
-        "result"
+        "results"
       ]
     },
     "finetuningObject": {
@@ -105,10 +104,10 @@
               "type": "string",
               "description": "The finetuning command."
             },
-            "artifact": {
+            "artifacts": {
               "type": "array",
               "additionalProperties": false,
-              "description": "The finetuning artifact to be synced to file share.",
+              "description": "The finetuning artifacts to be synced to file share.",
               "items": {
                 "type": "string"
               }
@@ -151,10 +150,10 @@
               "type": "string",
               "description": "The Azure File Share resource ID."
             },
-            "artifact": {
+            "artifacts": {
               "type": "array",
               "additionalProperties": false,
-              "description": "The inference artifact to be synced to file share.",
+              "description": "The inference artifacts to be synced to file share.",
               "items": {
                 "type": "string"
               }
