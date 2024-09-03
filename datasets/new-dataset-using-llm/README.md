@@ -48,21 +48,7 @@ pip install -r requirements.txt
 
 To set up your language model inference endpoint, you can use Azure OpenAI by default or configure it to use other model.
 
-- **[Option 1]** Use Azure OpenAI Endpoint
-  1. Create an Azure OpenAI resource and deploy a model. Detailed instructions can be found [here](https://learn.microsoft.com/azure/ai-services/openai/how-to/create-resource).
-  2. Configure environment variables
-
-     Set up the necessary environment variables in the `create_qa_dataset.py` script. This involves specifying the Azure OpenAI inference API endpoint and your API key.
-
-      ```python
-      # Define the Azure OpenAI inference API endpoint  
-      api_endpoint = os.environ.get("API_ENDPOINT", "https://<your-resource-name>.openai.azure.com/openai/deployments/gpt-4o/chat/completions?api-version=2024-02-15-preview") 
-
-      # Define the Azure OpenAI API key in env variables
-      api_key = os.environ.get("API_KEY")  
-      ```
-
-- **[Option 2]** Use the Local Model Inference Endpoint in AI Toolkit
+- **[Option 1]** Use the Local Model Inference Endpoint in AI Toolkit
   1. Run the command palette `AI Toolkit: Download an inference model`.
   2. Choose a model to create the dataset, e.g., `Phi-3-mini-4k-cpu-int4-rtn-block-32-acc-level-4-onnx`.
   3. Configure environment variables
@@ -74,6 +60,20 @@ To set up your language model inference endpoint, you can use Azure OpenAI by de
       api_endpoint = os.environ.get("API_ENDPOINT", "http://127.0.0.1:5272/v1/chat/completions") 
       # Define the model to use for the request
       model = os.environ.get("MODEL", "Phi-3-mini-4k-cpu-int4-rtn-block-32-acc-level-4-onnx")
+      ```
+
+- **[Option 2]** Use Azure OpenAI Endpoint
+  1. Create an Azure OpenAI resource and deploy a model. Detailed instructions can be found [here](https://learn.microsoft.com/azure/ai-services/openai/how-to/create-resource).
+  2. Configure environment variables
+
+     Set up the necessary environment variables in the `create_qa_dataset.py` script. This involves specifying the Azure OpenAI inference API endpoint and your API key.
+
+      ```python
+      # Define the Azure OpenAI inference API endpoint  
+      api_endpoint = os.environ.get("API_ENDPOINT", "https://<your-resource-name>.openai.azure.com/openai/deployments/gpt-4o/chat/completions?api-version=2024-02-15-preview") 
+
+      # Define the Azure OpenAI API key in env variables
+      api_key = os.environ.get("API_KEY")  
       ```
 
 **Step 3: Update the Context for QA Sets**
