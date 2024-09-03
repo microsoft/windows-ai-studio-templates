@@ -1,0 +1,13 @@
+{
+  "SUBSCRIPTION_ID": null,
+  "RESOURCE_GROUP_NAME": null,
+  "STORAGE_ACCOUNT_NAME": null,
+  "FILE_SHARE_NAME": null,
+  "ACA_JOB_NAME": null,
+  "COMMANDS": [
+    "cd /mount",
+    "pip install -r ./setup/requirements.txt",
+    "huggingface-cli download microsoft/phi-1_5 --revision d38e6f954ec29b96fe2cf033937dad64e279b5d9 --local-dir ./model-cache/microsoft/phi-1_5 --local-dir-use-symlinks False --cache-dir ./cache/hfdownload",
+    "python3 ./finetuning/invoke_olive.py && find models/ -print | grep adapter/adapter"
+  ]
+}

@@ -1,6 +1,23 @@
 {
   "models": [
     {
+      "name": "meta-llama/Llama-v3-8b",
+      "icon": "meta",
+      "author": "Meta",
+      "description": "Description for Llama-v3-8b",
+      "configPath": "olive-config.json",
+      "workspaceTemplatePath": "configs/llama-v3-8b",
+      "availabilityLocations": [
+        {
+          "providerType": "Azure",
+          "modelId": "azureml://registries/azureml-meta/models/Meta-Llama-3-8B/versions/2",
+          "revision": "versions/2"
+        }
+      ],
+      "type": "Text Generation",
+      "revision": "main"
+    },
+    {
       "name": "meta-llama/Llama-2-7b",
       "icon": "meta",
       "author": "Meta",
@@ -50,12 +67,28 @@
         {
           "providerType": "HuggingFace",
           "modelId": "microsoft/phi-2",
-          "revision": "d3186761bf5c4409f7679359284066c25ab668ee"
+          "revision": "main"
         },
         {
           "providerType": "Azure",
           "modelId": "azureml://registries/azureml-msr/models/microsoft-phi-2/versions/2",
           "revision": "versions/2"
+        }
+      ],
+      "type": "Text Generation"
+    },
+    {
+      "name": "microsoft/Phi-3-mini-4k-instruct",
+      "icon": "ms",
+      "author": "Microsoft",
+      "description": "The Phi-3-Mini-4K-Instruct is a 3.8B parameters, lightweight, state-of-the-art open model trained with the Phi-3 datasets that includes both synthetic data and the filtered publicly available websites data with a focus on high-quality and reasoning dense properties.",
+      "configPath": "olive-config.json",
+      "workspaceTemplatePath": "configs/Phi-3-mini-4k-instruct",
+      "availabilityLocations": [
+        {
+          "providerType": "HuggingFace",
+          "modelId": "microsoft/Phi-3-mini-4k-instruct",
+          "revision": "main"
         }
       ],
       "type": "Text Generation"
@@ -71,6 +104,23 @@
         {
           "providerType": "HuggingFace",
           "modelId": "mistralai/Mistral-7B-v0.1",
+          "revision": "main"
+        }
+      ],
+      "type": "Text Generation",
+      "revision": "main"
+    },
+    {
+      "name": "mistralai/Mistral-7B-Instruct-v0.2",
+      "icon": "hf",
+      "author": "Mistral AI",
+      "description": "The mistralai/Mistral-7B-Instruct-v0.2 Large Language Model (LLM) is a pretrained generative text model with 7 billion parameters.",
+      "configPath": "olive-config.json",
+      "workspaceTemplatePath": "configs/mistral-7b-v02",
+      "availabilityLocations": [
+        {
+          "providerType": "HuggingFace",
+          "modelId": "mistralai/Mistral-7B-Instruct-v0.2",
           "revision": "main"
         }
       ],
