@@ -1,12 +1,21 @@
 import os
 from promptflow.core import AzureOpenAIModelConfiguration
-from promptflow.evals.evaluators import CoherenceEvaluator,SimilarityEvaluator
+from promptflow.evals.evaluators import CoherenceEvaluator, SimilarityEvaluator
 from promptflow.evals.evaluate import evaluate
 from dotenv import load_dotenv
+
 load_dotenv()
 
-dataset_path = "data/dataset1.jsonl"
+cwd = os.path.dirname(os.path.abspath(__file__))
+
+# define dataset paths
+dataset = "dataset/new-dataset/dataset.jsonl"
+dataset_path = os.path.join(cwd, f"../{dataset}")
+
+# define evaluation result path
 evaluation_name = "my_evaluation"
+result_path = os.path.join(cwd, f"results/{evaluation_name}.json")
+os.makedirs(os.path.dirname(result_path), exist_ok=True)
 
 # define evaluators
 model_config = AzureOpenAIModelConfiguration(
@@ -18,18 +27,18 @@ model_config = AzureOpenAIModelConfiguration(
 similarity_evaluator = SimilarityEvaluator(model_config)
 coherence_evaluator = CoherenceEvaluator(model_config)
 
+
 def target_app(question):
-    # TODO: wrap your AI app into the evaluation target, something like:
+    # TODO: import your AI app and wrap it into the evaluation target, something like:
     # answer = my_app(question)
     # return { "answer": answer }
-    raise NotImplementedError("Please wrap your AI app into the evaluation target.")
+    raise NotImplementedError(
+        "Please import your AI app and wrap it into the evaluation target."
+    )
+
 
 if __name__ == "__main__":
     # run evaluation
-    result_path = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), 
-        f"evaluation/results/{evaluation_name}.jsonl"
-    )
     evaluate(
         target=target_app,
         # file path to the dataset
@@ -47,5 +56,5 @@ if __name__ == "__main__":
             }
         },
         # output the evaluation result to a file
-        output_path=result_path
+        output_path=result_path,
     )
