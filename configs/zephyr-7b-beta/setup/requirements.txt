@@ -1,8 +1,8 @@
---extra-index-url https://download.pytorch.org/whl/cu118
-torch==2.3.0+cu118
-torchvision==0.18.0+cu118
-torchaudio==2.3.0+cu118
-transformers==4.41.0
+--extra-index-url https://download.pytorch.org/whl/cu124
+torch==2.4.0+cu124
+torchvision==0.19.0+cu124
+torchaudio==2.4.0+cu124
+transformers
 accelerate==0.30.0
 bitsandbytes==0.43.1
 datasets==2.19.1
@@ -18,4 +18,5 @@ promptflow==1.10.1
 promptflow-tools==1.4.0
 gradio==4.29.0
 onnxruntime-genai-cuda==0.4.0
-git+https://github.com/microsoft/Olive@2c8abecef7b62a9f33986178c853e7beec29544c
+optimum==1.21.4
+git+https://github.com/microsoft/Olive@753583ab0f04be962de65cf15acb8b3fbca3c511
