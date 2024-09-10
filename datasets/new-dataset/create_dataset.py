@@ -20,12 +20,7 @@ dataset = [
 # Convert dataset to DataFrame
 df = pd.DataFrame(dataset)
 
-basePath = os.path.dirname(os.path.abspath(__file__))
-
-# Save DataFrame to CSV
-csv_path = os.path.join(basePath, "dataset.csv")
-df.to_csv(csv_path, index=False)
-
 # Save DataFrame to JSONL
-# jsonl_path = os.path.join(basePath, "dataset.jsonl")
-# df.to_json(jsonl_path, orient='records', lines=True)
+basePath = os.path.dirname(os.path.abspath(__file__))
+jsonl_path = os.path.join(basePath, "dataset.jsonl")
+df.to_json(jsonl_path, orient='records', lines=True)
