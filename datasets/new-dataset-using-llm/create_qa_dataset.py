@@ -20,7 +20,7 @@ model = os.environ.get("MODEL", "Phi-3-mini-4k-cpu-int4-rtn-block-32-acc-level-4
 qa_nums = 3
 text = "Using large language models(LLM) is a crucial technique in synthetic data generation, capable of producing high-quality, diverse, and privacy-compliant datasets. This technique can be applied in different scenarios, including training machine learning models, fine-tuning different language models, and conducting evaluation and testing."
 output_file_path = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)), "qa.csv"
+    os.path.dirname(os.path.abspath(__file__)), "qa.jsonl"
 ) 
 
 # 1. Load the prompt template
@@ -74,4 +74,4 @@ qnas = [
 
 # 6. Convert the response to a DataFrame and save it to a JSONL file
 df = pd.DataFrame(qnas)
-df.to_csv(output_file_path, index=False)
+df.to_json(output_file_path, orient='records', lines=True)
