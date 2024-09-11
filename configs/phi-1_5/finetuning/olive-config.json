@@ -57,7 +57,6 @@
             "lora_alpha": <lora_alpha>,
             "lora_dropout": <lora_dropout>,
             "train_data_config": "dataset_default_train",
-            "eval_dataset_size": <eval_dataset_size>,
             "training_args": {
                 "seed": <training_args_seed>,
                 "data_seed": <training_args_data_seed>,
