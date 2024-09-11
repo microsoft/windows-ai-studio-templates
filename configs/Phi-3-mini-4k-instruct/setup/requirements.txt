@@ -2,7 +2,7 @@
 torch==2.4.0+cu124
 torchvision==0.19.0+cu124
 torchaudio==2.4.0+cu124
-transformers
+transformers==4.43.4
 accelerate==0.30.0
 bitsandbytes==0.43.1
 datasets==2.19.1
