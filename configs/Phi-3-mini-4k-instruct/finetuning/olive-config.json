@@ -1,8 +1,10 @@
 {
-    "input_model":{
+    "input_model": {
         "type": "HfModel",
         "model_path": "model-cache/microsoft/Phi-3-mini-4k-instruct",
-        "load_kwargs": { "trust_remote_code": true }
+        "load_kwargs": {
+            "trust_remote_code": true
+        }
     },
     "systems": {
         "local_system": {
@@ -10,7 +12,9 @@
             "accelerators": [
                 {
                     "device": "gpu",
-                    "execution_providers": ["CUDAExecutionProvider"]
+                    "execution_providers": [
+                        "CUDAExecutionProvider"
+                    ]
                 }
             ]
         },
@@ -18,11 +22,13 @@
             "type": "LocalSystem",
             "accelerators": [
                 {
-                  "device": "gpu",
-                  "execution_providers": ["CUDAExecutionProvider"]
+                    "device": "gpu",
+                    "execution_providers": [
+                        "CUDAExecutionProvider"
+                    ]
                 }
-              ]
-          }
+            ]
+        }
     },
     "data_configs": [
         {
@@ -33,9 +39,8 @@
 #data_configs_data_files_extension_start
             <!--    "data_name": "<data_configs_data_files_extension>", -->
 #data_configs_data_files_extension_end
-                "<data_files>":"<data_configs_data_files>",
+                "<data_files>": "<data_configs_data_files>",
                 "split": "<data_configs_split>"
-                
             },
             "pre_process_data_config": {
                 "dataset_type": "<dataset_type>",
@@ -54,7 +59,10 @@
             "compute_dtype": "<compute_dtype>",
             "quant_type": "<quant_type>",
             "double_quant": <double_quant>,
-            "target_modules": ["o_proj", "qkv_proj"],
+            "target_modules": [
+                "o_proj",
+                "qkv_proj"
+            ],
             "lora_r": <lora_r>,
             "lora_alpha": <lora_alpha>,
             "lora_dropout": <lora_dropout>,
@@ -91,24 +99,22 @@
             "keep_io_types": false,
             "float16": true
         },
-        "ExtractAdapters": { 
+        "ExtractAdapters": {
             "type": "ExtractAdapters",
             "make_inputs": true,
             "pack_inputs": true
         },
-        "ModelBuilder": { 
+        "ModelBuilder": {
             "type": "ModelBuilder",
-            "metadata_only": true, 
-            "precision": "fp16" 
+            "metadata_only": true,
+            "precision": "fp16"
         }
     },
-    "engine": {
-        "log_severity_level": 0,
-        "search_strategy": false,
-        "evaluate_input_model": false,
-        "host": "local_system",
-        "target": "target_system",
-        "cache_dir": "cache",
-        "output_dir" : "models/qlora"
-    }
+    "log_severity_level": 0,
+    "search_strategy": false,
+    "evaluate_input_model": false,
+    "host": "local_system",
+    "target": "target_system",
+    "cache_dir": "cache",
+    "output_dir": "models/qlora"
 }

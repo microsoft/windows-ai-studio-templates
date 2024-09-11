@@ -1,8 +1,10 @@
 {
-    "input_model":{
+    "input_model": {
         "type": "HfModel",
         "model_path": "model-cache/mistralai/Mistral-7B",
-        "load_kwargs": { "trust_remote_code": true }
+        "load_kwargs": {
+            "trust_remote_code": true
+        }
     },
     "systems": {
         "local_system": {
@@ -10,7 +12,9 @@
             "accelerators": [
                 {
                     "device": "gpu",
-                    "execution_providers": ["CUDAExecutionProvider"]
+                    "execution_providers": [
+                        "CUDAExecutionProvider"
+                    ]
                 }
             ]
         },
@@ -18,11 +22,13 @@
             "type": "LocalSystem",
             "accelerators": [
                 {
-                  "device": "gpu",
-                  "execution_providers": ["CUDAExecutionProvider"]
+                    "device": "gpu",
+                    "execution_providers": [
+                        "CUDAExecutionProvider"
+                    ]
                 }
-              ]
-          }
+            ]
+        }
     },
     "data_configs": [
         {
@@ -33,7 +39,7 @@
 #data_configs_data_files_extension_start
             <!--    "data_name": "<data_configs_data_files_extension>", -->
 #data_configs_data_files_extension_end
-                "<data_files>":"<data_configs_data_files>",
+                "<data_files>": "<data_configs_data_files>",
                 "split": "<data_configs_split>"
             },
             "pre_process_data_config": {
@@ -75,7 +81,6 @@
                 "max_grad_norm": 0.3,
                 "output_dir": "<output_dir>"
             }
-            
         },
         "OnnxConversion": {
             "type": "OnnxConversion",
@@ -90,24 +95,22 @@
             "keep_io_types": false,
             "float16": true
         },
-        "ExtractAdapters": { 
+        "ExtractAdapters": {
             "type": "ExtractAdapters",
             "make_inputs": true,
             "pack_inputs": true
         },
-        "ModelBuilder": { 
+        "ModelBuilder": {
             "type": "ModelBuilder",
-            "metadata_only": true, 
-            "precision": "fp16" 
+            "metadata_only": true,
+            "precision": "fp16"
         }
     },
-    "engine": {
-        "log_severity_level": 0,
-        "search_strategy": false,
-        "evaluate_input_model": false,
-        "host": "local_system",
-        "target": "target_system",
-        "cache_dir": "cache",
-        "output_dir" : "models/qlora"
-    }
+    "log_severity_level": 0,
+    "search_strategy": false,
+    "evaluate_input_model": false,
+    "host": "local_system",
+    "target": "target_system",
+    "cache_dir": "cache",
+    "output_dir": "models/qlora"
 }
