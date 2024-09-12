@@ -64,6 +64,23 @@ Select `View` > `Command Palette` > `AI Toolkit: View evaluations`.
 ### Step 2: Select the evaluation result
 Browse and select the evaluation result JSON file under `ai-resource/evaluation/results/`.
 
+## Additional
+
+### Built-in evaluators
+
+Here list the built-in evaluators from `promptflow-eval`SDK and the meaning of the metrics:
+
+Name | What is this metric?
+| - | - 
+GroundednessEvaluator| Measures how well the model's generated answers align with information from the source data (user-defined context).
+RelevanceEvaluator | Measures the extent to which the model's generated responses are pertinent and directly related to the given questions.
+CoherenceEvaluator | Measures how well the language model can produce output that flows smoothly, reads naturally, and resembles human-like language.
+FluencyEvaluator | Measures the grammatical proficiency of a generative AI's predicted answer.
+SimilarityEvaluator | Measures the similarity between a source data (ground truth) sentence and the generated response by an AI model.
+F1ScoreEvaluator | Measures the ratio of the number of shared words between the model generation and the ground truth answers.
+
+For for details about how does these built-in evaluators work, refer to [the documentation](https://learn.microsoft.com/en-us/azure/ai-studio/concepts/evaluation-metrics-built-in?tabs=warning#prompt-only-based-groundedness).
 
 ## Reference
 - [Evaluate with the prompt flow SDK](https://learn.microsoft.com/en-us/azure/ai-studio/how-to/develop/flow-evaluate-sdk)
+* [Built-in evaluators](https://learn.microsoft.com/en-us/azure/ai-studio/concepts/evaluation-metrics-built-in?tabs=warning#prompt-only-based-groundedness)
