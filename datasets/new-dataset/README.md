@@ -23,13 +23,13 @@ A sample dataset for the AI toolkit is provided in the `dataset.jsonl` file. You
       pip install -r requirements.txt
       ```
 
-1. **Add Your Custom Data Generation Logic**:
+1. **Add Your Custom Data Creation Logic**:
 
-    Replace the sample code in `create_dataset.py` with your custom data generation logic.
+    Replace the sample code in `create_dataset.py` with your custom dataset creation logic.
 
-1. **Generate the Dataset**:
+1. **Create the Dataset**:
 
-    To create a synthetic dataset, run the `create_dataset.py` script:
+    To create a dataset, run the `create_dataset.py` script:
 
     ```sh
     python create_dataset.py
