@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 {{#llmProvider.OpenAI}}
 from promptflow.core import OpenAIModelConfiguration
 {{/llmProvider.OpenAI}}
@@ -12,13 +13,13 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-# define dataset paths
+# set dataset path
 dataset_path = "{{{datasetPath}}}"
 
 # define evaluation result path
-evaluation_name = "{{evaluationName}}"
 cwd = os.path.dirname(os.path.abspath(__file__))
-result_path = os.path.join(cwd, f"results/{evaluation_name}.json")
+timestamp = datetime.now().strftime("%m%d%H%M%S")
+result_path = os.path.join(cwd, f"results/eval_{timestamp}.json")
 os.makedirs(os.path.dirname(result_path), exist_ok=True)
 
 # define evaluators
@@ -57,7 +58,7 @@ similarity_evaluator = SimilarityEvaluator(model_config)
 
 
 def target_app(question):
-    # TODO: import your AI app and wrap it into the evaluation target, something like:
+    # TODO: import your AI app and wrap it into the evaluation target, like:
     # answer = my_app(question)
     # return { "answer": answer }
     raise NotImplementedError(
