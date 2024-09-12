@@ -7,10 +7,11 @@ Evaluation is a critical process to measure the performance, quality and effecti
 ## Run evaluation
 ### Step 1: Set up the Python environment
 
-Install required libraries with the following command under project root:
-```bash
-pip install -r ai-resource/evaluation/requirements.txt
-```
+1. Ensure Python (with version equal to or greater than 3.8) is installed.
+1. Install required libraries with the following command under project root:
+   ```bash
+   pip install -r ai-resource/evaluation/requirements.txt
+   ```
 
 ### Step 2: Import your AI app as the evaluation target
 
