@@ -59,7 +59,7 @@ To set up your language model inference endpoint, you can use Azure OpenAI by de
       # Define the inference API endpoint, the default is for the local API in AI Toolkit
       API_ENDPOINT=http://127.0.0.1:5272/v1/chat/completions
       # Define the model to use for the request
-      MODEL=Phi-3-mini-4k-cpu-int4-rtn-block-32-acc-level-4-onnx"
+      MODEL=Phi-3-mini-4k-cpu-int4-rtn-block-32-acc-level-4-onnx
       ```
 
 - **[Option 2]** Use Azure OpenAI Endpoint
