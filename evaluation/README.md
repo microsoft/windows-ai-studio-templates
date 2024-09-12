@@ -2,7 +2,7 @@
 
 ## Overall
 
-Evaluation is a critical process to measure the performance, quality and effectiveness of AI apps. This guide will help you to evaluate your AI apps and view the results in AI Toolkit.
+Evaluation is a critical process to measure the performance, quality, and effectiveness of AI apps. This guide will help you evaluate your AI apps and view the results in AI Toolkit.
 
 ## Run evaluation
 ### Step 1: Set up the Python environment
@@ -15,11 +15,11 @@ Evaluation is a critical process to measure the performance, quality and effecti
 
 ### Step 2: Import your AI app as the evaluation target
 
-Import your AI app in the script and then wrap it into evaluation target. The evaluation target is a function accepts question and return an object of answer.
+Import your AI app into the script and wrap it in an evaluation target. The evaluation target is a function that takes a question and responds with an answer.
 
 ```python
 def target_app(question):
-   # import your AI app and wrap it into the evaluation target, like:
+   # import your AI app into the script and wrap it in an evaluation target, like:
    response = my_app(question)
    return { "answer": response.message }
 ```
@@ -35,11 +35,11 @@ Most of the built-in evaluators are AI-assisted:
 
 If one of those evaluators is selected, you need to set `model_config` with Azure OpenAI model.
 
-> **Note**: `model_config` with OpenAI configuration is not supported for `promptflow-eval` SDK yet and it's planed to be supported in version `v0.3.3`.
+> **Note**: `model_config` with OpenAI configuration isn't supported in the `promptflow-eval` SDK yet, but it's planed for version `v0.3.3`.
 >
 
 **Use Azure OpenAI Endpoint**:
-1. Create an Azure OpenAI resource and deploy a model. Detailed instructions can be found [here](https://learn.microsoft.com/azure/ai-services/openai/how-to/create-resource).
+1. Create an Azure OpenAI resource and deploy a model. Detailed instructions can be found in the [Azure OpenAI documentation] (https://learn.microsoft.com/azure/ai-services/openai/how-to/create-resource).
 2. Set up the necessary environment variables in `.env` file, including the API endpoint and key.
    ```python
    model_config = AzureOpenAIModelConfiguration(
