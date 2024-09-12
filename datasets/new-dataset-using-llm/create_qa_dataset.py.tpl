@@ -4,17 +4,13 @@ import re
 import requests
 from jinja2 import Environment, FileSystemLoader
 import pandas as pd
+from dotenv import load_dotenv
 
 # Set up the local inference API endpoint
-# [Option 1] Use the local API in AI Toolkit
-api_endpoint = os.environ.get("API_ENDPOINT", "http://127.0.0.1:5272/v1/chat/completions") 
-api_key = os.environ.get("API_KEY", None)
-model = os.environ.get("MODEL", "Phi-3-mini-4k-cpu-int4-rtn-block-32-acc-level-4-onnx")
-
-# [Option 2] Use the OpenAI API
-# api_endpoint = os.environ.get("API_ENDPOINT", "https://<your-resource-name>.openai.azure.com/openai/deployments/gpt-4o/chat/completions?api-version=2024-02-15-preview") 
-# api_key = os.environ.get("API_KEY", "<your-api-key>")
-# model = os.environ.get("MODEL", None)
+load_dotenv()
+api_endpoint = os.environ.get("API_ENDPOINT") 
+api_key = os.environ.get("API_KEY")
+model = os.environ.get("MODEL")
 
 # Configuration for QA pair generation
 qa_nums = 3
