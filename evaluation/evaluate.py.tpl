@@ -1,8 +1,8 @@
 import os
 from datetime import datetime
-{{#llmProvider.OpenAI}}
+{{^llmProvider.AzureOpenAI}}
 from promptflow.core import OpenAIModelConfiguration
-{{/llmProvider.OpenAI}}
+{{/llmProvider.AzureOpenAI}}
 {{#llmProvider.AzureOpenAI}}
 from promptflow.core import AzureOpenAIModelConfiguration
 {{/llmProvider.AzureOpenAI}}
@@ -25,17 +25,24 @@ os.makedirs(os.path.dirname(result_path), exist_ok=True)
 # define evaluators
 {{#llmProvider.AzureOpenAI}}
 model_config = AzureOpenAIModelConfiguration(
-    azure_endpoint=os.environ.get("AZURE_OPENAI_ENDPOINT"),
-    api_key=os.environ.get("AZURE_OPENAI_API_KEY"),
-    azure_deployment=os.environ.get("AZURE_OPENAI_DEPLOYMENT_NAME"),
+    azure_endpoint=os.environ.get("EVALUATOR_MODEL_ENDPOINT"),
+    api_key=os.environ.get("EVALUATOR_MODEL_API_KEY"),
+    azure_deployment=os.environ.get("EVALUATOR_MODEL_NAME"),
 )
 {{/llmProvider.AzureOpenAI}}
 {{#llmProvider.OpenAI}}
 model_config = OpenAIModelConfiguration(
-    api_key=os.environ.get("OPENAI_API_KEY"),
-    model="gpt-3.5-turbo",
+    api_key=os.environ.get("EVALUATOR_MODEL_API_KEY"),
+    model=os.environ.get("EVALUATOR_MODEL_NAME"),
 )
 {{/llmProvider.OpenAI}}
+{{#llmProvider.Others}}
+model_config = OpenAIModelConfiguration(
+    base_url=os.environ.get("EVALUATOR_MODEL_ENDPOINT"),
+    api_key=os.environ.get("EVALUATOR_MODEL_API_KEY"),
+    model=os.environ.get("EVALUATOR_MODEL_NAME"),
+)
+{{/llmProvider.Others}}
 
 {{#evaluators.CoherenceEvaluator}}
 coherence_evaluator = CoherenceEvaluator(model_config)
