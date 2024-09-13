@@ -27,6 +27,13 @@ Now let's jump into your AI app development:
 2. Run `huggingface-cli login`, if you are using HF for dataset ustilization
 3. `Olive` key settings explanations for anything that modifies memory usage. 
 
+### (Optional) Setup Conda Environment
+AI Toolkit downloads model and executes setup script when generating this workspace. If that's skipped or you would like to setup again.
+
+```bash
+./setup/first_time_setup.sh
+```
+
 ### Activate Conda
 Since we ware using WSL environment and is shared you need to manually acitvate the conda environment. After this step you can run finetunning or inference.
 
@@ -35,7 +42,7 @@ conda activate [conda-env-name]
 ```
 
 ### Base model fine-tuning only
-To just try try the base model without fine-tuning you can run this command after activating conda.
+To just try the base model without fine-tuning you can run this command after activating conda.
 
 ```bash
 cd inference
