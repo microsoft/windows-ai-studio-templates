@@ -19,4 +19,4 @@ promptflow-tools==1.4.0
 gradio==4.29.0
 onnxruntime-genai-cuda==0.4.0
 optimum==1.21.4
-git+https://github.com/microsoft/Olive@753583ab0f04be962de65cf15acb8b3fbca3c511
+./setup/olive_ai-0.7.0-py3-none-any.whl
