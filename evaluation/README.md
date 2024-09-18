@@ -24,6 +24,9 @@ def target_app(question):
    return { "answer": response.message }
 ```
 
+> **Note**:
+> If you don't have an existing app yet but want to try the evaluation process, you can check [the sample app](https://github.com/SmallBlackHole/aitk-eval-sample) and evaluate it.
+
 ### Step 3: Set up LLM for AI-assisted evaluator
 
 Most of the built-in evaluators are AI-assisted:
@@ -39,7 +42,7 @@ If one of those evaluators is selected, you need to set `model_config` with Azur
 >
 
 **Use Azure OpenAI Endpoint**:
-1. Create an Azure OpenAI resource and deploy a model. Detailed instructions can be found in the [Azure OpenAI documentation] (https://learn.microsoft.com/azure/ai-services/openai/how-to/create-resource).
+1. Create an Azure OpenAI resource and deploy a model. Detailed instructions can be found in the [Azure OpenAI documentation](https://learn.microsoft.com/azure/ai-services/openai/how-to/create-resource).
 2. Set up the necessary environment variables in `.env` file, including the API endpoint, key and deployment name.
    ```python
    model_config = AzureOpenAIModelConfiguration(
