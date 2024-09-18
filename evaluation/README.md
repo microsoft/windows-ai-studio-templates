@@ -39,7 +39,7 @@ If one of those evaluators is selected, you need to set `model_config` with Azur
 >
 
 **Use Azure OpenAI Endpoint**:
-1. Create an Azure OpenAI resource and deploy a model. Detailed instructions can be found in the [Azure OpenAI documentation] (https://learn.microsoft.com/azure/ai-services/openai/how-to/create-resource).
+1. Create an Azure OpenAI resource and deploy a model. Detailed instructions can be found in the [Azure OpenAI documentation](https://learn.microsoft.com/azure/ai-services/openai/how-to/create-resource).
 2. Set up the necessary environment variables in `.env` file, including the API endpoint, key and deployment name.
    ```python
    model_config = AzureOpenAIModelConfiguration(
