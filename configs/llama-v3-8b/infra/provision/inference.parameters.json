@@ -5,7 +5,7 @@
     "defaultCommands": {
       "value": [
         "cd /mount",
-        "pip install torch==2.4.0 transformers==4.43.4 bitsandbytes==0.43.1 peft==0.10.0 gradio==4.43.0 sse-starlette==2.1.2 einops==0.8.0",
+        "pip install torch==2.3.0 transformers==4.41.0 bitsandbytes==0.43.1 peft==0.10.0 gradio==4.43.0 sse-starlette==2.1.2 einops==0.8.0",
         "cd /mount/inference",
         "python3 ./gradio_chat.py"
       ]

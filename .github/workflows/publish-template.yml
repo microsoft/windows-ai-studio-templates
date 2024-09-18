@@ -1,0 +1,73 @@
+name: Publish templates
+run-name: CD-${{ github.run_id }}-${{ inputs.publish-branch }}-${{ inputs.release-type }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      publish-branch:
+        description: "default is 'ai-toolkit'"
+        required: true
+        type: string
+        default: 'ai-toolkit'
+      release-type:
+        description: "release type(alpha, rc, stable)"
+        required: true
+        default: "alpha"
+      add-tag:
+        description: "add tag to the release"
+        required: true
+        default: "false"
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate release type
+        if: ${{ github.event.inputs.release-type != 'alpha' && github.event.inputs.release-type != 'rc' && github.event.inputs.release-type != 'stable' }}
+        run: |
+          echo "Invalid release type '${{ github.event.inputs.release-type }}' provided. Valid values are 'alpha', 'rc', 'stable'."
+          exit 1
+
+      - name: Validate add tag
+        if: ${{ github.event.inputs.add-tag != 'false' && github.event.inputs.add-tag != 'true' }}
+        run: |
+          echo "Invalid add tag '${{ github.event.inputs.add-tag }}' provided. Valid values are 'true', 'false'."
+          exit 1
+
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.inputs.publish-branch }}
+
+      - name: Create template ZIP file
+        run: zip -r template.zip .
+      
+      - name: Get current timestamp
+        run: echo "TIMESTAMP=$(date +%s)" >> $GITHUB_ENV
+
+      - name: Set template name
+        run: |
+          if [ "${{ github.event.inputs.release-type }}" == "alpha" ]; then
+            echo "TEMPLATE_NAME=template-${{ env.TIMESTAMP }}-alpha" >> $GITHUB_ENV
+          elif [ "${{ github.event.inputs.release-type }}" == "rc" ]; then
+            echo "TEMPLATE_NAME=template-${{ env.TIMESTAMP }}-rc" >> $GITHUB_ENV
+          else
+            echo "TEMPLATE_NAME=template-${{ env.TIMESTAMP }}" >> $GITHUB_ENV
+          fi
+
+      - name: Upload template ZIP file
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.TEMPLATE_NAME }}
+          path: template.zip
+
+      - name: Release template ZIP file To GitHub Release
+        uses: softprops/action-gh-release@v2
+        if: ${{ github.event.inputs.add-tag == 'true' }}
+        with:
+          tag_name: ${{ env.TIMESTAMP }}-${{ inputs.publish-branch }}-${{ inputs.release-type }}
+          files: template.zip

@@ -1,0 +1,15 @@
+# yaml-language-server: $schema=./yaml.schema.json
+
+version: v0.1
+
+workingDir: ai-resource/	# default artifacts folder
+
+dataset:        # dataset feature definition
+  content:      # recognizable dataset files
+    - dataset/output/*.json 	# glob pattern
+
+evaluation:     # evaluation feature definition
+  results:       # recognizable evaluation results
+    - evaluation/results/*.json	# glob pattern
+
+projectId: c7107b4d-a82a-485d-a036-7a81e8453a55 # for telemetry
