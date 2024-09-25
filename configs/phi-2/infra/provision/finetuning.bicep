@@ -139,7 +139,7 @@ resource acajob 'Microsoft.App/jobs@2023-11-02-preview' = {
     template: {
       containers: [
         {
-          image: 'docker.io/pytorch/pytorch:2.3.0-cuda11.8-cudnn8-runtime'
+          image: 'docker.io/pytorch/pytorch:2.4.0-cuda12.4-cudnn9-runtime'
           name: acaJobName
           command: [
             '/bin/bash'

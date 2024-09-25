@@ -27,8 +27,8 @@
       "availabilityLocations": [
         {
           "providerType": "Azure",
-          "modelId": "azureml://registries/azureml-meta/models/Llama-2-7b/versions/13",
-          "revision": "versions/13"
+          "modelId": "azureml://registries/azureml-meta/models/Llama-2-7b/versions/22",
+          "revision": "versions/22"
         },
         {
           "providerType": "HuggingFace",
@@ -50,11 +50,11 @@
         {
           "providerType": "HuggingFace",
           "modelId": "microsoft/phi-1_5",
-          "revision": "d38e6f954ec29b96fe2cf033937dad64e279b5d9"
+          "revision": "main"
         }
       ],
       "type": "Text Generation",
-      "revision": "d38e6f954ec29b96fe2cf033937dad64e279b5d9"
+      "revision": "main"
     },
     {
       "name": "microsoft/phi-2",
