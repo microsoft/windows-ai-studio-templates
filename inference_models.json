@@ -12,7 +12,13 @@
       "architecture": "mistral",
       "parameterSize": "7B",
       "fileSize": "4.99 GB",
-      "runtime": "cpu"
+      "runtime": "cpu",
+      "PromptTemplate": {
+        "system": "<s>",
+        "user": "[INST]\n{Content}\n[/INST]",
+        "assistant": "\n{Content}</s>",
+        "prompt": "[INST]\n{Content}\n[/INST]\n "
+      }
     },  
     {
       "name": "mistral-7b-v02-int4-gpu",
@@ -27,7 +33,13 @@
       "architecture": "mistral",
       "parameterSize": "7B",
       "fileSize": "4.27 GB",
-      "runtime": "cuda"
+      "runtime": "cuda",
+      "PromptTemplate": {
+        "system": "<s>",
+        "user": "[INST]\n{Content}\n[/INST]",
+        "assistant": "\n{Content}</s>",
+        "prompt": "[INST]\n{Content}\n[/INST]\n "
+      }
     },
     {
       "name": "mistral-7b-v02-fp16-gpu",
@@ -42,7 +54,13 @@
       "architecture": "mistral",
       "parameterSize": "7B",
       "fileSize": "14.50 GB",
-      "runtime": "cuda"
+      "runtime": "cuda",
+      "PromptTemplate": {
+        "system": "<s>",
+        "user": "[INST]\n{Content}\n[/INST]",
+        "assistant": "\n{Content}</s>",
+        "prompt": "[INST]\n{Content}\n[/INST]\n "
+      }
     },
     {
       "name": "mistral-7b-v02-int4-gpu",
@@ -57,7 +75,13 @@
       "architecture": "mistral",
       "parameterSize": "7B",
       "fileSize": "3.96 GB",
-      "runtime": "directml"
+      "runtime": "directml",
+      "PromptTemplate": {
+        "system": "<s>",
+        "user": "[INST]\n{Content}\n[/INST]",
+        "assistant": "\n{Content}</s>",
+        "prompt": "[INST]\n{Content}\n[/INST]\n "
+      }
     },        
     {
       "name": "Phi-3-mini-4k-cpu-int4-rtn-block-32-acc-level-4-onnx",
