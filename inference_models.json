@@ -264,5 +264,24 @@
       "parameterSize": "3.8B",
       "fileSize": "2.30 GB",
       "runtime": "cuda"
+    },
+    {
+      "name": "DeepSeek R1",
+      "providerType": "DeepSeek",
+      "uri": "https://amlwlrt4use01.blob.core.windows.net/azureml-e667c101-62bd-5ad2-8453-c83286dc5e9f/",
+      "modelType": "onnx",
+      "task": "Text Generation",
+      "fineTuningTemplateName": "DeepSeek/DeepSeek-R1",
+      "promptTemplate": {
+        "system":"<|system|>\n{Content}<|end|>",
+        "user":"<|user|>\n{Content}<|end|>",
+        "assistant":"<|assistant|>\n{Content}<|end|>",
+        "prompt":"<|user|>\n{Content}<|end|>\n<|assistant|>"
+      },
+      "publisher": "DeepSeek",
+      "architecture": "DeepSeek",
+      "parameterSize": "3.8B",
+      "fileSize": "2.30 GB",
+      "runtime": "NPU"
     }
 ]
