@@ -266,12 +266,12 @@
       "runtime": "cuda"
     },
     {
-      "name": "DeepSeek R1",
-      "providerType": "DeepSeek",
+      "name": "DeepSeek-R1-NPU-Optimized",
+      "providerType": "Blob",
       "uri": "https://amlwlrt4use01.blob.core.windows.net/azureml-e667c101-62bd-5ad2-8453-c83286dc5e9f/",
       "modelType": "onnx",
       "task": "Text Generation",
-      "fineTuningTemplateName": "DeepSeek/DeepSeek-R1",
+      "fineTuningTemplateName": "DeepSeek/DeepSeek-R1-NPU-Optimized",
       "promptTemplate": {
         "system":"<|system|>\n{Content}<|end|>",
         "user":"<|user|>\n{Content}<|end|>",
