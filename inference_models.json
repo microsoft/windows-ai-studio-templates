@@ -267,21 +267,19 @@
     },
     {
       "name": "DeepSeek-R1-NPU-Optimized",
-      "providerType": "AzureBlob",
-      "uri": "https://amlwlrt4use01.blob.core.windows.net/azureml-e667c101-62bd-5ad2-8453-c83286dc5e9f/",
+      "providerType": "HuggingFace",
+      "uri": "cloudnbits/DeepSeek-R1-Distilled-NPU-Optimized",
       "modelType": "onnx",
       "task": "Text Generation",
-      "fineTuningTemplateName": "DeepSeek-AI/DeepSeek-R1-NPU-Optimized",
+      "fineTuningTemplateName": "cloudnbits/DeepSeek-R1-Distilled-NPU-Optimized",
       "promptTemplate": {
-        "system": "\u003C|system|\u003E\n{Content}\u003C|end|\u003E",
-        "user": "\u003C|user|\u003E\n{Content}\u003C|end|\u003E",
-        "assistant": "\u003C|assistant|\u003E\n{Content}\u003C|end|\u003E",
-        "prompt": "\u003C|user|\u003E\n{Content}\u003C|end|\u003E\n\u003C|assistant|\u003E"
+        "assistant": "{Content}",
+        "prompt": "\u003C｜begin▁of▁sentence｜\u003E｜User｜{Content}｜Assistant｜"
       },
-      "publisher": "DeepSeek-AI",
-      "architecture": "DeepSeek",
-      "parameterSize": "3.8B",
-      "fileSize": "2.30 GB",
+      "publisher": "cloudnbits",
+      "architecture": "MoE",
+      "parameterSize": "1.5B",
+      "fileSize": "3.90 GB",
       "runtime": "NPU"
     }
 ]
