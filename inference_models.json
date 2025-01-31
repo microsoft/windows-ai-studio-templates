@@ -267,18 +267,18 @@
     },
     {
       "name": "DeepSeek-R1-NPU-Optimized",
-      "providerType": "Blob",
+      "providerType": "AzureBlob",
       "uri": "https://amlwlrt4use01.blob.core.windows.net/azureml-e667c101-62bd-5ad2-8453-c83286dc5e9f/",
       "modelType": "onnx",
       "task": "Text Generation",
-      "fineTuningTemplateName": "DeepSeek/DeepSeek-R1-NPU-Optimized",
+      "fineTuningTemplateName": "DeepSeek-AI/DeepSeek-R1-NPU-Optimized",
       "promptTemplate": {
-        "system":"<|system|>\n{Content}<|end|>",
-        "user":"<|user|>\n{Content}<|end|>",
-        "assistant":"<|assistant|>\n{Content}<|end|>",
-        "prompt":"<|user|>\n{Content}<|end|>\n<|assistant|>"
+        "system": "\u003C|system|\u003E\n{Content}\u003C|end|\u003E",
+        "user": "\u003C|user|\u003E\n{Content}\u003C|end|\u003E",
+        "assistant": "\u003C|assistant|\u003E\n{Content}\u003C|end|\u003E",
+        "prompt": "\u003C|user|\u003E\n{Content}\u003C|end|\u003E\n\u003C|assistant|\u003E"
       },
-      "publisher": "DeepSeek",
+      "publisher": "DeepSeek-AI",
       "architecture": "DeepSeek",
       "parameterSize": "3.8B",
       "fileSize": "2.30 GB",
