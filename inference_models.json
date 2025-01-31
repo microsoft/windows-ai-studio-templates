@@ -266,7 +266,7 @@
       "runtime": "cuda"
     },
     {
-      "name": "DeepSeek-R1-NPU-Optimized",
+      "name": "DeepSeek-R1-Distilled-NPU-Optimized",
       "providerType": "HuggingFace",
       "uri": "cloudnbits/DeepSeek-R1-Distilled-NPU-Optimized",
       "modelType": "onnx",
