@@ -1,0 +1,14 @@
+{
+    "ActivationType": {
+        "name": "Activation Type",
+        "description": "Quantization data type of activation",
+        "type": "enum",
+        "values": ["QUInt16", "QInt16"]
+    },
+    "WeightType": {
+        "name": "Weight Type",
+        "description": "Data type for quantizing weights",
+        "type": "enum",
+        "values": ["QInt8", "QUInt8"]
+    }
+}
