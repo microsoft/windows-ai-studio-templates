@@ -3,16 +3,19 @@
     "tutorials": [
         {
             "id": "01_question_generator",
+            "path": "tutorials/01_question_generator",
             "title": "Educational Question Generator",
             "description": "Learn how to create an educational question generator app using prompt builder"
         },
         {
             "id": "02_question_generator_structure_output",
+            "path": "tutorials/02_question_generator_structure_output",
             "title": "Educational Question Generator with Structured Output",
             "description": "Apply structured output to the educational question generator to generate well-structured responses"
         },
         {
             "id": "03_question_generator_evaluation",
+            "path": "tutorials/03_question_generator_evaluation",
             "title": "Educational Question Generator with Evaluation",
             "description": "Bulk run the dataset and evaluate the generated result using the AI Toolkit"
         }
