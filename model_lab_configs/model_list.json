@@ -5,7 +5,8 @@
             "icon": "ms",
             "model_link": "https://huggingface.co/microsoft/resnet-50",
             "id": "huggingface/microsoft/resnet-50",
-            "runtime": ["QNN"]
+            "runtime": ["QNN"],
+            "architecture": "CNN"
         }
     ]
 }
