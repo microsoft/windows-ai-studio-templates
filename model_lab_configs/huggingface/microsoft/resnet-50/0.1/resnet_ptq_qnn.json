@@ -22,11 +22,24 @@
             "user_script": "imagenet.py",
             "load_dataset_config": {
                 "data_name": "imagenet-1k",
-                "split": "validation",
+                "split": "train",
                 "streaming": true,
                 "trust_remote_code": true
             },
-            "pre_process_data_config": { "type": "dataset_pre_process", "size": 256, "cache_key": "imagenet" },
+            "pre_process_data_config": { "type": "dataset_pre_process", "size": 256 },
+            "post_process_data_config": { "type": "imagenet_post_fun" }
+        },
+        {
+            "name": "evaluation_data_config",
+            "type": "HuggingfaceContainer",
+            "user_script": "imagenet.py",
+            "load_dataset_config": {
+                "data_name": "imagenet-1k",
+                "split": "test",
+                "streaming": true,
+                "trust_remote_code": true
+            },
+            "pre_process_data_config": { "type": "dataset_pre_process", "size": 256 },
             "post_process_data_config": { "type": "imagenet_post_fun" }
         }
     ],
@@ -36,7 +49,7 @@
                 {
                     "name": "accuracy_qnn",
                     "type": "accuracy",
-                    "data_config": "quantize_data_config",
+                    "data_config": "evaluation_data_config",
                     "sub_types": [
                         {
                             "name": "accuracy_score",
@@ -59,7 +72,7 @@
                 {
                     "name": "accuracy_cpu",
                     "type": "accuracy",
-                    "data_config": "quantize_data_config",
+                    "data_config": "evaluation_data_config",
                     "sub_types": [
                         {
                             "name": "accuracy_score",
@@ -74,7 +87,7 @@
                 {
                     "name": "latency_qnn",
                     "type": "latency",
-                    "data_config": "quantize_data_config",
+                    "data_config": "evaluation_data_config",
                     "sub_types": [ { "name": "avg", "priority": 3 } ],
                     "user_config": {
                         "inference_settings": {
@@ -91,7 +104,7 @@
                 {
                     "name": "latency_cpu",
                     "type": "latency",
-                    "data_config": "quantize_data_config",
+                    "data_config": "evaluation_data_config",
                     "sub_types": [ { "name": "avg", "priority": 4 } ],
                     "user_config": {
                         "inference_settings": { "onnx": { "execution_provider": "CPUExecutionProvider" } }
