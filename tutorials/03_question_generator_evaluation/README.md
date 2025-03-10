@@ -37,7 +37,7 @@ This app generates educational questions based on a topic or subject area provid
 ## Generate Dataset
 1. In the AI Toolkit view, select **TOOLS** > **Bulk Run** to open the Bulk Run view.
 2. Configure the prompt:
-    1. Copy and paste the system prompt from `prompt.txt`.
+    1. Copy and paste the system prompt from `prompt.aitk.txt`.
     2. Input `{{query}}` in the user prompt input box.
     3. In `Response Format`, select `json_schema`, then click the `Prepare schema` button, select `Use local file`, and choose the `response_schema.json` file as the JSON schema file.
 3. Click `Generate Dataset` to generate the initial dataset.

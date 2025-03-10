@@ -147,14 +147,14 @@ Modify the existing system prompt to maintain consistency with structured output
   }
   ```
 
-Here is the final prompt: [final_prompt.txt](./final_prompt.txt)
+Here is the final prompt: [final_prompt.aitk.txt](./final_prompt.aitk.txt)
 
 ### Step 3: Test the prompt
 
 To test whether your prompt works correctly with the JSON schema:
 
 1. Open the **Prompt Builder** in the AI Toolkit sidebar.
-2. Enter your system prompt from [final_prompt.txt](./final_prompt.txt).
+2. Enter your system prompt from [final_prompt.aitk.txt](./final_prompt.aitk.txt).
 3. Configure the response format:
    - Click on the **Response Format** dropdown and select `json_schema`.
    ![json_schema](./images/configure-json-schema.png)

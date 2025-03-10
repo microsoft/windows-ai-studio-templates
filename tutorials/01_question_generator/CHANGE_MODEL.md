@@ -28,7 +28,7 @@ Refer to [this document](https://code.visualstudio.com/docs/intelligentapps/mode
 1. Open the **Prompt Builder** in the AI Toolkit sidebar.
 2. Browse the available models and select one to use.
 ![select-model](./images/prompt-builder-select-model.png)
-3. Copy the system prompt from [final_prompt.txt](./final_prompt.txt) and input it.
+3. Copy the system prompt from [final_prompt.aitk.txt](./final_prompt.aitk.txt) and input it.
 4. Enter a user prompt to test the new model, for example:
     ```text
     Create an intermediate level mathematical question for a grade 8 student.
