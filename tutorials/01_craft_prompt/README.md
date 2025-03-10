@@ -1,48 +1,34 @@
-# Educational Question Generator Sample App
+# Tutorial 01: Craft a Prompt for Question Generation
 
-This tutorial demonstrates how to build an AI-powered educational question generator using the AI Toolkit for Visual Studio Code. 
+![app](./images/app.gif)
 
-You'll learn:
-- How to create and refine prompts using the `Prompt Builder` tool
-- Best practices for prompt engineering including audience targeting and example diversity
-- How to integrate chat completion code into a Python application
+This is a comprehensive tutorial that demonstrates how to build a basic console app that uses prompt engineering technique, LLM capabilities and [AI Toolkit](https://aka.ms/aitoolkit/doc) to generate educational questions. The end user can interact with this simple console app to submit a topic and receive a specific question, hints (from general to specific), and the correct answer.
+
+## What you will learn
+- Create an effective prompt via LLM for getting started using the `Prompt Generator` in AI Toolkit
+- Iterate and refine prompts using the `Prompt Builder` tool in AI Toolkit
+- Prompt engineering best practices such as audience targeting and example diversity
 - Testing and iterating prompts for better results
+- Integrate chat completion code into a Python application using [Azure AI Inference SDK](https://learn.microsoft.com/rest/api/aifoundry/modelinference/) and sample code via `View Code` feature in AI Toolkit
 
-The final app allows educators to enter a subject area and specify the target audience for which they want a question. The app generates:
-- A specific question on the topic
-- 2-3 progressive hints (from general to specific)
-- The correct answer
-
-> **Note:** This sample uses `gpt-4o` from GitHub for chat completion. To switch to a different GitHub-hosted model, update the `model` variable in [app.py](./app.py). For instructions on changing the model to one hosted by another provider, refer to the [changing-model](./CHANGE_MODEL.md) tutorial.
-
-## AI Toolkit Features Used in This Tutorial
-1. Generate effective prompts using the `Prompt Generator`.
-2. Iterate prompts using the `Prompt Builder`.
-3. Generate sample code using the `View Code` button.
+> **Note:** This sample uses `gpt-4o` model from OpenAI hosted via GitHub for chat completion. To switch to a different GitHub-hosted model, update the `model` variable in [app.py](./app.py). For instructions on changing the model to one hosted by another provider, refer to the [changing-model](../02_switch_models/README.md) tutorial.
 
 ## Prerequisites
-- Python installed on your system
-- AI Toolkit VS Code extension installed
-- Access to GitHub models and `gpt-4o` added from the AI Toolkit model catalog
-- GitHub Personal Access Token (PAT)
+- Latest version of [Python](https://www.python.org/downloads/).
+- [AI Toolkit extension](https://code.visualstudio.com/docs/intelligentapps/overview#_install-and-setup) for Visual Studio Code
+- [GitHub account](https://docs.github.com/en/get-started/start-your-journey/creating-an-account-on-github)
+- [Add `OpenAI GPT-4o` model (Hosted by GitHub)](https://code.visualstudio.com/docs/intelligentapps/models#_find-a-model) in AI Toolkit
+- Prepare [GitHub Personal Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens) (PAT)
 
-## Getting Started
+## Getting started with the tutorial
 Let's run the app first with the initial prompt: `Generate one educational question for students`.
 
-1. Install the required package:
-
-    ```bash
-    pip install azure-ai-inference
-    ```
-
+1. Install the required package: `pip install azure-ai-inference`
 2. Set up model authentication:
     - Generate a GitHub Personal Access Token (PAT) at [GitHub Tokens](https://github.com/settings/tokens)
     - Set your token as an environment variable `GITHUB_TOKEN`
 
-3. Navigate to the project directory and run the Python script:
-    ```bash
-    python app.py
-    ```
+3. Navigate to the project directory and run the Python script: `python app.py`
 
 4. Using the chat:
     - Enter your message at the prompt
@@ -52,18 +38,12 @@ Let's run the app first with the initial prompt: `Generate one educational quest
 Here is how the app may look:
 ![Initial app](./images/initial-app.png)
 
-## Iterate the prompt
-The sample app starts with a very simple prompt that describes the core task:
-```
-Generate one educational question for students.
-```
-
-As you can see, the initial prompt is too vague. Let's improve it to be highly specific, structured, and actionable:
+The sample app starts with a very simple prompt that describes the core task: `Generate one educational question for students`. As you can see, the initial prompt is too vague. Let's improve it to be highly specific, structured, and actionable:
 - Give clear instructions
 - Define your desired output format (e.g., we expect the output to include a question, hints, and an answer)
 - Provide examples to guide the model
 
-### Step1: Generate initial prompt using Prompt Builder
+### Step 1: Generate initial prompt using Prompt Generator
 The easiest way to get started with writing effective prompts is by using the **Prompt Generator** feature in the **Prompt Builder**. This tool is particularly useful for overcoming the "blank page problem" and serves as a **starting point** for experimenting and refining prompts. To use it:
 
 - Open the **Prompt Builder** from the left sidebar.
@@ -288,7 +268,7 @@ Once you're satisfied with the AI response, export the code and integrate it wit
 For a complete app code after prompt iteration, you can check [final_app.py](./final_app.py).
 
 ## What's Next
-- [Change model for your app](./CHANGE_MODEL.md)
-- [Apply structured outputs](../02_question_generator_structure_output/README.md)
-- [Run evaluation](../03_question_generator_evaluation/README.md)
-- [Prompt engineering](Coming soon ...)
+- [Change model for your app](../02_switch_models/README.md)
+- [Apply structured outputs](../03_structured_output/README.md)
+- [Bulk run prompts](../04_run_prompts_in_batch/README.md)
+- [Run evaluation](../05_evaluate_prompt/README.md)

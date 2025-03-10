@@ -1,18 +1,25 @@
-# Adding Structured Outputs using JSON Schema
+# Tutorial 03: Apply Structured Outputs using JSON Schema
 
-When building AI applications, getting consistent, machine-readable responses is crucial. Unstructured text responses:
+When building AI applications, getting consistent and machine-readable responses is crucial. Using unstructured text responses has many drawbacks:
 - Require complex parsing logic
 - Can vary in format between responses
 - May include unwanted information
 - Are difficult to validate
 
-Structured Outputs is a feature that ensures the model will always generate responses that adhere to your supplied [JSON Schema](https://json-schema.org/overview/what-is-jsonschema). Modern AI models like GPT-4o, and Gemini support JSON mode, allowing you to define the exact structure you want.
+Structured outputs is a feature that ensures the model will always generate responses that adhere to your supplied [JSON Schema](https://json-schema.org/overview/what-is-jsonschema). Modern AI models like GPT-4o, and Gemini support JSON mode, allowing you to define the exact structure you want.
 
-In this tutorial, you will learn how to improve your AI application's output by utilizing AI Toolkit's **Structured Outputs** feature.
+## What you will learn
+- Apply **Structured Outputs** for the prompts in `Prompt Builder`
+- Update the console app code to use the schema for the output
 
-## Adding Structured Outputs to the Question Generator
+## Prerequisites
+- Completed the [Craft Prompt](../01_craft_prompt/README.md) tutorial
+- Latest version of [Python](https://www.python.org/downloads/)
+- [AI Toolkit extension](https://code.visualstudio.com/docs/intelligentapps/overview#_install-and-setup) for Visual Studio Code
+- Access to desired model providers
 
-Remember the [question generator app](../01_question_generator/README.md) we built earlier? In that app, we used prompt engineering with samples and instructions to guide the AI to generate markdown output in this format:
+## Getting started with the tutorial
+Remember the [Craft Prompt](../01_craft_prompt/README.md) tutorial we went through earlier? In that tutorial, we build a prompt to generate questions for educational scenario with samples and instructions to guide the AI to use markdown output in this format:
 
 - **Topic**: Mathematics
 - **Question:** What is the smallest prime number?
@@ -22,14 +29,15 @@ Remember the [question generator app](../01_question_generator/README.md) we bui
     2. A prime number can only be divided by 1 and itself, and this number is less than 3.
     3. It is the only even number that is also a prime.
 
-Now, let's improve our application by implementing structured outputs using JSON schema, which will make the responses more consistent and easier to process programmatically.
+Now, let's improve this by implementing structured outputs using JSON schema, which will make the responses more consistent and easier to process programmatically.
 
-### Step 1: Define Your Schema
+### Step 1: Define the schema
 First, create a schema file that describes the exact response format for the generated educational questions:
 
-> NOTE: JSON schema formats may differ slightly between different model providers.
+> **NOTE**: JSON schema formats may differ slightly between different model providers.
 
-- Example schema used with Open AI models:
+<details>
+<summary>Example schema used with Open AI models</summary>
   ```json
   {
     "name": "Question_Generator",
@@ -68,7 +76,10 @@ First, create a schema file that describes the exact response format for the gen
     }
   }
   ```
-- Example schema used with Google Gemini models:
+</details>
+
+<details>
+<summary>Example schema used with Google Gemini models</summary>
   ```json
   {
       "type": "object",
@@ -102,8 +113,9 @@ First, create a schema file that describes the exact response format for the gen
       ]
   }
   ```
+</details>
 
-### Step 2: Update Your Prompt
+### Step 2: Update prompt
 Modify the existing system prompt to maintain consistency with structured output:
 - Remove the `# Output Format` section since we're specifying a JSON schema when calling the chat completion API
 - Update the examples to JSON format
@@ -185,7 +197,7 @@ To test whether your prompt works correctly with the JSON schema:
     }
     ```
 
-### Step 4: Update App Code
+### Step 4: Update app code
 Now that you've validated your schema works correctly, let's integrate structured outputs into the application code:
 
 1. In the `Prompt Builder`, click the `View Code` button to generate a code sample in VS Code.
@@ -220,4 +232,5 @@ Now that you've validated your schema works correctly, let's integrate structure
   For a complete implementation with structured output, see [final_app.py](./final_app.py) which demonstrates using GitHub's gpt-4o model with the Azure AI Inference SDK.
 
 ## What's Next
-- [Run evaluation to validate how your app performs](../03_question_generator_evaluation/README.md)
+- [Bulk run prompts](../04_run_prompts_in_batch/README.md)
+- [Run evaluation](../05_evaluate_prompt/README.md)
