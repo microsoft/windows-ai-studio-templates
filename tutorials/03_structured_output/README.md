@@ -13,13 +13,12 @@ Structured outputs is a feature that ensures the model will always generate resp
 - Update the console app code to use the schema for the output
 
 ## Prerequisites
-- Completed the [Craft Prompt](../01_craft_prompt/tutorial_01.md) tutorial
+- Completed the [Craft Prompt](../01_craft_prompt/README.md) tutorial
 - Latest version of [Python](https://www.python.org/downloads/)
 - [AI Toolkit extension](https://code.visualstudio.com/docs/intelligentapps/overview#_install-and-setup) for Visual Studio Code
 - Access to desired model providers
 
-## Apply structured outputs to the prompt
-
+## Getting started with the tutorial
 Remember the [Craft Prompt](../01_craft_prompt/README.md) tutorial we went through earlier? In that tutorial, we build a prompt to generate questions for educational scenario with samples and instructions to guide the AI to use markdown output in this format:
 
 - **Topic**: Mathematics
@@ -37,7 +36,8 @@ First, create a schema file that describes the exact response format for the gen
 
 > **NOTE**: JSON schema formats may differ slightly between different model providers.
 
-- Example schema used with Open AI models:
+<details>
+<summary>Example schema used with Open AI models</summary>
   ```json
   {
     "name": "Question_Generator",
@@ -76,7 +76,10 @@ First, create a schema file that describes the exact response format for the gen
     }
   }
   ```
-- Example schema used with Google Gemini models:
+</details>
+
+<details>
+<summary>Example schema used with Google Gemini models</summary>
   ```json
   {
       "type": "object",
@@ -110,6 +113,7 @@ First, create a schema file that describes the exact response format for the gen
       ]
   }
   ```
+</details>
 
 ### Step 2: Update prompt
 Modify the existing system prompt to maintain consistency with structured output:
@@ -228,4 +232,5 @@ Now that you've validated your schema works correctly, let's integrate structure
   For a complete implementation with structured output, see [final_app.py](./final_app.py) which demonstrates using GitHub's gpt-4o model with the Azure AI Inference SDK.
 
 ## What's Next
-- [Run evaluation to validate how your app performs](../03_question_generator_evaluation/README.md)
+- [Bulk run prompts](../04_run_prompts_in_batch/README.md)
+- [Run evaluation](../05_evaluate_prompt/README.md)

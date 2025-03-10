@@ -11,7 +11,7 @@ This is a comprehensive tutorial that demonstrates how to build a basic console 
 - Testing and iterating prompts for better results
 - Integrate chat completion code into a Python application using [Azure AI Inference SDK](https://learn.microsoft.com/rest/api/aifoundry/modelinference/) and sample code via `View Code` feature in AI Toolkit
 
-> **Note:** This sample uses `gpt-4o` model from OpenAI hosted via GitHub for chat completion. To switch to a different GitHub-hosted model, update the `model` variable in [app.py](./app.py). For instructions on changing the model to one hosted by another provider, refer to the [changing-model](../02_switch_models/tutorial_02.md) tutorial.
+> **Note:** This sample uses `gpt-4o` model from OpenAI hosted via GitHub for chat completion. To switch to a different GitHub-hosted model, update the `model` variable in [app.py](./app.py). For instructions on changing the model to one hosted by another provider, refer to the [changing-model](../02_switch_models/README.md) tutorial.
 
 ## Prerequisites
 - Latest version of [Python](https://www.python.org/downloads/).
@@ -20,7 +20,7 @@ This is a comprehensive tutorial that demonstrates how to build a basic console 
 - [Add `OpenAI GPT-4o` model (Hosted by GitHub)](https://code.visualstudio.com/docs/intelligentapps/models#_find-a-model) in AI Toolkit
 - Prepare [GitHub Personal Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens) (PAT)
 
-## Getting started with the console app
+## Getting started with the tutorial
 Let's run the app first with the initial prompt: `Generate one educational question for students`.
 
 1. Install the required package: `pip install azure-ai-inference`
@@ -38,13 +38,12 @@ Let's run the app first with the initial prompt: `Generate one educational quest
 Here is how the app may look:
 ![Initial app](./images/initial-app.png)
 
-## Iterate on the prompt
 The sample app starts with a very simple prompt that describes the core task: `Generate one educational question for students`. As you can see, the initial prompt is too vague. Let's improve it to be highly specific, structured, and actionable:
 - Give clear instructions
 - Define your desired output format (e.g., we expect the output to include a question, hints, and an answer)
 - Provide examples to guide the model
 
-### Step1: Generate initial prompt using Prompt Generator
+### Step 1: Generate initial prompt using Prompt Generator
 The easiest way to get started with writing effective prompts is by using the **Prompt Generator** feature in the **Prompt Builder**. This tool is particularly useful for overcoming the "blank page problem" and serves as a **starting point** for experimenting and refining prompts. To use it:
 
 - Open the **Prompt Builder** from the left sidebar.
@@ -269,6 +268,7 @@ Once you're satisfied with the AI response, export the code and integrate it wit
 For a complete app code after prompt iteration, you can check [final_app.py](./final_app.py).
 
 ## What's Next
-- [Change model for your app](../02_switch_models/tutorial_02.md)
-- [Apply structured outputs](../03_structured_output/)
-- [Run evaluation](../03_question_generator_evaluation/README.md)
+- [Change model for your app](../02_switch_models/README.md)
+- [Apply structured outputs](../03_structured_output/README.md)
+- [Bulk run prompts](../04_run_prompts_in_batch/README.md)
+- [Run evaluation](../05_evaluate_prompt/README.md)

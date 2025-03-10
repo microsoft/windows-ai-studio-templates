@@ -1,6 +1,6 @@
 # Tutorial 02: Switch to a different model
 
-This tutorial builds on top of the [Craft Prompt](../01_craft_prompt/tutorial_01.md) tutorial that showcases how to how to switch to a different model in the AI Toolkit. The AI Toolkit provides a variety of models to choose from, allowing you to select the one that best fits your needs. This is particularly useful when you want to experiment with different models or when you need to switch to a different model provider for any reason.
+This tutorial builds on top of the [Craft Prompt](../01_craft_prompt/README.md) tutorial that showcases how to how to switch to a different model in the AI Toolkit. The AI Toolkit provides a variety of models to choose from, allowing you to select the one that best fits your needs. This is particularly useful when you want to experiment with different models or when you need to switch to a different model provider for any reason.
 
 > **Note:** AI Toolkit supports [multiple model providers](https://code.visualstudio.com/docs/intelligentapps/models#_find-a-model) including models hosted by GitHub and Publisher (OpenAI, Anthropic and Google etc) as well as using models running locally via ONNX or Ollama runtime. And you can even [bring your own models](https://code.visualstudio.com/docs/intelligentapps/models#_bring-your-own-models).
 
@@ -10,19 +10,20 @@ This tutorial builds on top of the [Craft Prompt](../01_craft_prompt/tutorial_01
 - `View Code` and update the app for the selected model
 
 ## Prerequisites
-- Completed the [Craft Prompt](../01_craft_prompt/tutorial_01.md) tutorial
+- Completed the [Craft Prompt](../01_craft_prompt/README.md) tutorial
 - Latest version of [Python](https://www.python.org/downloads/)
 - [AI Toolkit extension](https://code.visualstudio.com/docs/intelligentapps/overview#_install-and-setup) for Visual Studio Code
 - Anthropic API key (Or access to desired model providers such as Goggle)
 
-## Experiment with different models in Prompt Builder
+## Getting started with the tutorial
+In this section, you will experiment with different models in the Prompt Builder to find the one that best works for you.
 
 ### Step 1: Add a new model
 1. Open Model Catalog in the AI Toolkit sidebar
 2. Search for Claude in the catalog
 ![catalog](./images/catalog.png)
 3. Click `Add` in the Claude 3.7 Sonnet model card
-4. Enter the Cluade API Key
+4. Enter the Claude API Key
 ![add_key](./images/enter_key.png)
 
 You can refer to [this document](https://code.visualstudio.com/docs/intelligentapps/models) for more instructions on adding a model, such as using Ollama models.
@@ -48,3 +49,8 @@ Once you are satisfied with the response and decide to switch to Claude 3.7 mode
 2. Copy the code sample to the `chat` API in [final_app.py](./final_app.py).
 3. Depending on your chosen model, install requirement Python package(s) and set the API key if needed.
 ![change-model](./images/anthropic_code.png)
+
+## What's Next
+- [Apply structured outputs](../03_structured_output/README.md)
+- [Bulk run prompts](../04_run_prompts_in_batch/README.md)
+- [Run evaluation](../05_evaluate_prompt/README.md)
