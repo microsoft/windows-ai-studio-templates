@@ -1,23 +1,35 @@
 {
-    "version": "0.4.0",
+    "version": "0.4.1",
     "tutorials": [
         {
-            "id": "01_question_generator",
-            "path": "tutorials/01_question_generator",
-            "title": "Educational Question Generator",
-            "description": "Learn how to create an educational question generator app using prompt builder"
+            "id": "01_craft_prompt",
+            "path": "tutorials/01_craft_prompt",
+            "title": "Craft a Prompt for Question Generation",
+            "description": "Build a generative AI app to generate questions for educational topics using prompt builder and Python."
         },
         {
-            "id": "02_question_generator_structure_output",
-            "path": "tutorials/02_question_generator_structure_output",
-            "title": "Educational Question Generator with Structured Output",
-            "description": "Apply structured output to the educational question generator to generate well-structured responses"
+            "id": "02_switch_models",
+            "path": "tutorials/02_switch_models",
+            "title": "Explore Different Models",
+            "description": "Experiment with various models and update your application code accordingly."
         },
         {
-            "id": "03_question_generator_evaluation",
-            "path": "tutorials/03_question_generator_evaluation",
-            "title": "Educational Question Generator with Evaluation",
-            "description": "Bulk run the dataset and evaluate the generated result using the AI Toolkit"
+            "id": "03_structured_output",
+            "path": "tutorials/03_structured_output",
+            "title": "Apply Structured Outputs using JSON Schema",
+            "description": "Implement structured outputs using JSON Schema to generate consistent, machine-readable responses."
+        },
+        {
+            "id": "04_run_prompts_in_batch",
+            "path": "tutorials/04_run_prompts_in_batch",
+            "title": "Bulk Run Prompts against LLM Generated Dataset",
+            "description": "Bulk run prompts with variables against LLM generated datasets"
+        },
+        {
+            "id": "05_evaluate_prompt",
+            "path": "tutorials/05_evaluate_prompt",
+            "title": "Evaluate Prompts with Built in and Custom Evaluator",
+            "description": "Create and run prompt evaluations using both custom code-based and built-in evaluators."
         }
     ]
 }
