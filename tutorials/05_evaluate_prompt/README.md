@@ -1,4 +1,4 @@
-# Tutorial 05: Evaluate Prompts with a Custom Evaluator
+# Tutorial 05: Evaluate Prompts with Built in and Custom Evaluator
 
 This tutorial will walk you through the process of creating and running evaluations for your prompts using the AI Toolkit extension for Visual Studio Code. Evaluations are crucial for assessing the quality and effectiveness of your prompts. In this tutorial, you will learn how to add a code-based evaluator and create and run evaluations.
 

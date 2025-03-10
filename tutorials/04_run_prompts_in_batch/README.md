@@ -1,4 +1,4 @@
-# Tutorial 04: Bulk Run Prompts against a Dataset
+# Tutorial 04: Bulk Run Prompts against LLM Generated Dataset
 
 After completing previous tutorials, you will probably have this question: now that I know this console app can generate one question at a time, but I need to generate multiple questions. Can my prompt accept an variable? How can I test multiple scenarios to see the LLM's effectiveness without manually entering topics one by one?
 
