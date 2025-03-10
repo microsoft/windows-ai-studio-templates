@@ -1,11 +1,83 @@
 {
     "models": [
         {
-            "name": "Microsoft/ResNet-50",
+            "displayName": "Intel/bert-base-uncased-mrpc",
+            "icon": "intel",
+            "model_link": "https://huggingface.co/Intel/bert-base-uncased-mrpc",
+            "id": "huggingface/Intel/bert-base-uncased-mrpc",
+            "runtimes": ["QNN"],
+            "architecture": "Transformer"
+        },
+        {
+            "displayName": "google-bert/bert-base-multilingual-cased",
+            "icon": "google-bert",
+            "model_link": "https://huggingface.co/google-bert/bert-base-multilingual-cased",
+            "id": "huggingface/google-bert/bert-base-multilingual-cased",
+            "runtimes": ["QNN"],
+            "architecture": "Transformer"
+        },
+        {
+            "displayName": "openai/clip-vit-base-patch32",
+            "icon": "OpenAI",
+            "model_link": "https://huggingface.co/openai/clip-vit-base-patch32",
+            "id": "huggingface/openai/clip-vit-base-patch32",
+            "runtimes": ["QNN"],
+            "architecture": "CNN"
+        },
+        {
+            "displayName": "openai/clip-vit-large-patch14",
+            "icon": "OpenAI",
+            "model_link": "https://huggingface.co/openai/clip-vit-large-patch14",
+            "id": "huggingface/openai/clip-vit-large-patch14",
+            "runtimes": ["QNN"],
+            "architecture": "CNN"
+        },
+        {
+            "displayName": "Microsoft/ResNet-50",
             "icon": "ms",
             "model_link": "https://huggingface.co/microsoft/resnet-50",
             "id": "huggingface/microsoft/resnet-50",
-            "runtime": ["QNN"],
+            "runtimes": ["QNN"],
+            "architecture": "CNN"
+        },
+        {
+            "displayName": "Microsoft/ResNet-50",
+            "icon": "ms",
+            "model_link": "https://huggingface.co/microsoft/resnet-50",
+            "id": "huggingface/microsoft/resnet-50",
+            "runtimes": ["QNN"],
+            "architecture": "CNN"
+        },
+        {
+            "displayName": "Microsoft/ResNet-50",
+            "icon": "ms",
+            "model_link": "https://huggingface.co/microsoft/resnet-50",
+            "id": "huggingface/microsoft/resnet-50",
+            "runtimes": ["QNN"],
+            "architecture": "CNN"
+        },
+        {
+            "displayName": "Microsoft/ResNet-50",
+            "icon": "ms",
+            "model_link": "https://huggingface.co/microsoft/resnet-50",
+            "id": "huggingface/microsoft/resnet-50",
+            "runtimes": ["QNN"],
+            "architecture": "CNN"
+        },
+        {
+            "displayName": "Microsoft/ResNet-50",
+            "icon": "ms",
+            "model_link": "https://huggingface.co/microsoft/resnet-50",
+            "id": "huggingface/microsoft/resnet-50",
+            "runtimes": ["QNN"],
+            "architecture": "CNN"
+        },
+        {
+            "displayName": "Microsoft/ResNet-50",
+            "icon": "ms",
+            "model_link": "https://huggingface.co/microsoft/resnet-50",
+            "id": "huggingface/microsoft/resnet-50",
+            "runtimes": ["QNN"],
             "architecture": "CNN"
         }
     ]
