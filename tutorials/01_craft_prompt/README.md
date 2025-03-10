@@ -4,7 +4,7 @@
 
 This is a comprehensive tutorial that demonstrates how to build a basic console app that uses prompt engineering technique, LLM capabilities and [AI Toolkit](https://aka.ms/aitoolkit/doc) to generate educational questions. The end user can interact with this simple console app to submit a topic and receive a specific question, hints (from general to specific), and the correct answer.
 
-## What you will learn:
+## What you will learn
 - Create an effective prompt via LLM for getting started using the `Prompt Generator` in AI Toolkit
 - Iterate and refine prompts using the `Prompt Builder` tool in AI Toolkit
 - Prompt engineering best practices such as audience targeting and example diversity

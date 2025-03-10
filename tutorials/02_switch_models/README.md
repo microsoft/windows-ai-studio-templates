@@ -1,4 +1,4 @@
-# Tutorial 02: Switch to a different model
+# Tutorial 02: Explore Different Models
 
 This tutorial builds on top of the [Craft Prompt](../01_craft_prompt/README.md) tutorial that showcases how to how to switch to a different model in the AI Toolkit. The AI Toolkit provides a variety of models to choose from, allowing you to select the one that best fits your needs. This is particularly useful when you want to experiment with different models or when you need to switch to a different model provider for any reason.
 
@@ -28,7 +28,7 @@ In this section, you will experiment with different models in the Prompt Builder
 
 You can refer to [this document](https://code.visualstudio.com/docs/intelligentapps/models) for more instructions on adding a model, such as using Ollama models.
 
-### Step 2: elect and Test the Model in Prompt Builder
+### Step 2: Select and Test the Model in Prompt Builder
 1. Open the **Prompt Builder** in the AI Toolkit sidebar
 2. Select the Claude 3.7 model (Or the model you added)
 ![select-model](./images/select_model.png)
