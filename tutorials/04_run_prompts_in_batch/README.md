@@ -1,46 +1,39 @@
-# Educational Question Generator Sample App
-This app generates educational questions based on a topic or subject area provided by the user. It interacts with an AI model through the Azure AI Inference SDK.
+# Bulk Run Prompts against a Dataset
 
-## What You Will Learn
-- Generate test datasets
+After completing previous tutorials, you will probably have this question: now that I know this console app can generate one question at a time, but I need to generate multiple questions. Can my prompt accept an variable? How can I test mutiple scenairos to see the LLM's effectiveness without manually entering topics one by one?
+
+Let's dive into using variables in prompts and execute them in batch at once.
+
+## What you will learn
+
+- Use variables in prompt via `Bulk Run` feature in AI Toolkit
+- Use LLM capability to automatically generate topics for educational questions
 - Perform bulk runs on datasets
-- Export data (input & output) for evaluation
-- Create and run evaluations
-- Add a code-based (Python) evaluator
+- Export data (input & output) for further evaluation
+<!-- - Create and run evaluations
+- Add a code-based (Python) evaluator -->
 
 ## Prerequisites
-- Python installed on your system
-- Access to GitHub models
-- GitHub Personal Access Token (PAT)
 
-## Run the App Locally
-1. Install the required package:
+- Completed the [Craft Prompt](../01_craft_prompt/README.md) tutorial
+- Latest version of [Python](https://www.python.org/downloads/)
+- [AI Toolkit extension](https://code.visualstudio.com/docs/intelligentapps/overview#_install-and-setup) for Visual Studio Code
+- Access to desired model providers
 
-    ```bash
-    pip install azure-ai-inference
-    ```
+## Add prompts with variable to `Bulk Run`
+First, let's go to `Bulk Run` in AI Toolkit to input our previously built prompts and add variables in the user prompt so we can provide various topics.
 
-2. Set up model authentication:
-    - Generate a GitHub Personal Access Token (PAT) at https://github.com/settings/tokens
-    - Set your token as an environment variable `GITHUB_TOKEN`
-
-3. Navigate to the project directory and run the Python script:
-    ```bash
-    python app.py
-    ```
-
-4. Using the chat:
-    - Enter your message at the prompt
-    - Wait for the AI response
-    - Type `exit` to quit
-
-## Generate Dataset
+Follow these steps:
 1. In the AI Toolkit view, select **TOOLS** > **Bulk Run** to open the Bulk Run view.
-2. Configure the prompt:
-    1. Copy and paste the system prompt from `prompt.txt`.
-    2. Input `{{query}}` in the user prompt input box.
-    3. In `Response Format`, select `json_schema`, then click the `Prepare schema` button, select `Use local file`, and choose the `response_schema.json` file as the JSON schema file.
-3. Click `Generate Dataset` to generate the initial dataset.
+2. Copy and paste the system prompt from `prompt.txt`
+3. Input `{{query}}` in the user prompt input box. This indicates that user prompt will accpet a series value deinfed via the variable `query`
+4. In `Response Format`, select `json_schema`, then click the `Prepare schema` button, select `Use local file`, and choose the `response_schema.json` file as the JSON schema file
+
+## Generate synthetic data
+We can leverage the power of LLM to come up with a list of topics, which will be refered as dataset or test cases to use as the user prompt. LLM will automatically detect the prompt we entered and generate relevant dataset (test cases). 
+
+Follow these steps:
+1. Click `Generate Dataset` to generate the initial dataset.
 ![generate dataset](./images/bulk-run.png)
 4. You can also click the `Generate More Data` button to add more test data.
 ![generate more](./images/generate-more.png)
