@@ -12,7 +12,7 @@ Let's dive into using variables in prompts and execute them in batch at once.
 
 
 ## Prerequisites
-- Completed the [Craft Prompt](../01_craft_prompt/README.md) tutorial
+- Completed the [Craft Prompt](https://github.com/microsoft/windows-ai-studio-templates/tree/dev/tutorials/01_craft_prompt/README.md) tutorial
 - Latest version of [Python](https://www.python.org/downloads/)
 - [AI Toolkit extension](https://code.visualstudio.com/docs/intelligentapps/overview#_install-and-setup) for Visual Studio Code
 - Access to desired model providers
@@ -41,4 +41,6 @@ Follow these steps:
 ![export](./images/export.png)
 
 ## What's Next
-- [Run evaluation](../05_evaluate_prompt/README.md)
+To explore more tutorials, select the AI Toolkit view in the Activity Bar, then select **CATALOG** > **Tutorials** to open the tutorials recommended below:
+
+- [Run evaluation](https://github.com/microsoft/windows-ai-studio-templates/tree/dev/tutorials/05_evaluate_prompt/README.md)

@@ -1,6 +1,6 @@
 # Tutorial 02: Explore Different Models
 
-This tutorial builds on top of the [Craft Prompt](../01_craft_prompt/README.md) tutorial that showcases how to how to switch to a different model in the AI Toolkit. The AI Toolkit provides a variety of models to choose from, allowing you to select the one that best fits your needs. This is particularly useful when you want to experiment with different models or when you need to switch to a different model provider for any reason.
+This tutorial builds on top of the [Craft Prompt](https://github.com/microsoft/windows-ai-studio-templates/tree/dev/tutorials/01_craft_prompt/README.md) tutorial that showcases how to how to switch to a different model in the AI Toolkit. The AI Toolkit provides a variety of models to choose from, allowing you to select the one that best fits your needs. This is particularly useful when you want to experiment with different models or when you need to switch to a different model provider for any reason.
 
 > **Note:** AI Toolkit supports [multiple model providers](https://code.visualstudio.com/docs/intelligentapps/models#_find-a-model) including models hosted by GitHub and Publisher (OpenAI, Anthropic and Google etc) as well as using models running locally via ONNX or Ollama runtime. And you can even [bring your own models](https://code.visualstudio.com/docs/intelligentapps/models#_bring-your-own-models).
 
@@ -10,7 +10,7 @@ This tutorial builds on top of the [Craft Prompt](../01_craft_prompt/README.md) 
 - `View Code` and update the app for the selected model
 
 ## Prerequisites
-- Completed the [Craft Prompt](../01_craft_prompt/README.md) tutorial
+- Completed the [Craft Prompt](https://github.com/microsoft/windows-ai-studio-templates/tree/dev/tutorials/01_craft_prompt/README.md) tutorial
 - Latest version of [Python](https://www.python.org/downloads/)
 - [AI Toolkit extension](https://code.visualstudio.com/docs/intelligentapps/overview#_install-and-setup) for Visual Studio Code
 - Anthropic API key (Or access to desired model providers such as Goggle)
@@ -54,6 +54,8 @@ Once you are satisfied with the response and decide to switch to Claude 3.7 mode
 ![change-model](./images/anthropic_code.png)
 
 ## What's Next
-- [Apply structured outputs](../03_structured_output/README.md)
-- [Bulk run prompts](../04_run_prompts_in_batch/README.md)
-- [Run evaluation](../05_evaluate_prompt/README.md)
+To explore more tutorials, select the AI Toolkit view in the Activity Bar, then select **CATALOG** > **Tutorials** to open the tutorials recommended below:
+
+- [Apply structured outputs](https://github.com/microsoft/windows-ai-studio-templates/tree/dev/tutorials/03_structured_output/README.md)
+- [Bulk run prompts](https://github.com/microsoft/windows-ai-studio-templates/tree/dev/tutorials/04_run_prompts_in_batch/README.md)
+- [Run evaluation](https://github.com/microsoft/windows-ai-studio-templates/tree/dev/tutorials/05_evaluate_prompt/README.md)

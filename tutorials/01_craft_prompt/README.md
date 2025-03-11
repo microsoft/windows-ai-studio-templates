@@ -11,7 +11,7 @@ This is a comprehensive tutorial that demonstrates how to build a basic console 
 - Testing and iterating prompts for better results
 - Integrate chat completion code into a Python application using [Azure AI Inference SDK](https://learn.microsoft.com/rest/api/aifoundry/modelinference/) and sample code via `View Code` feature in AI Toolkit
 
-> **Note:** This sample uses `gpt-4o` model from OpenAI hosted via GitHub for chat completion. To switch to a different GitHub-hosted model, update the `model` variable in [app.py](./app.py). For instructions on changing the model to one hosted by another provider, refer to the [changing-model](../02_switch_models/README.md) tutorial.
+> **Note:** This sample uses `gpt-4o` model from OpenAI hosted via GitHub for chat completion. To switch to a different GitHub-hosted model, update the `model` variable in [app.py](./app.py). For instructions on changing the model to one hosted by another provider, refer to the [changing-model](https://github.com/microsoft/windows-ai-studio-templates/tree/dev/tutorials/02_switch_models#readme) tutorial.
 
 ## Prerequisites
 - Latest version of [Python](https://www.python.org/downloads/).
@@ -273,7 +273,8 @@ Once you're satisfied with the AI response, export the code and integrate it wit
 For a complete app code after prompt iteration, you can check [final_app.py](./final_app.py).
 
 ## What's Next
-- [Change model for your app](../02_switch_models/README.md)
-- [Apply structured outputs](../03_structured_output/README.md)
-- [Bulk run prompts](../04_run_prompts_in_batch/README.md)
-- [Run evaluation](../05_evaluate_prompt/README.md)
+To explore more tutorials, select the AI Toolkit view in the Activity Bar, then select **CATALOG** > **Tutorials** to open the tutorials:
+- [Change the model for your app](https://github.com/microsoft/windows-ai-studio-templates/tree/dev/tutorials/02_switch_models/README.md)
+- [Apply structured outputs](https://github.com/microsoft/windows-ai-studio-templates/tree/dev/tutorials/03_structured_output/README.md)
+- [Run prompts in bulk](https://github.com/microsoft/windows-ai-studio-templates/tree/dev/tutorials/04_run_prompts_in_batch/README.md)
+- [Evaluate prompts](https://github.com/microsoft/windows-ai-studio-templates/tree/dev/tutorials/05_evaluate_prompt/README.md)
