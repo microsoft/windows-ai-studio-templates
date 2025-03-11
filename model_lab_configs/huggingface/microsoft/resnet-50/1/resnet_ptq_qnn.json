@@ -12,7 +12,7 @@
     "systems": {
         "qnn_system": {
             "type": "LocalSystem",
-            "accelerators": [ { "device": "npu", "execution_providers": [ "QNNExecutionProvider" ] } ]
+            "accelerators": [ { "execution_providers": [ "QNNExecutionProvider" ] } ]
         }
     },
     "data_configs": [
@@ -26,7 +26,7 @@
                 "streaming": true,
                 "trust_remote_code": true
             },
-            "pre_process_data_config": { "type": "dataset_pre_process", "size": 256 },
+            "pre_process_data_config": { "type": "dataset_pre_process", "size": 64 },
             "post_process_data_config": { "type": "imagenet_post_fun" }
         },
         {
@@ -35,11 +35,11 @@
             "user_script": "imagenet.py",
             "load_dataset_config": {
                 "data_name": "imagenet-1k",
-                "split": "test",
+                "split": "train",
                 "streaming": true,
                 "trust_remote_code": true
             },
-            "pre_process_data_config": { "type": "dataset_pre_process", "size": 256 },
+            "pre_process_data_config": { "type": "dataset_pre_process", "size": 64 },
             "post_process_data_config": { "type": "imagenet_post_fun" }
         }
     ],
@@ -47,7 +47,7 @@
         "common_evaluator": {
             "metrics": [
                 {
-                    "name": "accuracy_qnn",
+                    "name": "accuracy",
                     "type": "accuracy",
                     "data_config": "evaluation_data_config",
                     "sub_types": [
@@ -56,66 +56,19 @@
                             "priority": 1,
                             "metric_config": { "task": "multiclass", "num_classes": 1001 }
                         }
-                    ],
-                    "user_config": {
-                        "inference_settings": {
-                            "onnx": {
-                                "session_options": {
-                                    "extra_session_config": { "session.disable_cpu_ep_fallback": "1" }
-                                },
-                                "execution_provider": "QNNExecutionProvider",
-                                "provider_options": [ { "backend_path": "QnnHtp.dll" } ]
-                            }
-                        }
-                    }
+                    ]
                 },
                 {
-                    "name": "accuracy_cpu",
-                    "type": "accuracy",
-                    "data_config": "evaluation_data_config",
-                    "sub_types": [
-                        {
-                            "name": "accuracy_score",
-                            "priority": 2,
-                            "metric_config": { "task": "multiclass", "num_classes": 1001 }
-                        }
-                    ],
-                    "user_config": {
-                        "inference_settings": { "onnx": { "execution_provider": "CPUExecutionProvider" } }
-                    }
-                },
-                {
-                    "name": "latency_qnn",
+                    "name": "latency",
                     "type": "latency",
                     "data_config": "evaluation_data_config",
-                    "sub_types": [ { "name": "avg", "priority": 3 } ],
-                    "user_config": {
-                        "inference_settings": {
-                            "onnx": {
-                                "session_options": {
-                                    "extra_session_config": { "session.disable_cpu_ep_fallback": "1" }
-                                },
-                                "execution_provider": "QNNExecutionProvider",
-                                "provider_options": [ { "backend_path": "QnnHtp.dll" } ]
-                            }
-                        }
-                    }
-                },
-                {
-                    "name": "latency_cpu",
-                    "type": "latency",
-                    "data_config": "evaluation_data_config",
-                    "sub_types": [ { "name": "avg", "priority": 4 } ],
-                    "user_config": {
-                        "inference_settings": { "onnx": { "execution_provider": "CPUExecutionProvider" } }
-                    }
+                    "sub_types": [ { "name": "avg", "priority": 2 } ]
                 }
             ]
         }
     },
     "passes": {
         "conversion": {
-            "device": "cpu",
             "type": "OnnxConversion",
             "target_opset": 17,
             "save_as_external_data": true,
