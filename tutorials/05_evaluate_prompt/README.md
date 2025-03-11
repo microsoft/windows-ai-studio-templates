@@ -3,7 +3,7 @@
 This tutorial will walk you through the process of creating and running evaluations for your prompts using the AI Toolkit extension for Visual Studio Code. Evaluations are crucial for assessing the quality and effectiveness of your prompts. In this tutorial, you will learn how to add a code-based evaluator and create and run evaluations.
 
 ## Prerequisites
-- Completed the [Batch Run Prompt](../04_run_prompts_in_batch/README.md) tutorial
+- Completed the [Batch Run Prompt](https://github.com/microsoft/windows-ai-studio-templates/tree/dev/tutorials/04_run_prompts_in_batch/README.md) tutorial
 - Latest version of [Python](https://www.python.org/downloads/)
 - [AI Toolkit extension](https://code.visualstudio.com/docs/intelligentapps/overview#_install-and-setup) for Visual Studio Code
 - Access to desired model providers

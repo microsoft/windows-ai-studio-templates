@@ -13,13 +13,13 @@ Structured outputs is a feature that ensures the model will always generate resp
 - Update the console app code to use the schema for the output
 
 ## Prerequisites
-- Completed the [Craft Prompt](../01_craft_prompt/README.md) tutorial
+- Completed the [Craft Prompt](https://github.com/microsoft/windows-ai-studio-templates/tree/dev/tutorials/01_craft_prompt/README.md) tutorial
 - Latest version of [Python](https://www.python.org/downloads/)
 - [AI Toolkit extension](https://code.visualstudio.com/docs/intelligentapps/overview#_install-and-setup) for Visual Studio Code
 - Access to desired model providers
 
 ## Getting started with the tutorial
-Remember the [Craft Prompt](../01_craft_prompt/README.md) tutorial we went through earlier? In that tutorial, we build a prompt to generate questions for educational scenario with samples and instructions to guide the AI to use markdown output in this format:
+Remember the [Craft Prompt](https://github.com/microsoft/windows-ai-studio-templates/tree/dev/tutorials/01_craft_prompt/README.md) tutorial we went through earlier? In that tutorial, we build a prompt to generate questions for educational scenario with samples and instructions to guide the AI to use markdown output in this format:
 
 - **Topic**: Mathematics
 - **Question:** What is the smallest prime number?
@@ -232,5 +232,7 @@ Now that you've validated your schema works correctly, let's integrate structure
   For a complete implementation with structured output, see [final_app.py](./final_app.py) which demonstrates using GitHub's gpt-4o model with the Azure AI Inference SDK.
 
 ## What's Next
-- [Bulk run prompts](../04_run_prompts_in_batch/README.md)
-- [Run evaluation](../05_evaluate_prompt/README.md)
+To explore more tutorials, select the AI Toolkit view in the Activity Bar, then select **CATALOG** > **Tutorials** to open the tutorials recommended below:
+
+- [Bulk run prompts](https://github.com/microsoft/windows-ai-studio-templates/tree/dev/tutorials/04_run_prompts_in_batch/README.md)
+- [Run evaluation](https://github.com/microsoft/windows-ai-studio-templates/tree/dev/tutorials/05_evaluate_prompt/README.md)
