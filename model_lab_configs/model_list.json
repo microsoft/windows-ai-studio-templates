@@ -38,6 +38,7 @@
             "model_link": "https://huggingface.co/microsoft/resnet-50",
             "id": "huggingface/microsoft/resnet-50",
             "runtimes": ["QNN"],
+            "status": "Ready",
             "architecture": "CNN"
         },
         {
