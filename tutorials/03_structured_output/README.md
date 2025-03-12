@@ -29,7 +29,7 @@ Remember the [Craft Prompt](https://github.com/microsoft/windows-ai-studio-templ
     2. A prime number can only be divided by 1 and itself, and this number is less than 3.
     3. It is the only even number that is also a prime.
 
-You can quickly load the model and prompt in `Prompt Builder` for a quick test on the app by clicking this [VS Code URL](vscode://ms-windows-ai-studio.windows-ai-studio/open_prompt_builder?model_id=github/gpt-4o&&system_prompt_file=prompt.aitk.txt&&user_prompt=generate%20a%20question%20about%20Newton%27s%20Laws%20of%20Motion).
+You can quickly load the model and prompt in `Prompt Builder` for a quick test on the app by clicking this [VS Code URL](vscode://ms-windows-ai-studio.windows-ai-studio/open_prompt_builder?model_id=github/gpt-4o&&system_prompt_file=prompt.aitk.txt&&user_prompt=generate%20a%20question%20about%20Newton%27s%20Laws%20of%20Motion){: .btn}
 
 Now, let's improve this by implementing structured outputs using JSON schema, which will make the responses more consistent and easier to process programmatically.
 
@@ -165,7 +165,7 @@ Here is the final prompt: [final_prompt.aitk.txt](./final_prompt.aitk.txt)
 
 ### Step 3: Test the prompt
 
-To test whether your prompt works correctly with the JSON schema, open [this VS Code URL](vscode://ms-windows-ai-studio.windows-ai-studio/open_prompt_builder?model_id=github/gpt-4o&&system_prompt_file=prompt.aitk.txt&&user_prompt=generate%20a%20question%20about%20Newton%27s%20Laws%20of%20Motion&&response_format_type=json_schema&&response_format_json_file=response_schema_openai.json) to launch the prompt builder with everything configured correctly.
+To test whether your prompt works correctly with the JSON schema, open [this VS Code URL](vscode://ms-windows-ai-studio.windows-ai-studio/open_prompt_builder?model_id=github/gpt-4o&&system_prompt_file=prompt.aitk.txt&&user_prompt=generate%20a%20question%20about%20Newton%27s%20Laws%20of%20Motion&&response_format_type=json_schema&&response_format_json_file=response_schema_openai.json){: .btn} to launch the prompt builder with everything configured correctly.
 
 Then you can start from step 5 below to test the prompt:
 1. Open the **Prompt Builder** in the AI Toolkit sidebar.

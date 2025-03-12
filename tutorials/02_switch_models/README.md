@@ -29,7 +29,7 @@ In this section, you will experiment with different models in the Prompt Builder
 You can refer to [this document](https://code.visualstudio.com/docs/intelligentapps/models) for more instructions on adding a model, such as using Ollama models.
 
 ### Step 2: Select and Test the Model in Prompt Builder
-Load the model and prompt in `Prompt Builder` through [this VS Code URL](vscode://ms-windows-ai-studio.windows-ai-studio/open_prompt_builder?model_id=anthropic/claude-3-7-sonnet-20250219&&system_prompt_file=prompt.aitk.txt&&user_prompt=generate%20a%20question%20about%20Newton%27s%20Laws%20of%20Motion).
+Load the model and prompt in `Prompt Builder` through [this VS Code URL](vscode://ms-windows-ai-studio.windows-ai-studio/open_prompt_builder?model_id=anthropic/claude-3-7-sonnet-20250219&&system_prompt_file=prompt.aitk.txt&&user_prompt=generate%20a%20question%20about%20Newton%27s%20Laws%20of%20Motion){: .btn}
 
 Alternatively, you can configure manually by following the steps below:
 1. Open the **Prompt Builder** in the AI Toolkit sidebar
