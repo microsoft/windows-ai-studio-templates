@@ -1,12 +1,12 @@
 # Tutorial 03: Apply Structured Outputs using JSON Schema
 
 When building AI applications, getting consistent and machine-readable responses is crucial. Using unstructured text responses has many drawbacks:
-- Require complex parsing logic
+- Requires complex parsing logic
 - Can vary in format between responses
 - May include unwanted information
 - Are difficult to validate
 
-Structured outputs is a feature that ensures the model will always generate responses that adhere to your supplied [JSON Schema](https://json-schema.org/overview/what-is-jsonschema). Modern AI models like GPT-4o, and Gemini support JSON mode, allowing you to define the exact structure you want.
+Structured outputs ensure the model will always generate responses that adhere to your supplied [JSON Schema](https://json-schema.org/overview/what-is-jsonschema). Modern AI models like GPT-4o and Gemini support JSON mode, allowing you to define the exact structure you want.
 
 ## What you will learn
 - Apply **Structured Outputs** for the prompts in `Prompt Builder`
@@ -19,7 +19,7 @@ Structured outputs is a feature that ensures the model will always generate resp
 - Access to desired model providers
 
 ## Getting started with the tutorial
-Remember the [Craft Prompt](https://github.com/microsoft/windows-ai-studio-templates/tree/dev/tutorials/01_craft_prompt/README.md) tutorial we went through earlier? In that tutorial, we build a prompt to generate questions for educational scenario with samples and instructions to guide the AI to use markdown output in this format:
+Remember the [Craft Prompt](https://github.com/microsoft/windows-ai-studio-templates/tree/dev/tutorials/01_craft_prompt/README.md) tutorial we went through earlier? In that tutorial, we built a prompt to generate questions for educational scenarios with samples and instructions to guide the AI to use markdown output in this format:
 
 - **Topic**: Mathematics
 - **Question:** What is the smallest prime number?
@@ -111,7 +111,7 @@ First, create a schema file that describes the exact response format for the gen
           "topic",
           "question",
           "answer",
-          "hints",
+          "hints"
       ]
   }
   ```
@@ -205,7 +205,7 @@ Now that you've validated your schema works correctly, let's integrate structure
 
 1. In the `Prompt Builder`, click the `View Code` button to generate a code sample in VS Code.
 2. Copy the generated code and replace the existing implementation in the `chat(user_query)` method in [app.py](./app.py).
-3. Ensure the last user message sent to the model to use the `user_query` variable as input:
+3. Ensure the last user message sent to the model uses the `user_query` variable as input:
   - For Azure OpenAI or OpenAI models:
     ```python
     UserMessage(content=[
