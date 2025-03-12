@@ -24,7 +24,7 @@ This is a comprehensive tutorial that demonstrates how to build a basic console 
 Let's run the app first with the initial prompt: `Generate one educational question for students`.
 
 **Option 1**: run the prompt directly in `Prompt Builder`:
-1. Click the [VS Code URL](vscode://ms-windows-ai-studio.windows-ai-studio/open_prompt_builder?model_id=github/gpt-4o&&system_prompt_file=prompt.aitk.txt&&user_prompt=generate%20a%20question%20about%20Newton%27s%20Laws%20of%20Motion){: .btn} to open the initial prompt in `Prompt Builder`.
+1. Click the [VS Code URL](vscode://ms-windows-ai-studio.windows-ai-studio/open_prompt_builder?model_id=github/gpt-4o&&system_prompt_file=prompt.aitk.txt&&user_prompt=generate%20a%20question%20about%20Newton%27s%20Laws%20of%20Motion) to open the initial prompt in `Prompt Builder`.
 2. Click the `Run` result to get a response.
 
 **Option 2**: run the app code with the following steps:
