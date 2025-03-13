@@ -2,7 +2,6 @@ from typing import Dict
 from pydantic import BaseModel, TypeAdapter, parse_obj_as
 import os
 from enum import Enum
-import json
 
 # Enums
 
@@ -39,8 +38,10 @@ class ParameterTypeEnum(Enum):
 
 # Global vars
 
-hasChange = False
-hasError = False
+class GlobalVars:
+    hasChange = False
+    hasError = False
+
 
 # Model List
 
@@ -77,6 +78,7 @@ class ModelList(BaseModel):
     @staticmethod
     def Read(scriptFolder: str):
         modelListFile = os.path.join(scriptFolder, "model_list.json")
+        print(f"Process {modelListFile}")
         with open(modelListFile, 'r') as file:
             modelListContent = file.read()
         modelList = ModelList.model_validate_json(modelListContent, strict=True)
@@ -89,19 +91,19 @@ class ModelList(BaseModel):
         for i, model in enumerate(self.models):
             if not model.Check():
                 print(f"{self._file} model {i} has error")
-                hasError = True      
+                GlobalVars.hasError = True      
         newContent = self.model_dump_json(indent=4)
         if newContent != self._fileContent:
             with open(self._file, 'w') as file:
                 file.write(newContent)
-            hasChange = True
+            GlobalVars.hasChange = True
 
 # Parameter
 
 class Parameter(BaseModel):
     name: str = ""
     description: str = ""
-    type: ParameterTypeEnum
+    type: ParameterTypeEnum = ParameterTypeEnum.NotSet
     values: list[str] = []
     template: str = ""
     path: str = ""
@@ -112,8 +114,8 @@ class Parameter(BaseModel):
             return False
         if not self.name:
             return False
-        if not self.description:
-            return False
+        #if not self.description:
+        #    return False
         if not self.type or self.type == ParameterTypeEnum.NotSet:
             return False
         if not self.path and not isTemplate:
@@ -139,20 +141,20 @@ def applyTemplate(parameter: Parameter, template: Parameter):
     
 
 def readCheckParameterTemplate(filePath: str):
+    print(f"Process {filePath}")
     with open(filePath, 'r') as file:
         fileContent = file.read()
-    parameters = json.loads(fileContent)
     adapter = TypeAdapter(Dict[str, Parameter])
-    parameters: Dict[str, Parameter] = adapter.validate_json(parameters, strict=True)
+    parameters: Dict[str, Parameter] = adapter.validate_json(fileContent, strict=True)
     for key, parameter in parameters.items():
         if not parameter.Check(True):
             print(f"{filePath} parameter {key} has error")
-            hasError = True
-    newContent = adapter.dump_json(parameters, indent=4)
+            GlobalVars.hasError = True
+    newContent = adapter.dump_json(parameters, indent=4).decode('utf-8')
     if newContent != fileContent:
         with open(filePath, 'w') as file:
             file.write(newContent)
-        hasChange = True
+        GlobalVars.hasChange = True
     return parameters
 
 # Model
@@ -182,6 +184,7 @@ class ModelSPaceConfig(BaseModel):
 
     @staticmethod
     def Read(modelSpaceConfigFile: str):
+        print(f"Process {modelSpaceConfigFile}")
         with open(modelSpaceConfigFile, 'r') as file:
             modelSpaceConfigContent = file.read()
         modelSpaceConfig = ModelSPaceConfig.model_validate_json(modelSpaceConfigContent, strict=True)
@@ -194,13 +197,13 @@ class ModelSPaceConfig(BaseModel):
         for i, model in enumerate(self.models):
             if not model.Check():
                 print(f"{self._file} model {i} has error")
-                hasError = True
+                GlobalVars.hasError = True
         
         newContent = self.model_dump_json(indent=4)
         if newContent != self._fileContent:
             with open(self._file, 'w') as file:
                 file.write(newContent)
-            hasChange = True
+            GlobalVars.hasChange = True
 
 # Model Parameter
 
@@ -222,6 +225,7 @@ class ModelParameter(BaseModel):
 
     @staticmethod
     def Read(parameterFile: str):
+        print(f"Process {parameterFile}")
         with open(parameterFile, 'r') as file:
             parameterContent = file.read()
         modelParameter = ModelParameter.model_validate_json(parameterContent, strict=True)
@@ -235,24 +239,24 @@ class ModelParameter(BaseModel):
         for i, section in enumerate(self.sections):
             if not section.Check():
                 print(f"{self._file} section {i} has error")
-                hasError = True
+                GlobalVars.hasError = True
         for i, parameter in enumerate(self.parameters):
             if parameter.template:
                 if parameter.template not in templates:
                     print(f"{self._file} parameter {i} has wrong template")
-                    hasError = True
+                    GlobalVars.hasError = True
                     continue
                 applyTemplate(parameter, templates[parameter.template])
 
             if not parameter.Check(False) or parameter.section not in allSectionNames:
                 print(f"{self._file} parameter {i} has error")
-                hasError = True
+                GlobalVars.hasError = True
         
         newContent = self.model_dump_json(indent=4)
         if newContent != self._fileContent:
             with open(self._file, 'w') as file:
                 file.write(newContent)
-            hasChange = True
+            GlobalVars.hasChange = True
 
 
 def main():
@@ -266,8 +270,8 @@ def main():
         if model.id and model.status == ModelStatusEnum.Ready:
             modelDir = os.path.join(configDir, model.id)
             # set version
-            allVersions = [int(name) for name in os.listdir(modelDir) if os.path.isdir(os.path.join(modelDir, name))].sort()
-            model.version = allVersions[-1]
+            allVersions = [int(name) for name in os.listdir(modelDir) if os.path.isdir(os.path.join(modelDir, name))]
+            model.version = max(allVersions)
             # get model space config
             modelSpaceConfig = ModelSPaceConfig.Read(os.path.join(modelDir, f"{model.version}/modelspace.config"))
             for i, modelItem in enumerate(modelSpaceConfig.models):
@@ -279,20 +283,22 @@ def main():
                 oliveJsonFile = os.path.join(modelDir, f"{model.version}/{modelItem.file}")
                 if not os.path.exists(oliveJsonFile):
                     print(f"{oliveJsonFile} not exists")
-                    hasError = True
+                    GlobalVars.hasError = True
                 # check md
                 mdFile = os.path.join(modelDir, f"{model.version}/{modelItem.file}.md")
                 if not os.path.exists(mdFile):
                     print(f"{mdFile} not exists")
-                    hasError = True
+                    GlobalVars.hasError = True
                 # check parameter
                 modelParameter = ModelParameter.Read(os.path.join(modelDir, f"{model.version}/{modelItem.file}.config"))
                 modelParameter.Check(parameterTemplate)
             modelSpaceConfig.Check()
     modelList.Check()
-    if hasChange:
+    if GlobalVars.hasChange:
         print("Please commit changes")
-    if hasChange or hasError:
+    if GlobalVars.hasError:
+        print("Please fix errors")
+    if GlobalVars.hasChange or GlobalVars.hasError:
         raise
 
 

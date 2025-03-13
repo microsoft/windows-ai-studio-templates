@@ -52,7 +52,7 @@
                     "data_config": "evaluation_data_config",
                     "sub_types": [
                         {
-                            "name": "score",
+                            "name": "accuracy_score",
                             "priority": 1,
                             "metric_config": { "task": "multiclass", "num_classes": 1001 }
                         }
