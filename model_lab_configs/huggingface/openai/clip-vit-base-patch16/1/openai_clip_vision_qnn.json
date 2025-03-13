@@ -37,13 +37,11 @@
   "engine": {
     "host": "host_system",
     "target": "target_system",
-    "cache_dir": "temp/cache",
     "clean_cache": true,
     "clean_evaluation_cache": true,
     "evaluator": "common_evaluator",
     "evaluate_input_model": false,
-    "log_to_file": false,
-    "output_dir": "outputs/openai/clip/vision"
+    "log_to_file": false
   },
   "data_configs": [
     {

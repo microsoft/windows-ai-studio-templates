@@ -42,7 +42,6 @@
   "engine": {
     "host": "host_system",
     "target": "target_system",
-    "cache_dir": "temp/cache",
     "clean_cache": true,
     "clean_evaluation_cache": true,
     "evaluator": "common_evaluator",
@@ -52,8 +51,7 @@
       "type": "Zipfile",
       "name": "clip-vit-base-patch16-text",
       "include_runtime_packages": false
-    },
-    "output_dir": "outputs/openai/clip/text"
+    }
   },
   "data_configs": [
     {
