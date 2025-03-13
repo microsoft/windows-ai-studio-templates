@@ -3,7 +3,7 @@
         {
             "displayName": "Intel/bert-base-uncased-mrpc",
             "icon": "intel",
-            "model_link": "https://huggingface.co/Intel/bert-base-uncased-mrpc",
+            "modelLink": "https://huggingface.co/Intel/bert-base-uncased-mrpc",
             "id": "huggingface/Intel/bert-base-uncased-mrpc",
             "runtimes": ["QNN"],
             "architecture": "Transformer"
@@ -11,7 +11,7 @@
         {
             "displayName": "google-bert/bert-base-multilingual-cased",
             "icon": "gemini",
-            "model_link": "https://huggingface.co/google-bert/bert-base-multilingual-cased",
+            "modelLink": "https://huggingface.co/google-bert/bert-base-multilingual-cased",
             "id": "huggingface/google-bert/bert-base-multilingual-cased",
             "runtimes": ["QNN"],
             "architecture": "Transformer"
@@ -19,7 +19,7 @@
         {
             "displayName": "openai/clip-vit-base-patch32",
             "icon": "OpenAI",
-            "model_link": "https://huggingface.co/openai/clip-vit-base-patch32",
+            "modelLink": "https://huggingface.co/openai/clip-vit-base-patch32",
             "id": "huggingface/openai/clip-vit-base-patch32",
             "runtimes": ["QNN"],
             "architecture": "CNN"
@@ -27,7 +27,7 @@
         {
             "displayName": "openai/clip-vit-large-patch14",
             "icon": "OpenAI",
-            "model_link": "https://huggingface.co/openai/clip-vit-large-patch14",
+            "modelLink": "https://huggingface.co/openai/clip-vit-large-patch14",
             "id": "huggingface/openai/clip-vit-large-patch14",
             "runtimes": ["QNN"],
             "architecture": "CNN"
@@ -35,7 +35,7 @@
         {
             "displayName": "Microsoft/ResNet-50",
             "icon": "ms",
-            "model_link": "https://huggingface.co/microsoft/resnet-50",
+            "modelLink": "https://huggingface.co/microsoft/resnet-50",
             "id": "huggingface/microsoft/resnet-50",
             "runtimes": ["QNN"],
             "status": "Ready",
@@ -44,7 +44,7 @@
         {
             "displayName": "meta-llama/Llama-2-7b-hf",
             "icon": "meta",
-            "model_link": "https://huggingface.co/meta-llama/Llama-2-7b-hf",
+            "modelLink": "https://huggingface.co/meta-llama/Llama-2-7b-hf",
             "id": "huggingface/meta-llama/Llama-2-7b-hf",
             "runtimes": ["QNN"],
             "architecture": "Transformer"
@@ -52,7 +52,7 @@
         {
             "displayName": "CompVis/stable-diffusion-v1-4",
             "icon": "compvis",
-            "model_link": "https://huggingface.co/CompVis/stable-diffusion-v1-4",
+            "modelLink": "https://huggingface.co/CompVis/stable-diffusion-v1-4",
             "id": "huggingface/CompVis/stable-diffusion-v1-4",
             "runtimes": ["QNN"],
             "architecture": "Diffusion"
@@ -60,7 +60,7 @@
         {
             "displayName": "microsoft/Phi-3-mini-4k-instruct",
             "icon": "ms",
-            "model_link": "https://huggingface.co/microsoft/Phi-3-mini-4k-instruct",
+            "modelLink": "https://huggingface.co/microsoft/Phi-3-mini-4k-instruct",
             "id": "huggingface/microsoft/Phi-3-mini-4k-instruct",
             "runtimes": ["QNN"],
             "architecture": "Transformer"
@@ -68,7 +68,7 @@
         {
             "displayName": "microsoft/table-transformer-detection",
             "icon": "ms",
-            "model_link": "https://huggingface.co/microsoft/table-transformer-detection",
+            "modelLink": "https://huggingface.co/microsoft/table-transformer-detection",
             "id": "huggingface/microsoft/table-transformer-detection",
             "runtimes": ["QNN"],
             "architecture": "Transformer"
@@ -76,7 +76,7 @@
         {
             "displayName": "google/vit-base-patch16-224",
             "icon": "gemini",
-            "model_link": "https://huggingface.co/google/vit-base-patch16-224",
+            "modelLink": "https://huggingface.co/google/vit-base-patch16-224",
             "id": "huggingface/google/vit-base-patch16-224",
             "runtimes": ["QNN"],
             "architecture": "Transformer"
@@ -84,7 +84,7 @@
         {
             "displayName": "BAAI/bge-small-en-v1.5",
             "icon": "baai",
-            "model_link": "https://huggingface.co/BAAI/bge-small-en-v1.5",
+            "modelLink": "https://huggingface.co/BAAI/bge-small-en-v1.5",
             "id": "huggingface/BAAI/bge-small-en-v1.5",
             "runtimes": ["QNN"],
             "architecture": "Transformer"
@@ -92,7 +92,7 @@
         {
             "displayName": "tiiuae/falcon-7b",
             "icon": "tiiuae",
-            "model_link": "https://huggingface.co/tiiuae/falcon-7b",
+            "modelLink": "https://huggingface.co/tiiuae/falcon-7b",
             "id": "huggingface/tiiuae/falcon-7b",
             "runtimes": ["QNN"],
             "architecture": "Transformer"
@@ -100,7 +100,7 @@
         {
             "displayName": "EleutherAI/gpt-j-6b",
             "icon": "eleutherai",
-            "model_link": "https://huggingface.co/EleutherAI/gpt-j-6b",
+            "modelLink": "https://huggingface.co/EleutherAI/gpt-j-6b",
             "id": "huggingface/EleutherAI/gpt-j-6b",
             "runtimes": ["QNN"],
             "architecture": "Transformer"
@@ -108,7 +108,7 @@
         {
             "displayName": "openlm-research/open_llama_3b",
             "icon": "openlm",
-            "model_link": "https://huggingface.co/openlm-research/open_llama_3b",
+            "modelLink": "https://huggingface.co/openlm-research/open_llama_3b",
             "id": "huggingface/openlm-research/open_llama_3b",
             "runtimes": ["QNN"],
             "architecture": "Transformer"
