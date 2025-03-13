@@ -1,4 +1,4 @@
-# ResNet optimization with QNN execution providers
+# ResNet optimization with QNN
 
 This example performs ResNet optimization with QNN execution providers in one workflow. It performs the optimization pipeline:
 
@@ -8,8 +8,8 @@ This example performs ResNet optimization with QNN execution providers in one wo
 
 The quantization uses 256 samples from train split of imagenet-1k dataset and the evaluations uses 256 samples from test split of imagenet-1k dataset.
 
-| Activation Type | Weight Type | Size | Accuracy | Latency ms (avg) |
-|-----------------|-------------|------|----|---------|
-| TBD | TBD | TBD | TBD | TBD |
-| QUInt16         | QUInt8      |  TBD | 0.78515625      | 2.53724 |
-| QUInt16         | QUInt16      |  TBD | TBD     | TBD |
+
+| Activation Type&nbsp; | Weight Type&nbsp; | Size&nbsp; | Accuracy&nbsp; | Latency ms (avg)&nbsp; |
+| --------------------- | ----------------- | ---------- | -------------- | ---------------------- |
+| QUInt16               | QUInt8            | 256        | 0.796875       | 2.53724                |
+| QUInt8                | QUInt8            | 256        | TBD            | TBD                    |
