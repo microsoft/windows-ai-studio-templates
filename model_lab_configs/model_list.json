@@ -37,6 +37,18 @@
             "version": -1
         },
         {
+            "displayName": "openai/clip-vit-base-patch16",
+            "icon": "OpenAI",
+            "modelLink": "https://huggingface.co/openai/clip-vit-base-patch16",
+            "id": "huggingface/openai/clip-vit-base-patch16",
+            "runtimes": [
+                "QNN"
+            ],
+            "architecture": "CNN",
+            "status": "Ready",
+            "version": 1
+        },
+        {
             "displayName": "openai/clip-vit-large-patch14",
             "icon": "OpenAI",
             "modelLink": "https://huggingface.co/openai/clip-vit-large-patch14",

@@ -12,4 +12,4 @@ The quantization uses 256 samples from train split of imagenet-1k dataset and th
 | Activation Type&nbsp; | Weight Type&nbsp; | Size&nbsp; | Accuracy&nbsp; | Latency ms (avg)&nbsp; |
 | --------------------- | ----------------- | ---------- | -------------- | ---------------------- |
 | QUInt16               | QUInt8            | 256        | 0.796875       | 2.53724                |
-| QUInt8                | QUInt8            | 256        | TBD            | TBD                    |
+| QUInt8                | QUInt8            | 256        | 0.796875       | 2.51321                |
