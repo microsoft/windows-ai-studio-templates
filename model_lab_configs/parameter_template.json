@@ -4,12 +4,14 @@
         "description": "Quantization data type of activation",
         "type": "enum",
         "values": [
-            "QUInt16",
-            "QInt16"
+            "QInt8",
+            "QUInt8",
+            "QInt16",
+            "QUInt16"
         ],
         "template": "",
         "path": "",
-        "section": ""
+        "section": "Model Parameters"
     },
     "WeightType": {
         "name": "Weight Type",
@@ -17,10 +19,30 @@
         "type": "enum",
         "values": [
             "QInt8",
-            "QUInt8"
+            "QUInt8",
+            "QInt16",
+            "QUInt16"
         ],
         "template": "",
         "path": "",
-        "section": ""
+        "section": "Model Parameters"
+    },
+    "EvaluationDatasetSize": {
+        "name": "Evaluation Dataset Size",
+        "description": "",
+        "type": "int",
+        "values": [],
+        "template": "",
+        "path": "",
+        "section": "Data Parameters"
+    },
+    "QuantizeDatasetSize": {
+        "name": "Quantize Dataset Size",
+        "description": "",
+        "type": "int",
+        "values": [],
+        "template": "",
+        "path": "",
+        "section": "Data Parameters"
     }
 }

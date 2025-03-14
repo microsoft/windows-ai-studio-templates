@@ -2,6 +2,7 @@ from typing import Dict
 from pydantic import BaseModel, TypeAdapter, parse_obj_as
 import os
 from enum import Enum
+import copy
 
 # Enums
 
@@ -109,24 +110,29 @@ class Parameter(BaseModel):
     path: str = ""
     section: str = ""
 
-    def Check(self, isTemplate: bool):
-        if self.template and isTemplate:
-            return False
+    def Check(self, isTemplate: bool, sectionNames: set[str] = set()):
+        if isTemplate:
+            if self.template:
+                return False
+            return True
+
         if not self.name:
             return False
         #if not self.description:
         #    return False
         if not self.type or self.type == ParameterTypeEnum.NotSet:
             return False
-        if not self.path and not isTemplate:
+        if not self.path:
             return False
         if self.type == ParameterTypeEnum.Enum and not self.values:
             return False
-        if not self.section and not isTemplate:
+        if not self.section:
+            return False
+        if self.section not in sectionNames:
             return False
         return True
 
-# template and section are ignored
+# template ignored
 def applyTemplate(parameter: Parameter, template: Parameter):
     if not parameter.name:
         parameter.name = template.name
@@ -138,6 +144,8 @@ def applyTemplate(parameter: Parameter, template: Parameter):
         parameter.values = template.values
     if not parameter.path:
         parameter.path = template.path
+    if not parameter.section:
+        parameter.section = template.section
     
 
 def readCheckParameterTemplate(filePath: str):
@@ -189,7 +197,7 @@ class ModelSPaceConfig(BaseModel):
             modelSpaceConfigContent = file.read()
         modelSpaceConfig = ModelSPaceConfig.model_validate_json(modelSpaceConfigContent, strict=True)
         modelSpaceConfig._file = modelSpaceConfigFile
-        modelSpaceConfig._fileContent = modelSpaceConfig
+        modelSpaceConfig._fileContent = modelSpaceConfigContent
         return modelSpaceConfig
 
     # after template is set
@@ -222,6 +230,7 @@ class Section(BaseModel):
 class ModelParameter(BaseModel):
     sections: list[Section]
     parameters: list[Parameter]
+    templateParameters: list[Parameter] = []
 
     @staticmethod
     def Read(parameterFile: str):
@@ -240,17 +249,25 @@ class ModelParameter(BaseModel):
             if not section.Check():
                 print(f"{self._file} section {i} has error")
                 GlobalVars.hasError = True
-        for i, parameter in enumerate(self.parameters):
-            if parameter.template:
-                if parameter.template not in templates:
-                    print(f"{self._file} parameter {i} has wrong template")
-                    GlobalVars.hasError = True
-                    continue
-                applyTemplate(parameter, templates[parameter.template])
 
-            if not parameter.Check(False) or parameter.section not in allSectionNames:
+        self.parameters = [p for p in self.parameters if not p.template]
+        for i, parameter in enumerate(self.parameters):
+            if not parameter.Check(False, allSectionNames):
                 print(f"{self._file} parameter {i} has error")
                 GlobalVars.hasError = True
+
+        for i, parameter in enumerate(self.templateParameters):
+            if parameter.template:
+                if parameter.template not in templates:
+                    print(f"{self._file} template parameter {i} has wrong template")
+                    GlobalVars.hasError = True
+                    continue
+                newParameter = copy.deepcopy(parameter)
+                applyTemplate(newParameter, templates[parameter.template])
+                if not newParameter.Check(False, allSectionNames):
+                    print(f"{self._file} template parameter {i} has error")
+                    GlobalVars.hasError = True
+                self.parameters.append(newParameter)
         
         newContent = self.model_dump_json(indent=4)
         if newContent != self._fileContent:

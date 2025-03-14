@@ -9,7 +9,7 @@ This example performs ResNet optimization with QNN execution providers in one wo
 The quantization uses 256 samples from train split of imagenet-1k dataset and the evaluations uses 256 samples from test split of imagenet-1k dataset.
 
 
-| Activation Type&nbsp; | Weight Type&nbsp; | Size&nbsp; | Accuracy&nbsp; | Latency ms (avg)&nbsp; |
-| --------------------- | ----------------- | ---------- | -------------- | ---------------------- |
-| QUInt16               | QUInt8            | 256        | 0.796875       | 2.53724                |
-| QUInt8                | QUInt8            | 256        | 0.796875       | 2.51321                |
+| Activation Type&nbsp; | Weight Type&nbsp; | Size&nbsp; | Accuracy&nbsp; | Latency (avg)&nbsp; |
+| --------------------- | ----------------- | ---------- | -------------- | ------------------- |
+| float32               | float32           | 97.3 MB    | -              | -                   |
+| QUInt16               | QUInt8            | 24.5MB     | 0.78515625     | 2.53724 ms          |

@@ -1,3 +1,13 @@
+# Parameters that set by sanitize.py
+
+- model_list.json:
+    + version: read from folder structure
+- modelspace.config
+    + template, version, templateName: same as path
+- *.json.config
+    + For parameters with template, it will be removed so filled from templateParameters
+    + For templateParameters, unset parameters will be updated from template and save in parameters
+
 # Requirements
 
 - output model use external weight ?
