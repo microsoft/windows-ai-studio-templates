@@ -35,7 +35,7 @@
     "target_system": {
       "type": "LocalSystem",
       "accelerators": [
-        { "device": "npu", "execution_providers": ["QNNExecutionProvider"] }
+        { "device": "cpu", "execution_providers": ["CPUExecutionProvider"] }
       ]
     }
   },
@@ -46,12 +46,7 @@
     "clean_evaluation_cache": true,
     "evaluator": "common_evaluator",
     "evaluate_input_model": false,
-    "log_to_file": false,
-    "packaging_config": {
-      "type": "Zipfile",
-      "name": "clip-vit-base-patch16-text",
-      "include_runtime_packages": false
-    }
+    "log_to_file": false
   },
   "data_configs": [
     {
@@ -107,7 +102,7 @@
           "user_config": {
             "inference_settings": {
               "onnx": {
-                "execution_provider": "QNNExecutionProvider",
+                "execution_provider": "CPUExecutionProvider",
                 "provider_options": [
                   {
                     "htp_graph_finalization_optimization_mode": 3,
