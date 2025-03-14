@@ -1,8 +1,10 @@
 from typing import Dict
-from pydantic import BaseModel, TypeAdapter, parse_obj_as
+from pydantic import BaseModel, TypeAdapter
 import os
 from enum import Enum
 import copy
+import pydash
+import json
 
 # Enums
 
@@ -257,17 +259,16 @@ class ModelParameter(BaseModel):
                 GlobalVars.hasError = True
 
         for i, parameter in enumerate(self.templateParameters):
-            if parameter.template:
-                if parameter.template not in templates:
-                    print(f"{self._file} template parameter {i} has wrong template")
-                    GlobalVars.hasError = True
-                    continue
-                newParameter = copy.deepcopy(parameter)
-                applyTemplate(newParameter, templates[parameter.template])
-                if not newParameter.Check(False, allSectionNames):
-                    print(f"{self._file} template parameter {i} has error")
-                    GlobalVars.hasError = True
-                self.parameters.append(newParameter)
+            if parameter.template not in templates:
+                print(f"{self._file} template parameter {i} has wrong template")
+                GlobalVars.hasError = True
+                continue
+            newParameter = copy.deepcopy(parameter)
+            applyTemplate(newParameter, templates[parameter.template])
+            if not newParameter.Check(False, allSectionNames):
+                print(f"{self._file} template parameter {i} has error")
+                GlobalVars.hasError = True
+            self.parameters.append(newParameter)
         
         newContent = self.model_dump_json(indent=4)
         if newContent != self._fileContent:
@@ -296,11 +297,6 @@ def main():
                 modelItem.template = model.id
                 modelItem.version = model.version
                 modelItem.templateName = modelItem.file[:-5]
-                # check olive json
-                oliveJsonFile = os.path.join(modelDir, f"{model.version}/{modelItem.file}")
-                if not os.path.exists(oliveJsonFile):
-                    print(f"{oliveJsonFile} not exists")
-                    GlobalVars.hasError = True
                 # check md
                 mdFile = os.path.join(modelDir, f"{model.version}/{modelItem.file}.md")
                 if not os.path.exists(mdFile):
@@ -309,6 +305,14 @@ def main():
                 # check parameter
                 modelParameter = ModelParameter.Read(os.path.join(modelDir, f"{model.version}/{modelItem.file}.config"))
                 modelParameter.Check(parameterTemplate)
+                # check olive json
+                oliveJsonFile = os.path.join(modelDir, f"{model.version}/{modelItem.file}")
+                with open(oliveJsonFile, 'r') as file:
+                    oliveJson = json.load(file)
+                for i, parameter in enumerate(modelParameter.parameters):
+                    if pydash.get(oliveJson, parameter.path) is None:
+                        print(f"{oliveJsonFile} missing parameter {i}: {parameter.path}")
+                        GlobalVars.hasError = True
             modelSpaceConfig.Check()
     modelList.Check()
     if GlobalVars.hasChange:
