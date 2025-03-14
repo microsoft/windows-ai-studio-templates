@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import Dict
 from pydantic import BaseModel, TypeAdapter
 import os
@@ -108,7 +109,8 @@ class Parameter(BaseModel):
     description: str = ""
     type: ParameterTypeEnum = ParameterTypeEnum.NotSet
     values: list[str] = []
-    template: str = ""
+    # 1st level is Parameter and 2nd level is str in templates
+    template: Parameter | str = None
     path: str = ""
     section: str = ""
 
@@ -124,9 +126,9 @@ class Parameter(BaseModel):
         #    return False
         if not self.type or self.type == ParameterTypeEnum.NotSet:
             return False
-        if not self.path:
-            return False
         if self.type == ParameterTypeEnum.Enum and not self.values:
+            return False
+        if not self.path:
             return False
         if not self.section:
             return False
@@ -134,21 +136,21 @@ class Parameter(BaseModel):
             return False
         return True
 
-# template ignored
-def applyTemplate(parameter: Parameter, template: Parameter):
-    if not parameter.name:
-        parameter.name = template.name
-    if not parameter.description:
-        parameter.description = template.description
-    if parameter.type == ParameterTypeEnum.NotSet:
-        parameter.type = template.type
-    if not parameter.values:
-        parameter.values = template.values
-    if not parameter.path:
-        parameter.path = template.path
-    if not parameter.section:
-        parameter.section = template.section
-    
+    # template ignored
+    def applyTemplate(self, template: Parameter):
+        if not self.name:
+            self.name = template.name
+        if not self.description:
+            self.description = template.description
+        if self.type == ParameterTypeEnum.NotSet:
+            self.type = template.type
+        if not self.values:
+            self.values = template.values
+        if not self.path:
+            self.path = template.path
+        if not self.section:
+            self.section = template.section
+
 
 def readCheckParameterTemplate(filePath: str):
     print(f"Process {filePath}")
@@ -232,7 +234,6 @@ class Section(BaseModel):
 class ModelParameter(BaseModel):
     sections: list[Section]
     parameters: list[Parameter]
-    templateParameters: list[Parameter] = []
 
     @staticmethod
     def Read(parameterFile: str):
@@ -252,23 +253,19 @@ class ModelParameter(BaseModel):
                 print(f"{self._file} section {i} has error")
                 GlobalVars.hasError = True
 
-        self.parameters = [p for p in self.parameters if not p.template]
         for i, parameter in enumerate(self.parameters):
+            if parameter.template:
+                template = parameter.template
+                if template.template not in templates:
+                    print(f"{self._file} parameter {i} has wrong template")
+                    GlobalVars.hasError = True
+                    continue
+                parameter.applyTemplate(template)
+                parameter.applyTemplate(templates[template.template])
+
             if not parameter.Check(False, allSectionNames):
                 print(f"{self._file} parameter {i} has error")
                 GlobalVars.hasError = True
-
-        for i, parameter in enumerate(self.templateParameters):
-            if parameter.template not in templates:
-                print(f"{self._file} template parameter {i} has wrong template")
-                GlobalVars.hasError = True
-                continue
-            newParameter = copy.deepcopy(parameter)
-            applyTemplate(newParameter, templates[parameter.template])
-            if not newParameter.Check(False, allSectionNames):
-                print(f"{self._file} template parameter {i} has error")
-                GlobalVars.hasError = True
-            self.parameters.append(newParameter)
         
         newContent = self.model_dump_json(indent=4)
         if newContent != self._fileContent:
