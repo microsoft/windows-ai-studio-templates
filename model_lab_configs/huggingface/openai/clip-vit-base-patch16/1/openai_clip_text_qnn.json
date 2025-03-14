@@ -29,19 +29,13 @@
     "host_system": {
       "type": "LocalSystem",
       "accelerators": [
-        { "device": "cpu", "execution_providers": ["CPUExecutionProvider"] }
-      ]
-    },
-    "target_system": {
-      "type": "LocalSystem",
-      "accelerators": [
-        { "device": "cpu", "execution_providers": ["CPUExecutionProvider"] }
+        { "execution_providers": ["QNNExecutionProvider"] }
       ]
     }
   },
   "engine": {
     "host": "host_system",
-    "target": "target_system",
+    "target": "host_system",
     "clean_cache": true,
     "clean_evaluation_cache": true,
     "evaluator": "common_evaluator",
@@ -102,7 +96,6 @@
           "user_config": {
             "inference_settings": {
               "onnx": {
-                "execution_provider": "CPUExecutionProvider",
                 "provider_options": [
                   {
                     "htp_graph_finalization_optimization_mode": 3,
@@ -118,7 +111,6 @@
   },
   "passes": {
     "conversion": {
-      "device": "cpu",
       "type": "OnnxConversion",
       "target_opset": 17,
       "use_dynamo_exporter": false
