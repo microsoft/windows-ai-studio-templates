@@ -36,8 +36,6 @@
   "engine": {
     "host": "host_system",
     "target": "host_system",
-    "clean_cache": true,
-    "clean_evaluation_cache": true,
     "evaluator": "common_evaluator",
     "evaluate_input_model": false,
     "log_to_file": false
