@@ -281,16 +281,17 @@ def main():
             model.version = max(allVersions)
             # get model space config
             modelSpaceConfig = ModelProjectConfig.Read(os.path.join(modelDir, f"{model.version}/model_project.config"))
+            # check md
+            mdFile = os.path.join(modelDir, f"{model.version}/README.md")
+            if not os.path.exists(mdFile):
+                print(f"{mdFile} not exists")
+                GlobalVars.hasError = True
             for i, modelItem in enumerate(modelSpaceConfig.workflows):
                 # set template
                 modelItem.template = model.id
                 modelItem.version = model.version
                 modelItem.templateName = modelItem.file[:-5]
-                # check md
-                mdFile = os.path.join(modelDir, f"{model.version}/{modelItem.file}.md")
-                if not os.path.exists(mdFile):
-                    print(f"{mdFile} not exists")
-                    GlobalVars.hasError = True
+                
                 # check parameter
                 modelParameter = ModelParameter.Read(os.path.join(modelDir, f"{model.version}/{modelItem.file}.config"))
                 modelParameter.Check(parameterTemplate)
