@@ -10,8 +10,7 @@
             "QUInt16"
         ],
         "template": "",
-        "path": "",
-        "section": "Model Parameters"
+        "path": ""
     },
     "WeightType": {
         "name": "Weight Type",
@@ -24,8 +23,7 @@
             "QUInt16"
         ],
         "template": "",
-        "path": "",
-        "section": "Model Parameters"
+        "path": ""
     },
     "EvaluationDatasetSize": {
         "name": "Evaluation Dataset Size",
@@ -33,8 +31,7 @@
         "type": "int",
         "values": [],
         "template": "",
-        "path": "",
-        "section": "Data Parameters"
+        "path": ""
     },
     "QuantizeDatasetSize": {
         "name": "Quantize Dataset Size",
@@ -42,7 +39,6 @@
         "type": "int",
         "values": [],
         "template": "",
-        "path": "",
-        "section": "Data Parameters"
+        "path": ""
     }
 }

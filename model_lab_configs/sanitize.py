@@ -112,9 +112,8 @@ class Parameter(BaseModel):
     # 1st level is Parameter and 2nd level is str in templates
     template: Parameter | str = None
     path: str = ""
-    section: str = ""
 
-    def Check(self, isTemplate: bool, sectionNames: set[str] = set()):
+    def Check(self, isTemplate: bool):
         if isTemplate:
             if self.template:
                 return False
@@ -130,10 +129,6 @@ class Parameter(BaseModel):
             return False
         if not self.path:
             return False
-        if not self.section:
-            return False
-        if self.section not in sectionNames:
-            return False
         return True
 
     # template ignored
@@ -148,8 +143,6 @@ class Parameter(BaseModel):
             self.values = template.values
         if not self.path:
             self.path = template.path
-        if not self.section:
-            self.section = template.section
 
 
 def readCheckParameterTemplate(filePath: str):
@@ -171,7 +164,7 @@ def readCheckParameterTemplate(filePath: str):
 
 # Model
 
-class ModelItem(BaseModel):
+class WorkflowItem(BaseModel):
     name: str
     file: str
     template: str = ""
@@ -191,22 +184,23 @@ class ModelItem(BaseModel):
             return False
         return True
 
-class ModelSPaceConfig(BaseModel):
-    models: list[ModelItem]
+# TODO: add model metadata from model list
+class ModelProjectConfig(BaseModel):
+    workflows: list[WorkflowItem]
 
     @staticmethod
     def Read(modelSpaceConfigFile: str):
         print(f"Process {modelSpaceConfigFile}")
         with open(modelSpaceConfigFile, 'r') as file:
             modelSpaceConfigContent = file.read()
-        modelSpaceConfig = ModelSPaceConfig.model_validate_json(modelSpaceConfigContent, strict=True)
+        modelSpaceConfig = ModelProjectConfig.model_validate_json(modelSpaceConfigContent, strict=True)
         modelSpaceConfig._file = modelSpaceConfigFile
         modelSpaceConfig._fileContent = modelSpaceConfigContent
         return modelSpaceConfig
 
     # after template is set
     def Check(self):
-        for i, model in enumerate(self.models):
+        for i, model in enumerate(self.workflows):
             if not model.Check():
                 print(f"{self._file} model {i} has error")
                 GlobalVars.hasError = True
@@ -221,19 +215,32 @@ class ModelSPaceConfig(BaseModel):
 
 class Section(BaseModel):
     name: str
-    description: str
+    description: str = ""
+    parameters: list[Parameter]
 
-    def Check(self):
+    def Check(self, templates: Dict[str, Parameter], _file: str, sectionId: int):
         if not self.name:
             return False
-        if not self.description:
+        #if not self.description:
+        #    return False
+        # TODO add place holder for General, Convert ?
+        if not self.parameters:
             return False
+        
+        for i, parameter in enumerate(self.parameters):
+            if parameter.template:
+                template = parameter.template
+                if template.template not in templates:
+                    print(f"{_file} section {sectionId} parameter {i} has wrong template")
+                    GlobalVars.hasError = True
+                    continue
+                parameter.applyTemplate(template)
+                parameter.applyTemplate(templates[template.template])
         return True
     
 
 class ModelParameter(BaseModel):
     sections: list[Section]
-    parameters: list[Parameter]
 
     @staticmethod
     def Read(parameterFile: str):
@@ -247,24 +254,9 @@ class ModelParameter(BaseModel):
 
 
     def Check(self, templates: Dict[str, Parameter]):
-        allSectionNames = set([section.name for section in self.sections])
         for i, section in enumerate(self.sections):
-            if not section.Check():
+            if not section.Check(templates, self._file, i):
                 print(f"{self._file} section {i} has error")
-                GlobalVars.hasError = True
-
-        for i, parameter in enumerate(self.parameters):
-            if parameter.template:
-                template = parameter.template
-                if template.template not in templates:
-                    print(f"{self._file} parameter {i} has wrong template")
-                    GlobalVars.hasError = True
-                    continue
-                parameter.applyTemplate(template)
-                parameter.applyTemplate(templates[template.template])
-
-            if not parameter.Check(False, allSectionNames):
-                print(f"{self._file} parameter {i} has error")
                 GlobalVars.hasError = True
         
         newContent = self.model_dump_json(indent=4)
@@ -288,8 +280,8 @@ def main():
             allVersions = [int(name) for name in os.listdir(modelDir) if os.path.isdir(os.path.join(modelDir, name))]
             model.version = max(allVersions)
             # get model space config
-            modelSpaceConfig = ModelSPaceConfig.Read(os.path.join(modelDir, f"{model.version}/modelspace.config"))
-            for i, modelItem in enumerate(modelSpaceConfig.models):
+            modelSpaceConfig = ModelProjectConfig.Read(os.path.join(modelDir, f"{model.version}/model_project.config"))
+            for i, modelItem in enumerate(modelSpaceConfig.workflows):
                 # set template
                 modelItem.template = model.id
                 modelItem.version = model.version
@@ -306,10 +298,11 @@ def main():
                 oliveJsonFile = os.path.join(modelDir, f"{model.version}/{modelItem.file}")
                 with open(oliveJsonFile, 'r') as file:
                     oliveJson = json.load(file)
-                for i, parameter in enumerate(modelParameter.parameters):
-                    if pydash.get(oliveJson, parameter.path) is None:
-                        print(f"{oliveJsonFile} missing parameter {i}: {parameter.path}")
-                        GlobalVars.hasError = True
+                for si, section in enumerate(modelParameter.sections):
+                    for i, parameter in enumerate(section.parameters):
+                        if pydash.get(oliveJson, parameter.path) is None:
+                            print(f"{oliveJsonFile} missing section {si} parameter {i}: {parameter.path}")
+                            GlobalVars.hasError = True
             modelSpaceConfig.Check()
     modelList.Check()
     if GlobalVars.hasChange:
