@@ -1,0 +1,29 @@
+{
+  "name": "cool-mcp",
+  "version": "0.0.1",
+  "description": "My MCP Server",
+  "main": "./lib/src/index.js",
+  "scripts": {
+    "dev:sse": "nodemon --exec node --inspect=9239 --signal SIGINT -r ts-node/register ./src/index.ts sse",
+    "dev:stdio": "nodemon --exec node --inspect=9239 --signal SIGINT -r ts-node/register ./src/index.ts stdio",
+    "dev:inspector": "mcp-inspector",
+    "build": "tsc --build",
+    "start:sse": "node ./lib/src/index.js sse",
+    "start:sdtio": "node ./lib/src/index.js stdio"
+},
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.7.0",
+    "express": "^4.21.2",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/inspector": "0.6.0",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.13.10",
+    "nodemon": "^3.1.9",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.2"
+  }
+}
