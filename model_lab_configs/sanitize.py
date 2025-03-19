@@ -40,6 +40,11 @@ class ParameterTypeEnum(Enum):
     Int = "int"
     NotSet = "notSet"
 
+class PhaseTypeEnum(Enum):
+    Conversion = "Conversion"
+    Quantization = "Quantization"
+    Evaluation = "Evaluation"
+
 # Global vars
 
 class GlobalVars:
@@ -131,6 +136,13 @@ class Parameter(BaseModel):
             return False
         return True
 
+    def clearValue(self):
+        self.name = ""
+        self.description = ""
+        self.type = ParameterTypeEnum.NotSet
+        self.values = []
+        self.path = ""
+    
     # template ignored
     def applyTemplate(self, template: Parameter):
         if not self.name:
@@ -170,6 +182,8 @@ class WorkflowItem(BaseModel):
     template: str = ""
     version: int = -1
     templateName: str = ""
+    modelInfo: ModelInfo = None
+    phases: list[PhaseTypeEnum] = []
 
     def Check(self):
         if not self.name:
@@ -181,6 +195,10 @@ class WorkflowItem(BaseModel):
         if self.version == -1:
             return False
         if not self.templateName:
+            return False
+        if not self.modelInfo:
+            return False
+        if not self.phases:
             return False
         return True
 
@@ -234,6 +252,7 @@ class Section(BaseModel):
                     print(f"{_file} section {sectionId} parameter {i} has wrong template")
                     GlobalVars.hasError = True
                     continue
+                parameter.clearValue()
                 parameter.applyTemplate(template)
                 parameter.applyTemplate(templates[template.template])
         return True
@@ -276,35 +295,50 @@ def main():
     for model in modelList.models:
         if model.id and model.status == ModelStatusEnum.Ready:
             modelDir = os.path.join(configDir, model.id)
-            # set version
+            # get all versions
             allVersions = [int(name) for name in os.listdir(modelDir) if os.path.isdir(os.path.join(modelDir, name))]
-            model.version = max(allVersions)
-            # get model space config
-            modelSpaceConfig = ModelProjectConfig.Read(os.path.join(modelDir, f"{model.version}/model_project.config"))
-            # check md
-            mdFile = os.path.join(modelDir, f"{model.version}/README.md")
-            if not os.path.exists(mdFile):
-                print(f"{mdFile} not exists")
-                GlobalVars.hasError = True
-            for i, modelItem in enumerate(modelSpaceConfig.workflows):
-                # set template
-                modelItem.template = model.id
-                modelItem.version = model.version
-                modelItem.templateName = modelItem.file[:-5]
-                
-                # check parameter
-                modelParameter = ModelParameter.Read(os.path.join(modelDir, f"{model.version}/{modelItem.file}.config"))
-                modelParameter.Check(parameterTemplate)
-                # check olive json
-                oliveJsonFile = os.path.join(modelDir, f"{model.version}/{modelItem.file}")
-                with open(oliveJsonFile, 'r') as file:
-                    oliveJson = json.load(file)
-                for si, section in enumerate(modelParameter.sections):
-                    for i, parameter in enumerate(section.parameters):
-                        if pydash.get(oliveJson, parameter.path) is None:
-                            print(f"{oliveJsonFile} missing section {si} parameter {i}: {parameter.path}")
-                            GlobalVars.hasError = True
-            modelSpaceConfig.Check()
+            # process each version
+            for version in allVersions:
+                model.version = version
+                # get model space config
+                modelSpaceConfig = ModelProjectConfig.Read(os.path.join(modelDir, f"{model.version}/model_project.config"))
+                # check md
+                mdFile = os.path.join(modelDir, f"{model.version}/README.md")
+                if not os.path.exists(mdFile):
+                    print(f"{mdFile} not exists")
+                    GlobalVars.hasError = True
+                for i, modelItem in enumerate(modelSpaceConfig.workflows):
+                    # set template
+                    modelItem.template = model.id
+                    modelItem.version = model.version
+                    modelItem.templateName = modelItem.file[:-5]
+                    modelItem.modelInfo = model
+
+                    # check parameter
+                    modelParameter = ModelParameter.Read(os.path.join(modelDir, f"{model.version}/{modelItem.file}.config"))
+                    modelParameter.Check(parameterTemplate)
+                    # check olive json
+                    oliveJsonFile = os.path.join(modelDir, f"{model.version}/{modelItem.file}")
+                    with open(oliveJsonFile, 'r') as file:
+                        oliveJson = json.load(file)
+                    for si, section in enumerate(modelParameter.sections):
+                        for i, parameter in enumerate(section.parameters):
+                            if pydash.get(oliveJson, parameter.path) is None:
+                                print(f"{oliveJsonFile} missing section {si} parameter {i}: {parameter.path}")
+                                GlobalVars.hasError = True
+                    
+                    # get phases from oliveJson
+                    phases = []
+                    all_passes = [v["type"] for _, v in oliveJson["passes"].items()]
+                    if "OnnxConversion" in all_passes:
+                        phases.append(PhaseTypeEnum.Conversion)
+                    if "OnnxQuantization" in all_passes or "OnnxStaticQuantization" in all_passes or "OnnxDynamicQuantization" in all_passes:
+                        phases.append(PhaseTypeEnum.Quantization)
+                    if "evaluator" in oliveJson:
+                        phases.append(PhaseTypeEnum.Evaluation)
+                    modelItem.phases = phases
+                    
+                modelSpaceConfig.Check()
     modelList.Check()
     if GlobalVars.hasChange:
         print("Please commit changes")
