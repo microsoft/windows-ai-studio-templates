@@ -24,26 +24,16 @@
     "host_system": {
       "type": "LocalSystem",
       "accelerators": [
-        { "device": "cpu", "execution_providers": ["CPUExecutionProvider"] }
-      ]
-    },
-    "target_system": {
-      "type": "LocalSystem",
-      "accelerators": [
-        { "device": "npu", "execution_providers": ["QNNExecutionProvider"] }
+        { "execution_providers": ["QNNExecutionProvider"] }
       ]
     }
   },
   "engine": {
     "host": "host_system",
-    "target": "target_system",
-    "cache_dir": "temp/cache",
-    "clean_cache": true,
-    "clean_evaluation_cache": true,
+    "target": "host_system",
     "evaluator": "common_evaluator",
     "evaluate_input_model": false,
-    "log_to_file": false,
-    "output_dir": "outputs/openai/clip/vision"
+    "log_to_file": false
   },
   "data_configs": [
     {
@@ -113,7 +103,6 @@
           "user_config": {
             "inference_settings": {
               "onnx": {
-                "execution_provider": "QNNExecutionProvider",
                 "provider_options": [
                   {
                     "htp_graph_finalization_optimization_mode": 3,
@@ -129,7 +118,6 @@
   },
   "passes": {
     "conversion": {
-      "device": "cpu",
       "type": "OnnxConversion",
       "target_opset": 17,
       "use_dynamo_exporter": false
@@ -149,12 +137,6 @@
       "quant_preprocess": true,
       "activation_type": "QUInt16",
       "weight_type": "QUInt8"
-    },
-    "jit": {
-      "type": "QNPUEPContextGenerator",
-      "host": "target_system",
-      "optimization_mode": "3",
-      "context_embed_mode": "0"
     }
   }
 }

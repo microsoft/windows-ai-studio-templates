@@ -4,11 +4,7 @@ from typing import (
 )
 from dataclasses import dataclass
 from random import Random
-from cachetools import Cache, cached
-
-import numpy as np
 import torch
-from torchvision import transforms
 
 from transformers import (
     AutoTokenizer,
@@ -81,37 +77,6 @@ def load_text_model(model_name):
 
 def load_vision_model(model_name):
   return CLIPVisionModelWithProjection.from_pretrained(model_name).eval()
-
-
-@cached(Cache(maxsize=1))
-def get_imagenet_label_map():
-  import requests
-
-  imagenet_class_index_url = "https://raw.githubusercontent.com/pytorch/vision/main/gallery/assets/imagenet_class_index.json"
-  response = requests.get(imagenet_class_index_url)
-  response.raise_for_status()  # Ensure the request was successful
-
-  # Convert {0: ["n01440764", "tench"], ...} to {synset: index}
-  return {v[0]: int(k) for k, v in response.json().items()}
-
-
-def preprocess_image(image):
-  # Convert to rgb if
-  # 1. black and white image (all 3 channels the same)
-  # 2. with alpha channel
-  if len(np.shape(image)) == 2 or np.shape(image)[-1] != 3:
-    image = image.convert(mode='RGB')
-
-  transformations = transforms.Compose(
-    [
-      transforms.Resize(256),
-      transforms.CenterCrop(224),
-      transforms.ToTensor(),
-      transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
-    ]
-  )
-  return transformations(image).numpy().astype(np.float32)
-
 
 @Registry.register_pre_process()
 def image_pre_process(
