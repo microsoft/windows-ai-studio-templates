@@ -45,7 +45,7 @@
                 "QNN"
             ],
             "architecture": "CNN",
-            "status": "Coming",
+            "status": "Ready",
             "version": 1
         },
         {
