@@ -129,8 +129,8 @@
                 "QNN"
             ],
             "architecture": "Transformer",
-            "status": "Coming",
-            "version": -1
+            "status": "Ready",
+            "version": 1
         },
         {
             "displayName": "BAAI/bge-small-en-v1.5",
