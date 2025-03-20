@@ -286,6 +286,31 @@ class ModelParameter(BaseModel):
                 file.write(newContent)
             GlobalVars.hasChange = True
 
+def checkOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter, modelItem: WorkflowItem):
+    with open(oliveJsonFile, 'r') as file:
+        oliveJson = json.load(file)
+    for si, section in enumerate(modelParameter.sections):
+        for i, parameter in enumerate(section.parameters):
+            if pydash.get(oliveJson, parameter.path) is None:
+                print(f"{oliveJsonFile} missing section {si} parameter {i}: {parameter.path}")
+                GlobalVars.hasError = True
+    
+    if "engine" in oliveJson:
+        print(f"{oliveJsonFile} has engine. Should place in the root instead")
+        GlobalVars.hasError = True
+        return
+
+    # get phases from oliveJson
+    phases = []
+    all_passes = [v["type"] for _, v in oliveJson["passes"].items()]
+    if "OnnxConversion" in all_passes:
+        phases.append(PhaseTypeEnum.Conversion)
+    if "OnnxQuantization" in all_passes or "OnnxStaticQuantization" in all_passes or "OnnxDynamicQuantization" in all_passes:
+        phases.append(PhaseTypeEnum.Quantization)
+    if "evaluator" in oliveJson and oliveJson["evaluator"]:
+        phases.append(PhaseTypeEnum.Evaluation)
+    modelItem.phases = phases
+
 
 def main():
     configDir = os.path.dirname(__file__)
@@ -302,8 +327,8 @@ def main():
             allVersions.sort()            
             model.version = allVersions[-1]
             # check if version is continuous
-            if (allVersions[-1] - allVersions[0]) != (len(allVersions) - 1):
-                print(f"{modelDir} has missing version")
+            if allVersions[0] != 1 or allVersions[-1] != len(allVersions):
+                print(f"{modelDir} has wrong versions {allVersions}")
                 GlobalVars.hasError = True
 
             # process each version
@@ -331,24 +356,7 @@ def main():
                     modelParameter.Check(parameterTemplate)
                     # check olive json
                     oliveJsonFile = os.path.join(modelDir, f"{modelInVersion.version}/{modelItem.file}")
-                    with open(oliveJsonFile, 'r') as file:
-                        oliveJson = json.load(file)
-                    for si, section in enumerate(modelParameter.sections):
-                        for i, parameter in enumerate(section.parameters):
-                            if pydash.get(oliveJson, parameter.path) is None:
-                                print(f"{oliveJsonFile} missing section {si} parameter {i}: {parameter.path}")
-                                GlobalVars.hasError = True
-                    
-                    # get phases from oliveJson
-                    phases = []
-                    all_passes = [v["type"] for _, v in oliveJson["passes"].items()]
-                    if "OnnxConversion" in all_passes:
-                        phases.append(PhaseTypeEnum.Conversion)
-                    if "OnnxQuantization" in all_passes or "OnnxStaticQuantization" in all_passes or "OnnxDynamicQuantization" in all_passes:
-                        phases.append(PhaseTypeEnum.Quantization)
-                    if "evaluator" in oliveJson and oliveJson["evaluator"]:
-                        phases.append(PhaseTypeEnum.Evaluation)
-                    modelItem.phases = phases
+                    checkOliveConfig(oliveJsonFile, modelParameter, modelItem)
                     
                 modelSpaceConfig.Check()
     modelList.Check()

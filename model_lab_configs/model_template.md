@@ -2,16 +2,18 @@
 
 - model_list.json:
     + version: read from folder structure
-- modelspace.config
+- model_project.config
     + template, version, templateName: same as path
+    + phases: read from olive config
+    + modelInfo: copy from model_list
     + So only name and file is needed
 - *.json.config
-    + For parameters with template, it will be removed so filled from templateParameters
-    + For templateParameters, unset parameters will be updated from template and save in parameters
-    + So normally for templateParameter, we only need to set template and path and everything else could be set from template
+    + For parameter, we either set every needed property except template
+    + Or set template name and properties different from template in template
 
-# Requirements
+# Olive json Requirements
 
+- engine not used: place everything in the root
 - output model use external weight ?
-- no evaluate input model ?
-- separate different datasets ?
+- separate different datasets
+    + currently no check in sanitize.py

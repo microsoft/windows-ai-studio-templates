@@ -33,13 +33,11 @@
       ]
     }
   },
-  "engine": {
-    "host": "host_system",
+  "host": "host_system",
     "target": "host_system",
     "evaluator": "common_evaluator",
     "evaluate_input_model": false,
-    "log_to_file": false
-  },
+    "log_to_file": false,
   "data_configs": [
     {
       "name": "calib_data",
