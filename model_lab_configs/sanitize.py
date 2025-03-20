@@ -40,6 +40,11 @@ class ParameterTypeEnum(Enum):
     Int = "int"
     NotSet = "notSet"
 
+class PhaseTypeEnum(Enum):
+    Conversion = "Conversion"
+    Quantization = "Quantization"
+    Evaluation = "Evaluation"
+
 # Global vars
 
 class GlobalVars:
@@ -131,6 +136,13 @@ class Parameter(BaseModel):
             return False
         return True
 
+    def clearValue(self):
+        self.name = ""
+        self.description = ""
+        self.type = ParameterTypeEnum.NotSet
+        self.values = []
+        self.path = ""
+    
     # template ignored
     def applyTemplate(self, template: Parameter):
         if not self.name:
@@ -170,6 +182,7 @@ class WorkflowItem(BaseModel):
     template: str = ""
     version: int = -1
     templateName: str = ""
+    phases: list[PhaseTypeEnum] = []
 
     def Check(self):
         if not self.name:
@@ -182,11 +195,14 @@ class WorkflowItem(BaseModel):
             return False
         if not self.templateName:
             return False
+        if not self.phases:
+            return False
         return True
 
 # TODO: add model metadata from model list
 class ModelProjectConfig(BaseModel):
     workflows: list[WorkflowItem]
+    modelInfo: ModelInfo = None
 
     @staticmethod
     def Read(modelSpaceConfigFile: str):
@@ -205,6 +221,10 @@ class ModelProjectConfig(BaseModel):
                 print(f"{self._file} model {i} has error")
                 GlobalVars.hasError = True
         
+        if not self.modelInfo.Check():
+            print(f"{self._file} modelInfo has error")
+            GlobalVars.hasError = True
+
         newContent = self.model_dump_json(indent=4)
         if newContent != self._fileContent:
             with open(self._file, 'w') as file:
@@ -234,6 +254,7 @@ class Section(BaseModel):
                     print(f"{_file} section {sectionId} parameter {i} has wrong template")
                     GlobalVars.hasError = True
                     continue
+                parameter.clearValue()
                 parameter.applyTemplate(template)
                 parameter.applyTemplate(templates[template.template])
         return True
@@ -276,35 +297,60 @@ def main():
     for model in modelList.models:
         if model.id and model.status == ModelStatusEnum.Ready:
             modelDir = os.path.join(configDir, model.id)
-            # set version
+            # get all versions
             allVersions = [int(name) for name in os.listdir(modelDir) if os.path.isdir(os.path.join(modelDir, name))]
-            model.version = max(allVersions)
-            # get model space config
-            modelSpaceConfig = ModelProjectConfig.Read(os.path.join(modelDir, f"{model.version}/model_project.config"))
-            # check md
-            mdFile = os.path.join(modelDir, f"{model.version}/README.md")
-            if not os.path.exists(mdFile):
-                print(f"{mdFile} not exists")
+            allVersions.sort()            
+            model.version = allVersions[-1]
+            # check if version is continuous
+            if (allVersions[-1] - allVersions[0]) != (len(allVersions) - 1):
+                print(f"{modelDir} has missing version")
                 GlobalVars.hasError = True
-            for i, modelItem in enumerate(modelSpaceConfig.workflows):
-                # set template
-                modelItem.template = model.id
-                modelItem.version = model.version
-                modelItem.templateName = modelItem.file[:-5]
+
+            # process each version
+            for version in allVersions:
+                # deep copy model for version usage
+                modelInVersion = copy.deepcopy(model)
+                modelInVersion.version = version
+                # get model space config
+                modelSpaceConfig = ModelProjectConfig.Read(os.path.join(modelDir, f"{modelInVersion.version}/model_project.config"))
+                # check md
+                mdFile = os.path.join(modelDir, f"{modelInVersion.version}/README.md")
+                if not os.path.exists(mdFile):
+                    print(f"{mdFile} not exists")
+                    GlobalVars.hasError = True
                 
-                # check parameter
-                modelParameter = ModelParameter.Read(os.path.join(modelDir, f"{model.version}/{modelItem.file}.config"))
-                modelParameter.Check(parameterTemplate)
-                # check olive json
-                oliveJsonFile = os.path.join(modelDir, f"{model.version}/{modelItem.file}")
-                with open(oliveJsonFile, 'r') as file:
-                    oliveJson = json.load(file)
-                for si, section in enumerate(modelParameter.sections):
-                    for i, parameter in enumerate(section.parameters):
-                        if pydash.get(oliveJson, parameter.path) is None:
-                            print(f"{oliveJsonFile} missing section {si} parameter {i}: {parameter.path}")
-                            GlobalVars.hasError = True
-            modelSpaceConfig.Check()
+                modelSpaceConfig.modelInfo = modelInVersion
+                for i, modelItem in enumerate(modelSpaceConfig.workflows):
+                    # set template
+                    modelItem.template = model.id
+                    modelItem.version = modelInVersion.version
+                    modelItem.templateName = modelItem.file[:-5]
+
+                    # check parameter
+                    modelParameter = ModelParameter.Read(os.path.join(modelDir, f"{modelInVersion.version}/{modelItem.file}.config"))
+                    modelParameter.Check(parameterTemplate)
+                    # check olive json
+                    oliveJsonFile = os.path.join(modelDir, f"{modelInVersion.version}/{modelItem.file}")
+                    with open(oliveJsonFile, 'r') as file:
+                        oliveJson = json.load(file)
+                    for si, section in enumerate(modelParameter.sections):
+                        for i, parameter in enumerate(section.parameters):
+                            if pydash.get(oliveJson, parameter.path) is None:
+                                print(f"{oliveJsonFile} missing section {si} parameter {i}: {parameter.path}")
+                                GlobalVars.hasError = True
+                    
+                    # get phases from oliveJson
+                    phases = []
+                    all_passes = [v["type"] for _, v in oliveJson["passes"].items()]
+                    if "OnnxConversion" in all_passes:
+                        phases.append(PhaseTypeEnum.Conversion)
+                    if "OnnxQuantization" in all_passes or "OnnxStaticQuantization" in all_passes or "OnnxDynamicQuantization" in all_passes:
+                        phases.append(PhaseTypeEnum.Quantization)
+                    if "evaluator" in oliveJson and oliveJson["evaluator"]:
+                        phases.append(PhaseTypeEnum.Evaluation)
+                    modelItem.phases = phases
+                    
+                modelSpaceConfig.Check()
     modelList.Check()
     if GlobalVars.hasChange:
         print("Please commit changes")
