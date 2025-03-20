@@ -12,17 +12,19 @@
     "systems": {
         "qnn_system": {
             "type": "LocalSystem",
-            "accelerators": [ { "device": "npu", "execution_providers": [ "QNNExecutionProvider" ] } ]
+            "accelerators": [ { "device": "npu", "execution_providers": [ "NPUExecutionProvider" ] } ]
         }
     },
     "data_configs": [
         {
             "name": "quantization_data_config",
             "type": "HuggingfaceContainer",
-            "user_script": "oxford_flowers.py",
+            "user_script": "vit-base-patch16-224.py",
             "load_dataset_config": {
-                "data_name": "nelorth/oxford-flowers",
-                "split": "train"
+                "data_name": "imagenet-1k",
+                "split": "train",
+                "streaming": true,
+                "trust_remote_code": true
             },
             "pre_process_data_config": { "type": "dataset_pre_process", "size": 256 },
             "post_process_data_config": { "type": "dataset_post_process" }
@@ -30,12 +32,14 @@
         {
             "name": "evaluation_data_config",
             "type": "HuggingfaceContainer",
-            "user_script": "oxford_flowers.py",
+            "user_script": "vit-base-patch16-224.py",
             "load_dataset_config": {
-                "data_name": "nelorth/oxford-flowers",
-                "split": "test"
+                "data_name": "imagenet-1k",
+                "split": "validation",
+                "streaming": true,
+                "trust_remote_code": true
             },
-            "pre_process_data_config": { "type": "dataset_pre_process", "size": 256 },
+            "pre_process_data_config": { "type": "dataset_pre_process", "size": 1000 },
             "post_process_data_config": { "type": "dataset_post_process" }
         }
     ],
@@ -49,7 +53,8 @@
                     "sub_types": [
                         {
                             "name": "accuracy_score",
-                            "priority": 1
+                            "priority": 1,
+                            "metric_config": { "task": "multiclass", "num_classes": 1000 }
                         }
                     ]
                 },
