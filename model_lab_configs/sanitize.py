@@ -50,6 +50,11 @@ class PhaseTypeEnum(Enum):
 class GlobalVars:
     hasChange = False
     hasError = False
+    phaseToSection = {
+        PhaseTypeEnum.Conversion: "Convert",
+        PhaseTypeEnum.Quantization: "Quantize",
+        PhaseTypeEnum.Evaluation: "Evaluate"
+    }
 
 
 # Model List
@@ -274,8 +279,17 @@ class ModelParameter(BaseModel):
         return modelParameter
 
 
-    def Check(self, templates: Dict[str, Parameter]):
+    def Check(self, templates: Dict[str, Parameter], modelItem: WorkflowItem):
+        # TODO hardcoded
+        if len(self.sections) != len(modelItem.phases) - 1:
+            print(f"{self._file} has wrong sections compared with phases {modelItem.phases}")
+            GlobalVars.hasError = True
+
         for i, section in enumerate(self.sections):
+            # TODO hardcoded
+            if section.name != GlobalVars.phaseToSection[modelItem.phases[i + 1]]:
+                print(f"{self._file} section {i} has wrong name {section.name} compared with phase {modelItem.phases[i]}")
+                GlobalVars.hasError = True
             if not section.Check(templates, self._file, i):
                 print(f"{self._file} section {i} has error")
                 GlobalVars.hasError = True
@@ -309,6 +323,13 @@ def checkOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter, modelIt
         phases.append(PhaseTypeEnum.Quantization)
     if "evaluator" in oliveJson and oliveJson["evaluator"]:
         phases.append(PhaseTypeEnum.Evaluation)
+    # TODO hardcoded
+    if PhaseTypeEnum.Conversion not in phases:
+        print(f"{oliveJsonFile} missing Conversion phase")
+        GlobalVars.hasError = True
+    if PhaseTypeEnum.Quantization not in phases:
+        print(f"{oliveJsonFile} missing Quantization phase")
+        GlobalVars.hasError = True
     modelItem.phases = phases
 
 
@@ -351,12 +372,15 @@ def main():
                     modelItem.version = modelInVersion.version
                     modelItem.templateName = modelItem.file[:-5]
 
-                    # check parameter
+                    # read parameter
                     modelParameter = ModelParameter.Read(os.path.join(modelDir, f"{modelInVersion.version}/{modelItem.file}.config"))
-                    modelParameter.Check(parameterTemplate)
+
                     # check olive json
                     oliveJsonFile = os.path.join(modelDir, f"{modelInVersion.version}/{modelItem.file}")
                     checkOliveConfig(oliveJsonFile, modelParameter, modelItem)
+
+                    # check parameter
+                    modelParameter.Check(parameterTemplate, modelItem)     
                     
                 modelSpaceConfig.Check()
     modelList.Check()
