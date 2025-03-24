@@ -220,6 +220,8 @@ class Parameter(BaseModel):
                 return False
             elif not checkPath(self.path, oliveJson):
                 return False
+            elif self.values or self.checks or self.actions:
+                return False
         else:
             expectedLength = 2
             if self.type == ParameterTypeEnum.Enum:
@@ -385,6 +387,9 @@ class Section(BaseModel):
                 GlobalVars.hasError = True
         
         if self.toggle:
+            if self.toggle.type != ParameterTypeEnum.Bool:
+                print(f"{_file} section {sectionId} toggle must use bool")
+                return False
             if not self.toggle.Check(False, oliveJson):
                 print(f"{_file} section {sectionId} toggle has error")
                 GlobalVars.hasError = True
@@ -433,11 +438,12 @@ class ModelParameter(BaseModel):
 
             # Set evaluation toggle
             elif section.name == GlobalVars.phaseToSection[PhaseTypeEnum.Evaluation]:
+                action = ParameterAction(path=OlivePropertyNames.Evaluator, type=ParameterActionTypeEnum.Delete)
                 section.toggle = Parameter(
                     name="Evaluate model performance",
                     type=ParameterTypeEnum.Bool,
-                    path=OlivePropertyNames.Evaluator,
-                    values=[oliveJson[OlivePropertyNames.Evaluator], ""])
+                    checks=[ParameterCheck(type=ParameterCheckTypeEnum.Exist, path=OlivePropertyNames.Evaluator), ParameterCheck(type=ParameterCheckTypeEnum.NotExist, path=OlivePropertyNames.Evaluator)],
+                    actions=[[], [action]])
 
             if not section.Check(templates, self._file, i, oliveJson):
                 print(f"{self._file} section {i} has error")
