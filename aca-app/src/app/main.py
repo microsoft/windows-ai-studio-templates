@@ -22,7 +22,7 @@ def configure_gradio(app: FastAPI):
             with gr.Column(scale=4):
                 user_text = gr.Textbox(placeholder="Input", label="User input")
                 # model_output = gr.Textbox(label="Output", lines=10, interactive=False)
-                model_output = gr.Markdown(label="Output", height=400, container=True, show_label=True)
+                model_output = gr.Markdown(label="Output", height=320, container=True, show_label=True)
                 button_submit = gr.Button(value="Submit")
 
         params = [user_text]
