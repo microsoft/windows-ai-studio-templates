@@ -365,16 +365,16 @@ class ModelParameter(BaseModel):
 
     def Check(self, templates: Dict[str, Parameter], modelItem: WorkflowItem, oliveJson: Any):
         # Check sections to match phases
-        # TODO hardcoded
+        # TODO hardcoded (with additional conversion phase)
         if len(self.sections) != len(modelItem.phases) - 1:
             print(f"{self._file} has wrong sections compared with phases {modelItem.phases}")
             GlobalVars.hasError = True
 
         for i, section in enumerate(self.sections):
-            # TODO hardcoded
+            # TODO hardcoded name for UI
             if section.name != GlobalVars.phaseToSection[modelItem.phases[i + 1]]:
+                section.name = GlobalVars.phaseToSection[modelItem.phases[i + 1]]
                 print(f"{self._file} section {i} has wrong name {section.name} compared with phase {modelItem.phases[i]}")
-                GlobalVars.hasError = True
             
             # Set quantization toggle
             if section.name == GlobalVars.phaseToSection[PhaseTypeEnum.Quantization]:
@@ -432,10 +432,10 @@ def readCheckOliveConfig(oliveJsonFile: str, modelItem: WorkflowItem):
     if OlivePropertyNames.Evaluator in oliveJson and oliveJson[OlivePropertyNames.Evaluator]:
         phases.append(PhaseTypeEnum.Evaluation)
     # TODO hardcoded
-    if PhaseTypeEnum.Conversion not in phases:
+    if PhaseTypeEnum.Conversion != phases[0]:
         print(f"{oliveJsonFile} missing Conversion phase")
         GlobalVars.hasError = True
-    if PhaseTypeEnum.Quantization not in phases:
+    if PhaseTypeEnum.Quantization != phases[1]:
         print(f"{oliveJsonFile} missing Quantization phase")
         GlobalVars.hasError = True
     modelItem.phases = phases
