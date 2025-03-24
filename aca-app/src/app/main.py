@@ -1,6 +1,7 @@
 import asyncio
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 import gradio as gr
 
@@ -35,7 +36,7 @@ app = configure_gradio(app)
 app.mount("/working", StaticFiles(directory=".working"), name="working")
 @app.get("/")
 def root():
-    return "Chat on /chat and static files on /working"
+    return RedirectResponse(url="/chat")
 
 if __name__ == "__main__":
     import uvicorn
