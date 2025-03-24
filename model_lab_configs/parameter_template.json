@@ -36,8 +36,8 @@
         "path": "",
         "actions": []
     },
-    "QuantizeDatasetSize": {
-        "name": "Quantize Dataset Size",
+    "QuantizationDatasetSize": {
+        "name": "Quantization Dataset Size",
         "description": "",
         "type": "int",
         "values": [],
