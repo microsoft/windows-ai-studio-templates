@@ -140,24 +140,55 @@ class ModelList(BaseModel):
 
 # Parameter
 
+def checkPath(path: str, oliveJson: Any):
+    if GlobalVars.verbose: print(path)
+    if pydash.get(oliveJson, path) is None:
+        print(f"Not in olive json: {path}")
+        return False
+    return True
+
+
 class ParameterCheck(BaseModel):
     type: ParameterCheckTypeEnum = ParameterCheckTypeEnum.NotSet
+    path: str = ""
+
+    def check(self, oliveJson: Any):
+        if self.type == ParameterCheckTypeEnum.NotSet:
+            return False
+        if not self.path:
+            return False
+        if not checkPath(self.path, oliveJson):
+            return False
+        return True
 
 
 class ParameterAction(BaseModel):
+    type: ParameterActionTypeEnum = ParameterActionTypeEnum.NotSet
     path: str = ""
     value: str | int | bool | float | None = None
-    type: ParameterActionTypeEnum = ParameterActionTypeEnum.NotSet
+
+    def check(self, oliveJson: Any):
+        if self.type == ParameterActionTypeEnum.NotSet:
+            return False
+        if not self.path:
+            return False
+        if self.type == ParameterActionTypeEnum.Upsert and not self.value:
+            return False
+        if not checkPath(self.path, oliveJson):
+            return False
+        return True
 
 
 # TODO add displayNames for values
 class Parameter(BaseModel):
     """
     REMEMEBER to update clearValue and applyTemplate if new fields are added
+    for enum type and bool type, either path + values or checks + actions
 
     path: path to the parameter in olive json
     values: possible values for the parameter.
         path and values are used to determine the status of the parameter
+    checks: advanced method to get default value for enum or bool
     actions: actions to be performed on the parameter in template(original) olive json.
         if actions is empty, the parameter is upserted by path = selected value
 
@@ -165,10 +196,11 @@ class Parameter(BaseModel):
     name: str = ""
     description: str = ""
     type: ParameterTypeEnum = ParameterTypeEnum.NotSet
-    values: list[str | ParameterCheck] = []
+    path: str = ""
+    values: list[str] = []
     # 1st level is Parameter and 2nd level is str in templates
     template: Parameter | str = ""
-    path: str = ""
+    checks: list[ParameterCheck] = []
     actions: list[list[ParameterAction]] = []
 
     def Check(self, isTemplate: bool, oliveJson: Any = None):
@@ -183,35 +215,43 @@ class Parameter(BaseModel):
         #    return False
         if not self.type or self.type == ParameterTypeEnum.NotSet:
             return False
-        if self.type == ParameterTypeEnum.Enum and not self.values:
-            return False
-        if not self.path:
-            return False
+        if self.type != ParameterTypeEnum.Bool and self.type != ParameterTypeEnum.Enum:            
+            if not self.path:
+                return False
+            elif not checkPath(self.path, oliveJson):
+                return False
         else:
-            if GlobalVars.verbose: print(self.path)
-            if pydash.get(oliveJson, self.path) is None:
-                print(f"Not in olive json: {self.path}")
-                return False
-        # TODO more checks for bool etc.
-        if len(self.values) > 0:
-            for value in self.values:
-                if value is ParameterCheck:
-                    if value.type == ParameterCheckTypeEnum.NotSet:
-                        return False
-            if len(self.actions) > 0 and len(self.actions) != len(self.values):
-                print(f"Actions and values length mismatch")
-                return False
+            expectedLength = 2
+            if self.type == ParameterTypeEnum.Enum:
+                expectedLength = max(len(self.values), len(self.checks), len(self.actions))
             
-        for i, actions in enumerate(self.actions):
-            for j, action in enumerate(actions):
-                if action.type == ParameterActionTypeEnum.NotSet:
+            if self.path and not self.checks:
+                pass
+            elif not self.path and len(self.checks) == expectedLength:
+                pass
+            else:
+                print(f"Path and checks mismatch")
+                return False
+
+            if (len(self.values) == expectedLength or (not self.values and self.type == ParameterTypeEnum.Bool)) and not self.actions:
+                pass
+            elif not self.values and len(self.actions) == expectedLength:
+                pass
+            else:
+                print(f"Values and actions mismatch")
+                return False
+
+            if self.path and not checkPath(self.path, oliveJson):
+                return False
+            for i, check in enumerate(self.checks):
+                if not check.check(oliveJson):
+                    print(f"Check {i} has error")
                     return False
-                if action.type == ParameterActionTypeEnum.Upsert and not action.value:
-                    return False
-                if GlobalVars.verbose: print(action.path)
-                if pydash.get(oliveJson, action.path) is None:
-                    print(f"Action path {i} {j} Not in olive json: {action.path}")
-                    return False
+            for i, actions in enumerate(self.actions):
+                for j, action in enumerate(actions):
+                    if not action.check(oliveJson):
+                        print(f"Action {i} {j} has error")
+                        return False                  
         return True
 
     def clearValue(self):
@@ -382,13 +422,13 @@ class ModelParameter(BaseModel):
             # Set quantization toggle
             if section.name == GlobalVars.phaseToSection[PhaseTypeEnum.Quantization]:
                 quantize = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v["type"] in [OlivePassNames.OnnxQuantization, OlivePassNames.OnnxStaticQuantization, OlivePassNames.OnnxDynamicQuantization]]
+                quantizePath = f"{OlivePropertyNames.Passes}.{quantize[0]}"
                 not_conversion = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v["type"] not in [OlivePassNames.OnnxConversion]]
                 actions = [ParameterAction(path=f"{OlivePropertyNames.Passes}.{k}", type=ParameterActionTypeEnum.Delete) for k in not_conversion]
                 section.toggle = Parameter(
                     name="Quantize model",
                     type=ParameterTypeEnum.Bool,
-                    path=f"{OlivePropertyNames.Passes}.{quantize[0]}",
-                    values=[ParameterCheck(type=ParameterCheckTypeEnum.Exist), ParameterCheck(type=ParameterCheckTypeEnum.NotExist)],
+                    checks=[ParameterCheck(type=ParameterCheckTypeEnum.Exist, path=quantizePath), ParameterCheck(type=ParameterCheckTypeEnum.NotExist, path=quantizePath)],
                     actions=[[], actions])
 
             # Set evaluation toggle

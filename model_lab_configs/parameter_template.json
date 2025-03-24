@@ -3,6 +3,7 @@
         "name": "Activation Type",
         "description": "Quantization data type of activation",
         "type": "enum",
+        "path": "",
         "values": [
             "QInt8",
             "QUInt8",
@@ -10,13 +11,14 @@
             "QUInt16"
         ],
         "template": "",
-        "path": "",
+        "checks": [],
         "actions": []
     },
     "WeightType": {
         "name": "Weight Type",
         "description": "Data type for quantizing weights",
         "type": "enum",
+        "path": "",
         "values": [
             "QInt8",
             "QUInt8",
@@ -24,25 +26,27 @@
             "QUInt16"
         ],
         "template": "",
-        "path": "",
+        "checks": [],
         "actions": []
     },
     "EvaluationDatasetSize": {
         "name": "Evaluation Dataset Size",
         "description": "",
         "type": "int",
+        "path": "",
         "values": [],
         "template": "",
-        "path": "",
+        "checks": [],
         "actions": []
     },
     "QuantizationDatasetSize": {
         "name": "Quantization Dataset Size",
         "description": "",
         "type": "int",
+        "path": "",
         "values": [],
         "template": "",
-        "path": "",
+        "checks": [],
         "actions": []
     }
 }
