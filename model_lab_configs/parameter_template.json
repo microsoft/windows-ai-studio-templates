@@ -10,7 +10,8 @@
             "QUInt16"
         ],
         "template": "",
-        "path": ""
+        "path": "",
+        "actions": []
     },
     "WeightType": {
         "name": "Weight Type",
@@ -23,7 +24,8 @@
             "QUInt16"
         ],
         "template": "",
-        "path": ""
+        "path": "",
+        "actions": []
     },
     "EvaluationDatasetSize": {
         "name": "Evaluation Dataset Size",
@@ -31,7 +33,8 @@
         "type": "int",
         "values": [],
         "template": "",
-        "path": ""
+        "path": "",
+        "actions": []
     },
     "QuantizeDatasetSize": {
         "name": "Quantize Dataset Size",
@@ -39,6 +42,7 @@
         "type": "int",
         "values": [],
         "template": "",
-        "path": ""
+        "path": "",
+        "actions": []
     }
 }

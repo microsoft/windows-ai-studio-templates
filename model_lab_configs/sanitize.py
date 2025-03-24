@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Dict
+from typing import Any, Dict
 from pydantic import BaseModel, TypeAdapter
 import os
 from enum import Enum
@@ -38,7 +38,19 @@ class ModelStatusEnum(Enum):
 class ParameterTypeEnum(Enum):
     Enum = "enum"
     Int = "int"
+    Bool = "bool"
+    String = "str"
     NotSet = "notSet"
+
+class ParameterCheckTypeEnum(Enum):
+    NotSet = "notSet"
+    Exist = "exist"
+    NotExist = "notExist"
+
+class ParameterActionTypeEnum(Enum):
+    NotSet = "notSet"
+    Upsert = "upsert"
+    Delete = "delete"
 
 class PhaseTypeEnum(Enum):
     Conversion = "Conversion"
@@ -114,16 +126,37 @@ class ModelList(BaseModel):
 
 # Parameter
 
+class ParameterCheck(BaseModel):
+    type: ParameterCheckTypeEnum = ParameterCheckTypeEnum.NotSet
+
+
+class ParameterAction(BaseModel):
+    path: str = ""
+    type: ParameterActionTypeEnum = ParameterActionTypeEnum.NotSet
+
+
+# TODO add displayNames for values
 class Parameter(BaseModel):
+    """
+    REMEMEBER to update clearValue and applyTemplate if new fields are added
+
+    path: path to the parameter in olive json
+    values: possible values for the parameter.
+        path and values are used to determine the status of the parameter
+    actions: actions to be performed on the parameter in template(original) olive json.
+        if actions is empty, the parameter is upserted by path = selected value
+
+    """
     name: str = ""
     description: str = ""
     type: ParameterTypeEnum = ParameterTypeEnum.NotSet
-    values: list[str] = []
+    values: list[str | ParameterCheck] = []
     # 1st level is Parameter and 2nd level is str in templates
     template: Parameter | str = None
     path: str = ""
+    actions: list[list[ParameterAction]] = []
 
-    def Check(self, isTemplate: bool):
+    def Check(self, isTemplate: bool, oliveJson: Any = None):
         if isTemplate:
             if self.template:
                 return False
@@ -139,6 +172,26 @@ class Parameter(BaseModel):
             return False
         if not self.path:
             return False
+        elif pydash.get(oliveJson, self.path) is None:
+            print(f"Not in olive json: {self.path}")
+            return False
+        # TODO more checks for bool etc.
+        if len(self.values) > 0:
+            for value in self.values:
+                if value is ParameterCheck:
+                    if value.type == ParameterCheckTypeEnum.NotSet:
+                        return False
+            if len(self.actions) > 0 and len(self.actions) != len(self.values):
+                print(f"Actions and values length mismatch")
+                return False
+            
+        for i, actions in enumerate(self.actions):
+            for j, action in enumerate(actions):
+                if action.type == ParameterActionTypeEnum.NotSet:
+                    return False
+                if pydash.get(oliveJson, action.path) is None:
+                    print(f"Action path {i} {j} Not in olive json: {action.path}")
+                    return False
         return True
 
     def clearValue(self):
@@ -147,6 +200,7 @@ class Parameter(BaseModel):
         self.type = ParameterTypeEnum.NotSet
         self.values = []
         self.path = ""
+        self.actions = []
     
     # template ignored
     def applyTemplate(self, template: Parameter):
@@ -160,6 +214,8 @@ class Parameter(BaseModel):
             self.values = template.values
         if not self.path:
             self.path = template.path
+        if not self.actions:
+            self.actions = template.actions
 
 
 def readCheckParameterTemplate(filePath: str):
@@ -238,12 +294,14 @@ class ModelProjectConfig(BaseModel):
 
 # Model Parameter
 
+# toggle: usually used for on/off switch
 class Section(BaseModel):
     name: str
     description: str = ""
     parameters: list[Parameter]
+    toggle: Parameter = None
 
-    def Check(self, templates: Dict[str, Parameter], _file: str, sectionId: int):
+    def Check(self, templates: Dict[str, Parameter], _file: str, sectionId: int, oliveJson: Any):
         if not self.name:
             return False
         #if not self.description:
@@ -262,6 +320,9 @@ class Section(BaseModel):
                 parameter.clearValue()
                 parameter.applyTemplate(template)
                 parameter.applyTemplate(templates[template.template])
+                if not parameter.Check(False, oliveJson):
+                    GlobalVars.hasError = True
+                    print(f"{_file} section {sectionId} parameter {i} has error")
         return True
     
 
@@ -279,7 +340,8 @@ class ModelParameter(BaseModel):
         return modelParameter
 
 
-    def Check(self, templates: Dict[str, Parameter], modelItem: WorkflowItem):
+    def Check(self, templates: Dict[str, Parameter], modelItem: WorkflowItem, oliveJson: Any):
+        # Check sections to match phases
         # TODO hardcoded
         if len(self.sections) != len(modelItem.phases) - 1:
             print(f"{self._file} has wrong sections compared with phases {modelItem.phases}")
@@ -290,25 +352,30 @@ class ModelParameter(BaseModel):
             if section.name != GlobalVars.phaseToSection[modelItem.phases[i + 1]]:
                 print(f"{self._file} section {i} has wrong name {section.name} compared with phase {modelItem.phases[i]}")
                 GlobalVars.hasError = True
-            if not section.Check(templates, self._file, i):
+            
+            # Set quantization toggle
+            if section.name == GlobalVars.phaseToSection[PhaseTypeEnum.Quantization]:
+                pass
+            # Set evaluation toggle
+            elif section.name == GlobalVars.phaseToSection[PhaseTypeEnum.Evaluation]:
+                pass
+
+            if not section.Check(templates, self._file, i, oliveJson):
                 print(f"{self._file} section {i} has error")
-                GlobalVars.hasError = True
-        
+                GlobalVars.hasError = True          
+
         newContent = self.model_dump_json(indent=4)
         if newContent != self._fileContent:
             with open(self._file, 'w') as file:
                 file.write(newContent)
             GlobalVars.hasChange = True
 
-def checkOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter, modelItem: WorkflowItem):
+def readCheckOliveConfig(oliveJsonFile: str, modelItem: WorkflowItem):
+    print(f"Process {oliveJsonFile}")
     with open(oliveJsonFile, 'r') as file:
         oliveJson = json.load(file)
-    for si, section in enumerate(modelParameter.sections):
-        for i, parameter in enumerate(section.parameters):
-            if pydash.get(oliveJson, parameter.path) is None:
-                print(f"{oliveJsonFile} missing section {si} parameter {i}: {parameter.path}")
-                GlobalVars.hasError = True
     
+    # check if engine is in oliveJson
     if "engine" in oliveJson:
         print(f"{oliveJsonFile} has engine. Should place in the root instead")
         GlobalVars.hasError = True
@@ -331,6 +398,8 @@ def checkOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter, modelIt
         print(f"{oliveJsonFile} missing Quantization phase")
         GlobalVars.hasError = True
     modelItem.phases = phases
+
+    return oliveJson
 
 
 def main():
@@ -372,15 +441,14 @@ def main():
                     modelItem.version = modelInVersion.version
                     modelItem.templateName = modelItem.file[:-5]
 
-                    # read parameter
-                    modelParameter = ModelParameter.Read(os.path.join(modelDir, f"{modelInVersion.version}/{modelItem.file}.config"))
-
                     # check olive json
                     oliveJsonFile = os.path.join(modelDir, f"{modelInVersion.version}/{modelItem.file}")
-                    checkOliveConfig(oliveJsonFile, modelParameter, modelItem)
+                    oliveJson = readCheckOliveConfig(oliveJsonFile, modelItem)
 
                     # check parameter
-                    modelParameter.Check(parameterTemplate, modelItem)     
+                    # read parameter
+                    modelParameter = ModelParameter.Read(os.path.join(modelDir, f"{modelInVersion.version}/{modelItem.file}.config"))
+                    modelParameter.Check(parameterTemplate, modelItem, oliveJson)     
                     
                 modelSpaceConfig.Check()
     modelList.Check()
