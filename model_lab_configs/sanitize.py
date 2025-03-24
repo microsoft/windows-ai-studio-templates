@@ -146,6 +146,7 @@ class ParameterCheck(BaseModel):
 
 class ParameterAction(BaseModel):
     path: str = ""
+    value: str | int | bool | float | None = None
     type: ParameterActionTypeEnum = ParameterActionTypeEnum.NotSet
 
 
@@ -204,6 +205,8 @@ class Parameter(BaseModel):
         for i, actions in enumerate(self.actions):
             for j, action in enumerate(actions):
                 if action.type == ParameterActionTypeEnum.NotSet:
+                    return False
+                if action.type == ParameterActionTypeEnum.Upsert and not action.value:
                     return False
                 if GlobalVars.verbose: print(action.path)
                 if pydash.get(oliveJson, action.path) is None:
