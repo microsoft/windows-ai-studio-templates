@@ -80,6 +80,7 @@ class GlobalVars:
         PhaseTypeEnum.Quantization: "Quantize",
         PhaseTypeEnum.Evaluation: "Evaluate"
     }
+    verbose = True
 
 
 # Model List
@@ -185,9 +186,11 @@ class Parameter(BaseModel):
             return False
         if not self.path:
             return False
-        elif pydash.get(oliveJson, self.path) is None:
-            print(f"Not in olive json: {self.path}")
-            return False
+        else:
+            if GlobalVars.verbose: print(self.path)
+            if pydash.get(oliveJson, self.path) is None:
+                print(f"Not in olive json: {self.path}")
+                return False
         # TODO more checks for bool etc.
         if len(self.values) > 0:
             for value in self.values:
@@ -202,6 +205,7 @@ class Parameter(BaseModel):
             for j, action in enumerate(actions):
                 if action.type == ParameterActionTypeEnum.NotSet:
                     return False
+                if GlobalVars.verbose: print(action.path)
                 if pydash.get(oliveJson, action.path) is None:
                     print(f"Action path {i} {j} Not in olive json: {action.path}")
                     return False
@@ -333,9 +337,9 @@ class Section(BaseModel):
                 parameter.clearValue()
                 parameter.applyTemplate(template)
                 parameter.applyTemplate(templates[template.template])
-                if not parameter.Check(False, oliveJson):
-                    print(f"{_file} section {sectionId} parameter {i} has error")
-                    GlobalVars.hasError = True
+            if not parameter.Check(False, oliveJson):
+                print(f"{_file} section {sectionId} parameter {i} has error")
+                GlobalVars.hasError = True
         
         if self.toggle:
             if not self.toggle.Check(False, oliveJson):
