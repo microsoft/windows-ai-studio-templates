@@ -7,6 +7,19 @@ import copy
 import pydash
 import json
 
+# Constants
+
+class OlivePassNames:
+    OnnxConversion = "OnnxConversion"
+    OnnxQuantization = "OnnxQuantization"
+    OnnxStaticQuantization = "OnnxStaticQuantization"
+    OnnxDynamicQuantization = "OnnxDynamicQuantization"
+
+class OlivePropertyNames:
+    Engine = "engine"
+    Passes = "passes"
+    Evaluator = "evaluator"
+
 # Enums
 
 class IconEnum(Enum):
@@ -152,7 +165,7 @@ class Parameter(BaseModel):
     type: ParameterTypeEnum = ParameterTypeEnum.NotSet
     values: list[str | ParameterCheck] = []
     # 1st level is Parameter and 2nd level is str in templates
-    template: Parameter | str = None
+    template: Parameter | str = ""
     path: str = ""
     actions: list[list[ParameterAction]] = []
 
@@ -299,7 +312,7 @@ class Section(BaseModel):
     name: str
     description: str = ""
     parameters: list[Parameter]
-    toggle: Parameter = None
+    toggle: Parameter | None = None
 
     def Check(self, templates: Dict[str, Parameter], _file: str, sectionId: int, oliveJson: Any):
         if not self.name:
@@ -321,8 +334,14 @@ class Section(BaseModel):
                 parameter.applyTemplate(template)
                 parameter.applyTemplate(templates[template.template])
                 if not parameter.Check(False, oliveJson):
-                    GlobalVars.hasError = True
                     print(f"{_file} section {sectionId} parameter {i} has error")
+                    GlobalVars.hasError = True
+        
+        if self.toggle:
+            if not self.toggle.Check(False, oliveJson):
+                print(f"{_file} section {sectionId} toggle has error")
+                GlobalVars.hasError = True
+
         return True
     
 
@@ -355,10 +374,23 @@ class ModelParameter(BaseModel):
             
             # Set quantization toggle
             if section.name == GlobalVars.phaseToSection[PhaseTypeEnum.Quantization]:
-                pass
+                quantize = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v["type"] in [OlivePassNames.OnnxQuantization, OlivePassNames.OnnxStaticQuantization, OlivePassNames.OnnxDynamicQuantization]]
+                not_conversion = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v["type"] not in [OlivePassNames.OnnxConversion]]
+                actions = [ParameterAction(path=f"{OlivePropertyNames.Passes}.{k}", type=ParameterActionTypeEnum.Delete) for k in not_conversion]
+                section.toggle = Parameter(
+                    name="Quantize model",
+                    type=ParameterTypeEnum.Bool,
+                    path=f"{OlivePropertyNames.Passes}.{quantize[0]}",
+                    values=[ParameterCheck(type=ParameterCheckTypeEnum.Exist), ParameterCheck(type=ParameterCheckTypeEnum.NotExist)],
+                    actions=[[], actions])
+
             # Set evaluation toggle
             elif section.name == GlobalVars.phaseToSection[PhaseTypeEnum.Evaluation]:
-                pass
+                section.toggle = Parameter(
+                    name="Evaluate model performance",
+                    type=ParameterTypeEnum.Bool,
+                    path=OlivePropertyNames.Evaluator,
+                    values=[oliveJson[OlivePropertyNames.Evaluator], ""])
 
             if not section.Check(templates, self._file, i, oliveJson):
                 print(f"{self._file} section {i} has error")
@@ -376,19 +408,24 @@ def readCheckOliveConfig(oliveJsonFile: str, modelItem: WorkflowItem):
         oliveJson = json.load(file)
     
     # check if engine is in oliveJson
-    if "engine" in oliveJson:
+    if OlivePropertyNames.Engine in oliveJson:
         print(f"{oliveJsonFile} has engine. Should place in the root instead")
+        GlobalVars.hasError = True
+        return
+    
+    if OlivePropertyNames.Evaluator in oliveJson and not isinstance(oliveJson[OlivePropertyNames.Evaluator], str):
+        print(f"{oliveJsonFile} evaluator peroperty should be str")
         GlobalVars.hasError = True
         return
 
     # get phases from oliveJson
     phases = []
-    all_passes = [v["type"] for _, v in oliveJson["passes"].items()]
-    if "OnnxConversion" in all_passes:
+    all_passes = [v["type"] for _, v in oliveJson[OlivePropertyNames.Passes].items()]
+    if OlivePassNames.OnnxConversion in all_passes:
         phases.append(PhaseTypeEnum.Conversion)
-    if "OnnxQuantization" in all_passes or "OnnxStaticQuantization" in all_passes or "OnnxDynamicQuantization" in all_passes:
+    if OlivePassNames.OnnxQuantization in all_passes or OlivePassNames.OnnxStaticQuantization in all_passes or OlivePassNames.OnnxDynamicQuantization in all_passes:
         phases.append(PhaseTypeEnum.Quantization)
-    if "evaluator" in oliveJson and oliveJson["evaluator"]:
+    if OlivePropertyNames.Evaluator in oliveJson and oliveJson[OlivePropertyNames.Evaluator]:
         phases.append(PhaseTypeEnum.Evaluation)
     # TODO hardcoded
     if PhaseTypeEnum.Conversion not in phases:
