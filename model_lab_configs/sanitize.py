@@ -20,6 +20,8 @@ class OlivePropertyNames:
     Engine = "engine"
     Passes = "passes"
     Evaluator = "evaluator"
+    Type = "type"
+    ExternalData = "save_as_external_data"
 
 # Enums
 
@@ -427,9 +429,9 @@ class ModelParameter(BaseModel):
             
             # Set quantization toggle
             if section.name == GlobalVars.phaseToSection[PhaseTypeEnum.Quantization]:
-                quantize = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v["type"] in [OlivePassNames.OnnxQuantization, OlivePassNames.OnnxStaticQuantization, OlivePassNames.OnnxDynamicQuantization]]
+                quantize = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] in [OlivePassNames.OnnxQuantization, OlivePassNames.OnnxStaticQuantization, OlivePassNames.OnnxDynamicQuantization]]
                 quantizePath = f"{OlivePropertyNames.Passes}.{quantize[0]}"
-                not_conversion = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v["type"] not in [OlivePassNames.OnnxConversion]]
+                not_conversion = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] not in [OlivePassNames.OnnxConversion]]
                 actions = [ParameterAction(path=f"{OlivePropertyNames.Passes}.{k}", type=ParameterActionTypeEnum.Delete) for k in not_conversion]
                 section.toggle = Parameter(
                     name="Quantize model",
@@ -468,13 +470,13 @@ def readCheckOliveConfig(oliveJsonFile: str, modelItem: WorkflowItem):
         return
     
     if OlivePropertyNames.Evaluator in oliveJson and not isinstance(oliveJson[OlivePropertyNames.Evaluator], str):
-        print(f"{oliveJsonFile} evaluator peroperty should be str")
+        print(f"{oliveJsonFile} evaluator property should be str")
         GlobalVars.hasError = True
         return
 
     # get phases from oliveJson
     phases = []
-    all_passes = [v["type"] for _, v in oliveJson[OlivePropertyNames.Passes].items()]
+    all_passes = [v[OlivePropertyNames.Type] for _, v in oliveJson[OlivePropertyNames.Passes].items()]
     if OlivePassNames.OnnxConversion in all_passes:
         phases.append(PhaseTypeEnum.Conversion)
     if OlivePassNames.OnnxQuantization in all_passes or OlivePassNames.OnnxStaticQuantization in all_passes or OlivePassNames.OnnxDynamicQuantization in all_passes:
@@ -489,6 +491,25 @@ def readCheckOliveConfig(oliveJsonFile: str, modelItem: WorkflowItem):
         print(f"{oliveJsonFile} missing Quantization phase")
         GlobalVars.hasError = True
     modelItem.phases = phases
+    
+    jsonUpdated = False
+
+    # update save_as_external_data
+    conversionPass = [v for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] == OlivePassNames.OnnxConversion][0]
+    if OlivePropertyNames.ExternalData not in conversionPass or not conversionPass[OlivePropertyNames.ExternalData]:
+        conversionPass[OlivePropertyNames.ExternalData] = True
+        jsonUpdated = True
+
+    lastPass = [v for k, v in oliveJson[OlivePropertyNames.Passes].items()][-1]
+    if OlivePropertyNames.ExternalData not in lastPass or not lastPass[OlivePropertyNames.ExternalData]:
+        lastPass[OlivePropertyNames.ExternalData] = True
+        jsonUpdated = True
+
+    if jsonUpdated:
+        with open(oliveJsonFile, 'w') as file:
+            json.dump(oliveJson, file, indent=4)
+        print(f"{oliveJsonFile} has been updated")
+        GlobalVars.hasChange = True
 
     return oliveJson
 
