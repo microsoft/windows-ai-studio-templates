@@ -9,4 +9,4 @@ RUN npm install -g --prefix ./.mcp @modelcontextprotocol/server-filesystem
 RUN mkdir .working
 COPY . .
 EXPOSE 8080
-CMD [".env/bin/python", "app/main.py"]
+CMD [".env/bin/python", "app/mcp_chat.py"]

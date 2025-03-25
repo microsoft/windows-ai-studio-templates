@@ -1,19 +1,29 @@
 import asyncio
+import requests
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 import gradio as gr
 
-from mcp_chat import MCPChat
+from access import get_access_token
 
-client = MCPChat()
+target_url = "https://some.url"
 
-async def ask(text: str):
+def ask(text: str):
+    session = requests.Session()
+    response = session.get(
+        f"{target_url}/chat",
+        headers={
+            "authorization": f"{get_access_token(target_url)}",
+        },
+        params={"text": text},
+        stream=True)
     output = ""
-    async for delta in client.chatWithTools(text):
-        yield delta
-        output += delta
+    for line in response.iter_lines():
+        if line:
+            output += line.decode("utf-8") + "\n\n"
+            yield output
 
 def configure_gradio(app: FastAPI):
     # Gradio UI setup
@@ -33,11 +43,14 @@ def configure_gradio(app: FastAPI):
 
 app = FastAPI()
 app = configure_gradio(app)
-app.mount("/working", StaticFiles(directory=".working"), name="working")
 @app.get("/")
 def root():
     return RedirectResponse(url="/chat")
+@app.get("/working/{rest_of_path:path}")
+def working(rest_of_path: str):
+    full_path = "/working/" + rest_of_path
+    return RedirectResponse(url=f"{target_url}{full_path}")
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8080)
+    uvicorn.run(app, host="127.0.0.1", port=8080)

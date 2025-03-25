@@ -8,6 +8,11 @@ from azure.ai.inference.models import AssistantMessage, SystemMessage, ToolMessa
 from azure.ai.inference.models import ImageContentItem, ImageUrl, TextContentItem
 from azure.core.credentials import AzureKeyCredential
 
+from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse
+from fastapi.staticfiles import StaticFiles
+
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
 
@@ -63,7 +68,7 @@ class MCPChat:
                 "parameters": tool.inputSchema
             }
         } for tool in listToolsRes.tools]
-        output += "\n\nConnected to server with tools:" + ", ".join([tool.name for tool in listToolsRes.tools])
+        output = "\n\nConnected to server with tools:" + ", ".join([tool.name for tool in listToolsRes.tools])
         yield output
 
         while True:
@@ -90,7 +95,7 @@ class MCPChat:
                         })
                 messages.append(choice.message)
                 if choice.message.content is not None and len(choice.message.content) > 0:
-                    output += "\n\n[Model]: " + f"{choice.message.content}"
+                    output = "\n\n[Model]: " + f"{choice.message.content}"
                     yield output
 
             if (len(toolCalls) == 0):
@@ -98,10 +103,10 @@ class MCPChat:
             else:
                 for toolCall in toolCalls:
                     # Call the tool
-                    output += "\n\n[Tool]> " + f"Calling tool: {toolCall['name']} ({toolCall['arguments'][:15]} ...)"
+                    output = "\n\n[Tool]> " + f"Calling tool: {toolCall['name']} ({toolCall['arguments'][:15]} ...)"
                     yield output
                     result = await self.session.call_tool(toolCall["name"], json.loads(toolCall["arguments"]))
-                    output += "\n\n[Tool]> " + f"Tool result: {result.content[0].text}"
+                    output = "\n\n[Tool]> " + f"Tool result: {result.content[0].text}"
                     yield output
                     messages.append(ToolMessage(
                         content=result.content[0].text,
@@ -111,3 +116,25 @@ class MCPChat:
     async def cleanup(self):
         """Clean up resources"""
         await self.exit_stack.aclose()
+
+async def ask(text: str):
+    client = MCPChat()
+    async for delta in client.chatWithTools(text):
+        yield delta
+
+app = FastAPI()
+
+app.mount("/working", StaticFiles(directory=".working"), name="working")
+
+@app.get("/chat")
+def chat(request: Request):
+    text = request.query_params.get("text", "")
+    return StreamingResponse(ask(text), media_type='text/event-stream')
+
+@app.get("/")
+def root():
+    return {"message": "Running on /chat"}
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8080)

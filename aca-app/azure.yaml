@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/main/schemas/v1.0/azure.yaml.json
+
+name: agent-app-aca
+metadata:
+    template: agent-app-aca@0.0.1
+infra:
+    provider: "bicep"
+hooks:
+    postdeploy:
+        windows:
+            shell: pwsh
+            run: 
+                az acr build --registry ${env:AZURE_CONTAINER_REGISTRY_NAME} --image ${env:AZURE_ENV_NAME}:latest --file ./src/Dockerfile ./src/
+                && az containerapp update -n ${env:SERVICE_WEB_NAME} -g ${env:AZURE_ENV_NAME}-rg --revision-suffix @(date -Format yyyyMMddHHmmss)

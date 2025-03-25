@@ -1,0 +1,8 @@
+{
+    "recommendations": [
+        "ms-azuretools.vscode-azurecontainerapps",
+        "ms-python.debugpy",
+        "ms-python.python",
+        "ms-windows-ai-studio.windows-ai-studio"
+    ]
+}

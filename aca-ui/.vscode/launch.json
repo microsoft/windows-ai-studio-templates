@@ -5,7 +5,7 @@
             "name": "Launch Program",
             "type": "debugpy",
             "request": "launch",
-            "program": "${workspaceFolder}/src/app/mcp_chat.py",
+            "program": "${workspaceFolder}/src/app/ui.py",
         }
     ]
 }
