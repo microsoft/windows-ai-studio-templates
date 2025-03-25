@@ -23,6 +23,8 @@ class OlivePropertyNames:
     Type = "type"
     ExternalData = "save_as_external_data"
 
+outputModelRelativePath = "./output_model/model/model.onnx"
+
 # Enums
 
 class IconEnum(Enum):
@@ -514,6 +516,20 @@ def readCheckOliveConfig(oliveJsonFile: str, modelItem: WorkflowItem):
     return oliveJson
 
 
+def readCheckIpynb(ipynbFile: str):
+    """
+    Note this return exists or not, not valid or not
+    """
+    if os.path.exists(ipynbFile):
+        with open(ipynbFile, 'r') as file:
+            ipynbContent = file.read()
+        if outputModelRelativePath not in ipynbContent:
+            print(f"{ipynbFile} does not have '{outputModelRelativePath}', please use it as input")
+            GlobalVars.hasError = True
+        return True
+    return False
+
+
 def main():
     configDir = os.path.dirname(__file__)
     # get model list
@@ -561,7 +577,7 @@ def main():
                 shutil.copy(os.path.join(configDir, "gitignore.md"), os.path.join(modelVerDir, ".gitignore"))
                 # check ipynb
                 sharedIpynbFile = os.path.join(modelVerDir, "inference_sample.ipynb")
-                sharedIpynb = os.path.exists(sharedIpynbFile)
+                sharedIpynb = readCheckIpynb(sharedIpynbFile)
                 
                 modelSpaceConfig.modelInfo = modelInVersion
                 for i, modelItem in enumerate(modelSpaceConfig.workflows):
@@ -582,7 +598,7 @@ def main():
                     # check ipynb
                     if not sharedIpynb:
                         ipynbFile = os.path.join(modelVerDir, f"{modelItem.templateName}_inference_sample.ipynb")
-                        if not os.path.exists(ipynbFile):
+                        if not readCheckIpynb(ipynbFile):
                             print(f"{ipynbFile} nor {sharedIpynbFile} not exists.")
                             GlobalVars.hasError = True
                     
