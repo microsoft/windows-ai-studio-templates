@@ -1,4 +1,5 @@
 from __future__ import annotations
+import shutil
 from typing import Any, Dict
 from pydantic import BaseModel, TypeAdapter
 import os
@@ -516,13 +517,30 @@ def main():
                 # deep copy model for version usage
                 modelInVersion = copy.deepcopy(model)
                 modelInVersion.version = version
+                modelVerDir = os.path.join(modelDir, str(version))
                 # get model space config
-                modelSpaceConfig = ModelProjectConfig.Read(os.path.join(modelDir, f"{modelInVersion.version}/model_project.config"))
+                modelSpaceConfig = ModelProjectConfig.Read(os.path.join(modelVerDir, "model_project.config"))
                 # check md
-                mdFile = os.path.join(modelDir, f"{modelInVersion.version}/README.md")
+                mdFile = os.path.join(modelVerDir, "README.md")
                 if not os.path.exists(mdFile):
                     print(f"{mdFile} not exists")
                     GlobalVars.hasError = True
+                # check requirement.txt
+                requirementFile = os.path.join(modelVerDir, "requirements.txt")
+                if not os.path.exists(requirementFile):
+                    print(f"{requirementFile} not exists. Copy the template one")
+                    GlobalVars.hasError = True
+                    shutil.copy(os.path.join(configDir, "requirements.md"), requirementFile)
+                # copy .gitignore
+                gitignoreFile = os.path.join(modelVerDir, ".gitignore")
+                if not os.path.exists(gitignoreFile):
+                    print(f"{gitignoreFile} not exists. Copy the template one")
+                    GlobalVars.hasChange = True
+                # always replace with latest
+                shutil.copy(os.path.join(configDir, "gitignore.md"), os.path.join(modelVerDir, ".gitignore"))
+                # check ipynb
+                sharedIpynbFile = os.path.join(modelVerDir, "inference_sample.ipynb")
+                sharedIpynb = os.path.exists(sharedIpynbFile)
                 
                 modelSpaceConfig.modelInfo = modelInVersion
                 for i, modelItem in enumerate(modelSpaceConfig.workflows):
@@ -532,13 +550,20 @@ def main():
                     modelItem.templateName = modelItem.file[:-5]
 
                     # check olive json
-                    oliveJsonFile = os.path.join(modelDir, f"{modelInVersion.version}/{modelItem.file}")
+                    oliveJsonFile = os.path.join(modelVerDir, modelItem.file)
                     oliveJson = readCheckOliveConfig(oliveJsonFile, modelItem)
 
                     # check parameter
                     # read parameter
-                    modelParameter = ModelParameter.Read(os.path.join(modelDir, f"{modelInVersion.version}/{modelItem.file}.config"))
-                    modelParameter.Check(parameterTemplate, modelItem, oliveJson)     
+                    modelParameter = ModelParameter.Read(os.path.join(modelVerDir, f"{modelItem.file}.config"))
+                    modelParameter.Check(parameterTemplate, modelItem, oliveJson)
+
+                    # check ipynb
+                    if not sharedIpynb:
+                        ipynbFile = os.path.join(modelVerDir, f"{modelItem.templateName}_inference_sample.ipynb")
+                        if not os.path.exists(ipynbFile):
+                            print(f"{ipynbFile} nor {sharedIpynbFile} not exists.")
+                            GlobalVars.hasError = True
                     
                 modelSpaceConfig.Check()
     modelList.Check()

@@ -1,3 +1,2 @@
-olive-ai==0.8.0
-onnxruntime-qnn=1.20.2
+olive-ai
 datasets
