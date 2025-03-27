@@ -23,6 +23,8 @@ class OlivePropertyNames:
     Type = "type"
     ExternalData = "save_as_external_data"
     Systems = "systems"
+    Accelerators = "accelerators"
+    ExecutionProviders = "execution_providers"
 
 outputModelRelativePath = "./output_model/model/model.onnx"
 
@@ -468,7 +470,18 @@ class ModelParameter(BaseModel):
             GlobalVars.hasError = True
         
         # TODO Add runtime
-        
+        syskey, system = list(oliveJson[OlivePropertyNames.Systems].items())[0]
+        currentEp = system[OlivePropertyNames.Accelerators][0][OlivePropertyNames.ExecutionProviders][0]
+        self.runtime = Parameter(
+            name="Optimize for",
+            description="Currently this only determines the evaluation hardware",
+            type=ParameterTypeEnum.Enum,
+            values=[currentEp, "CPUExecutionProvider"],
+            displayNames=[GlobalVars.epToName[currentEp], "CPU"],
+            path=f"{OlivePropertyNames.Systems}.{syskey}.accelerators.0.execution_providers.0",)
+        if not self.runtime.Check(False, oliveJson):
+            print(f"{self._file} runtime has error")
+            GlobalVars.hasError = True
 
         for i, section in enumerate(self.sections):
             # TODO hardcoded name for UI
@@ -526,6 +539,20 @@ def readCheckOliveConfig(oliveJsonFile: str, modelItem: WorkflowItem):
     # check if has more than one systems
     if OlivePropertyNames.Systems not in oliveJson or len(oliveJson[OlivePropertyNames.Systems]) != 1:
         print(f"{oliveJsonFile} should have only one system")
+        GlobalVars.hasError = True
+        return
+    accelerators = list(oliveJson[OlivePropertyNames.Systems].items())[0][1][OlivePropertyNames.Accelerators]
+    if len(accelerators) != 1:
+        print(f"{oliveJsonFile} should have only one accelerator")
+        GlobalVars.hasError = True
+        return
+    eps = accelerators[0][OlivePropertyNames.ExecutionProviders]
+    if len(eps) != 1:
+        print(f"{oliveJsonFile} should have only one execution provider")
+        GlobalVars.hasError = True
+        return
+    if eps[0] not in GlobalVars.epToName:
+        print(f"{oliveJsonFile} has wrong execution provider {eps[0]}")
         GlobalVars.hasError = True
         return
 

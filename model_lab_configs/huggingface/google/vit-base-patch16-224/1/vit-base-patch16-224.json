@@ -27,7 +27,7 @@
                 {
                     "device": "npu",
                     "execution_providers": [
-                        "NPUExecutionProvider"
+                        "QNNExecutionProvider"
                     ]
                 }
             ]
