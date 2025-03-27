@@ -22,6 +22,7 @@ class OlivePropertyNames:
     Evaluator = "evaluator"
     Type = "type"
     ExternalData = "save_as_external_data"
+    Systems = "systems"
 
 outputModelRelativePath = "./output_model/model/model.onnx"
 
@@ -38,7 +39,6 @@ class IconEnum(Enum):
     tiiuae = "tiiuae"
     EleutherAI = "eleutherai"
     openlm = "openlm"
-
 
 class RuntimeEnum(Enum):
     QNN = "QNN"
@@ -58,15 +58,12 @@ class ParameterTypeEnum(Enum):
     Int = "int"
     Bool = "bool"
     String = "str"
-    NotSet = "notSet"
 
 class ParameterCheckTypeEnum(Enum):
-    NotSet = "notSet"
     Exist = "exist"
     NotExist = "notExist"
 
 class ParameterActionTypeEnum(Enum):
-    NotSet = "notSet"
     Upsert = "upsert"
     Delete = "delete"
 
@@ -85,6 +82,10 @@ class GlobalVars:
         PhaseTypeEnum.Quantization: "Quantize",
         PhaseTypeEnum.Evaluation: "Evaluate"
     }
+    epToName = {
+        "QNNExecutionProvider": "Qualcomm NPU",
+        "CPUExecutionProvider": "CPU",
+    }
     verbose = True
 
 
@@ -97,10 +98,12 @@ class ModelInfo(BaseModel):
     id: str
     runtimes: list[RuntimeEnum]
     architecture: ArchitectureEnum
-    status: ModelStatusEnum = ModelStatusEnum.Coming
+    status: ModelStatusEnum = ModelStatusEnum.Hide
     version: int = -1
 
     def Check(self):
+        if not self.status:
+            return False
         if self.status == ModelStatusEnum.Hide:
             return True
         
@@ -137,7 +140,7 @@ class ModelList(BaseModel):
             if not model.Check():
                 print(f"{self._file} model {i} has error")
                 GlobalVars.hasError = True      
-        newContent = self.model_dump_json(indent=4)
+        newContent = self.model_dump_json(indent=4, exclude_none=True)
         if newContent != self._fileContent:
             with open(self._file, 'w') as file:
                 file.write(newContent)
@@ -154,11 +157,11 @@ def checkPath(path: str, oliveJson: Any):
 
 
 class ParameterCheck(BaseModel):
-    type: ParameterCheckTypeEnum = ParameterCheckTypeEnum.NotSet
-    path: str = ""
+    type: ParameterCheckTypeEnum = None
+    path: str = None
 
     def check(self, oliveJson: Any):
-        if self.type == ParameterCheckTypeEnum.NotSet:
+        if not self.type:
             return False
         if not self.path:
             return False
@@ -168,12 +171,12 @@ class ParameterCheck(BaseModel):
 
 
 class ParameterAction(BaseModel):
-    type: ParameterActionTypeEnum = ParameterActionTypeEnum.NotSet
-    path: str = ""
-    value: str | int | bool | float | None = None
+    type: ParameterActionTypeEnum = None
+    path: str = None
+    value: str | int | bool | float = None
 
     def check(self, oliveJson: Any):
-        if self.type == ParameterActionTypeEnum.NotSet:
+        if not self.type:
             return False
         if not self.path:
             return False
@@ -184,7 +187,6 @@ class ParameterAction(BaseModel):
         return True
 
 
-# TODO add displayNames for values
 class Parameter(BaseModel):
     """
     REMEMEBER to update clearValue and applyTemplate if new fields are added
@@ -198,15 +200,17 @@ class Parameter(BaseModel):
         if actions is empty, the parameter is upserted by path = selected value
 
     """
-    name: str = ""
-    description: str = ""
-    type: ParameterTypeEnum = ParameterTypeEnum.NotSet
-    path: str = ""
-    values: list[str] = []
+    name: str = None
+    description: str = None
+    type: ParameterTypeEnum = None
+    displayNames: list[str] = None
+    path: str = None
+    values: list[str] = None
+    checks: list[ParameterCheck] = None
+    actions: list[list[ParameterAction]] = None
     # 1st level is Parameter and 2nd level is str in templates
-    template: Parameter | str = ""
-    checks: list[ParameterCheck] = []
-    actions: list[list[ParameterAction]] = []
+    # always put template in the end
+    template: Parameter | str = None
 
     def Check(self, isTemplate: bool, oliveJson: Any = None):
         if isTemplate:
@@ -218,69 +222,105 @@ class Parameter(BaseModel):
             return False
         #if not self.description:
         #    return False
-        if not self.type or self.type == ParameterTypeEnum.NotSet:
+        if not self.type:
             return False
         if self.type != ParameterTypeEnum.Bool and self.type != ParameterTypeEnum.Enum:            
             if not self.path:
                 return False
             elif not checkPath(self.path, oliveJson):
                 return False
-            elif self.values or self.checks or self.actions:
+            elif self.values or self.checks or self.actions or self.displayNames:
+                print("Redandunt fields")
                 return False
         else:
             expectedLength = 2
+            lenValues = len(self.values) if self.values else 0
+            lenChecks = len(self.checks) if self.checks else 0
+            lenActions = len(self.actions) if self.actions else 0
             if self.type == ParameterTypeEnum.Enum:
-                expectedLength = max(len(self.values), len(self.checks), len(self.actions))
+                expectedLength = max(lenValues, lenChecks)
+                if expectedLength == 0:
+                    print("Enum should have values or checks")
+                    return False
             
+            # Display names
+            if self.type == ParameterTypeEnum.Enum and self.checks and not self.displayNames:
+                print("Display names should be used with checks")
+                return False
+
+            if self.displayNames and len(self.displayNames) != expectedLength:
+                print(f"Display names has wrong length {expectedLength}")
+                return False
+            
+            # path + values vs checks + actions
             if self.path and not self.checks:
                 pass
-            elif not self.path and len(self.checks) == expectedLength:
+            elif not self.path and lenChecks == expectedLength:
                 pass
             else:
-                print(f"Path and checks mismatch")
+                print(f"Either Path or checks could be used")
                 return False
 
-            if (len(self.values) == expectedLength or (not self.values and self.type == ParameterTypeEnum.Bool)) and not self.actions:
+            if (lenValues == expectedLength or (not self.values and self.type == ParameterTypeEnum.Bool)) and not self.actions:
                 pass
-            elif not self.values and len(self.actions) == expectedLength:
+            elif not self.values and lenActions == expectedLength:
                 pass
             else:
-                print(f"Values and actions mismatch")
+                print(f"Either values or actions could be used")
                 return False
 
-            if self.path and not checkPath(self.path, oliveJson):
-                return False
-            for i, check in enumerate(self.checks):
-                if not check.check(oliveJson):
-                    print(f"Check {i} has error")
+            if self.path:
+                if not checkPath(self.path, oliveJson):
                     return False
-            for i, actions in enumerate(self.actions):
-                for j, action in enumerate(actions):
-                    if not action.check(oliveJson):
-                        print(f"Action {i} {j} has error")
-                        return False                  
+                if self.actions:
+                    print("Path should not be used with actions")
+                    return False
+            else:
+                for i, check in enumerate(self.checks):
+                    if not check.check(oliveJson):
+                        print(f"Check {i} has error")
+                        return False
+                for i, actions in enumerate(self.actions):
+                    for j, action in enumerate(actions):
+                        if not action.check(oliveJson):
+                            print(f"Action {i} {j} has error")
+                            return False
+                if self.values:
+                    print("Checks should not be used with values")
+                    return False
         return True
 
     def clearValue(self):
-        self.name = ""
-        self.description = ""
-        self.type = ParameterTypeEnum.NotSet
-        self.values = []
-        self.path = ""
-        self.actions = []
+        """
+        Clear everything except template
+        """
+        self.name = None
+        self.description = None
+        self.type = None
+        self.displayNames = None
+        self.path = None
+        self.values = None
+        self.checks = None
+        self.actions = None
     
-    # template ignored
     def applyTemplate(self, template: Parameter):
+        """
+        Apply everything except template
+        """
         if not self.name:
             self.name = template.name
         if not self.description:
             self.description = template.description
-        if self.type == ParameterTypeEnum.NotSet:
+        if not self.type:
             self.type = template.type
-        if not self.values:
-            self.values = template.values
+        if not self.displayNames:
+            self.displayNames = template.displayNames
         if not self.path:
             self.path = template.path
+        if not self.values:
+            self.values = template.values
+        if not self.checks:
+            self.checks = template.checks
         if not self.actions:
             self.actions = template.actions
 
@@ -295,7 +335,7 @@ def readCheckParameterTemplate(filePath: str):
         if not parameter.Check(True):
             print(f"{filePath} parameter {key} has error")
             GlobalVars.hasError = True
-    newContent = adapter.dump_json(parameters, indent=4).decode('utf-8')
+    newContent = adapter.dump_json(parameters, indent=4, exclude_none=True).decode('utf-8')
     if newContent != fileContent:
         with open(filePath, 'w') as file:
             file.write(newContent)
@@ -307,10 +347,10 @@ def readCheckParameterTemplate(filePath: str):
 class WorkflowItem(BaseModel):
     name: str
     file: str
-    template: str = ""
-    version: int = -1
-    templateName: str = ""
-    phases: list[PhaseTypeEnum] = []
+    template: str = None
+    version: int = 0
+    templateName: str = None
+    phases: list[PhaseTypeEnum] = None
 
     def Check(self):
         if not self.name:
@@ -322,7 +362,7 @@ class WorkflowItem(BaseModel):
             return False
         if not self.template:
             return False
-        if self.version == -1:
+        if self.version <= 0:
             return False
         if not self.templateName:
             return False
@@ -330,7 +370,7 @@ class WorkflowItem(BaseModel):
             return False
         return True
 
-# TODO: add model metadata from model list
+
 class ModelProjectConfig(BaseModel):
     workflows: list[WorkflowItem]
     modelInfo: ModelInfo = None
@@ -356,7 +396,7 @@ class ModelProjectConfig(BaseModel):
             print(f"{self._file} modelInfo has error")
             GlobalVars.hasError = True
 
-        newContent = self.model_dump_json(indent=4)
+        newContent = self.model_dump_json(indent=4, exclude_none=True)
         if newContent != self._fileContent:
             with open(self._file, 'w') as file:
                 file.write(newContent)
@@ -367,9 +407,9 @@ class ModelProjectConfig(BaseModel):
 # toggle: usually used for on/off switch
 class Section(BaseModel):
     name: str
-    description: str = ""
+    description: str = None
     parameters: list[Parameter]
-    toggle: Parameter | None = None
+    toggle: Parameter = None
 
     def Check(self, templates: Dict[str, Parameter], _file: str, sectionId: int, oliveJson: Any):
         if not self.name:
@@ -406,6 +446,7 @@ class Section(BaseModel):
     
 
 class ModelParameter(BaseModel):
+    runtime: Parameter = None
     sections: list[Section]
 
     @staticmethod
@@ -425,6 +466,9 @@ class ModelParameter(BaseModel):
         if len(self.sections) != len(modelItem.phases) - 1:
             print(f"{self._file} has wrong sections compared with phases {modelItem.phases}")
             GlobalVars.hasError = True
+        
+        # TODO Add runtime
+        
 
         for i, section in enumerate(self.sections):
             # TODO hardcoded name for UI
@@ -457,7 +501,7 @@ class ModelParameter(BaseModel):
                 print(f"{self._file} section {i} has error")
                 GlobalVars.hasError = True          
 
-        newContent = self.model_dump_json(indent=4)
+        newContent = self.model_dump_json(indent=4, exclude_none=True)
         if newContent != self._fileContent:
             with open(self._file, 'w') as file:
                 file.write(newContent)
@@ -467,7 +511,7 @@ def readCheckOliveConfig(oliveJsonFile: str, modelItem: WorkflowItem):
     print(f"Process {oliveJsonFile}")
     with open(oliveJsonFile, 'r') as file:
         oliveJson = json.load(file)
-    
+
     # check if engine is in oliveJson
     if OlivePropertyNames.Engine in oliveJson:
         print(f"{oliveJsonFile} has engine. Should place in the root instead")
@@ -476,6 +520,12 @@ def readCheckOliveConfig(oliveJsonFile: str, modelItem: WorkflowItem):
     
     if OlivePropertyNames.Evaluator in oliveJson and not isinstance(oliveJson[OlivePropertyNames.Evaluator], str):
         print(f"{oliveJsonFile} evaluator property should be str")
+        GlobalVars.hasError = True
+        return
+    
+    # check if has more than one systems
+    if OlivePropertyNames.Systems not in oliveJson or len(oliveJson[OlivePropertyNames.Systems]) != 1:
+        print(f"{oliveJsonFile} should have only one system")
         GlobalVars.hasError = True
         return
 

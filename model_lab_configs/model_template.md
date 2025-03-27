@@ -89,3 +89,4 @@ At least one of inference_sample.ipynb or olive_config_inference_sample.ipynb sh
     + so ipynb could be used without change
 - separate different datasets
     + TODO check in sanitize.py
+- only one system is used
