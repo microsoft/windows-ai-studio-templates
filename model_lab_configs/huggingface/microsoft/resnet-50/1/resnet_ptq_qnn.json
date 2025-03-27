@@ -4,15 +4,32 @@
         "model_path": "microsoft/resnet-50",
         "task": "image-classification",
         "io_config": {
-            "input_names": [ "input" ],
-            "input_shapes": [ [ 1, 3, 224, 224 ] ],
-            "output_names": [ "output" ]
+            "input_names": [
+                "input"
+            ],
+            "input_shapes": [
+                [
+                    1,
+                    3,
+                    224,
+                    224
+                ]
+            ],
+            "output_names": [
+                "output"
+            ]
         }
     },
     "systems": {
         "qnn_system": {
             "type": "LocalSystem",
-            "accelerators": [ { "execution_providers": [ "QNNExecutionProvider" ] } ]
+            "accelerators": [
+                {
+                    "execution_providers": [
+                        "QNNExecutionProvider"
+                    ]
+                }
+            ]
         }
     },
     "data_configs": [
@@ -26,8 +43,13 @@
                 "streaming": true,
                 "trust_remote_code": true
             },
-            "pre_process_data_config": { "type": "dataset_pre_process", "size": 64 },
-            "post_process_data_config": { "type": "imagenet_post_fun" }
+            "pre_process_data_config": {
+                "type": "dataset_pre_process",
+                "size": 64
+            },
+            "post_process_data_config": {
+                "type": "imagenet_post_fun"
+            }
         },
         {
             "name": "evaluation_data_config",
@@ -39,8 +61,13 @@
                 "streaming": true,
                 "trust_remote_code": true
             },
-            "pre_process_data_config": { "type": "dataset_pre_process", "size": 64 },
-            "post_process_data_config": { "type": "imagenet_post_fun" }
+            "pre_process_data_config": {
+                "type": "dataset_pre_process",
+                "size": 64
+            },
+            "post_process_data_config": {
+                "type": "imagenet_post_fun"
+            }
         }
     ],
     "evaluators": {
@@ -54,7 +81,10 @@
                         {
                             "name": "accuracy_score",
                             "priority": 1,
-                            "metric_config": { "task": "multiclass", "num_classes": 1001 }
+                            "metric_config": {
+                                "task": "multiclass",
+                                "num_classes": 1001
+                            }
                         }
                     ]
                 },
@@ -62,7 +92,12 @@
                     "name": "latency",
                     "type": "latency",
                     "data_config": "evaluation_data_config",
-                    "sub_types": [ { "name": "avg", "priority": 2 } ]
+                    "sub_types": [
+                        {
+                            "name": "avg",
+                            "priority": 2
+                        }
+                    ]
                 }
             ]
         }
@@ -75,7 +110,9 @@
             "all_tensors_to_one_file": true,
             "use_dynamo_exporter": false
         },
-        "QNNPreprocess": { "type": "QNNPreprocess" },
+        "QNNPreprocess": {
+            "type": "QNNPreprocess"
+        },
         "OnnxQuantization": {
             "type": "OnnxQuantization",
             "data_config": "quantize_data_config",
@@ -83,7 +120,8 @@
             "weight_type": "QUInt8",
             "calibrate_method": "MinMax",
             "quant_preprocess": true,
-            "prepare_qnn_config": true
+            "prepare_qnn_config": true,
+            "save_as_external_data": true
         }
     },
     "host": "qnn_system",

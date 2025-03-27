@@ -1,4 +1,5 @@
 from __future__ import annotations
+import shutil
 from typing import Any, Dict
 from pydantic import BaseModel, TypeAdapter
 import os
@@ -19,6 +20,10 @@ class OlivePropertyNames:
     Engine = "engine"
     Passes = "passes"
     Evaluator = "evaluator"
+    Type = "type"
+    ExternalData = "save_as_external_data"
+
+outputModelRelativePath = "./output_model/model/model.onnx"
 
 # Enums
 
@@ -426,9 +431,9 @@ class ModelParameter(BaseModel):
             
             # Set quantization toggle
             if section.name == GlobalVars.phaseToSection[PhaseTypeEnum.Quantization]:
-                quantize = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v["type"] in [OlivePassNames.OnnxQuantization, OlivePassNames.OnnxStaticQuantization, OlivePassNames.OnnxDynamicQuantization]]
+                quantize = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] in [OlivePassNames.OnnxQuantization, OlivePassNames.OnnxStaticQuantization, OlivePassNames.OnnxDynamicQuantization]]
                 quantizePath = f"{OlivePropertyNames.Passes}.{quantize[0]}"
-                not_conversion = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v["type"] not in [OlivePassNames.OnnxConversion]]
+                not_conversion = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] not in [OlivePassNames.OnnxConversion]]
                 actions = [ParameterAction(path=f"{OlivePropertyNames.Passes}.{k}", type=ParameterActionTypeEnum.Delete) for k in not_conversion]
                 section.toggle = Parameter(
                     name="Quantize model",
@@ -467,13 +472,13 @@ def readCheckOliveConfig(oliveJsonFile: str, modelItem: WorkflowItem):
         return
     
     if OlivePropertyNames.Evaluator in oliveJson and not isinstance(oliveJson[OlivePropertyNames.Evaluator], str):
-        print(f"{oliveJsonFile} evaluator peroperty should be str")
+        print(f"{oliveJsonFile} evaluator property should be str")
         GlobalVars.hasError = True
         return
 
     # get phases from oliveJson
     phases = []
-    all_passes = [v["type"] for _, v in oliveJson[OlivePropertyNames.Passes].items()]
+    all_passes = [v[OlivePropertyNames.Type] for _, v in oliveJson[OlivePropertyNames.Passes].items()]
     if OlivePassNames.OnnxConversion in all_passes:
         phases.append(PhaseTypeEnum.Conversion)
     if OlivePassNames.OnnxQuantization in all_passes or OlivePassNames.OnnxStaticQuantization in all_passes or OlivePassNames.OnnxDynamicQuantization in all_passes:
@@ -488,8 +493,41 @@ def readCheckOliveConfig(oliveJsonFile: str, modelItem: WorkflowItem):
         print(f"{oliveJsonFile} missing Quantization phase")
         GlobalVars.hasError = True
     modelItem.phases = phases
+    
+    jsonUpdated = False
+
+    # update save_as_external_data
+    conversionPass = [v for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] == OlivePassNames.OnnxConversion][0]
+    if OlivePropertyNames.ExternalData not in conversionPass or not conversionPass[OlivePropertyNames.ExternalData]:
+        conversionPass[OlivePropertyNames.ExternalData] = True
+        jsonUpdated = True
+
+    lastPass = [v for k, v in oliveJson[OlivePropertyNames.Passes].items()][-1]
+    if OlivePropertyNames.ExternalData not in lastPass or not lastPass[OlivePropertyNames.ExternalData]:
+        lastPass[OlivePropertyNames.ExternalData] = True
+        jsonUpdated = True
+
+    if jsonUpdated:
+        with open(oliveJsonFile, 'w') as file:
+            json.dump(oliveJson, file, indent=4)
+        print(f"{oliveJsonFile} has been updated")
+        GlobalVars.hasChange = True
 
     return oliveJson
+
+
+def readCheckIpynb(ipynbFile: str):
+    """
+    Note this return exists or not, not valid or not
+    """
+    if os.path.exists(ipynbFile):
+        with open(ipynbFile, 'r') as file:
+            ipynbContent = file.read()
+        if outputModelRelativePath not in ipynbContent:
+            print(f"{ipynbFile} does not have '{outputModelRelativePath}', please use it as input")
+            GlobalVars.hasError = True
+        return True
+    return False
 
 
 def main():
@@ -516,13 +554,30 @@ def main():
                 # deep copy model for version usage
                 modelInVersion = copy.deepcopy(model)
                 modelInVersion.version = version
+                modelVerDir = os.path.join(modelDir, str(version))
                 # get model space config
-                modelSpaceConfig = ModelProjectConfig.Read(os.path.join(modelDir, f"{modelInVersion.version}/model_project.config"))
+                modelSpaceConfig = ModelProjectConfig.Read(os.path.join(modelVerDir, "model_project.config"))
                 # check md
-                mdFile = os.path.join(modelDir, f"{modelInVersion.version}/README.md")
+                mdFile = os.path.join(modelVerDir, "README.md")
                 if not os.path.exists(mdFile):
                     print(f"{mdFile} not exists")
                     GlobalVars.hasError = True
+                # check requirement.txt
+                requirementFile = os.path.join(modelVerDir, "requirements.txt")
+                if not os.path.exists(requirementFile):
+                    print(f"{requirementFile} not exists. Copy the template one")
+                    GlobalVars.hasError = True
+                    shutil.copy(os.path.join(configDir, "requirements.md"), requirementFile)
+                # copy .gitignore
+                gitignoreFile = os.path.join(modelVerDir, ".gitignore")
+                if not os.path.exists(gitignoreFile):
+                    print(f"{gitignoreFile} not exists. Copy the template one")
+                    GlobalVars.hasChange = True
+                # always replace with latest
+                shutil.copy(os.path.join(configDir, "gitignore.md"), os.path.join(modelVerDir, ".gitignore"))
+                # check ipynb
+                sharedIpynbFile = os.path.join(modelVerDir, "inference_sample.ipynb")
+                sharedIpynb = readCheckIpynb(sharedIpynbFile)
                 
                 modelSpaceConfig.modelInfo = modelInVersion
                 for i, modelItem in enumerate(modelSpaceConfig.workflows):
@@ -532,13 +587,20 @@ def main():
                     modelItem.templateName = modelItem.file[:-5]
 
                     # check olive json
-                    oliveJsonFile = os.path.join(modelDir, f"{modelInVersion.version}/{modelItem.file}")
+                    oliveJsonFile = os.path.join(modelVerDir, modelItem.file)
                     oliveJson = readCheckOliveConfig(oliveJsonFile, modelItem)
 
                     # check parameter
                     # read parameter
-                    modelParameter = ModelParameter.Read(os.path.join(modelDir, f"{modelInVersion.version}/{modelItem.file}.config"))
-                    modelParameter.Check(parameterTemplate, modelItem, oliveJson)     
+                    modelParameter = ModelParameter.Read(os.path.join(modelVerDir, f"{modelItem.file}.config"))
+                    modelParameter.Check(parameterTemplate, modelItem, oliveJson)
+
+                    # check ipynb
+                    if not sharedIpynb:
+                        ipynbFile = os.path.join(modelVerDir, f"{modelItem.templateName}_inference_sample.ipynb")
+                        if not readCheckIpynb(ipynbFile):
+                            print(f"{ipynbFile} nor {sharedIpynbFile} not exists.")
+                            GlobalVars.hasError = True
                     
                 modelSpaceConfig.Check()
     modelList.Check()
