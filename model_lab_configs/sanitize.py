@@ -317,6 +317,9 @@ class WorkflowItem(BaseModel):
             return False
         if not self.file:
             return False
+        if '\\' in self.file:
+            print("Please use / instead of \\")
+            return False
         if not self.template:
             return False
         if self.version == -1:
@@ -584,7 +587,7 @@ def main():
                     # set template
                     modelItem.template = model.id
                     modelItem.version = modelInVersion.version
-                    modelItem.templateName = modelItem.file[:-5]
+                    modelItem.templateName = os.path.basename(modelItem.file)[:-5]
 
                     # check olive json
                     oliveJsonFile = os.path.join(modelVerDir, modelItem.file)
