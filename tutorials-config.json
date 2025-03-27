@@ -7,7 +7,7 @@
             "title": "Craft a Prompt for Question Generation",
             "description": "Build a generative AI app to generate questions for educational topics using prompt builder and Python.",
             "tags": ["prompt-engineering"],
-            "imageUrl": "tutorials/01_craft_prompt/images/01.png",
+            "imageUrl": "https://raw.githubusercontent.com/microsoft/windows-ai-studio-templates/refs/heads/dev/tutorials/01_craft_prompt/images/01.png",
             "url": "https://github.com/microsoft/windows-ai-studio-templates/tree/dev/tutorials/01_craft_prompt"
         },
         {
@@ -16,7 +16,7 @@
             "title": "Explore Different Models",
             "description": "Experiment with various models and update your application code accordingly.",
             "tags": ["models"],
-            "imageUrl": "tutorials/02_switch_models/images/02.png",
+            "imageUrl": "https://raw.githubusercontent.com/microsoft/windows-ai-studio-templates/refs/heads/dev/tutorials/02_switch_models/images/02.png",
             "url": "https://github.com/microsoft/windows-ai-studio-templates/tree/dev/tutorials/02_switch_models"
         },
         {
@@ -25,7 +25,7 @@
             "title": "Apply Structured Outputs using JSON Schema",
             "description": "Implement structured outputs using JSON Schema to generate consistent, machine-readable responses.",
             "tags": ["structured-output"],
-            "imageUrl": "tutorials/03_structured_output/images/03.png",
+            "imageUrl": "https://raw.githubusercontent.com/microsoft/windows-ai-studio-templates/refs/heads/dev/tutorials/03_structured_output/images/03.png",
             "url": "https://github.com/microsoft/windows-ai-studio-templates/tree/dev/tutorials/03_structured_output"
         },
         {
@@ -34,7 +34,7 @@
             "title": "Bulk Run Prompts against LLM Generated Dataset",
             "description": "Bulk run prompts with variables against LLM generated datasets",
             "tags": ["bulk-run", "dataset"],
-            "imageUrl": "tutorials/04_run_prompts_in_batch/images/04.png",
+            "imageUrl": "https://raw.githubusercontent.com/microsoft/windows-ai-studio-templates/refs/heads/dev/tutorials/04_run_prompts_in_batch/images/04.png",
             "url": "https://github.com/microsoft/windows-ai-studio-templates/tree/dev/tutorials/04_run_prompts_in_batch"
         },
         {
@@ -43,7 +43,7 @@
             "title": "Evaluate Prompts with Built in and Custom Evaluator",
             "description": "Create and run prompt evaluations using both custom code-based and built-in evaluators.",
             "tags": ["evaluation"],
-            "imageUrl": "tutorials/05_evaluate_prompt/images/05.png",
+            "imageUrl": "https://raw.githubusercontent.com/microsoft/windows-ai-studio-templates/refs/heads/dev/tutorials/05_evaluate_prompt/images/05.png",
             "url": "https://github.com/microsoft/windows-ai-studio-templates/tree/dev/tutorials/05_evaluate_prompt"
         }
     ]
