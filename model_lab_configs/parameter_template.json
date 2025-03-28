@@ -25,8 +25,26 @@
         "name": "Evaluation Dataset Size",
         "type": "int"
     },
+    "EvaluationDatasetSplit": {
+        "name": "Evaluation Dataset Split",
+        "type": "enum",
+        "values": [
+            "train",
+            "validation",
+            "test"
+        ]
+    },
     "QuantizationDatasetSize": {
         "name": "Quantization Dataset Size",
         "type": "int"
+    },
+    "QuantizationDatasetSplit": {
+        "name": "Quantization Dataset Split",
+        "type": "enum",
+        "values": [
+            "train",
+            "validation",
+            "test"
+        ]
     }
 }
