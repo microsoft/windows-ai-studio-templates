@@ -61,6 +61,10 @@ class ParameterTypeEnum(Enum):
     Bool = "bool"
     String = "str"
 
+class ParameterDisplayTypeEnum(Enum):
+    Dropdown = "Dropdown"
+    RadioGroup = "RadioGroup"
+
 class ParameterCheckTypeEnum(Enum):
     Exist = "exist"
     NotExist = "notExist"
@@ -206,6 +210,7 @@ class Parameter(BaseModel):
     description: str = None
     type: ParameterTypeEnum = None
     displayNames: list[str] = None
+    displayType: ParameterDisplayTypeEnum = None
     path: str = None
     values: list[str] = None
     checks: list[ParameterCheck] = None
@@ -254,6 +259,12 @@ class Parameter(BaseModel):
                 print(f"Display names has wrong length {expectedLength}")
                 return False
             
+            # Display type
+            if self.type == ParameterTypeEnum.Enum:
+                if not (not self.displayType or self.displayType == ParameterDisplayTypeEnum.Dropdown or self.displayType == ParameterDisplayTypeEnum.RadioGroup):
+                    print("Display type should be Dropdown or RadioGroup")
+                    return False
+            
             # path + values vs checks + actions
             if self.path and not self.checks:
                 pass
@@ -300,6 +311,7 @@ class Parameter(BaseModel):
         self.description = None
         self.type = None
         self.displayNames = None
+        self.displayType = None
         self.path = None
         self.values = None
         self.checks = None
@@ -317,6 +329,8 @@ class Parameter(BaseModel):
             self.type = template.type
         if not self.displayNames:
             self.displayNames = template.displayNames
+        if not self.displayType:
+            self.displayType = template.displayType
         if not self.path:
             self.path = template.path
         if not self.values:

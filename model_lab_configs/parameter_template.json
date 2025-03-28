@@ -3,6 +3,7 @@
         "name": "Activation Type",
         "description": "Quantization data type of activation",
         "type": "enum",
+        "displayType": "RadioGroup",
         "values": [
             "QInt8",
             "QUInt8",
@@ -14,6 +15,7 @@
         "name": "Weight Type",
         "description": "Data type for quantizing weights",
         "type": "enum",
+        "displayType": "RadioGroup",
         "values": [
             "QInt8",
             "QUInt8",
