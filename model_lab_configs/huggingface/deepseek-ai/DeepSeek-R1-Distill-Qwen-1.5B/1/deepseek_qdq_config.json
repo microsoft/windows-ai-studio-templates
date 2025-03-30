@@ -13,6 +13,19 @@
             }
         }
     ],
+    "systems": {
+        "qnn_system": {
+            "type": "LocalSystem",
+            "accelerators": [
+                {
+                    "device": "npu",
+                    "execution_providers": [
+                        "QNNExecutionProvider"
+                    ]
+                }
+            ]
+        }
+    },
     "passes": {
         "q": { "type": "QuaRot" },
         "g": { "type": "GptqQuantizer", "sym": true, "group_size": -1 },
@@ -41,7 +54,7 @@
             ],
             "save_as_external_data": true
         },
-        "OnnxQuantization": {
+        "sq": {
             "type": "OnnxStaticQuantization",
             "data_config": "wikitext2_train",
             "activation_type": "QUInt16",
