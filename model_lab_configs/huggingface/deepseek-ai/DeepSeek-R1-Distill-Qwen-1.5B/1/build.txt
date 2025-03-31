@@ -1,0 +1,9 @@
+# AutoGPTQ: Install from source (stable package may be slow for weight packing)
+# Disable CUDA extension build (not required)
+# Linux
+# export BUILD_CUDA_EXT=0
+# Windows
+set BUILD_CUDA_EXT=0
+
+# Install AutoGPTQ from source
+pip install --no-build-isolation git+https://github.com/PanQiWei/AutoGPTQ.git
