@@ -15,6 +15,7 @@ class OlivePassNames:
     OnnxQuantization = "OnnxQuantization"
     OnnxStaticQuantization = "OnnxStaticQuantization"
     OnnxDynamicQuantization = "OnnxDynamicQuantization"
+    ModelBuilder = "ModelBuilder"
 
 class OlivePropertyNames:
     Engine = "engine"
@@ -27,6 +28,7 @@ class OlivePropertyNames:
     ExecutionProviders = "execution_providers"
 
 outputModelRelativePath = "./output_model/model/model.onnx"
+outputModelModelBuilderPath = "./output_model/model"
 
 # Enums
 
@@ -215,6 +217,7 @@ class Parameter(BaseModel):
     values: list[str] = None
     checks: list[ParameterCheck] = None
     actions: list[list[ParameterAction]] = None
+    fixed: bool = None
     # 1st level is Parameter and 2nd level is str in templates
     # always put template in the end
     template: Parameter | str = None
@@ -367,6 +370,7 @@ class WorkflowItem(BaseModel):
     version: int = 0
     templateName: str = None
     phases: list[PhaseTypeEnum] = None
+    useModelBuilder: bool = None
 
     def Check(self):
         if not self.name:
@@ -505,15 +509,26 @@ class ModelParameter(BaseModel):
             
             # Set quantization toggle
             if section.name == GlobalVars.phaseToSection[PhaseTypeEnum.Quantization]:
-                quantize = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] in [OlivePassNames.OnnxQuantization, OlivePassNames.OnnxStaticQuantization, OlivePassNames.OnnxDynamicQuantization]]
-                quantizePath = f"{OlivePropertyNames.Passes}.{quantize[0]}"
-                not_conversion = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] not in [OlivePassNames.OnnxConversion]]
-                actions = [ParameterAction(path=f"{OlivePropertyNames.Passes}.{k}", type=ParameterActionTypeEnum.Delete) for k in not_conversion]
-                section.toggle = Parameter(
-                    name="Quantize model",
-                    type=ParameterTypeEnum.Bool,
-                    checks=[ParameterCheck(type=ParameterCheckTypeEnum.Exist, path=quantizePath), ParameterCheck(type=ParameterCheckTypeEnum.NotExist, path=quantizePath)],
-                    actions=[[], actions])
+                if modelItem.useModelBuilder:
+                    # TODO
+                    modelBuilder = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] in [OlivePassNames.ModelBuilder]]
+                    modelBuilderPath = f"{OlivePropertyNames.Passes}.{modelBuilder[0]}"
+                    section.toggle = Parameter(
+                        name="Quantize model",
+                        type=ParameterTypeEnum.Bool,
+                        fixed=True,
+                        checks=[ParameterCheck(type=ParameterCheckTypeEnum.Exist, path=modelBuilderPath), ParameterCheck(type=ParameterCheckTypeEnum.NotExist, path=modelBuilderPath)],
+                        actions=[[], []])
+                else:
+                    quantize = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] in [OlivePassNames.OnnxQuantization, OlivePassNames.OnnxStaticQuantization, OlivePassNames.OnnxDynamicQuantization]]
+                    quantizePath = f"{OlivePropertyNames.Passes}.{quantize[0]}"
+                    not_conversion = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] not in [OlivePassNames.OnnxConversion]]
+                    actions = [ParameterAction(path=f"{OlivePropertyNames.Passes}.{k}", type=ParameterActionTypeEnum.Delete) for k in not_conversion]
+                    section.toggle = Parameter(
+                        name="Quantize model",
+                        type=ParameterTypeEnum.Bool,
+                        checks=[ParameterCheck(type=ParameterCheckTypeEnum.Exist, path=quantizePath), ParameterCheck(type=ParameterCheckTypeEnum.NotExist, path=quantizePath)],
+                        actions=[[], actions])
 
             # Set evaluation toggle
             elif section.name == GlobalVars.phaseToSection[PhaseTypeEnum.Evaluation]:
@@ -573,10 +588,19 @@ def readCheckOliveConfig(oliveJsonFile: str, modelItem: WorkflowItem):
     # get phases from oliveJson
     phases = []
     all_passes = [v[OlivePropertyNames.Type] for _, v in oliveJson[OlivePropertyNames.Passes].items()]
-    if OlivePassNames.OnnxConversion in all_passes:
+
+    if modelItem.useModelBuilder:
+        if OlivePassNames.ModelBuilder not in all_passes or OlivePassNames.OnnxConversion in all_passes:
+            print(f"{oliveJsonFile} missing ModelBuilder phase")
+            GlobalVars.hasError = True
+            return
         phases.append(PhaseTypeEnum.Conversion)
-    if OlivePassNames.OnnxQuantization in all_passes or OlivePassNames.OnnxStaticQuantization in all_passes or OlivePassNames.OnnxDynamicQuantization in all_passes:
         phases.append(PhaseTypeEnum.Quantization)
+    else:
+        if OlivePassNames.OnnxConversion in all_passes:
+            phases.append(PhaseTypeEnum.Conversion)
+        if OlivePassNames.OnnxQuantization in all_passes or OlivePassNames.OnnxStaticQuantization in all_passes or OlivePassNames.OnnxDynamicQuantization in all_passes:
+            phases.append(PhaseTypeEnum.Quantization)
     if OlivePropertyNames.Evaluator in oliveJson and oliveJson[OlivePropertyNames.Evaluator]:
         phases.append(PhaseTypeEnum.Evaluation)
     # TODO hardcoded
@@ -591,15 +615,18 @@ def readCheckOliveConfig(oliveJsonFile: str, modelItem: WorkflowItem):
     jsonUpdated = False
 
     # update save_as_external_data
-    conversionPass = [v for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] == OlivePassNames.OnnxConversion][0]
-    if OlivePropertyNames.ExternalData not in conversionPass or not conversionPass[OlivePropertyNames.ExternalData]:
-        conversionPass[OlivePropertyNames.ExternalData] = True
-        jsonUpdated = True
+    if modelItem.useModelBuilder:
+        pass
+    else:
+        conversionPass = [v for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] == OlivePassNames.OnnxConversion][0]
+        if OlivePropertyNames.ExternalData not in conversionPass or not conversionPass[OlivePropertyNames.ExternalData]:
+            conversionPass[OlivePropertyNames.ExternalData] = True
+            jsonUpdated = True
 
-    lastPass = [v for k, v in oliveJson[OlivePropertyNames.Passes].items()][-1]
-    if OlivePropertyNames.ExternalData not in lastPass or not lastPass[OlivePropertyNames.ExternalData]:
-        lastPass[OlivePropertyNames.ExternalData] = True
-        jsonUpdated = True
+        lastPass = [v for k, v in oliveJson[OlivePropertyNames.Passes].items()][-1]
+        if OlivePropertyNames.ExternalData not in lastPass or not lastPass[OlivePropertyNames.ExternalData]:
+            lastPass[OlivePropertyNames.ExternalData] = True
+            jsonUpdated = True
 
     if jsonUpdated:
         with open(oliveJsonFile, 'w') as file:
@@ -610,14 +637,17 @@ def readCheckOliveConfig(oliveJsonFile: str, modelItem: WorkflowItem):
     return oliveJson
 
 
-def readCheckIpynb(ipynbFile: str):
+def readCheckIpynb(ipynbFile: str, modelItem: WorkflowItem = None):
     """
     Note this return exists or not, not valid or not
     """
     if os.path.exists(ipynbFile):
-        with open(ipynbFile, 'r') as file:
+        with open(ipynbFile, 'r', encoding='utf-8') as file:
             ipynbContent = file.read()
-        if outputModelRelativePath not in ipynbContent:
+        testPath = outputModelRelativePath
+        if modelItem and modelItem.useModelBuilder:
+            testPath = outputModelModelBuilderPath
+        if testPath not in ipynbContent:
             print(f"{ipynbFile} does not have '{outputModelRelativePath}', please use it as input")
             GlobalVars.hasError = True
         return True
@@ -692,7 +722,7 @@ def main():
                     # check ipynb
                     if not sharedIpynb:
                         ipynbFile = os.path.join(modelVerDir, f"{modelItem.templateName}_inference_sample.ipynb")
-                        if not readCheckIpynb(ipynbFile):
+                        if not readCheckIpynb(ipynbFile, modelItem):
                             print(f"{ipynbFile} nor {sharedIpynbFile} not exists.")
                             GlobalVars.hasError = True
                     
