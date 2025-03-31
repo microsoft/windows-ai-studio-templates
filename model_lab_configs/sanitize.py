@@ -291,6 +291,11 @@ class Parameter(BaseModel):
                 if self.actions:
                     print("Path should not be used with actions")
                     return False
+                # TODO more checks
+                value = pydash.get(oliveJson, self.path)
+                if self.values and value not in self.values:
+                    print(f"Value {value} not in values")
+                    return False
             else:
                 for i, check in enumerate(self.checks):
                     if not check.check(oliveJson):
