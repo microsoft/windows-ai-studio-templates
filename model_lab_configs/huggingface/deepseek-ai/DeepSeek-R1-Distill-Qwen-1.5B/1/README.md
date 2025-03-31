@@ -35,3 +35,34 @@ NPUs require **precompiled graphs**, meaning the model must use **static input s
 To support both efficiently, we create **two model instances**:
 1. **Prefill model**: Optimized for batch processing.
 2. **Token generation model**: Optimized for one-token-at-a-time inference.
+
+### **Usage**
+
+#### **Quantization Python Environment Setup**
+Quantization is resource-intensive and requires GPU acceleration. In an [x64 Python environment with Olive installed](../README.md#important), install the required packages:
+
+```bash
+# Install common dependencies
+pip install -r requirements.txt
+
+# Install ONNX Runtime GPU packages
+pip install "onnxruntime-gpu>=1.21.0" "onnxruntime-genai-cuda>=0.6.0"
+
+# AutoGPTQ: Install from source (stable package may be slow for weight packing)
+# Disable CUDA extension build (not required)
+# Linux
+export BUILD_CUDA_EXT=0
+# Windows
+# set BUILD_CUDA_EXT=0
+
+# Install AutoGPTQ from source
+pip install --no-build-isolation git+https://github.com/PanQiWei/AutoGPTQ.git
+```
+
+#### **Run the Quantization Config**
+
+```bash
+olive run --config qdq_config.json
+```
+
+✅ Optimized model saved in: `models/DeepSeek-R1-Distill-Qwen-1.5B`
