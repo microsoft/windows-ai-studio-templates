@@ -26,6 +26,7 @@ class OlivePropertyNames:
     Systems = "systems"
     Accelerators = "accelerators"
     ExecutionProviders = "execution_providers"
+    DataConfigs = "data_configs"
 
 outputModelRelativePath = "./output_model/model/model.onnx"
 outputModelModelBuilderPath = "./output_model/model"
@@ -617,6 +618,12 @@ def readCheckOliveConfig(oliveJsonFile: str, modelItem: WorkflowItem):
         GlobalVars.hasError = True
     modelItem.phases = phases
     
+    # check evaluation
+    if PhaseTypeEnum.Evaluation in modelItem.phases:
+        if PhaseTypeEnum.Quantization in modelItem.phases and len(oliveJson[OlivePropertyNames.DataConfigs]) == 1:
+            print(f"{oliveJsonFile} should have two data configs for evaluation")
+            GlobalVars.hasError = True
+
     jsonUpdated = False
 
     # update save_as_external_data

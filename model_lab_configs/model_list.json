@@ -9,8 +9,8 @@
                 "QNN"
             ],
             "architecture": "Transformer",
-            "status": "Coming",
-            "version": -1
+            "status": "Ready",
+            "version": 1
         },
         {
             "displayName": "google-bert/bert-base-multilingual-cased",
