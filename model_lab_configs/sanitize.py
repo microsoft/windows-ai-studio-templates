@@ -28,8 +28,8 @@ class OlivePropertyNames:
     ExecutionProviders = "execution_providers"
     DataConfigs = "data_configs"
 
-outputModelRelativePath = "./output_model/model/model.onnx"
-outputModelModelBuilderPath = "./output_model/model"
+outputModelRelativePath = "./model/model.onnx"
+outputModelModelBuilderPath = "./model"
 
 # Enums
 
