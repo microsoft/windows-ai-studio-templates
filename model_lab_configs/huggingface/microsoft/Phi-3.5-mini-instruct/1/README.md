@@ -69,6 +69,11 @@ Once optimized, the model is compiled for Qualcomm NPUs using **ONNX Runtime QNN
 ### **Usage**
 This workflow is configured using the `qnn_config.json` file. It contains all of the quantization and compilation steps. It requires two separate Python environments described below.
 
+#### A workable version
+- python=3.10
+- CUDA=12.1
+- cudnn=9.2.0
+
 #### Quantization Python Environment Setup
 Quantization is resource-intensive and requires GPU acceleration. In an [x64 Python environment with Olive installed](https://github.com/microsoft/Olive/blob/main/examples/README.md#important), install the required packages:
 
@@ -123,6 +128,8 @@ Olive will run the AOT compilation step in the **AOT Compilation Python Environm
 
 ✅ Optimized model saved in: `models/phi3_5`
 
+> ⚠️ If optimization fails due to out of memory, please remove `calibration_providers` on config file.
+
 > ⚠️ If optimization fails during context binary generation, rerun the command. The process will resume from the last completed step.
 
 ### **Inference**
@@ -139,8 +146,4 @@ pip install "onnxruntime-genai>=0.7.0rc2"
 
 #### **Run Console-Based Chat Interface**
 
-Execute the provided `app.py` script:
-
-```bash
-python app.py
-```
+Execute the provided `inference_sample.ipynb` notebook.
