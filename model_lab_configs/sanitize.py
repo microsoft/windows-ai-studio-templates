@@ -45,6 +45,7 @@ class IconEnum(Enum):
     EleutherAI = "eleutherai"
     openlm = "openlm"
     DeepSeek = "DeepSeek"
+    laion = "laion"
 
 class RuntimeEnum(Enum):
     QNN = "QNN"

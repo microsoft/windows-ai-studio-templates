@@ -1,6 +1,6 @@
-# Openai Clip text optimization with QNN
+# laion Clip text optimization with QNN
 
-This example performs Openai Clip optimization with QNN execution providers in one workflow. It performs the optimization pipeline:
+This example performs laion Clip optimization with QNN execution providers in one workflow. It performs the optimization pipeline:
 
 - *PyTorch Model -> Onnx Model -> QNN Quantized Onnx Model*
 
@@ -13,9 +13,9 @@ The quantization uses 256 samples from train split of imagenet-1k dataset and th
 | --------------------- | ----------------- | ---------- | ---------------------- |
 | QUInt16               | QUInt8            | 100        | 6.53724                |
 
-# Openai Clip vision optimization with QNN
+# laion Clip vision optimization with QNN
 
-This example performs Openai Clip optimization with QNN execution providers in one workflow. It performs the optimization pipeline:
+This example performs laion Clip optimization with QNN execution providers in one workflow. It performs the optimization pipeline:
 
 - *PyTorch Model -> Onnx Model -> QNN Quantized Onnx Model*
 

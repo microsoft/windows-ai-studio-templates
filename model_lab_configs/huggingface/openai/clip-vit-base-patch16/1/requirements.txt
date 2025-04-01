@@ -4,3 +4,4 @@ optuna==4.2.0
 nltk>=3.9.1
 openai>=1.65.4
 accelerate>=1.4.0
+pillow>=10.0.1

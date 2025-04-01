@@ -1,7 +1,7 @@
 {
     "input_model": {
         "type": "PytorchModel",
-        "model_path": "openai/CLIP-ViT-B-32-laion2B-s34B-b79K",
+        "model_path": "laion/CLIP-ViT-B-32-laion2B-s34B-b79K",
         "generative": false,
         "io_config": {
             "input_names": [
@@ -28,7 +28,7 @@
             }
         },
         "model_loader": "load_vision_model",
-        "model_script": "openai_clip.py",
+        "model_script": "laion_clip.py",
         "script_dir": "."
     },
     "systems": {
@@ -58,7 +58,7 @@
             },
             "pre_process_data_config": {
                 "type": "image_pre_process",
-                "model_name": "openai/CLIP-ViT-B-32-laion2B-s34B-b79K",
+                "model_name": "laion/CLIP-ViT-B-32-laion2B-s34B-b79K",
                 "input_col": "image",
                 "label_col": "label",
                 "max_samples": 12
@@ -66,7 +66,7 @@
             "dataloader_config": {
                 "batch_size": 1
             },
-            "user_script": "openai_clip.py",
+            "user_script": "laion_clip.py",
             "script_dir": "."
         },
         {
@@ -79,7 +79,7 @@
             "pre_process_data_config": {
                 "type": "image_pre_process",
                 "input_col": "image",
-                "model_name": "openai/CLIP-ViT-B-32-laion2B-s34B-b79K",
+                "model_name": "laion/CLIP-ViT-B-32-laion2B-s34B-b79K",
                 "label_col": "label",
                 "max_samples": 100,
                 "shuffle": true
@@ -90,7 +90,7 @@
             "dataloader_config": {
                 "batch_size": 1
             },
-            "user_script": "openai_clip.py",
+            "user_script": "laion_clip.py",
             "script_dir": "."
         }
     ],

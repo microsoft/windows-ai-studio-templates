@@ -57,12 +57,12 @@
                 "QNN"
             ],
             "architecture": "CNN",
-            "status": "Ready",
-            "version": 1
+            "status": "Coming",
+            "version": -1
         },
         {
             "displayName": "laion/CLIP-ViT-B-32-laion2B-s34B-b79K",
-            "icon": "OpenAI",
+            "icon": "laion",
             "modelLink": "https://huggingface.co/laion/CLIP-ViT-B-32-laion2B-s34B-b79K",
             "id": "huggingface/laion/CLIP-ViT-B-32-laion2B-s34B-b79K",
             "runtimes": [
