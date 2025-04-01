@@ -126,7 +126,8 @@
             "modelLink": "https://huggingface.co/google/vit-base-patch16-224",
             "id": "huggingface/google/vit-base-patch16-224",
             "runtimes": [
-                "QNN"
+                "QNN",
+                "IntelNPU"
             ],
             "architecture": "Transformer",
             "status": "Ready",

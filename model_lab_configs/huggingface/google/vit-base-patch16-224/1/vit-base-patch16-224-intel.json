@@ -27,7 +27,7 @@
                 {
                     "device": "npu",
                     "execution_providers": [
-                        "QNNExecutionProvider"
+                        "OpenVINOExecutionProvider"
                     ]
                 }
             ]
@@ -37,7 +37,7 @@
         {
             "name": "quantization_data_config",
             "type": "HuggingfaceContainer",
-            "user_script": "vit-base-patch16-224.py",
+            "user_script": "vit-base-patch16-224-intel.py",
             "load_dataset_config": {
                 "data_name": "imagenet-1k",
                 "split": "train",
@@ -55,7 +55,7 @@
         {
             "name": "evaluation_data_config",
             "type": "HuggingfaceContainer",
-            "user_script": "vit-base-patch16-224.py",
+            "user_script": "vit-base-patch16-224-intel.py",
             "load_dataset_config": {
                 "data_name": "imagenet-1k",
                 "split": "validation",
@@ -87,7 +87,20 @@
                                 "num_classes": 1000
                             }
                         }
-                    ]
+                    ],
+                    "user_config": {
+                        "inference_settings": {
+                            "onnx": {
+                                "execution_provider": "OpenVINOExecutionProvider",
+                                "provider_options": [
+                                    {
+                                        "device_type": "NPU",
+                                        "enable_qdq_optimizer": true
+                                    }
+                                ]
+                            }
+                        }
+                    }
                 },
                 {
                     "name": "latency",
@@ -98,7 +111,20 @@
                             "name": "avg",
                             "priority": 2
                         }
-                    ]
+                    ],
+                    "user_config": {
+                        "inference_settings": {
+                            "onnx": {
+                                "execution_provider": "OpenVINOExecutionProvider",
+                                "provider_options": [
+                                    {
+                                        "device_type": "NPU",
+                                        "enable_qdq_optimizer": true
+                                    }
+                                ]
+                            }
+                        }
+                    }
                 }
             ]
         }
@@ -118,8 +144,8 @@
         "OnnxQuantization": {
             "type": "OnnxQuantization",
             "data_config": "quantization_data_config",
-            "activation_type": "QUInt16",
-            "weight_type": "QUInt8",
+            "activation_type": "QInt8",
+            "weight_type": "QInt8",
             "calibrate_method": "MinMax",
             "quant_preprocess": true,
             "prepare_qnn_config": true,
