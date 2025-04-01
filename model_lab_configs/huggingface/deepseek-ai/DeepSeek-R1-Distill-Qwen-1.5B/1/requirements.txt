@@ -1,6 +1,2 @@
-olive-ai
 datasets
 optimum
-onnxruntime-gpu>=1.21.0
-onnxruntime-genai-cuda>=0.6.0
-torchvision
