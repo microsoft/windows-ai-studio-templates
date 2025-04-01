@@ -2,17 +2,6 @@
 
 This repository demonstrates the optimization of the [Microsoft Phi-3.5 Mini Instruct](https://huggingface.co/microsoft/Phi-3.5-mini-instruct) model using **post-training quantization (PTQ)** techniques. The optimization process is divided into two main workflows:
 
-1. [**QDQ Model with 4-bit Weights & 16-bit Activations**](#qdq-model-with-4-bit-weights--16-bit-activations)
-    - [Optimization Process](#optimization-process)
-    - [Handling Dynamic and Static Input Shapes](#handling-dynamic-and-static-input-shapes)
-    - [Usage](#usage)
-
-2. [**PTQ + AOT Compilation for Qualcomm NPUs using QNN EP**](#ptq--aot-compilation-for-qualcomm-npus-using-qnn-ep)
-    - [Resource Optimization Strategy](#resource-optimization-strategy)
-    - [Compilation for Qualcomm NPU Deployment](#compilation-for-qualcomm-npu-deployment)
-    - [Usage](#usage-1)
-    - [Inference](#inference)
-
 ## **QDQ Model with 4-bit Weights & 16-bit Activations**
 
 This workflow produces an ONNX QDQ model that is agnostic to the target hardware and accelerator, making it suitable for general inference.
@@ -49,10 +38,39 @@ To support both efficiently, we create **two model instances**:
 1. **Prefill model**: Optimized for batch processing.
 2. **Token generation model**: Optimized for one-token-at-a-time inference.
 
-### **Usage**
+## **PTQ + AOT Compilation for Qualcomm NPUs using QNN EP**
 
-#### **Quantization Python Environment Setup**
-Quantization is resource-intensive and requires GPU acceleration. In an [x64 Python environment with Olive installed](../README.md#important), install the required packages:
+This process extends the [**QDQ Model with 4-bit Weights & 16-bit Activations**](#qdq-model-with-4-bit-weights--16-bit-activations) by compiling it specifically for **Qualcomm NPUs** using the **QNN Execution Provider**.
+
+### **Resource Optimization Strategy**
+
+To maximize efficiency while supporting dynamic input handling:
+
+- **Embedding Layer & Language Model Head** → Executed on CPU (handles dynamic input).
+- **Transformer Layers** → Executed on NPU (requires static input shapes).
+- **Weight Sharing** → Prefill & token generation models reuse weights to minimize memory usage.
+
+> ⚠️ **Note:** GQA is an ONNX Runtime *contrib operator* and must be executed on the CPU. The model graph is partitioned into **CPU (GQA nodes)** and **NPU (other nodes)** for execution.
+
+### **Compilation for Qualcomm NPU Deployment**
+
+Once optimized, the model is compiled for Qualcomm NPUs using **ONNX Runtime QNNExecutionProvider**. The steps include:
+
+1. **Split the Quantized Model** → Divide into three parts:
+   - **Embedding Layer**
+   - **Transformer Layers**
+   - **Language Model Head**
+2. **Set Static Input Shapes**:
+   - **(1, 64)** for prefill (batch size, sequence length).
+   - **(1, 1)** for token generation.
+3. **Compile using QNNExecutionProvider**:
+   - Leverages **weight sharing** across the prefill and token generation models.
+
+### **Usage**
+This workflow is configured using the `qnn_config.json` file. It contains all of the quantization and compilation steps. It requires two separate Python environments described below.
+
+#### Quantization Python Environment Setup
+Quantization is resource-intensive and requires GPU acceleration. In an [x64 Python environment with Olive installed](https://github.com/microsoft/Olive/blob/main/examples/README.md#important), install the required packages:
 
 ```bash
 # Install common dependencies
@@ -72,10 +90,57 @@ export BUILD_CUDA_EXT=0
 pip install --no-build-isolation git+https://github.com/PanQiWei/AutoGPTQ.git
 ```
 
-#### **Run the Quantization Config**
+> ⚠️ Only set up the environment and install the packages. Do not run the `olive run` command at this point.
+
+#### AOT Compilation Python Environment Setup
+Model compilation using QNN Execution Provider requires a Python environment with onnxruntime-qnn installed. In a separate Python environment with Olive installed, install the required packages:
 
 ```bash
-olive run --config qdq_config.json
+# Install ONNX Runtime QNN
+pip install -r https://raw.githubusercontent.com/microsoft/onnxruntime/refs/heads/main/requirements.txt
+pip install -U --pre --extra-index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/ORT-Nightly/pypi/simple onnxruntime-qnn --no-deps
 ```
 
+Replace `/path/to/qnn/env/bin` in `qnn_config.json` with the path to the directory containing your QNN environment's Python executable. This path can be found by running the following command in the environment:
+
+```bash
+# Linux
+command -v python
+# Windows
+# where python
+```
+
+This command will return the path to the Python executable. Set the parent directory of the executable as the `/path/to/qnn/env/bin` in the config file.
+
+#### **Run the Quantization + Compilation Config**
+Activate the **Quantization Python Environment** and run the workflow:
+
+```bash
+olive run --config qnn_config.json
+```
+
+Olive will run the AOT compilation step in the **AOT Compilation Python Environment** specified in the config file using a subprocess. All other steps will run in the **Quantization Python Environment** natively.
+
 ✅ Optimized model saved in: `models/phi3_5`
+
+> ⚠️ If optimization fails during context binary generation, rerun the command. The process will resume from the last completed step.
+
+### **Inference**
+
+The optimized model can be used for inference using ONNX Runtime QNNExecutionProvider and ONNX Runtime GenAI. **Inference must be run on a Windows Copilot+ PC with a Qualcomm NPU.**
+
+#### **Install Required Packages (arm64 Python)**
+
+```bash
+pip install -r https://raw.githubusercontent.com/microsoft/onnxruntime/refs/heads/main/requirements.txt
+pip install -U --pre --extra-index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/ORT-Nightly/pypi/simple onnxruntime-qnn --no-deps
+pip install "onnxruntime-genai>=0.7.0rc2"
+```
+
+#### **Run Console-Based Chat Interface**
+
+Execute the provided `app.py` script:
+
+```bash
+python app.py
+```
