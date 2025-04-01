@@ -494,16 +494,17 @@ class ModelParameter(BaseModel):
             print(f"{self._file} has wrong sections compared with phases {modelItem.phases}")
             GlobalVars.hasError = True
         
-        # TODO Add runtime
+        # Add runtime
         syskey, system = list(oliveJson[OlivePropertyNames.Systems].items())[0]
         currentEp = system[OlivePropertyNames.Accelerators][0][OlivePropertyNames.ExecutionProviders][0]
         self.runtime = Parameter(
             name="Optimize for",
             description="Currently this only determines the evaluation hardware",
             type=ParameterTypeEnum.Enum,
-            values=[currentEp, "CPUExecutionProvider"],
-            displayNames=[GlobalVars.epToName[currentEp], "CPU"],
-            path=f"{OlivePropertyNames.Systems}.{syskey}.accelerators.0.execution_providers.0",)
+            values=[currentEp],
+            displayNames=[GlobalVars.epToName[currentEp]],
+            path=f"{OlivePropertyNames.Systems}.{syskey}.accelerators.0.execution_providers.0",
+            fixed=True,)
         if not self.runtime.Check(False, oliveJson):
             print(f"{self._file} runtime has error")
             GlobalVars.hasError = True
