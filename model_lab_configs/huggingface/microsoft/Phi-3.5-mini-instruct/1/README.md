@@ -67,14 +67,17 @@ Once optimized, the model is compiled for Qualcomm NPUs using **ONNX Runtime QNN
    - Leverages **weight sharing** across the prefill and token generation models.
 
 ### **Usage**
+
 This workflow is configured using the `qnn_config.json` file. It contains all of the quantization and compilation steps. It requires two separate Python environments described below.
 
 #### A workable version
+
 - python=3.10
 - CUDA=12.1
 - cudnn=9.2.0
 
 #### Quantization Python Environment Setup
+
 Quantization is resource-intensive and requires GPU acceleration. In an [x64 Python environment with Olive installed](https://github.com/microsoft/Olive/blob/main/examples/README.md#important), install the required packages:
 
 ```bash
@@ -98,6 +101,7 @@ pip install --no-build-isolation git+https://github.com/PanQiWei/AutoGPTQ.git
 > ⚠️ Only set up the environment and install the packages. Do not run the `olive run` command at this point.
 
 #### AOT Compilation Python Environment Setup
+
 Model compilation using QNN Execution Provider requires a Python environment with onnxruntime-qnn installed. In a separate Python environment with Olive installed, install the required packages:
 
 ```bash
@@ -118,6 +122,7 @@ command -v python
 This command will return the path to the Python executable. Set the parent directory of the executable as the `/path/to/qnn/env/bin` in the config file.
 
 #### **Run the Quantization + Compilation Config**
+
 Activate the **Quantization Python Environment** and run the workflow:
 
 ```bash
@@ -128,7 +133,7 @@ Olive will run the AOT compilation step in the **AOT Compilation Python Environm
 
 ✅ Optimized model saved in: `models/phi3_5`
 
-> ⚠️ If optimization fails due to out of memory, please remove `calibration_providers` on config file.
+> ⚠️ If optimization fails due to out of memory, please remove `calibration_providers` in config file.
 
 > ⚠️ If optimization fails during context binary generation, rerun the command. The process will resume from the last completed step.
 
@@ -137,7 +142,6 @@ Olive will run the AOT compilation step in the **AOT Compilation Python Environm
 The optimized model can be used for inference using ONNX Runtime QNNExecutionProvider and ONNX Runtime GenAI. **Inference must be run on a Windows Copilot+ PC with a Qualcomm NPU.**
 
 #### **Install Required Packages (arm64 Python)**
-
 ```bash
 pip install -r https://raw.githubusercontent.com/microsoft/onnxruntime/refs/heads/main/requirements.txt
 pip install -U --pre --extra-index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/ORT-Nightly/pypi/simple onnxruntime-qnn --no-deps
@@ -145,5 +149,6 @@ pip install "onnxruntime-genai>=0.7.0rc2"
 ```
 
 #### **Run Console-Based Chat Interface**
-
 Execute the provided `inference_sample.ipynb` notebook.
+
+> ⚠️ If got 6033 error, replace `genai_config.json` in `models/phi3_5` folder
