@@ -4,7 +4,15 @@
             "id": "typescript-weather",
             "name": "typescript-weather",
             "description": "weather tools",
-            "path": "typescript-weather"
+            "path": "typescript-weather",
+            "mcp": {
+                "type": "stdio",
+                "command": "node",
+                "args": [
+                    "./lib/src/index.js",
+                    "stdio"
+                ]
+            }
         }
     ]
 }
