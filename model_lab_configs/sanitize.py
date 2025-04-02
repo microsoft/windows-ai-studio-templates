@@ -29,6 +29,9 @@ class OlivePropertyNames:
     ExecutionProviders = "execution_providers"
     DataConfigs = "data_configs"
 
+class EPNames:
+    CPUExecutionProvider = "CPUExecutionProvider"
+
 outputModelRelativePath = "./model/model.onnx"
 outputModelModelBuilderPath = "./model"
 
@@ -106,7 +109,7 @@ class GlobalVars:
     epToName = {
         "QNNExecutionProvider": "Qualcomm NPU",
         "OpenVINOExecutionProvider": "Intel NPU",
-        "CPUExecutionProvider": "CPU",
+        EPNames.CPUExecutionProvider: "CPU",
     }
     verbose = True
 
@@ -509,8 +512,8 @@ class ModelParameter(BaseModel):
         self.runtime = Parameter(
             name="Evaluate on",
             type=ParameterTypeEnum.Enum,
-            values=[currentEp],
-            displayNames=[GlobalVars.epToName[currentEp]],
+            values=[currentEp, EPNames.CPUExecutionProvider],
+            displayNames=[GlobalVars.epToName[currentEp], GlobalVars.epToName[EPNames.CPUExecutionProvider]],
             path=f"{OlivePropertyNames.Systems}.{syskey}.accelerators.0.execution_providers.0",
             fixed=False,)
         if not self.runtime.Check(False, oliveJson):
