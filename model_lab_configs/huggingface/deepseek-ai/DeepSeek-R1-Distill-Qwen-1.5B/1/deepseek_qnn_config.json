@@ -1,5 +1,12 @@
-{
+    {
     "input_model": { "type": "HfModel", "model_path": "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B" },
+    "systems": {
+        "qnn_system": {
+            "type": "PythonEnvironment",
+            "python_environment_path": "/path/to/qnn/env/bin",
+            "accelerators": [ { "execution_providers": [ "QNNExecutionProvider" ] } ]
+        }
+    },
     "data_configs": [
         {
             "name": "wikitext2_train",
@@ -8,24 +15,11 @@
             "pre_process_data_config": {
                 "strategy": "line-by-line",
                 "add_special_tokens": false,
-                "size": 128,
+                "max_samples": 128,
                 "max_seq_len": 512
             }
         }
     ],
-    "systems": {
-        "qnn_system": {
-            "type": "LocalSystem",
-            "accelerators": [
-                {
-                    "device": "npu",
-                    "execution_providers": [
-                        "QNNExecutionProvider"
-                    ]
-                }
-            ]
-        }
-    },
     "passes": {
         "q": { "type": "QuaRot" },
         "g": { "type": "GptqQuantizer", "sym": true, "group_size": -1 },
@@ -65,10 +59,22 @@
             "save_as_external_data": true
         },
         "sp": { "type": "SplitModel" },
-        "st": { "type": "StaticLLM", "batch_size": 1, "context_length": 64 }
+        "st": { "type": "StaticLLM", "batch_size": 1, "context_length": 64 },
+        "cb": {
+            "type": "EPContextBinaryGenerator",
+            "provider_options": {
+                "htp_performance_mode": "burst",
+                "htp_graph_finalization_optimization_mode": "3",
+                "soc_model": "60"
+            },
+            "session_options": { "intra_op_num_threads": 2, "inter_op_num_threads": 1 },
+            "weight_sharing": true
+        },
+        "cp": { "type": "ComposeOnnxModels" }
     },
+    "target": "qnn_system",
     "log_severity_level": 1,
-    "output_dir": "models/DeepSeek-R1-Distill-Qwen-1.5B",
+    "output_dir": "models/deepseek",
     "cache_dir": "cache",
     "no_artifacts": true
 }
