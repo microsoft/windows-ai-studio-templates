@@ -111,10 +111,6 @@
             "all_tensors_to_one_file": true,
             "use_dynamo_exporter": false
         },
-        "QNNPreprocess": {
-            "type": "QNNPreprocess",
-            "fuse_layernorm": true
-        },
         "OnnxQuantization": {
             "type": "OnnxQuantization",
             "data_config": "quantization_data_config",

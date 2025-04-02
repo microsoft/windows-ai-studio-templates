@@ -165,10 +165,6 @@
                 77
             ]
         },
-        "qnn_preprocess": {
-            "type": "QNNPreprocess",
-            "fuse_layernorm": true
-        },
         "quantization": {
             "type": "OnnxStaticQuantization",
             "data_config": "calib_data",

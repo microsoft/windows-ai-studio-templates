@@ -117,9 +117,6 @@
                 }
             ]
         },
-        "qnn_preprocess": {
-            "type": "QNNPreprocess"
-        },
         "quantization": {
             "type": "OnnxStaticQuantization",
             "data_config": "glue_mrpc",
