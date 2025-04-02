@@ -49,6 +49,7 @@ class IconEnum(Enum):
 
 class RuntimeEnum(Enum):
     QNN = "QNN"
+    IntelNPU = "IntelNPU"
 
 class ArchitectureEnum(Enum):
     Transformer = "Transformer"
@@ -83,6 +84,11 @@ class PhaseTypeEnum(Enum):
     Quantization = "Quantization"
     Evaluation = "Evaluation"
 
+class ReplaceTypeEnum(Enum):
+    String = "string"
+    Path = "path"
+    PathAdd = "pathAdd"
+
 # Global vars
 
 class GlobalVars:
@@ -95,6 +101,7 @@ class GlobalVars:
     }
     epToName = {
         "QNNExecutionProvider": "Qualcomm NPU",
+        "OpenVINOExecutionProvider": "Intel NPU",
         "CPUExecutionProvider": "CPU",
     }
     verbose = True
@@ -500,7 +507,6 @@ class ModelParameter(BaseModel):
         currentEp = system[OlivePropertyNames.Accelerators][0][OlivePropertyNames.ExecutionProviders][0]
         self.runtime = Parameter(
             name="Optimize for",
-            description="Currently this only determines the evaluation hardware",
             type=ParameterTypeEnum.Enum,
             values=[currentEp],
             displayNames=[GlobalVars.epToName[currentEp]],
@@ -668,6 +674,63 @@ def readCheckIpynb(ipynbFile: str, modelItem: WorkflowItem = None):
         return True
     return False
 
+# Copy
+
+class Replacement(BaseModel):
+    find: str
+    replace: str | Any
+    type: ReplaceTypeEnum = ReplaceTypeEnum.String
+
+
+class Copy(BaseModel):
+    src: str
+    dst: str
+    replacements: list[Replacement] = None
+
+class CopyConfig(BaseModel):
+    copies: list[Copy] = None
+
+    def process(self, modelVerDir: str):
+        if not self.copies:
+            return
+        for copy in self.copies:
+            src = os.path.join(modelVerDir, copy.src)
+            dst = os.path.join(modelVerDir, copy.dst)
+            if not os.path.exists(src):
+                print(f"{src} does not exist")
+                GlobalVars.hasError = True
+                continue
+            shutil.copy(src, dst)
+            if copy.replacements:
+                stringReplacements = [repl for repl in copy.replacements if repl.type == ReplaceTypeEnum.String]
+                if stringReplacements:
+                    with open(dst, 'r', encoding='utf-8') as file:
+                        content = file.read()
+                    for replacement in stringReplacements:
+                        if GlobalVars.verbose: print(replacement.find)
+                        if replacement.find not in content:
+                            print(f"Not in dst file {dst}: {replacement.find}")
+                            GlobalVars.hasError = True
+                            continue
+                        content = content.replace(replacement.find, replacement.replace)
+                    with open(dst, 'w', encoding='utf-8') as file:
+                        file.write(content)
+                pathReplacements = [repl for repl in copy.replacements if repl.type == ReplaceTypeEnum.Path or repl.type == ReplaceTypeEnum.PathAdd]
+                if pathReplacements:
+                    with open(dst, 'r', encoding='utf-8') as file:
+                        jsonObj = json.load(file)
+                    for replacement in pathReplacements:
+                        if GlobalVars.verbose: print(replacement.find)
+                        target = pydash.get(jsonObj, replacement.find)
+                        if replacement.type == ReplaceTypeEnum.Path and target is None or replacement.type == ReplaceTypeEnum.PathAdd and target:
+                            print(f"Not match type in dst json {dst}: {replacement.find}")
+                            GlobalVars.hasError = True
+                            continue
+                        pydash.set_(jsonObj, replacement.find, replacement.replace)
+                    with open(dst, 'w', encoding='utf-8') as file:
+                        json.dump(jsonObj, file, indent=4)
+            # TODO check if file is changed
+
 
 def main():
     configDir = os.path.dirname(__file__)
@@ -694,6 +757,14 @@ def main():
                 modelInVersion = copy.deepcopy(model)
                 modelInVersion.version = version
                 modelVerDir = os.path.join(modelDir, str(version))
+                # process copy
+                copyConfigFile = os.path.join(modelVerDir, "_copy.json.config")
+                if os.path.exists(copyConfigFile):
+                    with open(copyConfigFile, 'r') as file:
+                        copyConfigContent = file.read()
+                    copyConfig = CopyConfig.model_validate_json(copyConfigContent, strict=True)
+                    copyConfig.process(modelVerDir)
+
                 # get model space config
                 modelSpaceConfig = ModelProjectConfig.Read(os.path.join(modelVerDir, "model_project.config"))
                 # check md

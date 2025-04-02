@@ -1,3 +1,4 @@
 olive-ai
 datasets
 torchvision
+openvino
