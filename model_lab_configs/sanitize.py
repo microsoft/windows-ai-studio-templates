@@ -789,7 +789,8 @@ def main():
                 shutil.copy(os.path.join(configDir, "gitignore.md"), os.path.join(modelVerDir, ".gitignore"))
                 # check ipynb
                 sharedIpynbFile = os.path.join(modelVerDir, "inference_sample.ipynb")
-                hasSharedIpynb = readCheckIpynb(sharedIpynbFile, modelSpaceConfig.workflows)
+                hasSharedIpynb = os.path.exists(sharedIpynbFile)
+                workflowsAgainstShared: list[WorkflowItem] = []
                 
                 modelSpaceConfig.modelInfo = modelInVersion
                 for i, modelItem in enumerate(modelSpaceConfig.workflows):
@@ -810,9 +811,13 @@ def main():
                     # check ipynb
                     ipynbFile = os.path.join(modelVerDir, f"{modelItem.templateName}_inference_sample.ipynb")
                     hasSpecialIpynb = readCheckIpynb(ipynbFile, [modelItem])
-                    if not hasSharedIpynb and not hasSpecialIpynb:
-                        print(f"{ipynbFile} nor {sharedIpynbFile} not exists.")
-                        GlobalVars.hasError()
+                    if not hasSpecialIpynb:
+                        if not hasSharedIpynb:
+                            print(f"{ipynbFile} nor {sharedIpynbFile} not exists.")
+                            GlobalVars.hasError()
+                        else:
+                            workflowsAgainstShared.append(modelItem)
+                readCheckIpynb(sharedIpynbFile, workflowsAgainstShared)
                     
                 modelSpaceConfig.Check()
     modelList.Check()
