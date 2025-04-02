@@ -21,8 +21,8 @@
                 "QNN"
             ],
             "architecture": "Transformer",
-            "status": "Hide",
-            "version": -1
+            "status": "Ready",
+            "version": 1
         },
         {
             "displayName": "openai/clip-vit-base-patch32",
