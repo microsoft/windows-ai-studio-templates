@@ -1,0 +1,10 @@
+{
+    "templates": [
+        {
+            "id": "typescript-weather",
+            "name": "typescript-weather",
+            "description": "weather tools",
+            "path": "typescript-weather"
+        }
+    ]
+}
