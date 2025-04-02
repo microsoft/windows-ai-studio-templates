@@ -140,5 +140,5 @@
     "evaluator": "common_evaluator",
     "cache_dir": "cache",
     "output_dir": "model/google_bert",
-    "log_severity_level": 0
+    "evaluate_input_model": false
 }
