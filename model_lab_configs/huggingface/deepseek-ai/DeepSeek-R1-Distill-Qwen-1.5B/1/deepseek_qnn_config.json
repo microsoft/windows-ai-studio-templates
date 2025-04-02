@@ -74,7 +74,7 @@
     },
     "target": "qnn_system",
     "log_severity_level": 1,
-    "output_dir": "models/deepseek",
+    "output_dir": "model/deepseek",
     "cache_dir": "cache",
     "no_artifacts": true
 }

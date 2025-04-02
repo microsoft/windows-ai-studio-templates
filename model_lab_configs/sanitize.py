@@ -391,6 +391,7 @@ class WorkflowItem(BaseModel):
     templateName: str = None
     phases: list[PhaseTypeEnum] = None
     useModelBuilder: bool = None
+    isGPURequired: bool = None
 
     def Check(self):
         if not self.name:
@@ -660,19 +661,20 @@ def readCheckOliveConfig(oliveJsonFile: str, modelItem: WorkflowItem):
     return oliveJson
 
 
-def readCheckIpynb(ipynbFile: str, modelItem: WorkflowItem = None):
+def readCheckIpynb(ipynbFile: str, modelItems: list[WorkflowItem]):
     """
     Note this return exists or not, not valid or not
     """
     if os.path.exists(ipynbFile):
         with open(ipynbFile, 'r', encoding='utf-8') as file:
             ipynbContent = file.read()
-        testPath = outputModelRelativePath
-        if modelItem and modelItem.useModelBuilder:
-            testPath = outputModelModelBuilderPath
-        if testPath not in ipynbContent:
-            print(f"{ipynbFile} does not have '{testPath}', please use it as input")
-            GlobalVars.hasError()
+        for modelItem in modelItems:
+            testPath = outputModelRelativePath
+            if modelItem and modelItem.useModelBuilder:
+                testPath = outputModelModelBuilderPath
+            if testPath not in ipynbContent:
+                print(f"{ipynbFile} does not have '{testPath}' for {modelItem.name}, please use it as input")
+                GlobalVars.hasError()
         return True
     return False
 
@@ -787,7 +789,7 @@ def main():
                 shutil.copy(os.path.join(configDir, "gitignore.md"), os.path.join(modelVerDir, ".gitignore"))
                 # check ipynb
                 sharedIpynbFile = os.path.join(modelVerDir, "inference_sample.ipynb")
-                sharedIpynb = readCheckIpynb(sharedIpynbFile)
+                hasSharedIpynb = readCheckIpynb(sharedIpynbFile, modelSpaceConfig.workflows)
                 
                 modelSpaceConfig.modelInfo = modelInVersion
                 for i, modelItem in enumerate(modelSpaceConfig.workflows):
@@ -806,11 +808,11 @@ def main():
                     modelParameter.Check(parameterTemplate, modelItem, oliveJson)
 
                     # check ipynb
-                    if not sharedIpynb:
-                        ipynbFile = os.path.join(modelVerDir, f"{modelItem.templateName}_inference_sample.ipynb")
-                        if not readCheckIpynb(ipynbFile, modelItem):
-                            print(f"{ipynbFile} nor {sharedIpynbFile} not exists.")
-                            GlobalVars.hasError()
+                    ipynbFile = os.path.join(modelVerDir, f"{modelItem.templateName}_inference_sample.ipynb")
+                    hasSpecialIpynb = readCheckIpynb(ipynbFile, [modelItem])
+                    if not hasSharedIpynb and not hasSpecialIpynb:
+                        print(f"{ipynbFile} nor {sharedIpynbFile} not exists.")
+                        GlobalVars.hasError()
                     
                 modelSpaceConfig.Check()
     modelList.Check()
