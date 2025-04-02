@@ -21,7 +21,7 @@
                 "QNN"
             ],
             "architecture": "Transformer",
-            "status": "Coming",
+            "status": "Hide",
             "version": -1
         },
         {
@@ -33,8 +33,8 @@
                 "QNN"
             ],
             "architecture": "CNN",
-            "status": "Coming",
-            "version": -1
+            "status": "Ready",
+            "version": 1
         },
         {
             "displayName": "openai/clip-vit-base-patch16",
@@ -57,8 +57,20 @@
                 "QNN"
             ],
             "architecture": "CNN",
-            "status": "Coming",
+            "status": "Hide",
             "version": -1
+        },
+        {
+            "displayName": "laion/CLIP-ViT-B-32-laion2B-s34B-b79K",
+            "icon": "laion",
+            "modelLink": "https://huggingface.co/laion/CLIP-ViT-B-32-laion2B-s34B-b79K",
+            "id": "huggingface/laion/CLIP-ViT-B-32-laion2B-s34B-b79K",
+            "runtimes": [
+                "QNN"
+            ],
+            "architecture": "CNN",
+            "status": "Ready",
+            "version": 1
         },
         {
             "displayName": "Microsoft/ResNet-50",
@@ -81,7 +93,7 @@
                 "QNN"
             ],
             "architecture": "Transformer",
-            "status": "Coming",
+            "status": "Hide",
             "version": -1
         },
         {
@@ -93,7 +105,7 @@
                 "QNN"
             ],
             "architecture": "Diffusion",
-            "status": "Coming",
+            "status": "Hide",
             "version": -1
         },
         {
@@ -105,7 +117,7 @@
                 "QNN"
             ],
             "architecture": "Transformer",
-            "status": "Coming",
+            "status": "Hide",
             "version": -1
         },
         {
@@ -117,7 +129,7 @@
                 "QNN"
             ],
             "architecture": "Transformer",
-            "status": "Coming",
+            "status": "Hide",
             "version": -1
         },
         {
@@ -142,7 +154,7 @@
                 "QNN"
             ],
             "architecture": "Transformer",
-            "status": "Coming",
+            "status": "Hide",
             "version": -1
         },
         {
@@ -154,7 +166,7 @@
                 "QNN"
             ],
             "architecture": "Transformer",
-            "status": "Coming",
+            "status": "Hide",
             "version": -1
         },
         {
@@ -166,7 +178,7 @@
                 "QNN"
             ],
             "architecture": "Transformer",
-            "status": "Coming",
+            "status": "Hide",
             "version": -1
         },
         {
@@ -178,7 +190,7 @@
                 "QNN"
             ],
             "architecture": "Transformer",
-            "status": "Coming",
+            "status": "Hide",
             "version": -1
         },
         {

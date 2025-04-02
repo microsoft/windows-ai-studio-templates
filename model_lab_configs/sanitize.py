@@ -1,5 +1,6 @@
 from __future__ import annotations
 import shutil
+import subprocess
 from typing import Any, Dict
 from pydantic import BaseModel, TypeAdapter
 import os
@@ -45,6 +46,7 @@ class IconEnum(Enum):
     EleutherAI = "eleutherai"
     openlm = "openlm"
     DeepSeek = "DeepSeek"
+    laion = "laion"
 
 class RuntimeEnum(Enum):
     QNN = "QNN"
@@ -90,9 +92,12 @@ class ReplaceTypeEnum(Enum):
 
 # Global vars
 
-class GlobalVars:
-    hasChange = False
-    hasError = False
+class GlobalVars:  
+    SomethingError = False
+    @classmethod
+    def hasError(cls):
+        cls.SomethingError = True
+
     phaseToSection = {
         PhaseTypeEnum.Conversion: "Convert",
         PhaseTypeEnum.Quantization: "Quantize",
@@ -156,12 +161,11 @@ class ModelList(BaseModel):
         for i, model in enumerate(self.models):
             if not model.Check():
                 print(f"{self._file} model {i} has error")
-                GlobalVars.hasError = True      
+                GlobalVars.hasError()
         newContent = self.model_dump_json(indent=4, exclude_none=True)
         if newContent != self._fileContent:
             with open(self._file, 'w') as file:
                 file.write(newContent)
-            GlobalVars.hasChange = True
 
 # Parameter
 
@@ -367,12 +371,11 @@ def readCheckParameterTemplate(filePath: str):
     for key, parameter in parameters.items():
         if not parameter.Check(True):
             print(f"{filePath} parameter {key} has error")
-            GlobalVars.hasError = True
+            GlobalVars.hasError()
     newContent = adapter.dump_json(parameters, indent=4, exclude_none=True).decode('utf-8')
     if newContent != fileContent:
         with open(filePath, 'w') as file:
             file.write(newContent)
-        GlobalVars.hasChange = True
     return parameters
 
 # Model
@@ -424,17 +427,16 @@ class ModelProjectConfig(BaseModel):
         for i, model in enumerate(self.workflows):
             if not model.Check():
                 print(f"{self._file} model {i} has error")
-                GlobalVars.hasError = True
+                GlobalVars.hasError()
         
         if not self.modelInfo.Check():
             print(f"{self._file} modelInfo has error")
-            GlobalVars.hasError = True
+            GlobalVars.hasError()
 
         newContent = self.model_dump_json(indent=4, exclude_none=True)
         if newContent != self._fileContent:
             with open(self._file, 'w') as file:
                 file.write(newContent)
-            GlobalVars.hasChange = True
 
 # Model Parameter
 
@@ -459,14 +461,14 @@ class Section(BaseModel):
                 template = parameter.template
                 if template.template not in templates:
                     print(f"{_file} section {sectionId} parameter {i} has wrong template")
-                    GlobalVars.hasError = True
+                    GlobalVars.hasError()
                     continue
                 parameter.clearValue()
                 parameter.applyTemplate(template)
                 parameter.applyTemplate(templates[template.template])
             if not parameter.Check(False, oliveJson):
                 print(f"{_file} section {sectionId} parameter {i} has error")
-                GlobalVars.hasError = True
+                GlobalVars.hasError()
         
         if self.toggle:
             if self.toggle.type != ParameterTypeEnum.Bool:
@@ -474,7 +476,7 @@ class Section(BaseModel):
                 return False
             if not self.toggle.Check(False, oliveJson):
                 print(f"{_file} section {sectionId} toggle has error")
-                GlobalVars.hasError = True
+                GlobalVars.hasError()
 
         return True
     
@@ -499,21 +501,21 @@ class ModelParameter(BaseModel):
         # TODO hardcoded (with additional conversion phase)
         if len(self.sections) != len(modelItem.phases) - 1:
             print(f"{self._file} has wrong sections compared with phases {modelItem.phases}")
-            GlobalVars.hasError = True
+            GlobalVars.hasError()
         
         # Add runtime
         syskey, system = list(oliveJson[OlivePropertyNames.Systems].items())[0]
         currentEp = system[OlivePropertyNames.Accelerators][0][OlivePropertyNames.ExecutionProviders][0]
         self.runtime = Parameter(
-            name="Optimize for",
+            name="Evaluate on",
             type=ParameterTypeEnum.Enum,
             values=[currentEp],
             displayNames=[GlobalVars.epToName[currentEp]],
             path=f"{OlivePropertyNames.Systems}.{syskey}.accelerators.0.execution_providers.0",
-            fixed=True,)
+            fixed=False,)
         if not self.runtime.Check(False, oliveJson):
             print(f"{self._file} runtime has error")
-            GlobalVars.hasError = True
+            GlobalVars.hasError()
 
         for i, section in enumerate(self.sections):
             # TODO hardcoded name for UI
@@ -524,7 +526,7 @@ class ModelParameter(BaseModel):
             # Set quantization toggle
             if section.name == GlobalVars.phaseToSection[PhaseTypeEnum.Quantization]:
                 if modelItem.useModelBuilder:
-                    # TODO
+                    # TODO modelbuilder
                     modelBuilder = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] in [OlivePassNames.ModelBuilder]]
                     modelBuilderPath = f"{OlivePropertyNames.Passes}.{modelBuilder[0]}"
                     section.toggle = Parameter(
@@ -555,13 +557,12 @@ class ModelParameter(BaseModel):
 
             if not section.Check(templates, self._file, i, oliveJson):
                 print(f"{self._file} section {i} has error")
-                GlobalVars.hasError = True          
+                GlobalVars.hasError()
 
         newContent = self.model_dump_json(indent=4, exclude_none=True)
         if newContent != self._fileContent:
             with open(self._file, 'w') as file:
                 file.write(newContent)
-            GlobalVars.hasChange = True
 
 def readCheckOliveConfig(oliveJsonFile: str, modelItem: WorkflowItem):
     print(f"Process {oliveJsonFile}")
@@ -571,32 +572,32 @@ def readCheckOliveConfig(oliveJsonFile: str, modelItem: WorkflowItem):
     # check if engine is in oliveJson
     if OlivePropertyNames.Engine in oliveJson:
         print(f"{oliveJsonFile} has engine. Should place in the root instead")
-        GlobalVars.hasError = True
+        GlobalVars.hasError()
         return
     
     if OlivePropertyNames.Evaluator in oliveJson and not isinstance(oliveJson[OlivePropertyNames.Evaluator], str):
         print(f"{oliveJsonFile} evaluator property should be str")
-        GlobalVars.hasError = True
+        GlobalVars.hasError()
         return
     
     # check if has more than one systems
     if OlivePropertyNames.Systems not in oliveJson or len(oliveJson[OlivePropertyNames.Systems]) != 1:
         print(f"{oliveJsonFile} should have only one system")
-        GlobalVars.hasError = True
+        GlobalVars.hasError()
         return
     accelerators = list(oliveJson[OlivePropertyNames.Systems].items())[0][1][OlivePropertyNames.Accelerators]
     if len(accelerators) != 1:
         print(f"{oliveJsonFile} should have only one accelerator")
-        GlobalVars.hasError = True
+        GlobalVars.hasError()
         return
     eps = accelerators[0][OlivePropertyNames.ExecutionProviders]
     if len(eps) != 1:
         print(f"{oliveJsonFile} should have only one execution provider")
-        GlobalVars.hasError = True
+        GlobalVars.hasError()
         return
     if eps[0] not in GlobalVars.epToName:
         print(f"{oliveJsonFile} has wrong execution provider {eps[0]}")
-        GlobalVars.hasError = True
+        GlobalVars.hasError()
         return
 
     # get phases from oliveJson
@@ -606,7 +607,7 @@ def readCheckOliveConfig(oliveJsonFile: str, modelItem: WorkflowItem):
     if modelItem.useModelBuilder:
         if OlivePassNames.ModelBuilder not in all_passes or OlivePassNames.OnnxConversion in all_passes:
             print(f"{oliveJsonFile} missing ModelBuilder phase")
-            GlobalVars.hasError = True
+            GlobalVars.hasError()
             return
         phases.append(PhaseTypeEnum.Conversion)
         phases.append(PhaseTypeEnum.Quantization)
@@ -620,17 +621,17 @@ def readCheckOliveConfig(oliveJsonFile: str, modelItem: WorkflowItem):
     # TODO hardcoded
     if PhaseTypeEnum.Conversion != phases[0]:
         print(f"{oliveJsonFile} missing Conversion phase")
-        GlobalVars.hasError = True
+        GlobalVars.hasError()
     if PhaseTypeEnum.Quantization != phases[1]:
         print(f"{oliveJsonFile} missing Quantization phase")
-        GlobalVars.hasError = True
+        GlobalVars.hasError()
     modelItem.phases = phases
     
     # check evaluation
     if PhaseTypeEnum.Evaluation in modelItem.phases:
         if PhaseTypeEnum.Quantization in modelItem.phases and len(oliveJson[OlivePropertyNames.DataConfigs]) == 1:
             print(f"{oliveJsonFile} should have two data configs for evaluation")
-            GlobalVars.hasError = True
+            GlobalVars.hasError()
 
     jsonUpdated = False
 
@@ -652,7 +653,6 @@ def readCheckOliveConfig(oliveJsonFile: str, modelItem: WorkflowItem):
         with open(oliveJsonFile, 'w') as file:
             json.dump(oliveJson, file, indent=4)
         print(f"{oliveJsonFile} has been updated")
-        GlobalVars.hasChange = True
 
     return oliveJson
 
@@ -669,7 +669,7 @@ def readCheckIpynb(ipynbFile: str, modelItem: WorkflowItem = None):
             testPath = outputModelModelBuilderPath
         if testPath not in ipynbContent:
             print(f"{ipynbFile} does not have '{outputModelRelativePath}', please use it as input")
-            GlobalVars.hasError = True
+            GlobalVars.hasError()
         return True
     return False
 
@@ -697,7 +697,7 @@ class CopyConfig(BaseModel):
             dst = os.path.join(modelVerDir, copy.dst)
             if not os.path.exists(src):
                 print(f"{src} does not exist")
-                GlobalVars.hasError = True
+                GlobalVars.hasError()
                 continue
             shutil.copy(src, dst)
             if copy.replacements:
@@ -709,7 +709,7 @@ class CopyConfig(BaseModel):
                         if GlobalVars.verbose: print(replacement.find)
                         if replacement.find not in content:
                             print(f"Not in dst file {dst}: {replacement.find}")
-                            GlobalVars.hasError = True
+                            GlobalVars.hasError()
                             continue
                         content = content.replace(replacement.find, replacement.replace)
                     with open(dst, 'w', encoding='utf-8') as file:
@@ -723,12 +723,11 @@ class CopyConfig(BaseModel):
                         target = pydash.get(jsonObj, replacement.find)
                         if replacement.type == ReplaceTypeEnum.Path and target is None or replacement.type == ReplaceTypeEnum.PathAdd and target:
                             print(f"Not match type in dst json {dst}: {replacement.find}")
-                            GlobalVars.hasError = True
+                            GlobalVars.hasError()
                             continue
                         pydash.set_(jsonObj, replacement.find, replacement.replace)
                     with open(dst, 'w', encoding='utf-8') as file:
                         json.dump(jsonObj, file, indent=4)
-            # TODO check if file is changed
 
 
 def main():
@@ -748,7 +747,7 @@ def main():
             # check if version is continuous
             if allVersions[0] != 1 or allVersions[-1] != len(allVersions):
                 print(f"{modelDir} has wrong versions {allVersions}")
-                GlobalVars.hasError = True
+                GlobalVars.hasError()
 
             # process each version
             for version in allVersions:
@@ -770,18 +769,17 @@ def main():
                 mdFile = os.path.join(modelVerDir, "README.md")
                 if not os.path.exists(mdFile):
                     print(f"{mdFile} not exists")
-                    GlobalVars.hasError = True
+                    GlobalVars.hasError()
                 # check requirement.txt
                 requirementFile = os.path.join(modelVerDir, "requirements.txt")
                 if not os.path.exists(requirementFile):
                     print(f"{requirementFile} not exists. Copy the template one")
-                    GlobalVars.hasError = True
+                    GlobalVars.hasError()
                     shutil.copy(os.path.join(configDir, "requirements.md"), requirementFile)
                 # copy .gitignore
                 gitignoreFile = os.path.join(modelVerDir, ".gitignore")
                 if not os.path.exists(gitignoreFile):
                     print(f"{gitignoreFile} not exists. Copy the template one")
-                    GlobalVars.hasChange = True
                 # always replace with latest
                 shutil.copy(os.path.join(configDir, "gitignore.md"), os.path.join(modelVerDir, ".gitignore"))
                 # check ipynb
@@ -809,17 +807,26 @@ def main():
                         ipynbFile = os.path.join(modelVerDir, f"{modelItem.templateName}_inference_sample.ipynb")
                         if not readCheckIpynb(ipynbFile, modelItem):
                             print(f"{ipynbFile} nor {sharedIpynbFile} not exists.")
-                            GlobalVars.hasError = True
+                            GlobalVars.hasError()
                     
                 modelSpaceConfig.Check()
     modelList.Check()
-    if GlobalVars.hasChange:
-        print("Please commit changes")
-    if GlobalVars.hasError:
-        print("Please fix errors")
-    if GlobalVars.hasChange or GlobalVars.hasError:
-        raise
 
+    errorMsg = ''
+    result = subprocess.run(
+        ["git", "status", "--porcelain"],
+        cwd=configDir,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True
+    )
+    # If the output is not empty, there are uncommitted changes
+    if bool(result.stdout.strip()):
+        errorMsg += "Please commit changes!"
+    if GlobalVars.SomethingError:
+        errorMsg += "Please fix errors!"
+    if errorMsg:
+        raise BaseException(errorMsg)
 
 if __name__ == '__main__':
     main()
