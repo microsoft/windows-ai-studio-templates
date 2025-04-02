@@ -506,12 +506,12 @@ class ModelParameter(BaseModel):
         syskey, system = list(oliveJson[OlivePropertyNames.Systems].items())[0]
         currentEp = system[OlivePropertyNames.Accelerators][0][OlivePropertyNames.ExecutionProviders][0]
         self.runtime = Parameter(
-            name="Optimize for",
+            name="Evaluate on",
             type=ParameterTypeEnum.Enum,
             values=[currentEp],
             displayNames=[GlobalVars.epToName[currentEp]],
             path=f"{OlivePropertyNames.Systems}.{syskey}.accelerators.0.execution_providers.0",
-            fixed=True,)
+            fixed=False,)
         if not self.runtime.Check(False, oliveJson):
             print(f"{self._file} runtime has error")
             GlobalVars.hasError = True

@@ -21,7 +21,7 @@
                 "QNN"
             ],
             "architecture": "Transformer",
-            "status": "Coming",
+            "status": "Hide",
             "version": -1
         },
         {
@@ -57,7 +57,7 @@
                 "QNN"
             ],
             "architecture": "CNN",
-            "status": "Coming",
+            "status": "Hide",
             "version": -1
         },
         {
@@ -93,7 +93,7 @@
                 "QNN"
             ],
             "architecture": "Transformer",
-            "status": "Coming",
+            "status": "Hide",
             "version": -1
         },
         {
@@ -105,7 +105,7 @@
                 "QNN"
             ],
             "architecture": "Diffusion",
-            "status": "Coming",
+            "status": "Hide",
             "version": -1
         },
         {
@@ -117,7 +117,7 @@
                 "QNN"
             ],
             "architecture": "Transformer",
-            "status": "Coming",
+            "status": "Hide",
             "version": -1
         },
         {
@@ -129,7 +129,7 @@
                 "QNN"
             ],
             "architecture": "Transformer",
-            "status": "Coming",
+            "status": "Hide",
             "version": -1
         },
         {
@@ -154,7 +154,7 @@
                 "QNN"
             ],
             "architecture": "Transformer",
-            "status": "Coming",
+            "status": "Hide",
             "version": -1
         },
         {
@@ -166,7 +166,7 @@
                 "QNN"
             ],
             "architecture": "Transformer",
-            "status": "Coming",
+            "status": "Hide",
             "version": -1
         },
         {
@@ -178,7 +178,7 @@
                 "QNN"
             ],
             "architecture": "Transformer",
-            "status": "Coming",
+            "status": "Hide",
             "version": -1
         },
         {
@@ -190,7 +190,7 @@
                 "QNN"
             ],
             "architecture": "Transformer",
-            "status": "Coming",
+            "status": "Hide",
             "version": -1
         },
         {
