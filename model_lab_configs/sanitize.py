@@ -671,7 +671,7 @@ def readCheckIpynb(ipynbFile: str, modelItem: WorkflowItem = None):
         if modelItem and modelItem.useModelBuilder:
             testPath = outputModelModelBuilderPath
         if testPath not in ipynbContent:
-            print(f"{ipynbFile} does not have '{outputModelRelativePath}', please use it as input")
+            print(f"{ipynbFile} does not have '{testPath}', please use it as input")
             GlobalVars.hasError()
         return True
     return False
