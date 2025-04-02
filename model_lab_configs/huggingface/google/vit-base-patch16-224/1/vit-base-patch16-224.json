@@ -39,7 +39,7 @@
             "type": "HuggingfaceContainer",
             "user_script": "vit-base-patch16-224.py",
             "load_dataset_config": {
-                "data_name": "imagenet-1k",
+                "data_name": "timm/mini-imagenet",
                 "split": "train",
                 "streaming": true,
                 "trust_remote_code": true
@@ -57,7 +57,7 @@
             "type": "HuggingfaceContainer",
             "user_script": "vit-base-patch16-224.py",
             "load_dataset_config": {
-                "data_name": "imagenet-1k",
+                "data_name": "timm/mini-imagenet",
                 "split": "validation",
                 "streaming": true,
                 "trust_remote_code": true

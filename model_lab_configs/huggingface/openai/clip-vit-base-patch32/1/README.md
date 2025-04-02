@@ -6,7 +6,7 @@ This example performs Openai Clip optimization with QNN execution providers in o
 
 ## Evaluation result
 
-The quantization uses 256 samples from train split of imagenet-1k dataset and the evaluations uses 256 samples from test split of imagenet-1k dataset.
+The quantization uses 256 samples from train split of timm/mini-imagenet dataset and the evaluations uses 256 samples from test split of timm/mini-imagenet dataset.
 
 
 | Activation Type&nbsp; | Weight Type&nbsp; | Size&nbsp; | Latency ms (avg)&nbsp; |
@@ -21,7 +21,7 @@ This example performs Openai Clip optimization with QNN execution providers in o
 
 ## Evaluation result
 
-The quantization uses 256 samples from train split of imagenet-1k dataset and the evaluations uses 256 samples from test split of imagenet-1k dataset.
+The quantization uses 256 samples from train split of timm/mini-imagenet dataset and the evaluations uses 256 samples from test split of timm/mini-imagenet dataset.
 
 
 | Activation Type&nbsp; | Weight Type&nbsp; | Size&nbsp; | Latency ms (avg)&nbsp; |
