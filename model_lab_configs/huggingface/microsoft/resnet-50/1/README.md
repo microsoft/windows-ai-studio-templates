@@ -6,7 +6,7 @@ This example performs ResNet optimization with QNN execution providers in one wo
 
 ## Evaluation result
 
-The quantization uses 256 samples from train split of timm/mini-imagenet dataset and the evaluations uses 256 samples from test split of timm/mini-imagenet dataset.
+The quantization uses 256 samples from train split of imagenet-1k dataset and the evaluations uses 256 samples from test split of imagenet-1k dataset.
 
 
 | Activation Type&nbsp; | Weight Type&nbsp; | Size&nbsp; | Accuracy&nbsp; | Latency (avg)&nbsp; |
