@@ -148,6 +148,7 @@ class ModelInfo(BaseModel):
 
 class ModelList(BaseModel):
     models: list[ModelInfo]
+    HFLoginRequiredDatasets: list[str]
 
     @staticmethod
     def Read(scriptFolder: str):
