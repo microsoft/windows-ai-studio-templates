@@ -216,5 +216,8 @@
             "status": "Ready",
             "version": 1
         }
+    ],
+    "HFLoginRequiredDatasets": [
+        "imagenet-1k"
     ]
 }
