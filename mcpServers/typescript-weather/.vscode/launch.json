@@ -1,0 +1,66 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Launch Inspector (Edge)",
+      "type": "msedge",
+      "request": "launch",
+      "url": "http://localhost:5173?timeout=60000&serverUrl=http://localhost:3001/sse#tools",
+      "cascadeTerminateToConfigurations": [
+        "Attach to Local MCP"
+      ],
+      "presentation": {
+        "group": "all",
+        "hidden": true
+      },
+      "internalConsoleOptions": "neverOpen"
+    },
+    {
+      "name": "Launch Inspector (Chrome)",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:5173?timeout=60000&serverUrl=http://localhost:3001/sse#tools",
+      "cascadeTerminateToConfigurations": [
+        "Attach to Local MCP"
+      ],
+      "presentation": {
+        "group": "all",
+        "hidden": true
+      },
+      "internalConsoleOptions": "neverOpen"
+    },
+    {
+      "name": "Attach to Local MCP",
+      "type": "node",
+      "request": "attach",
+      "port": 9239,
+      "restart": true,
+      "presentation": {
+        "group": "all",
+        "hidden": true
+      },
+      "internalConsoleOptions": "neverOpen",
+      "postDebugTask": "Terminate All Tasks",
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Debug in Inspector (Edge)",
+      "configurations": [
+        "Launch Inspector (Edge)",
+        "Attach to Local MCP"
+      ],
+      "preLaunchTask": "Start MCP Inspector",
+      "stopAll": true
+    },
+    {
+      "name": "Debug in Inspector (Chrome)",
+      "configurations": [
+        "Launch Inspector (Chrome)",
+        "Attach to Local MCP"
+      ],
+      "preLaunchTask": "Start MCP Inspector",
+      "stopAll": true
+    }
+  ]
+}

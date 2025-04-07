@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "target": "es2017",
+    "module": "nodenext",
+    "outDir": "./lib",
+    "rootDir": "./",
+    "moduleResolution": "nodenext",
+    "sourceMap": true,
+    "incremental": true,
+    "tsBuildInfoFile": "./lib/.tsbuildinfo",
+    "esModuleInterop": true
+  }
+}
