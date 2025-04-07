@@ -1,6 +1,6 @@
-# MCP Server - Weather
+# My MCP Server
 
-This is a sample MCP Server in TypeScript implementing weather tools.
+This is a sample MCP Server in TypeScript implementing weather tools with mock responses.
 
 ## Get Started
 
@@ -13,6 +13,22 @@ This is a sample MCP Server in TypeScript implementing weather tools.
 First, before executing any code, install the dependencies.
 
 - Open terminal and execute `npm install`
+
+### Debug in Prompt Builder
+
+- Open VSCode Debug panel. Select `Debug in Prompt Builder`. Press F5 to start debugging.
+- When Prompt Builder launches, tools will be auto-connected.
+- Then you can select model, input prompts, and `Run` to test the model and tools.
+- And ofcourse, you can add breakpoint to the tool implementation code.
+
+<details>
+  <summary>More Details</summary>
+
+  When launching debugging, the MCP server is launched (by default on port 3001)
+
+  The whole definition can be found in [tasks.json](.vscode/tasks.json). You can also edit [launch.json](.vscode/launch.json), [tasks.json](.vscode/tasks.json), [index.ts](src/index.ts) to change ports and parameters.
+
+</details>
 
 ### Debug in MCP Inspector
 

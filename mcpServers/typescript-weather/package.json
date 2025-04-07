@@ -1,5 +1,5 @@
 {
-  "name": "cool-mcp",
+  "name": "{{SafeProjectNameLowerCase}}",
   "version": "0.0.1",
   "description": "My MCP Server",
   "main": "./lib/src/index.js",

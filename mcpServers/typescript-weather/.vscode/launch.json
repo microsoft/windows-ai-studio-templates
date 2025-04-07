@@ -2,6 +2,18 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Attach to Local MCP",
+      "type": "node",
+      "request": "attach",
+      "port": 9239,
+      "restart": true,
+      "presentation": {
+        "hidden": true
+      },
+      "internalConsoleOptions": "neverOpen",
+      "postDebugTask": "Terminate All Tasks",
+    },
+    {
       "name": "Launch Inspector (Edge)",
       "type": "msedge",
       "request": "launch",
@@ -10,7 +22,6 @@
         "Attach to Local MCP"
       ],
       "presentation": {
-        "group": "all",
         "hidden": true
       },
       "internalConsoleOptions": "neverOpen"
@@ -24,26 +35,19 @@
         "Attach to Local MCP"
       ],
       "presentation": {
-        "group": "all",
         "hidden": true
       },
       "internalConsoleOptions": "neverOpen"
-    },
-    {
-      "name": "Attach to Local MCP",
-      "type": "node",
-      "request": "attach",
-      "port": 9239,
-      "restart": true,
-      "presentation": {
-        "group": "all",
-        "hidden": true
-      },
-      "internalConsoleOptions": "neverOpen",
-      "postDebugTask": "Terminate All Tasks",
     }
   ],
   "compounds": [
+    {
+      "name": "Debug in Prompt Builder",
+      "configurations": [
+        "Attach to Local MCP"
+      ],
+      "preLaunchTask": "Open Prompt Builder",
+    },
     {
       "name": "Debug in Inspector (Edge)",
       "configurations": [
