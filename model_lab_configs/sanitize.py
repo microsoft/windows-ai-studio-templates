@@ -798,7 +798,7 @@ def main():
                 # process copy
                 copyConfigFile = os.path.join(modelVerDir, "_copy.json.config")
                 if os.path.exists(copyConfigFile):
-                    with open(copyConfigFile, 'r') as file:
+                    with open(copyConfigFile, 'r', encoding="utf-8") as file:
                         copyConfigContent = file.read()
                     copyConfig = CopyConfig.model_validate_json(copyConfigContent, strict=True)
                     copyConfig.process(modelVerDir)
