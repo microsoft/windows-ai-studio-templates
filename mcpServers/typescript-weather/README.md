@@ -26,7 +26,7 @@ First, before executing any code, install the dependencies.
 
   When launching debugging, the MCP server is launched (by default on port 3001)
 
-  The whole definition can be found in [tasks.json](.vscode/tasks.json). You can also edit [launch.json](.vscode/launch.json), [tasks.json](.vscode/tasks.json), [index.ts](src/index.ts) to change ports and parameters.
+  The whole definition can be found in [tasks.json](.vscode/tasks.json). You can also edit [launch.json](.vscode/launch.json), [tasks.json](.vscode/tasks.json), [index.ts](src/index.ts), [mcp.json](.aitk/mcp.json) to change ports and parameters.
 
 </details>
 
@@ -45,6 +45,6 @@ First, before executing any code, install the dependencies.
   - first, the MCP server is launched (by default on port 3001)
   - then, the MCP Inspector is launched (by default on port 5173 and 3000)
 
-  The whole definition can be found in [tasks.json](.vscode/tasks.json). You can also edit [launch.json](.vscode/launch.json), [tasks.json](.vscode/tasks.json), [index.ts](src/index.ts) to change above ports.
+  The whole definition can be found in [tasks.json](.vscode/tasks.json). You can also edit [launch.json](.vscode/launch.json), [tasks.json](.vscode/tasks.json), [index.ts](src/index.ts), [mcp.json](.aitk/mcp.json) to change above ports.
 
 </details>
