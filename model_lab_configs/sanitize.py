@@ -8,6 +8,7 @@ from enum import Enum
 import copy
 import pydash
 import json
+from pathlib import Path
 
 # Constants
 
@@ -781,6 +782,21 @@ class CopyConfig(BaseModel):
                         json.dump(jsonObj, file, indent=4)
 
 
+def check_case(path: Path) -> bool:
+    path = Path(path)
+    try:
+        abs_path = path.resolve(strict=False)
+    except Exception:
+        return False
+
+    abs_parts = abs_path.parts
+    path_parts = path.parts
+    for abs_part, part in zip(abs_parts, path_parts):
+        if abs_part != part:
+            return False
+
+    return True
+
 def main():
     configDir = os.path.dirname(__file__)
     # get model list
@@ -791,6 +807,11 @@ def main():
     for model in modelList.models:
         if model.id and model.status == ModelStatusEnum.Ready:
             modelDir = os.path.join(configDir, model.id)
+
+            if not check_case(modelDir):
+                print(f"Model folder does not exist, or check if case matches between model.id {model.id} and model folder.")
+                GlobalVars.hasError()
+
             # get all versions
             allVersions = [int(name) for name in os.listdir(modelDir) if os.path.isdir(os.path.join(modelDir, name))]
             allVersions.sort()            
