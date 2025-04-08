@@ -33,8 +33,8 @@ class OlivePropertyNames:
 class EPNames:
     CPUExecutionProvider = "CPUExecutionProvider"
 
-outputModelRelativePath = "./model/model.onnx"
-outputModelModelBuilderPath = "./model"
+outputModelRelativePath = "\\\"./model/model.onnx\\\""
+outputModelModelBuilderPath = "\\\"./model\\\""
 
 # Enums
 
