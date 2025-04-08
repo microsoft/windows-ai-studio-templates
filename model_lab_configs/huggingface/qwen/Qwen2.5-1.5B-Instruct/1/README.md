@@ -1,6 +1,6 @@
-# Llama-3.2-1B-Instruct Model Optimization
+# Qwen2.5-1.5B-Instruct Model Optimization
 
-This repository demonstrates the optimization of the [Llama-3.2-1B-Instruct](https://huggingface.co/meta-llama/Llama-3.2-1B-Instruct) model using **post-training quantization (PTQ)** techniques. The optimization process is divided into two main workflows:
+This repository demonstrates the optimization of the [Qwen2.5-1.5B-Instruct](https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct) model using **post-training quantization (PTQ)** techniques. The optimization process is divided into two main workflows:
 
 ## **QDQ Model with 4-bit Weights & 16-bit Activations**
 
