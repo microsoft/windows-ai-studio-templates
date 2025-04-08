@@ -2,7 +2,7 @@
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
 import express from "express";
-import { server } from "./weatherMcp";
+import { server } from "./server";
 
 // Start the server
 async function main() {
@@ -22,11 +22,11 @@ async function main() {
       await transport.handlePostMessage(req, res);
     });
     app.listen(process.env.PORT || 3001);
-    console.error("Weather MCP Server running on sse");
+    console.error("MCP Server running on sse");
   } else if (type === "stdio") {
     const transport = new StdioServerTransport();
     await server.connect(transport);
-    console.error("Weather MCP Server running on stdio");
+    console.error("MCP Server running on stdio");
   } else {
     throw new Error(`Unknown transport type: ${type}`);
   }

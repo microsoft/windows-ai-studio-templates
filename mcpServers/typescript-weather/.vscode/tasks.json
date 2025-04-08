@@ -60,13 +60,35 @@
       ]
     },
     {
+      "label": "Open Prompt Builder",
+      "type": "shell",
+      "command": "echo ${input:openPromptBuilder}",
+      "presentation": {
+        "reveal": "never"
+      },
+      "dependsOn": [
+        "Start MCP Server"
+      ],
+    },
+    {
       "label": "Terminate All Tasks",
       "command": "echo ${input:terminate}",
       "type": "shell",
-      "problemMatcher": []
+      "presentation": {
+        "reveal": "never"
+      }
     }
   ],
   "inputs": [
+    {
+      "id": "openPromptBuilder",
+      "type": "command",
+      "command": "ai-mlstudio.promptBuilder",
+      "args": {
+        "initialTools": "WORKSPACE_MCP",
+        "triggeredFrom": "vsc-tasks"
+      }
+    },
     {
       "id": "terminate",
       "type": "command",

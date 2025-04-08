@@ -4,45 +4,8 @@
             "id": "typescript-weather",
             "name": "typescript-weather",
             "description": "weather tools",
-            "path": "typescript-weather",
-            "mcp": {
-                "type": "sse",
-                "url": "http://localhost:3001/sse"
-            },
-            "tools": [
-                {
-                    "name": "get-alerts",
-                    "description": "Get weather alerts for a state",
-                    "inputSchema": {
-                        "type": "object",
-                        "properties": {
-                            "state": {
-                                "type": "string",
-                                "description": "Two-letter state code (e.g. CA, NY)"
-                            }
-                        },
-                        "required": ["state"]
-                    }
-                },
-                {
-                    "name": "get-forecast",
-                    "description": "Get weather forecast for a location",
-                    "inputSchema": {
-                        "type": "object",
-                        "properties": {
-                            "latitude": {
-                                "type": "number",
-                                "description": "Latitude of the location"
-                            },
-                            "longitude": {
-                                "type": "number",
-                                "description": "Longitude of the location"
-                            }
-                        },
-                        "required": ["latitude", "longitude"]
-                    }
-                }
-            ]
+            "language": "typescript",
+            "path": "typescript-weather"
         }
     ]
 }
