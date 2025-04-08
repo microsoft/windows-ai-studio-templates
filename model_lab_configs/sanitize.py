@@ -51,6 +51,7 @@ class IconEnum(Enum):
     openlm = "openlm"
     DeepSeek = "DeepSeek"
     laion = "laion"
+    qwen = "qwen"
 
 class RuntimeEnum(Enum):
     QNN = "QNN"
@@ -458,8 +459,8 @@ class Section(BaseModel):
             return False
         #if not self.description:
         #    return False
-        # TODO add place holder for General, Convert ?
-        if not self.parameters:
+        # TODO add place holder for General?
+        if not self.parameters and self.name != GlobalVars.phaseToSection[PhaseTypeEnum.Conversion]:
             return False
         
         for i, parameter in enumerate(self.parameters):
@@ -503,9 +504,17 @@ class ModelParameter(BaseModel):
 
 
     def Check(self, templates: Dict[str, Parameter], modelItem: WorkflowItem, oliveJson: Any):
+        # TODO Add Convert section
+        if self.sections[0].name == GlobalVars.phaseToSection[PhaseTypeEnum.Conversion]:
+            self.sections = self.sections[1:]
+        self.sections.insert(0, Section(
+            name=GlobalVars.phaseToSection[PhaseTypeEnum.Conversion],
+            parameters=[],
+        ))
+
         # Check sections to match phases
         # TODO hardcoded (with additional conversion phase)
-        if len(self.sections) != len(modelItem.phases) - 1:
+        if len(self.sections) != len(modelItem.phases):
             print(f"{self._file} has wrong sections compared with phases {modelItem.phases}")
             GlobalVars.hasError()
         
@@ -524,13 +533,29 @@ class ModelParameter(BaseModel):
             GlobalVars.hasError()
 
         for i, section in enumerate(self.sections):
-            # TODO hardcoded name for UI
-            if section.name != GlobalVars.phaseToSection[modelItem.phases[i + 1]]:
-                section.name = GlobalVars.phaseToSection[modelItem.phases[i + 1]]
+            # hardcoded name for UI
+            if section.name != GlobalVars.phaseToSection[modelItem.phases[i]]:
+                section.name = GlobalVars.phaseToSection[modelItem.phases[i]]
                 print(f"{self._file} section {i} has wrong name {section.name} compared with phase {modelItem.phases[i]}")
             
+            # Set conversion toggle
+            if section.name == GlobalVars.phaseToSection[PhaseTypeEnum.Conversion]:
+                if modelItem.useModelBuilder:
+                    # TODO modelbuilder
+                    modelBuilder = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] in [OlivePassNames.ModelBuilder]]
+                    conversionPath = f"{OlivePropertyNames.Passes}.{modelBuilder[0]}"
+                else:
+                    conversion = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] in [OlivePassNames.OnnxConversion]]
+                    conversionPath = f"{OlivePropertyNames.Passes}.{conversion[0]}"
+                section.toggle = Parameter(
+                    name="Convert to ONNX format",
+                    type=ParameterTypeEnum.Bool,
+                    checks=[ParameterCheck(type=ParameterCheckTypeEnum.Exist, path=conversionPath), ParameterCheck(type=ParameterCheckTypeEnum.NotExist, path=conversionPath)],
+                    actions=[[], []],
+                    fixed=True)
+
             # Set quantization toggle
-            if section.name == GlobalVars.phaseToSection[PhaseTypeEnum.Quantization]:
+            elif section.name == GlobalVars.phaseToSection[PhaseTypeEnum.Quantization]:
                 if modelItem.useModelBuilder:
                     # TODO modelbuilder
                     modelBuilder = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] in [OlivePassNames.ModelBuilder]]
