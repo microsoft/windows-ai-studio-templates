@@ -28,12 +28,13 @@ class OlivePropertyNames:
     Accelerators = "accelerators"
     ExecutionProviders = "execution_providers"
     DataConfigs = "data_configs"
+    Target = "target"
 
 class EPNames:
     CPUExecutionProvider = "CPUExecutionProvider"
 
-outputModelRelativePath = "./model/model.onnx"
-outputModelModelBuilderPath = "./model"
+outputModelRelativePath = "\\\"./model/model.onnx\\\""
+outputModelModelBuilderPath = "\\\"./model\\\""
 
 # Enums
 
@@ -147,6 +148,7 @@ class ModelInfo(BaseModel):
 
 class ModelList(BaseModel):
     models: list[ModelInfo]
+    HFLoginRequiredDatasets: list[str]
 
     @staticmethod
     def Read(scriptFolder: str):
@@ -584,12 +586,13 @@ def readCheckOliveConfig(oliveJsonFile: str, modelItem: WorkflowItem):
         GlobalVars.hasError()
         return
     
-    # check if has more than one systems
+    # check if has more than one systems and more than one accelerators
     if OlivePropertyNames.Systems not in oliveJson or len(oliveJson[OlivePropertyNames.Systems]) != 1:
         print(f"{oliveJsonFile} should have only one system")
         GlobalVars.hasError()
         return
-    accelerators = list(oliveJson[OlivePropertyNames.Systems].items())[0][1][OlivePropertyNames.Accelerators]
+    systemK, systemV = list(oliveJson[OlivePropertyNames.Systems].items())[0]
+    accelerators = systemV[OlivePropertyNames.Accelerators]
     if len(accelerators) != 1:
         print(f"{oliveJsonFile} should have only one accelerator")
         GlobalVars.hasError()
@@ -601,6 +604,13 @@ def readCheckOliveConfig(oliveJsonFile: str, modelItem: WorkflowItem):
         return
     if eps[0] not in GlobalVars.epToName:
         print(f"{oliveJsonFile} has wrong execution provider {eps[0]}")
+        GlobalVars.hasError()
+        return
+    
+    # TODO check host
+    # check target
+    if OlivePropertyNames.Target not in oliveJson or oliveJson[OlivePropertyNames.Target] != systemK:
+        print(f"{oliveJsonFile} target should be {systemK}")
         GlobalVars.hasError()
         return
 

@@ -217,6 +217,18 @@
             "version": 1
         },
         {
+            "displayName": "Qwen/Qwen2.5-1.5B-Instruct",
+            "icon": "qwen",
+            "modelLink": "https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct",
+            "id": "huggingface/Qwen/Qwen2.5-1.5B-Instruct",
+            "runtimes": [
+                "QNN"
+            ],
+            "architecture": "Transformer",
+            "status": "Ready",
+            "version": 1
+        },
+        {
             "displayName": "meta-llama/Llama-3.2-1B-Instruct",
             "icon": "meta",
             "modelLink": "https://huggingface.co/meta-llama/Llama-3.2-1B-Instruct",
@@ -228,5 +240,8 @@
             "status": "Ready",
             "version": 1
         }
+    ],
+    "HFLoginRequiredDatasets": [
+        "imagenet-1k"
     ]
 }
