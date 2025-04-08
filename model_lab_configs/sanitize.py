@@ -595,6 +595,17 @@ class ModelParameter(BaseModel):
             with open(self._file, 'w') as file:
                 file.write(newContent)
 
+    def saveReevaluationConfig(self, filePath: str):
+        evaluationSection = [section for section in self.sections if section.name == GlobalVars.phaseToSection[PhaseTypeEnum.Evaluation]]
+        if not evaluationSection:
+            return
+        newParameter = copy.deepcopy(self)
+        newParameter.sections = [section for section in newParameter.sections if section.name == GlobalVars.phaseToSection[PhaseTypeEnum.Evaluation]]
+        newParameter.sections[0].toggle.fixed = True
+        newContent = newParameter.model_dump_json(indent=4, exclude_none=True)
+        with open(filePath, 'w') as file:
+            file.write(newContent)
+
 def readCheckOliveConfig(oliveJsonFile: str, modelItem: WorkflowItem):
     print(f"Process {oliveJsonFile}")
     with open(oliveJsonFile, 'r') as file:
@@ -842,6 +853,10 @@ def main():
                     # read parameter
                     modelParameter = ModelParameter.Read(os.path.join(modelVerDir, f"{modelItem.file}.config"))
                     modelParameter.Check(parameterTemplate, modelItem, oliveJson)
+
+                    # create reevaluation config
+                    re_evaluationFile = os.path.join(modelVerDir, f"{modelItem.templateName}.re.json.config")
+                    modelParameter.saveReevaluationConfig(re_evaluationFile)
 
                     # check ipynb
                     ipynbFile = os.path.join(modelVerDir, f"{modelItem.templateName}_inference_sample.ipynb")
