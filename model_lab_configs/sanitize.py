@@ -57,6 +57,7 @@ class IconEnum(Enum):
 class RuntimeEnum(Enum):
     QNN = "QNN"
     IntelNPU = "IntelNPU"
+    AMDNPU = "AMDNPU"
 
 class ArchitectureEnum(Enum):
     Transformer = "Transformer"
@@ -112,6 +113,7 @@ class GlobalVars:
     epToName = {
         "QNNExecutionProvider": "Qualcomm NPU",
         "OpenVINOExecutionProvider": "Intel NPU",
+        "VitisAIExecutionProvider": "AMD NPU",
         EPNames.CPUExecutionProvider: "CPU",
     }
     verbose = True
@@ -789,10 +791,15 @@ def check_case(path: Path) -> bool:
     except Exception:
         return False
 
-    return str(path) == str(abs_path)
+    if str(path) != str(abs_path):
+        print(str(path))
+        print(str(abs_path))
+        return False
+    return True
 
 def main():
-    configDir = os.path.dirname(__file__)
+    # need to resolve due to d:\ vs D:\
+    configDir = str(Path(os.path.dirname(__file__)).resolve(strict=False))
     # get model list
     modelList = ModelList.Read(configDir)
     # check parameter template

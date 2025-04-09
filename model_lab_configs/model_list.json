@@ -6,7 +6,8 @@
             "modelLink": "https://huggingface.co/Intel/bert-base-uncased-mrpc",
             "id": "huggingface/Intel/bert-base-uncased-mrpc",
             "runtimes": [
-                "QNN"
+                "QNN",
+                "AMDNPU"
             ],
             "architecture": "Transformer",
             "status": "Ready",
