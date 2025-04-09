@@ -229,7 +229,7 @@
             "version": 1
         }
     ],
-    "HFLoginRequiredDatasets": [
-        "imagenet-1k"
-    ]
+    "HFLoginRequiredDatasets": {
+        "imagenet-1k": "https://huggingface.co/datasets/ILSVRC/imagenet-1k"
+    }
 }
