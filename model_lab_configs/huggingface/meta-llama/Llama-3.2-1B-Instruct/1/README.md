@@ -1,6 +1,6 @@
-# DeepSeek-R1-Distill-Qwen-1.5B Model Optimization
+# Llama-3.2-1B-Instruct Model Optimization
 
-This repository demonstrates the optimization of the [DeepSeek-R1-Distill-Qwen-1.5B](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B) model using **post-training quantization (PTQ)** techniques. The optimization process is divided into two main workflows:
+This repository demonstrates the optimization of the [Llama-3.2-1B-Instruct](https://huggingface.co/meta-llama/Llama-3.2-1B-Instruct) model using **post-training quantization (PTQ)** techniques. The optimization process is divided into two main workflows:
 
 ## **QDQ Model with 4-bit Weights & 16-bit Activations**
 
@@ -151,4 +151,4 @@ pip install "onnxruntime-genai>=0.7.0rc2"
 #### **Run Console-Based Chat Interface**
 Execute the provided `inference_sample.ipynb` notebook.
 
-> ⚠️ If got 6033 error, replace `genai_config.json` in `./model` folder
+
