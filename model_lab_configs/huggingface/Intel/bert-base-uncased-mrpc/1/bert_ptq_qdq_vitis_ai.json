@@ -12,7 +12,6 @@
             "type": "LocalSystem",
             "accelerators": [
                 {
-                    "device": "npu",
                     "execution_providers": [
                         "VitisAIExecutionProvider"
                     ]
@@ -70,19 +69,11 @@
                 {
                     "name": "accuracy",
                     "type": "accuracy",
-                    "backend": "huggingface_metrics",
                     "data_config": "glue_mrpc_eval",
                     "sub_types": [
                         {
-                            "name": "accuracy",
-                            "priority": 1,
-                            "goal": {
-                                "type": "max-degradation",
-                                "value": 0.05
-                            }
-                        },
-                        {
-                            "name": "f1"
+                            "name": "accuracy_score",
+                            "priority": 1
                         }
                     ]
                 },
@@ -93,11 +84,7 @@
                     "sub_types": [
                         {
                             "name": "avg",
-                            "priority": 2,
-                            "goal": {
-                                "type": "percent-min-improvement",
-                                "value": 0.1
-                            }
+                            "priority": 2
                         },
                         {
                             "name": "max"

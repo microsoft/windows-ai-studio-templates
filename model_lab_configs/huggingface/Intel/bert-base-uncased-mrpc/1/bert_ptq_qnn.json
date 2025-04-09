@@ -12,7 +12,6 @@
             "type": "LocalSystem",
             "accelerators": [
                 {
-                    "device": "npu",
                     "execution_providers": [
                         "QNNExecutionProvider"
                     ]
