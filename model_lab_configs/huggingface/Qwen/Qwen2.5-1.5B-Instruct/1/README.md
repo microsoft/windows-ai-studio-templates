@@ -131,7 +131,7 @@ olive run --config qnn_config.json
 
 Olive will run the AOT compilation step in the **AOT Compilation Python Environment** specified in the config file using a subprocess. All other steps will run in the **Quantization Python Environment** natively.
 
-✅ Optimized model saved in: `model/qwen2_5/model`
+✅ Optimized model saved in: `./model`
 
 > ⚠️ If optimization fails due to out of memory, please remove `calibration_providers` in config file.
 
