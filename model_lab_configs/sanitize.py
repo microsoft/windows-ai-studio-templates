@@ -789,13 +789,7 @@ def check_case(path: Path) -> bool:
     except Exception:
         return False
 
-    abs_parts = abs_path.parts
-    path_parts = path.parts
-    for abs_part, part in zip(abs_parts, path_parts):
-        if abs_part != part:
-            return False
-
-    return True
+    return str(path) == str(abs_path)
 
 def main():
     configDir = os.path.dirname(__file__)
