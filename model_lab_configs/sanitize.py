@@ -418,9 +418,18 @@ class WorkflowItem(BaseModel):
         return True
 
 
+class ModelInfoProject(BaseModel):
+    id: str
+
+    def Check(self):
+        if not self.id:
+            return False
+        return True
+
+
 class ModelProjectConfig(BaseModel):
     workflows: list[WorkflowItem]
-    modelInfo: ModelInfo = None
+    modelInfo: ModelInfoProject = None
 
     @staticmethod
     def Read(modelSpaceConfigFile: str):
@@ -860,7 +869,7 @@ def main():
                 hasSharedIpynb = os.path.exists(sharedIpynbFile)
                 workflowsAgainstShared: list[WorkflowItem] = []
                 
-                modelSpaceConfig.modelInfo = modelInVersion
+                modelSpaceConfig.modelInfo = ModelInfoProject(id=modelInVersion.id)
                 for i, modelItem in enumerate(modelSpaceConfig.workflows):
                     # set template
                     modelItem.template = model.id
