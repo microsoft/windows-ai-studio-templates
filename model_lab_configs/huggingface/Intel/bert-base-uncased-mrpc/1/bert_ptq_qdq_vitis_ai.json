@@ -13,7 +13,7 @@
             "accelerators": [
                 {
                     "execution_providers": [
-                        "QNNExecutionProvider"
+                        "VitisAIExecutionProvider"
                     ]
                 }
             ]
@@ -85,6 +85,28 @@
                         {
                             "name": "avg",
                             "priority": 2
+                        },
+                        {
+                            "name": "max"
+                        },
+                        {
+                            "name": "min"
+                        }
+                    ]
+                },
+                {
+                    "name": "throughput",
+                    "type": "throughput",
+                    "data_config": "glue_mrpc_eval",
+                    "sub_types": [
+                        {
+                            "name": "avg"
+                        },
+                        {
+                            "name": "max"
+                        },
+                        {
+                            "name": "min"
                         }
                     ]
                 }
@@ -116,6 +138,19 @@
                 }
             ]
         },
+        "transformer_optimizer": {
+            "type": "orttransformersoptimization",
+            "model_type": "bert",
+            "opt_level": 1,
+            "optimization_options": {
+                "enable_gelu": true,
+                "enable_bias_gelu": false,
+                "enable_layer_norm": true,
+                "enable_skip_layer_norm": false,
+                "enable_bias_skip_layer_norm": false,
+                "enable_attention": false
+            }
+        },
         "quantization": {
             "type": "OnnxStaticQuantization",
             "data_config": "glue_mrpc",
@@ -125,9 +160,7 @@
         }
     },
     "evaluator": "common_evaluator",
-    "evaluate_input_model": false,
-    "host": "local_system",
     "target": "local_system",
     "cache_dir": "cache",
-    "output_dir": "models/bert_ptq_qnn"
+    "output_dir": "models/bert_ptq_qdq_with_Gelu"
 }

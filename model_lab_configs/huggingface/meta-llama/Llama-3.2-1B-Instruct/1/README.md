@@ -1,6 +1,6 @@
-# Qwen2.5-1.5B-Instruct Model Optimization
+# Llama-3.2-1B-Instruct Model Optimization
 
-This repository demonstrates the optimization of the [Qwen2.5-1.5B-Instruct](https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct) model using **post-training quantization (PTQ)** techniques. The optimization process is divided into two main workflows:
+This repository demonstrates the optimization of the [Llama-3.2-1B-Instruct](https://huggingface.co/meta-llama/Llama-3.2-1B-Instruct) model using **post-training quantization (PTQ)** techniques. The optimization process is divided into two main workflows:
 
 ## **QDQ Model with 4-bit Weights & 16-bit Activations**
 
@@ -131,7 +131,7 @@ olive run --config qnn_config.json
 
 Olive will run the AOT compilation step in the **AOT Compilation Python Environment** specified in the config file using a subprocess. All other steps will run in the **Quantization Python Environment** natively.
 
-✅ Optimized model saved in: `model/qwen2_5`
+✅ Optimized model saved in: `./model`
 
 > ⚠️ If optimization fails due to out of memory, please remove `calibration_providers` in config file.
 
@@ -151,4 +151,4 @@ pip install "onnxruntime-genai>=0.7.0rc2"
 #### **Run Console-Based Chat Interface**
 Execute the provided `inference_sample.ipynb` notebook.
 
-> ⚠️ If got 6033 error, replace `genai_config.json` in `model/qwen2_5` folder
+

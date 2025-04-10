@@ -1,6 +1,6 @@
-# Phi-3.5 Model Optimization
+# Qwen2.5-1.5B-Instruct Model Optimization
 
-This repository demonstrates the optimization of the [Microsoft Phi-3.5 Mini Instruct](https://huggingface.co/microsoft/Phi-3.5-mini-instruct) model using **post-training quantization (PTQ)** techniques. The optimization process is divided into two main workflows:
+This repository demonstrates the optimization of the [Qwen2.5-1.5B-Instruct](https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct) model using **post-training quantization (PTQ)** techniques. The optimization process is divided into two main workflows:
 
 ## **QDQ Model with 4-bit Weights & 16-bit Activations**
 
@@ -151,4 +151,4 @@ pip install "onnxruntime-genai>=0.7.0rc2"
 #### **Run Console-Based Chat Interface**
 Execute the provided `inference_sample.ipynb` notebook.
 
-> ⚠️ If got 6033 error, replace `genai_config.json` in `./model` folder
+

@@ -8,6 +8,7 @@ from enum import Enum
 import copy
 import pydash
 import json
+from pathlib import Path
 
 # Constants
 
@@ -56,6 +57,7 @@ class IconEnum(Enum):
 class RuntimeEnum(Enum):
     QNN = "QNN"
     IntelNPU = "IntelNPU"
+    AMDNPU = "AMDNPU"
 
 class ArchitectureEnum(Enum):
     Transformer = "Transformer"
@@ -111,6 +113,7 @@ class GlobalVars:
     epToName = {
         "QNNExecutionProvider": "Qualcomm NPU",
         "OpenVINOExecutionProvider": "Intel NPU",
+        "VitisAIExecutionProvider": "AMD NPU",
         EPNames.CPUExecutionProvider: "CPU",
     }
     verbose = True
@@ -781,8 +784,22 @@ class CopyConfig(BaseModel):
                         json.dump(jsonObj, file, indent=4)
 
 
+def check_case(path: Path) -> bool:
+    path = Path(path)
+    try:
+        abs_path = path.resolve(strict=False)
+    except Exception:
+        return False
+
+    if str(path) != str(abs_path):
+        print(str(path))
+        print(str(abs_path))
+        return False
+    return True
+
 def main():
-    configDir = os.path.dirname(__file__)
+    # need to resolve due to d:\ vs D:\
+    configDir = str(Path(os.path.dirname(__file__)).resolve(strict=False))
     # get model list
     modelList = ModelList.Read(configDir)
     # check parameter template
@@ -791,6 +808,11 @@ def main():
     for model in modelList.models:
         if model.id and model.status == ModelStatusEnum.Ready:
             modelDir = os.path.join(configDir, model.id)
+
+            if not check_case(modelDir):
+                print(f"Model folder does not exist, or check if case matches between model.id {model.id} and model folder.")
+                GlobalVars.hasError()
+
             # get all versions
             allVersions = [int(name) for name in os.listdir(modelDir) if os.path.isdir(os.path.join(modelDir, name))]
             allVersions.sort()            
@@ -809,7 +831,7 @@ def main():
                 # process copy
                 copyConfigFile = os.path.join(modelVerDir, "_copy.json.config")
                 if os.path.exists(copyConfigFile):
-                    with open(copyConfigFile, 'r') as file:
+                    with open(copyConfigFile, 'r', encoding="utf-8") as file:
                         copyConfigContent = file.read()
                     copyConfig = CopyConfig.model_validate_json(copyConfigContent, strict=True)
                     copyConfig.process(modelVerDir)

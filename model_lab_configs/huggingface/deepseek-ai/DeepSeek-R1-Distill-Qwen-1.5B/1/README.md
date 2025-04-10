@@ -131,7 +131,7 @@ olive run --config qnn_config.json
 
 Olive will run the AOT compilation step in the **AOT Compilation Python Environment** specified in the config file using a subprocess. All other steps will run in the **Quantization Python Environment** natively.
 
-✅ Optimized model saved in: `model/deepseek`
+✅ Optimized model saved in: `./model`
 
 > ⚠️ If optimization fails due to out of memory, please remove `calibration_providers` in config file.
 
@@ -151,4 +151,4 @@ pip install "onnxruntime-genai>=0.7.0rc2"
 #### **Run Console-Based Chat Interface**
 Execute the provided `inference_sample.ipynb` notebook.
 
-> ⚠️ If got 6033 error, replace `genai_config.json` in `model/deepseek` folder
+> ⚠️ If got 6033 error, replace `genai_config.json` in `./model` folder
