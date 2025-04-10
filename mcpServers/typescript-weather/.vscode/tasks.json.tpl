@@ -60,9 +60,9 @@
       ]
     },
     {
-      "label": "Open Prompt Builder",
+      "label": "Open Agent Builder",
       "type": "shell",
-      "command": "echo ${input:openPromptBuilder}",
+      "command": "echo ${input:openAgentBuilder}",
       "presentation": {
         "reveal": "never"
       },
@@ -81,7 +81,7 @@
   ],
   "inputs": [
     {
-      "id": "openPromptBuilder",
+      "id": "openAgentBuilder",
       "type": "command",
       "command": "ai-mlstudio.promptBuilder",
       "args": {
