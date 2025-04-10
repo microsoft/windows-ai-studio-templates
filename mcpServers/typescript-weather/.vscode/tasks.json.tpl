@@ -85,7 +85,7 @@
       "type": "command",
       "command": "ai-mlstudio.promptBuilder",
       "args": {
-        "initialTools": "WORKSPACE_MCP",
+        "initialMCPs": [ "local-server-{{SafeProjectNameLowerCase}}" ],
         "triggeredFrom": "vsc-tasks"
       }
     },
