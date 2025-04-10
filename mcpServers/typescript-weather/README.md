@@ -14,10 +14,10 @@ First, before executing any code, install the dependencies.
 
 - Open terminal and execute `npm install`
 
-### Debug in Prompt Builder
+### Debug in Agent Builder
 
-- Open VSCode Debug panel. Select `Debug in Prompt Builder`. Press F5 to start debugging.
-- When Prompt Builder launches, tools will be auto-connected.
+- Open VSCode Debug panel. Select `Debug in Agent Builder`. Press F5 to start debugging.
+- When Agent Builder launches, tools will be auto-connected.
 - Then you can select model, input prompts, and `Run` to test the model and tools.
 - And ofcourse, you can add breakpoint to the tool implementation code.
 
