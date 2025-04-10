@@ -1,0 +1,7 @@
+# python virtual environment
+.venv/
+__pycache__/
+*.egg-info/
+
+# others
+node_modules/
