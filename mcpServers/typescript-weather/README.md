@@ -34,7 +34,7 @@ First, before executing any code, install the dependencies.
 
 - Open VSCode Debug panel. Select `Debug in Inspector (Edge)` or `Debug in Inspector (Chrome)`. Press F5 to start debugging.
 - When MCP Inspector launches in the browser, click the `Connect` button to connect this MCP server.
-- Then you can `List Tools`, select a tool, input parameters, and `Run Tool` to debug you server code.
+- Then you can `List Tools`, select a tool, input parameters, and `Run Tool` to debug your server code.
 - Of course, you can add breakpoint to the tool implementation code.
 
 <details>
