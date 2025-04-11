@@ -44,11 +44,11 @@
   ],
   "compounds": [
     {
-      "name": "Debug in Prompt Builder",
+      "name": "Debug in Agent Builder",
       "configurations": [
         "Attach to Local MCP"
       ],
-      "preLaunchTask": "Open Prompt Builder",
+      "preLaunchTask": "Open Agent Builder",
     },
     {
       "name": "Debug in Inspector (Edge)",

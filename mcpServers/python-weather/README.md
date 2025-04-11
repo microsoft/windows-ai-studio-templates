@@ -1,6 +1,6 @@
-# MCP Server - Weather
+# My MCP Server
 
-This is a sample MCP Server in Python implementing weather tools.
+This is a sample MCP Server in Python implementing weather tools with mock responses.
 
 ## Get Started
 
@@ -42,6 +42,22 @@ This is a sample MCP Server in Python implementing weather tools.
 
   `pip install -e .[dev]`
 
+### Debug in Agent Builder
+
+- Open VSCode Debug panel. Select `Debug in Agent Builder`. Press F5 to start debugging.
+- When Agent Builder launches, tools will be auto-connected.
+- Then you can select model, input prompts, and `Run` to test the model and tools.
+- And ofcourse, you can add breakpoint to the tool implementation code.
+
+<details>
+  <summary>More Details</summary>
+
+  When launching debugging, the MCP server is launched (by default on port 3001)
+
+  The whole definition can be found in [tasks.json](.vscode/tasks.json). You can also edit [launch.json](.vscode/launch.json), [tasks.json](.vscode/tasks.json), [\_\_init\_\_.py](src/__init__.py), [mcp.json](.aitk/mcp.json) to change above ports.
+
+</details>
+
 ### Debug in MCP Inspector
 
 > **Prerequisites**
@@ -69,6 +85,6 @@ This is a sample MCP Server in Python implementing weather tools.
   - first, the MCP server is launched (by default on port 3001)
   - then, the MCP Inspector is launched (by default on port 5173 and 3000)
 
-  The whole definition can be found in [tasks.json](.vscode/tasks.json). You can also edit [launch.json](.vscode/launch.json), [tasks.json](.vscode/tasks.json), [\_\_init\_\_.py](src/__init__.py) to change above ports.
+  The whole definition can be found in [tasks.json](.vscode/tasks.json). You can also edit [launch.json](.vscode/launch.json), [tasks.json](.vscode/tasks.json), [\_\_init\_\_.py](src/__init__.py), [mcp.json](.aitk/mcp.json) to change above ports.
 
 </details>
