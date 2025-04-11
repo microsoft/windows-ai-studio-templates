@@ -22,7 +22,7 @@ This is a sample MCP Server in Python implementing weather tools with mock respo
 
 - Run VSCode Command "***Python: Select Interpreter***" and select the python from created virtual environment
 
-  (Note: close and reopen the terminal to ensure the virtual environment python is used)
+  (Note: reload VSCode or terminal to ensure the virtual environment python is used)
 
 - Install dependencies (include dev dependencies)
 
@@ -36,7 +36,7 @@ This is a sample MCP Server in Python implementing weather tools with mock respo
 
 - Run VSCode Command "***Python: Select Interpreter***" and select the python from created virtual environment
 
-  (Note: reload VSCode and the terminal to ensure the virtual environment python is used)
+  (Note: reload VSCode or terminal to ensure the virtual environment python is used)
 
 - Install dependencies (include dev dependencies)
 
