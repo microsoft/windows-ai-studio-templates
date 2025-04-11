@@ -47,7 +47,7 @@ This is a sample MCP Server in Python implementing weather tools with mock respo
 - Open VSCode Debug panel. Select `Debug in Agent Builder`. Press F5 to start debugging.
 - When Agent Builder launches, tools will be auto-connected.
 - Then you can select model, input prompts, and `Run` to test the model and tools.
-- And ofcourse, you can add breakpoint to the tool implementation code.
+- Of course, you can add breakpoint to the tool implementation code.
 
 <details>
   <summary>More Details</summary>
@@ -75,7 +75,7 @@ This is a sample MCP Server in Python implementing weather tools with mock respo
 - Open VSCode Debug panel. Select `Debug in Inspector (Edge)` or `Debug in Inspector (Chrome)`. Press F5 to start debugging.
 - When MCP Inspector launches in the browser, click the `Connect` button to connect this MCP server.
 - Then you can `List Tools`, select a tool, input parameters, and `Run Tool` to debug you server code.
-- And ofcourse, you can add breakpoint to the tool implementation code.
+- Of course, you can add breakpoint to the tool implementation code.
 
 <details>
   <summary>More Details</summary>
