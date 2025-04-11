@@ -6,7 +6,7 @@ This is a comprehensive tutorial that demonstrates how to build a basic console 
 
 ## What you will learn
 - Create an effective prompt via LLM for getting started using the `Prompt Generator` in AI Toolkit
-- Iterate and refine prompts using the `Prompt Builder` tool in AI Toolkit
+- Iterate and refine prompts using the `Agent Builder` tool in AI Toolkit
 - Prompt engineering best practices such as audience targeting and example diversity
 - Testing and iterating prompts for better results
 - Integrate chat completion code into a Python application using [Azure AI Inference SDK](https://learn.microsoft.com/rest/api/aifoundry/modelinference/) and sample code via `View Code` feature in AI Toolkit
@@ -23,8 +23,8 @@ This is a comprehensive tutorial that demonstrates how to build a basic console 
 ## Getting started with the tutorial
 Let's run the app first with the initial prompt: `Generate one educational question for students`.
 
-**Option 1**: run the prompt directly in `Prompt Builder`:
-1. Click the [VS Code URL](vscode://ms-windows-ai-studio.windows-ai-studio/open_prompt_builder?model_id=github/gpt-4o&&system_prompt_file=prompt.aitk.txt&&user_prompt=generate%20a%20question%20about%20Newton%27s%20Laws%20of%20Motion) to open the initial prompt in `Prompt Builder`.
+**Option 1**: run the prompt directly in `Agent Builder`:
+1. Click the [VS Code URL](vscode://ms-windows-ai-studio.windows-ai-studio/open_prompt_builder?model_id=github/gpt-4o&&system_prompt_file=prompt.aitk.txt&&user_prompt=generate%20a%20question%20about%20Newton%27s%20Laws%20of%20Motion) to open the initial prompt in `Agent Builder`.
 2. Click the `Run` result to get a response.
 
 **Option 2**: run the app code with the following steps:
@@ -49,16 +49,16 @@ The sample app starts with a very simple prompt that describes the core task: `G
 - Provide examples to guide the model
 
 ### Step 1: Generate initial prompt using Prompt Generator
-The easiest way to get started with writing effective prompts is by using the **Prompt Generator** feature in the **Prompt Builder**. This tool is particularly useful for overcoming the "blank page problem" and serves as a **starting point** for experimenting and refining prompts. To use it:
+The easiest way to get started with writing effective prompts is by using the **Prompt Generator** feature in the **Agent Builder**. This tool is particularly useful for overcoming the "blank page problem" and serves as a **starting point** for experimenting and refining prompts. To use it:
 
-- Open the **Prompt Builder** from the left sidebar.
+- Open the **Agent Builder** from the left sidebar.
 - Click `Generate prompt`.
 - Input a basic task description as shown below in the text box, and click the `Generate` button.
     ```text
     Generate questions on various topics and provide a question, answer, and a series of increasingly specific hints to help students arrive at the correct answer. Generate only one question at a time.
     ```
     
-    ![AI Toolkit Prompt Builder](./images/prompt-generation.png)
+    ![AI Toolkit Agent Builder](./images/prompt-generation.png)
 - A well-structured prompt will be generated in the **System prompt** section to help you easily getting-started with your scenario. 
 
 <details>
@@ -116,7 +116,7 @@ Example 2:
 ### Step 2: Improve prompt
 > **NOTE**: The prompts created by the prompt generator are best used as a starting point to be iterated upon. It's crucial to understand our key prompting techniques and why they work, as this will help you enhance the performance of generated prompts.
 
-In this section, we will learn how to use the `Prompt Builder` to iterate and tailor the prompt to your specific needs.
+In this section, we will learn how to use the `Agent Builder` to iterate and tailor the prompt to your specific needs.
 
 #### Problem 1: Lack of example diversity
 Examples act as implicit instructions, often more effective than explicit directions alone. In this specific use case, examples not only teach the AI the structure and style you're aiming for but also show the variety of question types and difficulty levels you expect to cover. The generated prompt contains relatively simple examples, so let's enhance it with more advanced examples suitable for higher-level students:
@@ -240,7 +240,7 @@ The sample output will look like this:
 
 ### Step 4: Integrate into code
 Once you're satisfied with the AI response, export the code and integrate it with the example chat app.
-1. Click the `View Code` button in the `Prompt Builder` and select the SDK used to call the LLM. Here, we select `Azure AI Inference SDK` to maintain consistency with the existing app code.
+1. Click the `View Code` button in the `Agent Builder` and select the SDK used to call the LLM. Here, we select `Azure AI Inference SDK` to maintain consistency with the existing app code.
 2. Copy the generated code and replace the existing implementation in the `chat(user_query)` method in [app.py](./app.py).
 3. Update the last message send to the model to use the `user_query` as input:
 - For Azure OpenAI or OpenAI models:
