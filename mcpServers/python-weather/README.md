@@ -9,7 +9,7 @@ This is a sample MCP Server in Python implementing weather tools with mock respo
 > To run the MCP Server in your local dev machine, you will need:
 >
 > - [Python](https://www.python.org/)
-> - (*Optional - if you prefer uv*) [uv] (https://github.com/astral-sh/uv)
+> - (*Optional - if you prefer uv*) [uv](https://github.com/astral-sh/uv)
 > - [Python Debugger Extension](https://marketplace.visualstudio.com/items?itemName=ms-python.debugpy)
 
 ### Prepare Environment
