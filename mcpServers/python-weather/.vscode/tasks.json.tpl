@@ -83,7 +83,7 @@
       "type": "command",
       "command": "ai-mlstudio.promptBuilder",
       "args": {
-        "initialMCPs": [ "local-server-weather-mcp" ],
+        "initialMCPs": [ "local-server-{{SafeProjectNameLowerCase}}" ],
         "triggeredFrom": "vsc-tasks"
       }
     },

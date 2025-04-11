@@ -1,5 +1,5 @@
 [project]
-name = "weather-mcp"
+name = "{{SafeProjectNameLowerCase}}"
 version = "0.1.0"
 description = "A simple MCP weather server"
 readme = "README.md"

@@ -3,9 +3,16 @@
         {
             "id": "typescript-weather",
             "name": "typescript-weather",
-            "description": "weather tools",
+            "description": "weather tools (TypeScript)",
             "language": "typescript",
             "path": "typescript-weather"
+        },
+        {
+            "id": "python-weather",
+            "name": "python-weather",
+            "description": "weather tools (Python)",
+            "language": "python",
+            "path": "python-weather"
         }
     ]
 }

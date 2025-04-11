@@ -3,7 +3,7 @@ import random
 from mcp.server.fastmcp import FastMCP
 
 # Initialize FastMCP server
-server = FastMCP("weather")
+server = FastMCP("{{SafeProjectNameLowerCase}}")
 
 @server.tool()
 async def get_weather(location: str) -> str:
