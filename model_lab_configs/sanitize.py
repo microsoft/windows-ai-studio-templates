@@ -233,6 +233,7 @@ class Parameter(BaseModel):
     """
     name: str = None
     description: str = None
+    descriptionLink: str = None
     type: ParameterTypeEnum = None
     displayNames: list[str] = None
     displayType: ParameterDisplayTypeEnum = None
@@ -253,8 +254,10 @@ class Parameter(BaseModel):
 
         if not self.name:
             return False
-        #if not self.description:
-        #    return False
+        if not self.description:
+            if self.descriptionLink:
+                print("Description link should not be used without description")
+                return False
         if not self.type:
             return False
         if self.type != ParameterTypeEnum.Bool and self.type != ParameterTypeEnum.Enum:            
@@ -340,6 +343,7 @@ class Parameter(BaseModel):
         """
         self.name = None
         self.description = None
+        self.descriptionLink = None
         self.type = None
         self.displayNames = None
         self.displayType = None
@@ -356,6 +360,8 @@ class Parameter(BaseModel):
             self.name = template.name
         if not self.description:
             self.description = template.description
+        if not self.descriptionLink:
+            self.descriptionLink = template.descriptionLink
         if not self.type:
             self.type = template.type
         if not self.displayNames:
