@@ -24,7 +24,7 @@ python version: 3.10.9
 ```
 
 # install requirements for target project
-Navigate to model project folder.
+Navigate to [model project folder](./README.md#model-files).
 ```
 pip install requirements.txt
 ```

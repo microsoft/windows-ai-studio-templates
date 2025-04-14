@@ -1,7 +1,7 @@
 # Folder structure explanation
 This directory contains the conversion history for a model.
 
-## Directory Structure
+## Directory structure
 
 ```
 model_project_name/
@@ -16,9 +16,9 @@ model_project_name/
         └── history_3/
 ```
 
-## Description
+## Structure description from top to bottom
 
-### Current Model
+### Current model
 The top level folder contains `model project name` and `model name`: microsoft/resnet-50
 
 ### Model files
