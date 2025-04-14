@@ -58,6 +58,7 @@ class RuntimeEnum(Enum):
     QNN = "QNN"
     IntelNPU = "IntelNPU"
     AMDNPU = "AMDNPU"
+    NvidiaGPU = "NvidiaGPU"
 
 class ArchitectureEnum(Enum):
     Transformer = "Transformer"
@@ -232,6 +233,7 @@ class Parameter(BaseModel):
     """
     name: str = None
     description: str = None
+    descriptionLink: str = None
     type: ParameterTypeEnum = None
     displayNames: list[str] = None
     displayType: ParameterDisplayTypeEnum = None
@@ -252,8 +254,10 @@ class Parameter(BaseModel):
 
         if not self.name:
             return False
-        #if not self.description:
-        #    return False
+        if not self.description:
+            if self.descriptionLink:
+                print("Description link should not be used without description")
+                return False
         if not self.type:
             return False
         if self.type != ParameterTypeEnum.Bool and self.type != ParameterTypeEnum.Enum:            
@@ -339,6 +343,7 @@ class Parameter(BaseModel):
         """
         self.name = None
         self.description = None
+        self.descriptionLink = None
         self.type = None
         self.displayNames = None
         self.displayType = None
@@ -355,6 +360,8 @@ class Parameter(BaseModel):
             self.name = template.name
         if not self.description:
             self.description = template.description
+        if not self.descriptionLink:
+            self.descriptionLink = template.descriptionLink
         if not self.type:
             self.type = template.type
         if not self.displayNames:
@@ -395,9 +402,8 @@ class WorkflowItem(BaseModel):
     template: str = None
     version: int = 0
     templateName: str = None
-    phases: list[PhaseTypeEnum] = None
-    useModelBuilder: bool = None
-    isGPURequired: bool = None
+    # DO NOT ADD ANYTHING ELSE HERE
+    # We should add it to the *.json.config
 
     def Check(self):
         if not self.name:
@@ -412,8 +418,6 @@ class WorkflowItem(BaseModel):
         if self.version <= 0:
             return False
         if not self.templateName:
-            return False
-        if not self.phases:
             return False
         return True
 
@@ -501,6 +505,18 @@ class Section(BaseModel):
     
 
 class ModelParameter(BaseModel):
+    phases: list[PhaseTypeEnum] = None
+    # This kind of config will
+    # - could not disable quantization
+    # - use modelbuilder for conversion, quantization
+    # - output a model folder instead of model file
+    useModelBuilder: bool = None
+    # This kind of config will
+    # - run on CUDA EP (onnxruntime-gpu), i.e. need CUDA and cudnn
+    # - the previous EP is used for EPContextBinaryGenerator if PythonEnvironment
+    # - TODO do not support cpu evaluation
+    isGPURequired: bool = None
+
     runtime: Parameter = None
     sections: list[Section]
 
@@ -515,7 +531,12 @@ class ModelParameter(BaseModel):
         return modelParameter
 
 
-    def Check(self, templates: Dict[str, Parameter], modelItem: WorkflowItem, oliveJson: Any):
+    def Check(self, templates: Dict[str, Parameter], oliveJson: Any):
+        if not self.sections:
+            print(f"{self._file} should have sections")
+            GlobalVars.hasError()
+            return
+
         # TODO Add Convert section
         if self.sections[0].name == GlobalVars.phaseToSection[PhaseTypeEnum.Conversion]:
             self.sections = self.sections[1:]
@@ -526,8 +547,8 @@ class ModelParameter(BaseModel):
 
         # Check sections to match phases
         # TODO hardcoded (with additional conversion phase)
-        if len(self.sections) != len(modelItem.phases):
-            print(f"{self._file} has wrong sections compared with phases {modelItem.phases}")
+        if len(self.sections) != len(self.phases):
+            print(f"{self._file} has wrong sections compared with phases {self.phases}")
             GlobalVars.hasError()
         
         # Add runtime
@@ -546,13 +567,13 @@ class ModelParameter(BaseModel):
 
         for i, section in enumerate(self.sections):
             # hardcoded name for UI
-            if section.name != GlobalVars.phaseToSection[modelItem.phases[i]]:
-                section.name = GlobalVars.phaseToSection[modelItem.phases[i]]
-                print(f"{self._file} section {i} has wrong name {section.name} compared with phase {modelItem.phases[i]}")
+            if section.name != GlobalVars.phaseToSection[self.phases[i]]:
+                section.name = GlobalVars.phaseToSection[self.phases[i]]
+                print(f"{self._file} section {i} has wrong name {section.name} compared with phase {self.phases[i]}")
             
             # Set conversion toggle
             if section.name == GlobalVars.phaseToSection[PhaseTypeEnum.Conversion]:
-                if modelItem.useModelBuilder:
+                if self.useModelBuilder:
                     # TODO modelbuilder
                     modelBuilder = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] in [OlivePassNames.ModelBuilder]]
                     conversionPath = f"{OlivePropertyNames.Passes}.{modelBuilder[0]}"
@@ -568,7 +589,7 @@ class ModelParameter(BaseModel):
 
             # Set quantization toggle
             elif section.name == GlobalVars.phaseToSection[PhaseTypeEnum.Quantization]:
-                if modelItem.useModelBuilder:
+                if self.useModelBuilder:
                     # TODO modelbuilder
                     modelBuilder = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] in [OlivePassNames.ModelBuilder]]
                     modelBuilderPath = f"{OlivePropertyNames.Passes}.{modelBuilder[0]}"
@@ -618,7 +639,10 @@ class ModelParameter(BaseModel):
         with open(filePath, 'w') as file:
             file.write(newContent)
 
-def readCheckOliveConfig(oliveJsonFile: str, modelItem: WorkflowItem):
+def readCheckOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter):
+    """
+    This will set phases to modelParameter
+    """
     print(f"Process {oliveJsonFile}")
     with open(oliveJsonFile, 'r') as file:
         oliveJson = json.load(file)
@@ -666,7 +690,7 @@ def readCheckOliveConfig(oliveJsonFile: str, modelItem: WorkflowItem):
     phases = []
     all_passes = [v[OlivePropertyNames.Type] for _, v in oliveJson[OlivePropertyNames.Passes].items()]
 
-    if modelItem.useModelBuilder:
+    if modelParameter.useModelBuilder:
         if OlivePassNames.ModelBuilder not in all_passes or OlivePassNames.OnnxConversion in all_passes:
             print(f"{oliveJsonFile} missing ModelBuilder phase")
             GlobalVars.hasError()
@@ -687,18 +711,18 @@ def readCheckOliveConfig(oliveJsonFile: str, modelItem: WorkflowItem):
     if PhaseTypeEnum.Quantization != phases[1]:
         print(f"{oliveJsonFile} missing Quantization phase")
         GlobalVars.hasError()
-    modelItem.phases = phases
+    modelParameter.phases = phases
     
     # check evaluation
-    if PhaseTypeEnum.Evaluation in modelItem.phases:
-        if PhaseTypeEnum.Quantization in modelItem.phases and len(oliveJson[OlivePropertyNames.DataConfigs]) == 1:
+    if PhaseTypeEnum.Evaluation in modelParameter.phases:
+        if PhaseTypeEnum.Quantization in modelParameter.phases and len(oliveJson[OlivePropertyNames.DataConfigs]) == 1:
             print(f"{oliveJsonFile} should have two data configs for evaluation")
             GlobalVars.hasError()
 
     jsonUpdated = False
 
     # update save_as_external_data
-    if modelItem.useModelBuilder:
+    if modelParameter.useModelBuilder:
         pass
     else:
         conversionPass = [v for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] == OlivePassNames.OnnxConversion][0]
@@ -719,19 +743,19 @@ def readCheckOliveConfig(oliveJsonFile: str, modelItem: WorkflowItem):
     return oliveJson
 
 
-def readCheckIpynb(ipynbFile: str, modelItems: list[WorkflowItem]):
+def readCheckIpynb(ipynbFile: str, modelItems: dict[str, ModelParameter]):
     """
     Note this return exists or not, not valid or not
     """
     if os.path.exists(ipynbFile):
         with open(ipynbFile, 'r', encoding='utf-8') as file:
             ipynbContent = file.read()
-        for modelItem in modelItems:
+        for name, modelParameter in modelItems.items():
             testPath = outputModelRelativePath
-            if modelItem and modelItem.useModelBuilder:
+            if modelParameter.useModelBuilder:
                 testPath = outputModelModelBuilderPath
             if testPath not in ipynbContent:
-                print(f"{ipynbFile} does not have '{testPath}' for {modelItem.name}, please use it as input")
+                print(f"{ipynbFile} does not have '{testPath}' for {name}, please use it as input")
                 GlobalVars.hasError()
         return True
     return False
@@ -867,7 +891,7 @@ def main():
                 # check ipynb
                 sharedIpynbFile = os.path.join(modelVerDir, "inference_sample.ipynb")
                 hasSharedIpynb = os.path.exists(sharedIpynbFile)
-                workflowsAgainstShared: list[WorkflowItem] = []
+                workflowsAgainstShared: dict[str, ModelParameter] = {}
                 
                 modelSpaceConfig.modelInfo = ModelInfoProject(id=modelInVersion.id)
                 for i, modelItem in enumerate(modelSpaceConfig.workflows):
@@ -876,14 +900,15 @@ def main():
                     modelItem.version = modelInVersion.version
                     modelItem.templateName = os.path.basename(modelItem.file)[:-5]
 
-                    # check olive json
-                    oliveJsonFile = os.path.join(modelVerDir, modelItem.file)
-                    oliveJson = readCheckOliveConfig(oliveJsonFile, modelItem)
-
-                    # check parameter
                     # read parameter
                     modelParameter = ModelParameter.Read(os.path.join(modelVerDir, f"{modelItem.file}.config"))
-                    modelParameter.Check(parameterTemplate, modelItem, oliveJson)
+
+                    # check olive json
+                    oliveJsonFile = os.path.join(modelVerDir, modelItem.file)
+                    oliveJson = readCheckOliveConfig(oliveJsonFile, modelParameter)
+
+                    # check parameter
+                    modelParameter.Check(parameterTemplate, oliveJson)
 
                     # create reevaluation config
                     re_evaluationFile = os.path.join(modelVerDir, f"{modelItem.templateName}.re.json.config")
@@ -891,13 +916,13 @@ def main():
 
                     # check ipynb
                     ipynbFile = os.path.join(modelVerDir, f"{modelItem.templateName}_inference_sample.ipynb")
-                    hasSpecialIpynb = readCheckIpynb(ipynbFile, [modelItem])
+                    hasSpecialIpynb = readCheckIpynb(ipynbFile, {modelItem.name: modelParameter})
                     if not hasSpecialIpynb:
                         if not hasSharedIpynb:
                             print(f"{ipynbFile} nor {sharedIpynbFile} not exists.")
                             GlobalVars.hasError()
                         else:
-                            workflowsAgainstShared.append(modelItem)
+                            workflowsAgainstShared[modelItem.name] = modelParameter
                 readCheckIpynb(sharedIpynbFile, workflowsAgainstShared)
                     
                 modelSpaceConfig.Check()
