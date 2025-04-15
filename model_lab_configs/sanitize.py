@@ -760,7 +760,7 @@ def readCheckOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter):
         print(f"{oliveJsonFile} should have use model/XXX as {OlivePropertyNames.OutputDir}")
         GlobalVars.hasError()
 
-    if OlivePropertyNames.EvaluateInputModel not in oliveJson or not oliveJson[OlivePropertyNames.EvaluateInputModel]:
+    if OlivePropertyNames.EvaluateInputModel not in oliveJson or oliveJson[OlivePropertyNames.EvaluateInputModel]:
         oliveJson[OlivePropertyNames.EvaluateInputModel] = False
         jsonUpdated = True
 

@@ -129,5 +129,5 @@
     "host": "local_system",
     "target": "local_system",
     "cache_dir": "cache",
-    "output_dir": "models/bert_ptq_qnn"
+    "output_dir": "model/bert_ptq_qnn"
 }
