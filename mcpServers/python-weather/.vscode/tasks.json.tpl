@@ -81,7 +81,7 @@
     {
       "id": "openAgentBuilder",
       "type": "command",
-      "command": "ai-mlstudio.promptBuilder",
+      "command": "ai-mlstudio.agentBuilder",
       "args": {
         "initialMCPs": [ "local-server-{{SafeProjectNameLowerCase}}" ],
         "triggeredFrom": "vsc-tasks"

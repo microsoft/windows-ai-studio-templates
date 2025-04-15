@@ -5,7 +5,7 @@
   "main": "./lib/src/index.js",
   "scripts": {
     "dev:sse": "nodemon --exec node --inspect=9239 --signal SIGINT -r ts-node/register ./src/index.ts sse",
-    "dev:stdio": "nodemon --exec node --inspect=9239 --signal SIGINT -r ts-node/register ./src/index.ts stdio",
+    "dev:stdio": "nodemon --quiet --exec node --signal SIGINT -r ts-node/register ./src/index.ts stdio",
     "dev:inspector": "mcp-inspector",
     "build": "tsc --build",
     "start:sse": "node ./lib/src/index.js sse",
