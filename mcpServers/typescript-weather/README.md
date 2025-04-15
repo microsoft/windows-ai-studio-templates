@@ -30,9 +30,9 @@ First, before executing any code, install the dependencies.
 
 </details>
 
-### Debug in MCP Inspector
+### Debug SSE in MCP Inspector
 
-- Open VSCode Debug panel. Select `Debug in Inspector (Edge)` or `Debug in Inspector (Chrome)`. Press F5 to start debugging.
+- Open VSCode Debug panel. Select `Debug SSE in Inspector (Edge)` or `Debug SSE in Inspector (Chrome)`. Press F5 to start debugging.
 - When MCP Inspector launches in the browser, click the `Connect` button to connect this MCP server.
 - Then you can `List Tools`, select a tool, input parameters, and `Run Tool` to debug your server code.
 - Of course, you can add breakpoint to the tool implementation code.
@@ -46,5 +46,23 @@ First, before executing any code, install the dependencies.
   - then, the MCP Inspector is launched (by default on port 5173 and 3000)
 
   The whole definition can be found in [tasks.json](.vscode/tasks.json). You can also edit [launch.json](.vscode/launch.json), [tasks.json](.vscode/tasks.json), [index.ts](src/index.ts), [mcp.json](.aitk/mcp.json) to change above ports.
+
+</details>
+
+### Debug STDIO in MCP Inspector
+
+- Open VSCode Debug panel. Select `Debug STDIO in Inspector`. Press F5 to start debugging.
+- When MCP Inspector launches in your default browser, click the `Connect` button to connect this MCP server.
+- Then you can `List Tools`, select a tool, input parameters, and `Run Tool` to debug your server code.
+- Of course, you can add breakpoint to the tool implementation code.
+
+<details>
+  <summary>More Details</summary>
+
+  When launching debugging, it launches MCP Inspector with MCP settings pre-configured (default to `npm --silent run dev:stdio`).
+
+  After clicking `Connect`, Inspector launches MCP server on STDIO, which is also auto-attached for debugging via VSCode.
+
+  The whole definition can be found in [launch.json](.vscode/launch.json).
 
 </details>
