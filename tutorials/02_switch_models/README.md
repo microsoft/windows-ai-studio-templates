@@ -6,7 +6,7 @@ This tutorial builds on top of the [Craft Prompt](https://github.com/microsoft/w
 
 
 ## What you will learn
-- Experiment with different models in `Prompt Builder`
+- Experiment with different models in `Agent Builder`
 - `View Code` and update the app for the selected model
 
 ## Prerequisites
@@ -16,7 +16,7 @@ This tutorial builds on top of the [Craft Prompt](https://github.com/microsoft/w
 - Anthropic API key (Or access to desired model providers such as Goggle)
 
 ## Getting started with the tutorial
-In this section, you will experiment with different models in the Prompt Builder to find the one that best works for you.
+In this section, you will experiment with different models in the Agent Builder to find the one that best works for you.
 
 ### Step 1: Add a new model
 1. Open Model Catalog in the AI Toolkit sidebar
@@ -28,11 +28,11 @@ In this section, you will experiment with different models in the Prompt Builder
 
 You can refer to [this document](https://code.visualstudio.com/docs/intelligentapps/models) for more instructions on adding a model, such as using Ollama models.
 
-### Step 2: Select and Test the Model in Prompt Builder
-Load the model and prompt in `Prompt Builder` through [this VS Code URL](vscode://ms-windows-ai-studio.windows-ai-studio/open_prompt_builder?model_id=anthropic/claude-3-7-sonnet-20250219&&system_prompt_file=prompt.aitk.txt&&user_prompt=generate%20a%20question%20about%20Newton%27s%20Laws%20of%20Motion)
+### Step 2: Select and Test the Model in Agent Builder
+Load the model and prompt in `Agent Builder` through [this VS Code URL](vscode://ms-windows-ai-studio.windows-ai-studio/open_prompt_builder?model_id=anthropic/claude-3-7-sonnet-20250219&&system_prompt_file=prompt.aitk.txt&&user_prompt=generate%20a%20question%20about%20Newton%27s%20Laws%20of%20Motion)
 
 Alternatively, you can configure manually by following the steps below:
-1. Open the **Prompt Builder** in the AI Toolkit sidebar
+1. Open the **Agent Builder** in the AI Toolkit sidebar
 2. Select the Claude 3.7 model (Or the model you added)
 ![select-model](./images/select_model.png)
 3. Copy the system prompt from [final_prompt.aitk.txt](./final_prompt.aitk.txt) we built from previous tutorial and input it.

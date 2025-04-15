@@ -5,7 +5,7 @@
             "id": "01_craft_prompt",
             "path": "tutorials/01_craft_prompt",
             "title": "Craft a Prompt for Question Generation",
-            "description": "Build a generative AI app to generate questions for educational topics using prompt builder and Python.",
+            "description": "Build a generative AI app to generate questions for educational topics using agent builder and Python.",
             "tags": ["prompt-engineering"],
             "imageUrl": "https://raw.githubusercontent.com/microsoft/windows-ai-studio-templates/refs/heads/dev/tutorials/01_craft_prompt/images/01.png",
             "url": "https://github.com/microsoft/windows-ai-studio-templates/tree/dev/tutorials/01_craft_prompt"
