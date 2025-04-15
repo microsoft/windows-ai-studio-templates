@@ -162,5 +162,6 @@
     "evaluator": "common_evaluator",
     "target": "local_system",
     "cache_dir": "cache",
-    "output_dir": "models/bert_ptq_qdq_with_Gelu"
+    "output_dir": "model/bert_ptq_qdq_with_Gelu",
+    "evaluate_input_model": false
 }
