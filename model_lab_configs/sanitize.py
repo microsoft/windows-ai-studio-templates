@@ -30,9 +30,10 @@ class OlivePropertyNames:
     ExecutionProviders = "execution_providers"
     DataConfigs = "data_configs"
     Target = "target"
-
-class EPNames:
-    CPUExecutionProvider = "CPUExecutionProvider"
+    CacheDir = "cache_dir"
+    OutputDir = "output_dir"
+    PythonEnvironmentPath = "python_environment_path"
+    EvaluateInputModel = "evaluate_input_model"
 
 outputModelRelativePath = "\\\"./model/model.onnx\\\""
 outputModelModelBuilderPath = "\\\"./model\\\""
@@ -97,6 +98,10 @@ class ReplaceTypeEnum(Enum):
     String = "string"
     Path = "path"
     PathAdd = "pathAdd"
+
+class EPNames(Enum):
+    CPUExecutionProvider = "CPUExecutionProvider"
+    CUDAExecutionProvider = "CUDAExecutionProvider"
 
 # Global vars
 
@@ -463,6 +468,16 @@ class ModelProjectConfig(BaseModel):
 
 # Model Parameter
 
+class RuntimeOverwrite(BaseModel):
+    pyEnvPath: str = None
+    ep: EPNames
+
+    def Check(self, oliveJson: Any):
+        if not checkPath(self.pyEnvPath, oliveJson):
+            return False
+        return True
+
+
 # toggle: usually used for on/off switch
 class Section(BaseModel):
     name: str
@@ -516,6 +531,7 @@ class ModelParameter(BaseModel):
     # - the previous EP is used for EPContextBinaryGenerator if PythonEnvironment
     # - TODO do not support cpu evaluation
     isGPURequired: bool = None
+    runtimeOverwrite: RuntimeOverwrite = None
 
     runtime: Parameter = None
     sections: list[Section]
@@ -564,6 +580,16 @@ class ModelParameter(BaseModel):
         if not self.runtime.Check(False, oliveJson):
             print(f"{self._file} runtime has error")
             GlobalVars.hasError()
+
+        # Add runtime overwrite
+        if self.isGPURequired:
+            if not system[OlivePropertyNames.Type] == "PythonEnvironment":
+                print(f"{self._file}'s olive json does not use PythonEnvironment")
+                GlobalVars.hasError()
+            self.runtimeOverwrite = RuntimeOverwrite(pyEnvPath=f"{OlivePropertyNames.Systems}.{syskey}.{OlivePropertyNames.PythonEnvironmentPath}", ep=EPNames.CUDAExecutionProvider)
+            if not self.runtimeOverwrite.Check(oliveJson):
+                print(f"{self._file} runtime overwrite has error")
+                GlobalVars.hasError()
 
         for i, section in enumerate(self.sections):
             # hardcoded name for UI
@@ -719,7 +745,24 @@ def readCheckOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter):
             print(f"{oliveJsonFile} should have two data configs for evaluation")
             GlobalVars.hasError()
 
+    if modelParameter.isGPURequired:
+        # TODO check CUDAExecutionProvider is used somewhere
+        pass
+
     jsonUpdated = False
+
+    # cache / output / evaluate_input_model
+    if OlivePropertyNames.CacheDir not in oliveJson or oliveJson[OlivePropertyNames.CacheDir] != "cache":
+        oliveJson[OlivePropertyNames.CacheDir] = "cache"
+        jsonUpdated = True
+
+    if OlivePropertyNames.OutputDir not in oliveJson or not str(oliveJson[OlivePropertyNames.OutputDir]).startswith("model/"):
+        print(f"{oliveJsonFile} should have use model/XXX as {OlivePropertyNames.OutputDir}")
+        GlobalVars.hasError()
+
+    if OlivePropertyNames.EvaluateInputModel not in oliveJson or oliveJson[OlivePropertyNames.EvaluateInputModel]:
+        oliveJson[OlivePropertyNames.EvaluateInputModel] = False
+        jsonUpdated = True
 
     # update save_as_external_data
     if modelParameter.useModelBuilder:

@@ -153,5 +153,7 @@
             "weight_type": "QUInt8",
             "save_as_external_data": true
         }
-    }
+    },
+    "cache_dir": "cache",
+    "output_dir": "model/clip_vision"
 }
