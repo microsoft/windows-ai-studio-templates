@@ -28,6 +28,7 @@ This is a sample MCP Server in TypeScript implementing weather tools with mock r
 | `src`        | The source code for the weather mcp server   |
 
 ## How to debug the Weather MCP Server
+
 > Notes:
 > - [MCP Inspector](https://github.com/modelcontextprotocol/inspector) is a visual developer tool for testing and debugging MCP servers.
 > - All debugging modes support breakpoints, so you can add breakpoints to the tool implementation code.
@@ -39,8 +40,13 @@ This is a sample MCP Server in TypeScript implementing weather tools with mock r
 | MCP Inspector for STDIO | Debug the MCP server using the MCP Inspector. | 1. Open VS Code Debug panel. Select `Debug STDIO in Inspector`. Press F5 to start debugging.<br>2. When MCP Inspector launches in your default browser, click the `Connect` button to connect this MCP server.<br>3. Then you can `List Tools`, select a tool, input parameters, and `Run Tool` to debug your server code.<br>4. Of course, you can add breakpoint to the tool implementation code. |
 
 ## Default Ports and customizations
+
 | Debug Mode | Ports | Definitions | Customizations | Note |
 | ---------- | ----- | ------------ | -------------- |-------------- |
 | Agent Builder | 3001 | [tasks.json](.vscode/tasks.json) | Edit [launch.json](.vscode/launch.json), [tasks.json](.vscode/tasks.json), [index.ts](src/index.ts), [mcp.json](.aitk/mcp.json) to change ports and parameters. | N/A |
-| MCP Inspector for SSE | 3001 (Server); 5173 and 3000 (Inspector) | [tasks.json](.vscode/tasks.json) | edit [launch.json](.vscode/launch.json), [tasks.json](.vscode/tasks.json), [index.ts](src/index.ts), [mcp.json](.aitk/mcp.json) to change above ports.| N/A |
+| MCP Inspector for SSE | 3001 (Server); 5173 and 3000 (Inspector) | [tasks.json](.vscode/tasks.json) | Edit [launch.json](.vscode/launch.json), [tasks.json](.vscode/tasks.json), [index.ts](src/index.ts), [mcp.json](.aitk/mcp.json) to change above ports.| N/A |
 | MCP Inspector for STDIO | N/A | [launch.json](.vscode/launch.json) | N/A |   When launching debugging, it launches MCP Inspector with MCP settings pre-configured (default to `npm --silent run dev:stdio`). After clicking `Connect`, Inspector launches MCP server on STDIO, which is also auto-attached for debugging via VSCode. | 
+
+## Feedback
+
+If you have any feedback or suggestions for this template, please open an issue on the [AI Toolkit GitHub repository](https://github.com/microsoft/vscode-ai-toolkit/issues)
