@@ -1,4 +1,3 @@
-param defaultCommands array
 param maximumInstanceCount int
 param timeout int
 param location string = resourceGroup().location
@@ -10,8 +9,6 @@ param acaEnvironmentName string = 'aienv${resourceSuffix}'
 param acaEnvironmentStorageName string = 'aienvstorage${resourceSuffix}'
 param acaJobName string = 'aiacajob${resourceSuffix}'
 param acaLogAnalyticsName string = 'ailog${resourceSuffix}'
-
-var defaultCommand = join(defaultCommands, '; ')
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2023-01-01' = {
   sku: {
@@ -90,7 +87,7 @@ resource environment 'Microsoft.App/managedEnvironments@2023-11-02-preview' = {
       {
         workloadProfileType: 'NC24-A100'
         name: 'GPU'
-        minimumCount: 0
+        minimumCount: 1
         maximumCount: maximumInstanceCount
       }
     ]
@@ -139,13 +136,8 @@ resource acajob 'Microsoft.App/jobs@2023-11-02-preview' = {
     template: {
       containers: [
         {
-          image: 'yuesutestacr.azurecr.io/artifact/e9623811-ed23-4d6c-8c56-a27494f2c808/buddy/phi-silica-fine-tune-containers:20250305.1'
+          image: 'yuesutestacr.azurecr.io/artifact/e9623811-ed23-4d6c-8c56-a27494f2c808/buddy/phi-silica-fine-tune-containers:phi_silica_3_6'
           name: acaJobName
-          command: [
-            '/bin/bash'
-            '-c'
-            defaultCommand
-          ]
           resources: {
             cpu: 24
             memory: '220Gi'
@@ -178,4 +170,6 @@ output RESOURCE_GROUP_NAME string = resourceGroup().name
 output STORAGE_ACCOUNT_NAME string = storageAccount.name
 output FILE_SHARE_NAME string = fileShare.name
 output ACA_JOB_NAME string = acajob.name
-output COMMANDS array = defaultCommands
+output LOG_ANALYTICS_NAME string = logAnalytics.name
+output COMMANDS array = []
+output ARGS array = ['mount/<run_id>/finetune.yaml']
