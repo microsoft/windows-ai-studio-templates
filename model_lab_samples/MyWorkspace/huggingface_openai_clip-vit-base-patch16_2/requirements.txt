@@ -1,0 +1,6 @@
+olive-ai
+cachetools = "~5.5.0"
+optuna = "~4.2.0"
+nltk = "^3.9.1"
+openai = "^1.65.4"
+accelerate = "^1.4.0"
