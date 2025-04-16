@@ -2,6 +2,11 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "npm install",
+      "type": "shell",
+      "command": "npm install"
+    },
+    {
       "label": "Start MCP Server",
       "type": "shell",
       "command": "npm run dev:sse",
@@ -26,7 +31,9 @@
           "beginsPattern": "[nodemon] starting",
           "endsPattern": "MCP Server running on|Fatal error|[nodemon] app crashed"
         }
-      }
+      },
+      // remove this dependsOn if don't want to npm install each time
+      "dependsOn": [ "npm install" ]
     },
     {
       "label": "Start MCP Inspector",
