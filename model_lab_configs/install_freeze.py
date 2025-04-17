@@ -28,7 +28,7 @@ def main():
     ]
     specific = {
         "CPU": ["onnxruntime==1.21.0"],
-        "QNN": ["onnxruntime-qnn==1.21.0"],
+        "QNN": ["onnxruntime-qnn==1.20.2"],
         "IntelNPU": ["onnxruntime-openvino==1.20.0"],
         "AMDNPU": [],
         "NvidiaGPU": ["onnxruntime-gpu==1.21.0", "onnxruntime-genai-cuda==0.7.0", "auto-gptq==0.7.1"]
