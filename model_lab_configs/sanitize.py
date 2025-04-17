@@ -530,6 +530,7 @@ class ModelParameter(BaseModel):
     # - run on CUDA EP (onnxruntime-gpu), i.e. need CUDA and cudnn
     # - the previous EP is used for EPContextBinaryGenerator if PythonEnvironment
     # - TODO do not support cpu evaluation
+    # - currently it is tightly coupled with runtimeOverwrite, so pay attention
     isGPURequired: bool = None
     runtimeOverwrite: RuntimeOverwrite = None
 
