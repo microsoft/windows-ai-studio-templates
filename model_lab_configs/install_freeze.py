@@ -31,6 +31,7 @@ def main():
         "QNN": ["onnxruntime-qnn==1.20.2"],
         "IntelNPU": ["onnxruntime-openvino==1.20.0"],
         "AMDNPU": [],
+        "NvidiaGPU": ["onnxruntime-gpu==1.21.0", "onnxruntime-genai-cuda==0.7.0", "auto-gptq==0.7.1"]
     }
 
     parser = argparse.ArgumentParser()
@@ -54,7 +55,7 @@ def main():
 
 
     # write result
-    outputFile = path.join(path.dirname(__file__), f"requirements-{args.runtime}.txt")
+    outputFile = path.join(path.dirname(__file__), "docs", f"requirements-{args.runtime}.txt")
     with open(outputFile, "w") as f:
         for name in all:
             f.write("# " + name + "\n")
