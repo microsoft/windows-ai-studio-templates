@@ -1,4 +1,5 @@
 from __future__ import annotations
+import re
 import shutil
 import subprocess
 from typing import Any, Dict
@@ -164,7 +165,7 @@ class ModelList(BaseModel):
     def Read(scriptFolder: str):
         modelListFile = os.path.join(scriptFolder, "model_list.json")
         print(f"Process {modelListFile}")
-        with open(modelListFile, 'r') as file:
+        with open(modelListFile, 'r', encoding='utf-8') as file:
             modelListContent = file.read()
         modelList = ModelList.model_validate_json(modelListContent, strict=True)
         modelList._file = modelListFile
@@ -179,7 +180,7 @@ class ModelList(BaseModel):
                 GlobalVars.hasError()
         newContent = self.model_dump_json(indent=4, exclude_none=True)
         if newContent != self._fileContent:
-            with open(self._file, 'w') as file:
+            with open(self._file, 'w', encoding='utf-8') as file:
                 file.write(newContent)
 
 # Parameter
@@ -385,7 +386,7 @@ class Parameter(BaseModel):
 
 def readCheckParameterTemplate(filePath: str):
     print(f"Process {filePath}")
-    with open(filePath, 'r') as file:
+    with open(filePath, 'r', encoding='utf-8') as file:
         fileContent = file.read()
     adapter = TypeAdapter(Dict[str, Parameter])
     parameters: Dict[str, Parameter] = adapter.validate_json(fileContent, strict=True)
@@ -395,7 +396,7 @@ def readCheckParameterTemplate(filePath: str):
             GlobalVars.hasError()
     newContent = adapter.dump_json(parameters, indent=4, exclude_none=True).decode('utf-8')
     if newContent != fileContent:
-        with open(filePath, 'w') as file:
+        with open(filePath, 'w', encoding='utf-8') as file:
             file.write(newContent)
     return parameters
 
@@ -443,7 +444,7 @@ class ModelProjectConfig(BaseModel):
     @staticmethod
     def Read(modelSpaceConfigFile: str):
         print(f"Process {modelSpaceConfigFile}")
-        with open(modelSpaceConfigFile, 'r') as file:
+        with open(modelSpaceConfigFile, 'r', encoding='utf-8') as file:
             modelSpaceConfigContent = file.read()
         modelSpaceConfig = ModelProjectConfig.model_validate_json(modelSpaceConfigContent, strict=True)
         modelSpaceConfig._file = modelSpaceConfigFile
@@ -463,7 +464,7 @@ class ModelProjectConfig(BaseModel):
 
         newContent = self.model_dump_json(indent=4, exclude_none=True)
         if newContent != self._fileContent:
-            with open(self._file, 'w') as file:
+            with open(self._file, 'w', encoding='utf-8') as file:
                 file.write(newContent)
 
 # Model Parameter
@@ -478,6 +479,8 @@ class RuntimeOverwrite(BaseModel):
         return True
 
 
+
+
 # toggle: usually used for on/off switch
 class Section(BaseModel):
     name: str
@@ -485,7 +488,11 @@ class Section(BaseModel):
     parameters: list[Parameter]
     toggle: Parameter = None
 
-    def Check(self, templates: Dict[str, Parameter], _file: str, sectionId: int, oliveJson: Any):
+    @staticmethod
+    def datasetPathPattern(path: str): 
+        return re.fullmatch(r'data_configs\[(0|[1-9]\d{0,2})\]\.load_dataset_config\.data_name', path)
+
+    def Check(self, templates: Dict[str, Parameter], _file: str, sectionId: int, oliveJson: Any, hFLoginRequiredDatasets: Dict[str, str]):
         if not self.name:
             return False
         #if not self.description:
@@ -507,6 +514,11 @@ class Section(BaseModel):
             if not parameter.Check(False, oliveJson):
                 print(f"{_file} section {sectionId} parameter {i} has error")
                 GlobalVars.hasError()
+            if Section.datasetPathPattern(parameter.path):
+                missing_keys = [key for key in parameter.values if key not in hFLoginRequiredDatasets]
+                if missing_keys:
+                    print("datasets are not in hFLoginRequiredDatasets:", ', '.join(missing_keys))
+                    GlobalVars.hasError()
         
         if self.toggle:
             if self.toggle.type != ParameterTypeEnum.Bool:
@@ -540,7 +552,7 @@ class ModelParameter(BaseModel):
     @staticmethod
     def Read(parameterFile: str):
         print(f"Process {parameterFile}")
-        with open(parameterFile, 'r') as file:
+        with open(parameterFile, 'r', encoding='utf-8') as file:
             parameterContent = file.read()
         modelParameter = ModelParameter.model_validate_json(parameterContent, strict=True)
         modelParameter._file = parameterFile
@@ -548,7 +560,7 @@ class ModelParameter(BaseModel):
         return modelParameter
 
 
-    def Check(self, templates: Dict[str, Parameter], oliveJson: Any):
+    def Check(self, templates: Dict[str, Parameter], oliveJson: Any, hFLoginRequiredDatasets: Dict[str, str]):
         if not self.sections:
             print(f"{self._file} should have sections")
             GlobalVars.hasError()
@@ -646,13 +658,13 @@ class ModelParameter(BaseModel):
                     checks=[ParameterCheck(type=ParameterCheckTypeEnum.Exist, path=OlivePropertyNames.Evaluator), ParameterCheck(type=ParameterCheckTypeEnum.NotExist, path=OlivePropertyNames.Evaluator)],
                     actions=[[], [action]])
 
-            if not section.Check(templates, self._file, i, oliveJson):
+            if not section.Check(templates, self._file, i, oliveJson, hFLoginRequiredDatasets):
                 print(f"{self._file} section {i} has error")
                 GlobalVars.hasError()
 
         newContent = self.model_dump_json(indent=4, exclude_none=True)
         if newContent != self._fileContent:
-            with open(self._file, 'w') as file:
+            with open(self._file, 'w', encoding='utf-8') as file:
                 file.write(newContent)
 
     def saveReevaluationConfig(self, filePath: str):
@@ -663,7 +675,7 @@ class ModelParameter(BaseModel):
         newParameter.sections = [section for section in newParameter.sections if section.name == GlobalVars.phaseToSection[PhaseTypeEnum.Evaluation]]
         newParameter.sections[0].toggle.fixed = True
         newContent = newParameter.model_dump_json(indent=4, exclude_none=True)
-        with open(filePath, 'w') as file:
+        with open(filePath, 'w', encoding='utf-8') as file:
             file.write(newContent)
 
 def readCheckOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter):
@@ -671,7 +683,7 @@ def readCheckOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter):
     This will set phases to modelParameter
     """
     print(f"Process {oliveJsonFile}")
-    with open(oliveJsonFile, 'r') as file:
+    with open(oliveJsonFile, 'r', encoding='utf-8') as file:
         oliveJson = json.load(file)
 
     # check if engine is in oliveJson
@@ -780,7 +792,7 @@ def readCheckOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter):
             jsonUpdated = True
 
     if jsonUpdated:
-        with open(oliveJsonFile, 'w') as file:
+        with open(oliveJsonFile, 'w', encoding='utf-8') as file:
             json.dump(oliveJson, file, indent=4)
         print(f"{oliveJsonFile} has been updated")
 
@@ -952,7 +964,7 @@ def main():
                     oliveJson = readCheckOliveConfig(oliveJsonFile, modelParameter)
 
                     # check parameter
-                    modelParameter.Check(parameterTemplate, oliveJson)
+                    modelParameter.Check(parameterTemplate, oliveJson, modelList.HFLoginRequiredDatasets)
 
                     # create reevaluation config
                     re_evaluationFile = os.path.join(modelVerDir, f"{modelItem.templateName}.re.json.config")
