@@ -50,5 +50,5 @@ ipython==9.0.2
 jupyterlab_widgets==3.0.13
 traitlets==5.14.3
 widgetsnbextension==4.0.13
-# onnxruntime-qnn==1.20.2
-onnxruntime-qnn==1.20.2
+# onnxruntime-qnn==1.21.0
+onnxruntime-qnn==1.21.0
