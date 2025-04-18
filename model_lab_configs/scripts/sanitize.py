@@ -888,7 +888,7 @@ def check_case(path: Path) -> bool:
 
 def main():
     # need to resolve due to d:\ vs D:\
-    configDir = str(Path(os.path.dirname(__file__)).resolve(strict=False))
+    configDir = str(Path(os.path.dirname(os.path.dirname(__file__))).resolve(strict=False))
     # get model list
     modelList = ModelList.Read(configDir)
     # check parameter template
