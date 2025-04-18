@@ -10,6 +10,7 @@ import copy
 import pydash
 import json
 from pathlib import Path
+from model_lab import RuntimeEnum, RuntimeFeatureEnum
 
 # Constants
 
@@ -55,12 +56,6 @@ class IconEnum(Enum):
     DeepSeek = "DeepSeek"
     laion = "laion"
     qwen = "qwen"
-
-class RuntimeEnum(Enum):
-    QNN = "QNN"
-    IntelNPU = "IntelNPU"
-    AMDNPU = "AMDNPU"
-    NvidiaGPU = "NvidiaGPU"
 
 class ArchitectureEnum(Enum):
     Transformer = "Transformer"
@@ -545,6 +540,8 @@ class ModelParameter(BaseModel):
     # - currently it is tightly coupled with runtimeOverwrite, so pay attention
     isGPURequired: bool = None
     runtimeOverwrite: RuntimeOverwrite = None
+    executeRuntimeFeatures: list[RuntimeFeatureEnum] = None
+    evalRuntimeFeatures: list[RuntimeFeatureEnum] = None
 
     runtime: Parameter = None
     sections: list[Section]
@@ -603,6 +600,8 @@ class ModelParameter(BaseModel):
             if not self.runtimeOverwrite.Check(oliveJson):
                 print(f"{self._file} runtime overwrite has error")
                 GlobalVars.hasError()
+            self.executeRuntimeFeatures = [RuntimeFeatureEnum.AutoGptq]
+            self.evalRuntimeFeatures = [RuntimeFeatureEnum.Nightly]
 
         for i, section in enumerate(self.sections):
             # hardcoded name for UI
