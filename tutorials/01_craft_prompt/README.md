@@ -52,7 +52,7 @@ The sample app starts with a very simple prompt that describes the core task: `G
 The easiest way to get started with writing effective prompts is by using the **Prompt Generator** feature in the **Agent Builder**. This tool is particularly useful for overcoming the "blank page problem" and serves as a **starting point** for experimenting and refining prompts. To use it:
 
 - Open the **Agent Builder** from the left sidebar.
-- Click `Generate prompt`.
+- Click `Generate system prompt`.
 - Input a basic task description as shown below in the text box, and click the `Generate` button.
     ```text
     Generate questions on various topics and provide a question, answer, and a series of increasingly specific hints to help students arrive at the correct answer. Generate only one question at a time.
