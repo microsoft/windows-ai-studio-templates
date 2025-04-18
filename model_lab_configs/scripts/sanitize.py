@@ -474,8 +474,6 @@ class RuntimeOverwrite(BaseModel):
         return True
 
 
-
-
 # toggle: usually used for on/off switch
 class Section(BaseModel):
     name: str

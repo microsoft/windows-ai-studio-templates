@@ -1,4 +1,5 @@
 import argparse
+import os
 from os import path
 import subprocess
 import sys
@@ -20,6 +21,12 @@ def get_requires(name):
 
 def main():
     # Constants
+    pre = {
+        RuntimeEnum.NvidiaGPU: [
+            "--extra-index-url https://download.pytorch.org/whl/cu121",
+            "torch==2.4.1+cu121",
+        ]
+    }
     shared = [
         "olive-ai==0.8.0",
         "tabulate==0.9.0",
@@ -28,27 +35,45 @@ def main():
         "ipywidgets==8.1.5",
     ]
     # onnxruntime and genai go here. others should go feature
-    specific = {
+    post = {
         RuntimeEnum.CPU: ["onnxruntime==1.21.0"],
         RuntimeEnum.QNN: ["onnxruntime-qnn==1.20.2"],
         RuntimeEnum.IntelNPU: ["onnxruntime-openvino==1.20.0"],
         RuntimeEnum.AMDNPU: [],
         # https://onnxruntime.ai/docs/execution-providers/CUDA-ExecutionProvider.html
         RuntimeEnum.NvidiaGPU: [
-            "torch==2.4.0 --index-url https://download.pytorch.org/whl/cu121",
             "onnxruntime-gpu==1.21.0",
             "onnxruntime-genai-cuda==0.7.0"
         ]
     }
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--runtime", required=True, help=",".join([k.value for k in specific.keys()]))
+    parser.add_argument("--runtime", required=True, help=",".join([k.value for k in RuntimeEnum]))
     args = parser.parse_args()
+    runtime = RuntimeEnum(args.runtime)
+
+    # prepare file
+    configs_dir = path.dirname(path.dirname(__file__))
+    temp_dir = path.join(configs_dir, "scripts", "model_lab", "__pycache__")
+    os.makedirs(temp_dir, exist_ok=True)
+    temp_req = path.join(temp_dir, "temp_req.txt")
+    all: list[str] = []
+    with open(temp_req, "w") as f:
+        if runtime in pre:
+            for line in pre[runtime]:
+                f.write(line + "\n")
+                all.append(line)
+        for line in shared:
+            f.write(line + "\n")
+            all.append(line)
+        if runtime in post:
+            for line in post[runtime]:
+                f.write(line + "\n")
+                all.append(line)
 
     # Install
-    all = shared + specific[RuntimeEnum(args.runtime)]
-    print(f"Installing dependencies: {all}")
-    result = subprocess.run([sys.executable, "-Im", "pip", "install", "--no-warn-script-location"] + all, text=True)
+    print(f"Installing dependencies: {temp_req}")
+    result = subprocess.run([sys.executable, "-Im", "pip", "install", "--no-warn-script-location", "-r", temp_req], text=True)
 
     # Get freeze
     pip_freeze = subprocess.check_output([sys.executable, "-Im", "pip", "freeze"]).decode('utf-8').splitlines()
@@ -60,11 +85,13 @@ def main():
             freeze_dict[name.lower()] = version
     print(f"Installed dependencies: {freeze_dict}")
 
-
     # write result
     outputFile = path.join(path.dirname(__file__), "..", "docs", f"requirements-{args.runtime}.txt")
     with open(outputFile, "w") as f:
         for name in all:
+            if name.startswith("--"):
+                f.write(name + "\n")
+                continue
             f.write("# " + name + "\n")
             f.write(name + "\n")
             requires = get_requires(name)
