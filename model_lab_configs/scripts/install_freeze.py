@@ -27,12 +27,18 @@ def main():
         "ipykernel==6.29.5",
         "ipywidgets==8.1.5",
     ]
+    # onnxruntime and genai go here. others should go feature
     specific = {
         RuntimeEnum.CPU: ["onnxruntime==1.21.0"],
         RuntimeEnum.QNN: ["onnxruntime-qnn==1.20.2"],
         RuntimeEnum.IntelNPU: ["onnxruntime-openvino==1.20.0"],
         RuntimeEnum.AMDNPU: [],
-        RuntimeEnum.NvidiaGPU: ["onnxruntime-gpu==1.21.0", "onnxruntime-genai-cuda==0.7.0"]
+        # https://onnxruntime.ai/docs/execution-providers/CUDA-ExecutionProvider.html
+        RuntimeEnum.NvidiaGPU: [
+            "torch==2.4.0 --index-url https://download.pytorch.org/whl/cu121",
+            "onnxruntime-gpu==1.21.0",
+            "onnxruntime-genai-cuda==0.7.0"
+        ]
     }
 
     parser = argparse.ArgumentParser()
