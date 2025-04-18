@@ -1,6 +1,5 @@
 olive-ai
 cachetools==5.5.0
-optuna==4.2.1
 nltk>=3.9.1
 accelerate>=1.4.0
 pillow>=10.0.1
