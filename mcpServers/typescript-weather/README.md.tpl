@@ -14,11 +14,11 @@ This is a sample MCP Server in TypeScript implementing weather tools with mock r
 > To run the MCP Server in your local dev machine, you will need: [Node.js](https://nodejs.org/)
 
 1. Open VS Code Debug panel. Select `Debug in Agent Builder` or press `F5` to start debugging the MCP server.
-2. Use AI Toolkit Agent Builder to test the server with [this prompt](vscode://ms-windows-ai-studio.windows-ai-studio/open_prompt_builder?model_id=github/gpt-4o&&system_prompt=You%20are%20a%20weather%20forecast%20professional%20that%20can%20tell%20weather%20information%20based%20on%20given%20location&&user_prompt=What%20is%20the%20weather%20in%20Shanghai?). Server will be auto-connected to the Agent Builder.
+2. Use AI Toolkit Agent Builder to test the server with [this prompt](vscode://ms-windows-ai-studio.windows-ai-studio/open_prompt_builder?model_id=github/gpt-4o-mini&&system_prompt=You%20are%20a%20weather%20forecast%20professional%20that%20can%20tell%20weather%20information%20based%20on%20given%20location&&user_prompt=What%20is%20the%20weather%20in%20Shanghai?&track_from=vsc_md&mcp={{SafeProjectNameLowerCase}}). Server will be auto-connected to the Agent Builder.
 3. Click `Run` to test the server with the prompt.
 
 **Congratulations**! You have successfully run the Weather MCP Server in your local dev machine via Agent Builder as the MCP Client.
-![DebugMCP](https://raw.githubusercontent.com/MuyangAmigo/MuyangAmigo/main/assets/aitk_mcp_readme/MCPScaffold.gif)
+![DebugMCP](https://raw.githubusercontent.com/microsoft/windows-ai-studio-templates/refs/heads/dev/mcpServers/MCPScaffold.gif)
 
 ## What's included in the template
 | Folder / File| Contents                                     |
@@ -35,7 +35,7 @@ This is a sample MCP Server in TypeScript implementing weather tools with mock r
 
 | Debug Mode | Description | Steps to debug |
 | ---------- | ----------- | --------------- |
-| Agent Builder | Debug the MCP server in the Agent Builder via AI Toolkit. | 1. Open VS Code Debug panel. Select `Debug in Agent Builder` and press `F5` to start debugging the MCP server.<br>2. Use AI Toolkit Agent Builder to test the server with [this prompt](vscode://ms-windows-ai-studio.windows-ai-studio/open_prompt_builder?model_id=github/gpt-4o&&system_prompt=You%20are%20a%20weather%20forecast%20professional%20that%20can%20tell%20weather%20information%20based%20on%20given%20location&&user_prompt=What%20is%20the%20weather%20in%20Shanghai?). Server will be auto-connected to the Agent Builder.<br>3. Click `Run` to test the server with the prompt. |
+| Agent Builder | Debug the MCP server in the Agent Builder via AI Toolkit. | 1. Open VS Code Debug panel. Select `Debug in Agent Builder` and press `F5` to start debugging the MCP server.<br>2. Use AI Toolkit Agent Builder to test the server with [this prompt](vscode://ms-windows-ai-studio.windows-ai-studio/open_prompt_builder?model_id=github/gpt-4o-mini&&system_prompt=You%20are%20a%20weather%20forecast%20professional%20that%20can%20tell%20weather%20information%20based%20on%20given%20location&&user_prompt=What%20is%20the%20weather%20in%20Shanghai?&track_from=vsc_md&mcp={{SafeProjectNameLowerCase}}). Server will be auto-connected to the Agent Builder.<br>3. Click `Run` to test the server with the prompt. |
 | MCP Inspector for SSE | Debug the MCP server using the MCP Inspector. | 1. Open VS Code Debug panel. Select `Debug SSE in Inspector (Edge)` or `Debug SSE in Inspector (Chrome)`. Press F5 to start debugging.<br>2. When MCP Inspector launches in the browser, click the `Connect` button to connect this MCP server.<br>3. Then you can `List Tools`, select a tool, input parameters, and `Run Tool` to debug your server code.<br> |
 | MCP Inspector for STDIO | Debug the MCP server using the MCP Inspector. | 1. Open VS Code Debug panel. Select `Debug STDIO in Inspector`. Press F5 to start debugging.<br>2. When MCP Inspector launches in your default browser, click the `Connect` button to connect this MCP server.<br>3. Then you can `List Tools`, select a tool, input parameters, and `Run Tool` to debug your server code.<br>4. Of course, you can add breakpoint to the tool implementation code. |
 
