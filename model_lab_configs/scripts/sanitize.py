@@ -96,6 +96,13 @@ class ParameterActionTypeEnum(Enum):
     Delete = "delete"
 
 
+class ParameterTagEnum(Enum):
+    QuantizationDataset = "QuantizationDataset"
+    EvaluationDataset = "EvaluationDataset"
+    ActivationType = "ActivationType"
+    WeightType = "WeightType"
+
+
 class PhaseTypeEnum(Enum):
     Conversion = "Conversion"
     Quantization = "Quantization"
@@ -247,6 +254,7 @@ class Parameter(BaseModel):
 
     """
     name: str = None
+    tags: list[ParameterTagEnum] = None
     description: str = None
     descriptionLink: str = None
     type: ParameterTypeEnum = None
@@ -358,6 +366,7 @@ class Parameter(BaseModel):
         Clear everything except template
         """
         self.name = None
+        self.tags = None
         self.description = None
         self.descriptionLink = None
         self.type = None
@@ -374,6 +383,8 @@ class Parameter(BaseModel):
         """
         if not self.name:
             self.name = template.name
+        if not self.tags:
+            self.tags = template.tags
         if not self.description:
             self.description = template.description
         if not self.descriptionLink:
@@ -534,12 +545,30 @@ class Section(BaseModel):
             if not parameter.Check(False, oliveJson):
                 print(f"{_file} section {sectionId} parameter {i} has error")
                 GlobalVars.hasError()
+
+            # TODO move tag check into Parameter
             if Section.datasetPathPattern(parameter.path):
+                if self.phase == PhaseTypeEnum.Quantization:
+                    if not parameter.tags or ParameterTagEnum.QuantizationDataset not in parameter.tags:
+                        print(f"{_file} section {sectionId} parameter {i} should have QuantizationDataset tag")
+                        GlobalVars.hasError()
+                elif self.phase == PhaseTypeEnum.Evaluation:
+                    if not parameter.tags or ParameterTagEnum.EvaluationDataset not in parameter.tags:
+                        print(f"{_file} section {sectionId} parameter {i} should have EvaluationDataset tag")
+                        GlobalVars.hasError()
                 missing_keys = [key for key in parameter.values if key not in hFLoginRequiredDatasets]
                 if missing_keys:
                     print("datasets are not in hFLoginRequiredDatasets:", ', '.join(missing_keys))
                     GlobalVars.hasError()
-        
+            elif parameter.path.endswith("activation_type"):
+                if not parameter.tags or ParameterTagEnum.ActivationType not in parameter.tags:
+                    print(f"{_file} section {sectionId} parameter {i} should have ActivationType tag")
+                    GlobalVars.hasError()
+            elif parameter.path.endswith("weight_type"):
+                if not parameter.tags or ParameterTagEnum.WeightType not in parameter.tags:
+                    print(f"{_file} section {sectionId} parameter {i} should have WeightType tag")
+                    GlobalVars.hasError()
+
         if self.toggle:
             if self.toggle.type != ParameterTypeEnum.Bool:
                 print(f"{_file} section {sectionId} toggle must use bool")
