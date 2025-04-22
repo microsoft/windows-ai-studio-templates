@@ -446,9 +446,18 @@ class WorkflowItem(BaseModel):
 
 class ModelInfoProject(BaseModel):
     id: str
+    displayName: str = None
+    icon: IconEnum = None
+    modelLink: str = None
 
-    def Check(self):
+    def Check(self, modelInfo: ModelInfo):
         if not self.id:
+            return False
+        if self.displayName and self.displayName != modelInfo.displayName:
+            return False
+        if self.icon and self.icon != modelInfo.icon:
+            return False
+        if self.modelLink and self.modelLink != modelInfo.modelLink:
             return False
         return True
 
@@ -468,13 +477,13 @@ class ModelProjectConfig(BaseModel):
         return modelSpaceConfig
 
     # after template is set
-    def Check(self):
+    def Check(self, modelInfo: ModelInfo):
         for i, model in enumerate(self.workflows):
             if not model.Check():
                 print(f"{self._file} model {i} has error")
                 GlobalVars.hasError()
         
-        if not self.modelInfo.Check():
+        if not self.modelInfo.Check(modelInfo):
             print(f"{self._file} modelInfo has error")
             GlobalVars.hasError()
 
@@ -601,7 +610,7 @@ class ModelParameter(BaseModel):
         currentEp = system[OlivePropertyNames.Accelerators][0][OlivePropertyNames.ExecutionProviders][0]
         runtimeValues = [currentEp]
         runtimeDisplayNames = [GlobalVars.epToName[currentEp]]
-        if currentEp != EPNames.CPUExecutionProvider:
+        if currentEp != EPNames.CPUExecutionProvider.value:
             runtimeValues.append(EPNames.CPUExecutionProvider)
             runtimeDisplayNames.append(GlobalVars.epToName[EPNames.CPUExecutionProvider.value])
         self.runtime = Parameter(
@@ -637,11 +646,11 @@ class ModelParameter(BaseModel):
             if section.name == GlobalVars.phaseToSection[PhaseTypeEnum.Conversion]:
                 if self.useModelBuilder:
                     # TODO modelbuilder
-                    modelBuilder = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] == OlivePassNames.ModelBuilder]
-                    conversionPath = f"{OlivePropertyNames.Passes}.{modelBuilder[0]}"
+                    modelBuilder = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] == OlivePassNames.ModelBuilder][0]
+                    conversionPath = f"{OlivePropertyNames.Passes}.{modelBuilder}"
                 else:
-                    conversion = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] == OlivePassNames.OnnxConversion]
-                    conversionPath = f"{OlivePropertyNames.Passes}.{conversion[0]}"
+                    conversion = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] == OlivePassNames.OnnxConversion][0]
+                    conversionPath = f"{OlivePropertyNames.Passes}.{conversion}"
                 section.toggle = Parameter(
                     name="Convert to ONNX format",
                     type=ParameterTypeEnum.Bool,
@@ -653,8 +662,8 @@ class ModelParameter(BaseModel):
             elif section.name == GlobalVars.phaseToSection[PhaseTypeEnum.Quantization]:
                 if self.useModelBuilder:
                     # TODO modelbuilder
-                    modelBuilder = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] == OlivePassNames.ModelBuilder]
-                    modelBuilderPath = f"{OlivePropertyNames.Passes}.{modelBuilder[0]}"
+                    modelBuilder = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] == OlivePassNames.ModelBuilder][0]
+                    modelBuilderPath = f"{OlivePropertyNames.Passes}.{modelBuilder}"
                     section.toggle = Parameter(
                         name="Quantize model",
                         type=ParameterTypeEnum.Bool,
@@ -662,8 +671,9 @@ class ModelParameter(BaseModel):
                         path=modelBuilderPath,
                         actions=[[], []])
                 else:
-                    quantize = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] in [OlivePassNames.OnnxQuantization, OlivePassNames.OnnxStaticQuantization, OlivePassNames.OnnxDynamicQuantization]]
-                    quantizePath = f"{OlivePropertyNames.Passes}.{quantize[0]}"
+                    quantize = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] in
+                                [OlivePassNames.OnnxQuantization, OlivePassNames.OnnxStaticQuantization, OlivePassNames.OnnxDynamicQuantization]][0]
+                    quantizePath = f"{OlivePropertyNames.Passes}.{quantize}"
                     conversion = [(k, v) for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] == OlivePassNames.OnnxConversion][0]
                     actions = [ParameterAction(path=f"{OlivePropertyNames.Passes}", type=ParameterActionTypeEnum.Upsert, value={conversion[0]:conversion[1]})]
                     section.toggle = Parameter(
@@ -976,7 +986,10 @@ def main():
                 hasSharedIpynb = os.path.exists(sharedIpynbFile)
                 workflowsAgainstShared: dict[str, ModelParameter] = {}
                 
-                modelSpaceConfig.modelInfo = ModelInfoProject(id=modelInVersion.id)
+                if modelSpaceConfig.modelInfo:
+                    modelSpaceConfig.modelInfo.id = modelInVersion.id
+                else:
+                    modelSpaceConfig.modelInfo = ModelInfoProject(id=modelInVersion.id)
                 for i, modelItem in enumerate(modelSpaceConfig.workflows):
                     # set template
                     modelItem.template = model.id
@@ -1008,7 +1021,7 @@ def main():
                             workflowsAgainstShared[modelItem.name] = modelParameter
                 readCheckIpynb(sharedIpynbFile, workflowsAgainstShared)
                     
-                modelSpaceConfig.Check()
+                modelSpaceConfig.Check(modelInVersion)
     modelList.Check()
 
     errorMsg = ''
