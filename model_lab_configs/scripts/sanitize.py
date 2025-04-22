@@ -130,6 +130,11 @@ class GlobalVars:
         PhaseTypeEnum.Quantization: "Quantize",
         PhaseTypeEnum.Evaluation: "Evaluate"
     }
+    phaseToSectionR = {
+        "Convert": PhaseTypeEnum.Conversion,
+        "Quantize": PhaseTypeEnum.Quantization,
+        "Evaluate": PhaseTypeEnum.Evaluation
+    }
     epToName = {
         EPNames.QNNExecutionProvider.value: "Qualcomm NPU",
         EPNames.OpenVINOExecutionProvider.value: "Intel NPU",
@@ -318,7 +323,7 @@ class Parameter(BaseModel):
             # path: bool
             # path + actions: bool  
             # path + values: enum
-            # path + values + actions: enum
+            # path + values + actions: bool, enum
             # checks + actions: bool, enum
             if self.type == ParameterTypeEnum.Bool and self.path and not self.values and not self.checks and not self.actions:
                 pass
@@ -326,7 +331,7 @@ class Parameter(BaseModel):
                 pass
             elif self.type == ParameterTypeEnum.Enum and self.path and lenValues == expectedLength and not self.checks and not self.actions:
                 pass
-            elif self.type == ParameterTypeEnum.Enum and self.path and lenValues == expectedLength and not self.checks and lenActions == expectedLength:
+            elif self.path and lenValues == expectedLength and not self.checks and lenActions == expectedLength:
                 pass
             elif not self.path and not self.values and lenChecks == expectedLength and lenActions == expectedLength:
                 pass
@@ -508,6 +513,7 @@ class RuntimeOverwrite(BaseModel):
 # toggle: usually used for on/off switch
 class Section(BaseModel):
     name: str
+    phase: PhaseTypeEnum
     description: str = None
     parameters: list[Parameter]
     toggle: Parameter = None
@@ -556,7 +562,6 @@ class Section(BaseModel):
     
 
 class ModelParameter(BaseModel):
-    phases: list[PhaseTypeEnum] = None
     # This kind of config will
     # - could not disable quantization
     # - use modelbuilder for conversion, quantization
@@ -596,14 +601,9 @@ class ModelParameter(BaseModel):
             self.sections = self.sections[1:]
         self.sections.insert(0, Section(
             name=GlobalVars.phaseToSection[PhaseTypeEnum.Conversion],
+            phase=PhaseTypeEnum.Conversion,
             parameters=[],
         ))
-
-        # Check sections to match phases
-        # TODO hardcoded (with additional conversion phase)
-        if len(self.sections) != len(self.phases):
-            print(f"{self._file} has wrong sections compared with phases {self.phases}")
-            GlobalVars.hasError()
         
         # Add runtime
         syskey, system = list(oliveJson[OlivePropertyNames.Systems].items())[0]
@@ -637,10 +637,8 @@ class ModelParameter(BaseModel):
             self.evalRuntimeFeatures = [RuntimeFeatureEnum.Nightly]
 
         for i, section in enumerate(self.sections):
-            # hardcoded name for UI
-            if section.name != GlobalVars.phaseToSection[self.phases[i]]:
-                section.name = GlobalVars.phaseToSection[self.phases[i]]
-                print(f"{self._file} section {i} has wrong name {section.name} compared with phase {self.phases[i]}")
+            # TODO remove
+            section.phase = GlobalVars.phaseToSectionR[section.name]
             
             # Set conversion toggle
             if section.name == GlobalVars.phaseToSection[PhaseTypeEnum.Conversion]:
@@ -758,39 +756,6 @@ def readCheckOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter):
         print(f"{oliveJsonFile} target should be {systemK}")
         GlobalVars.hasError()
         return
-
-    # get phases from oliveJson
-    phases = []
-    all_passes = [v[OlivePropertyNames.Type] for _, v in oliveJson[OlivePropertyNames.Passes].items()]
-
-    if modelParameter.useModelBuilder:
-        if OlivePassNames.ModelBuilder not in all_passes or OlivePassNames.OnnxConversion in all_passes:
-            print(f"{oliveJsonFile} missing ModelBuilder phase")
-            GlobalVars.hasError()
-            return
-        phases.append(PhaseTypeEnum.Conversion)
-        phases.append(PhaseTypeEnum.Quantization)
-    else:
-        if OlivePassNames.OnnxConversion in all_passes:
-            phases.append(PhaseTypeEnum.Conversion)
-        if OlivePassNames.OnnxQuantization in all_passes or OlivePassNames.OnnxStaticQuantization in all_passes or OlivePassNames.OnnxDynamicQuantization in all_passes:
-            phases.append(PhaseTypeEnum.Quantization)
-    if OlivePropertyNames.Evaluator in oliveJson and oliveJson[OlivePropertyNames.Evaluator]:
-        phases.append(PhaseTypeEnum.Evaluation)
-    # TODO hardcoded
-    if PhaseTypeEnum.Conversion != phases[0]:
-        print(f"{oliveJsonFile} missing Conversion phase")
-        GlobalVars.hasError()
-    if PhaseTypeEnum.Quantization != phases[1]:
-        print(f"{oliveJsonFile} missing Quantization phase")
-        GlobalVars.hasError()
-    modelParameter.phases = phases
-    
-    # check evaluation
-    if PhaseTypeEnum.Evaluation in modelParameter.phases:
-        if PhaseTypeEnum.Quantization in modelParameter.phases and len(oliveJson[OlivePropertyNames.DataConfigs]) == 1:
-            print(f"{oliveJsonFile} should have two data configs for evaluation")
-            GlobalVars.hasError()
 
     if modelParameter.isGPURequired:
         # TODO check CUDAExecutionProvider is used somewhere
