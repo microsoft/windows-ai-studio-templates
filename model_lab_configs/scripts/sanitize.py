@@ -125,16 +125,6 @@ class GlobalVars:
     def hasError(cls):
         cls.SomethingError = True
 
-    phaseToSection = {
-        PhaseTypeEnum.Conversion: "Convert",
-        PhaseTypeEnum.Quantization: "Quantize",
-        PhaseTypeEnum.Evaluation: "Evaluate"
-    }
-    phaseToSectionR = {
-        "Convert": PhaseTypeEnum.Conversion,
-        "Quantize": PhaseTypeEnum.Quantization,
-        "Evaluate": PhaseTypeEnum.Evaluation
-    }
     epToName = {
         EPNames.QNNExecutionProvider.value: "Qualcomm NPU",
         EPNames.OpenVINOExecutionProvider.value: "Intel NPU",
@@ -528,7 +518,7 @@ class Section(BaseModel):
         #if not self.description:
         #    return False
         # TODO add place holder for General?
-        if not self.parameters and self.name != GlobalVars.phaseToSection[PhaseTypeEnum.Conversion]:
+        if not self.parameters and self.phase != PhaseTypeEnum.Conversion:
             return False
         
         for i, parameter in enumerate(self.parameters):
@@ -597,10 +587,10 @@ class ModelParameter(BaseModel):
             return
 
         # TODO Add Convert section
-        if self.sections[0].name == GlobalVars.phaseToSection[PhaseTypeEnum.Conversion]:
+        if self.sections[0].phase == PhaseTypeEnum.Conversion:
             self.sections = self.sections[1:]
         self.sections.insert(0, Section(
-            name=GlobalVars.phaseToSection[PhaseTypeEnum.Conversion],
+            name="Convert",
             phase=PhaseTypeEnum.Conversion,
             parameters=[],
         ))
@@ -637,11 +627,8 @@ class ModelParameter(BaseModel):
             self.evalRuntimeFeatures = [RuntimeFeatureEnum.Nightly]
 
         for i, section in enumerate(self.sections):
-            # TODO remove
-            section.phase = GlobalVars.phaseToSectionR[section.name]
-            
             # Set conversion toggle
-            if section.name == GlobalVars.phaseToSection[PhaseTypeEnum.Conversion]:
+            if section.phase == PhaseTypeEnum.Conversion:
                 if self.useModelBuilder:
                     # TODO modelbuilder
                     modelBuilder = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] == OlivePassNames.ModelBuilder][0]
@@ -657,7 +644,7 @@ class ModelParameter(BaseModel):
                     fixed=True)
 
             # Set quantization toggle
-            elif section.name == GlobalVars.phaseToSection[PhaseTypeEnum.Quantization]:
+            elif section.phase == PhaseTypeEnum.Quantization:
                 if self.useModelBuilder:
                     # TODO modelbuilder
                     modelBuilder = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] == OlivePassNames.ModelBuilder][0]
@@ -681,7 +668,7 @@ class ModelParameter(BaseModel):
                         actions=[[], actions])
 
             # Set evaluation toggle
-            elif section.name == GlobalVars.phaseToSection[PhaseTypeEnum.Evaluation]:
+            elif section.phase == PhaseTypeEnum.Evaluation:
                 action = ParameterAction(path=OlivePropertyNames.Evaluator, type=ParameterActionTypeEnum.Delete)
                 section.toggle = Parameter(
                     name="Evaluate model performance",
@@ -693,17 +680,33 @@ class ModelParameter(BaseModel):
                 print(f"{self._file} section {i} has error")
                 GlobalVars.hasError()
 
+        # Phase check
+        allPhases = [section.phase for section in self.sections]
+        if len(allPhases) == 1 and allPhases[0] == PhaseTypeEnum.Conversion:
+            pass
+        elif len(allPhases) == 2 and allPhases[0] == PhaseTypeEnum.Conversion and allPhases[1] in [PhaseTypeEnum.Quantization, PhaseTypeEnum.Evaluation]:
+            pass
+        elif len(allPhases) == 3 and allPhases[0] == PhaseTypeEnum.Conversion and allPhases[1] == PhaseTypeEnum.Quantization and allPhases[2] == PhaseTypeEnum.Evaluation:
+            pass
+        else:
+            print(f"{self._file} has wrong phases {allPhases}")
+            GlobalVars.hasError()
+
+        if PhaseTypeEnum.Evaluation in allPhases and PhaseTypeEnum.Quantization in allPhases and len(oliveJson[OlivePropertyNames.DataConfigs]) != 2:
+            print(f"{self._file}'s olive json should have two data configs for evaluation")
+            GlobalVars.hasError()
+
         newContent = self.model_dump_json(indent=4, exclude_none=True)
         if newContent != self._fileContent:
             with open(self._file, 'w', encoding='utf-8') as file:
                 file.write(newContent)
 
     def saveReevaluationConfig(self, filePath: str):
-        evaluationSection = [section for section in self.sections if section.name == GlobalVars.phaseToSection[PhaseTypeEnum.Evaluation]]
+        evaluationSection = [section for section in self.sections if section.phase == PhaseTypeEnum.Evaluation]
         if not evaluationSection:
             return
         newParameter = copy.deepcopy(self)
-        newParameter.sections = [section for section in newParameter.sections if section.name == GlobalVars.phaseToSection[PhaseTypeEnum.Evaluation]]
+        newParameter.sections = [section for section in newParameter.sections if section.phase == PhaseTypeEnum.Evaluation]
         newParameter.sections[0].toggle.fixed = True
         newContent = newParameter.model_dump_json(indent=4, exclude_none=True)
         with open(filePath, 'w', encoding='utf-8') as file:
