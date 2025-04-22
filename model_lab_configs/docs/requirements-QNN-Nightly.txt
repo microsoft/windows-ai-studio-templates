@@ -1,3 +1,6 @@
 --pre
 --extra-index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/ORT-Nightly/pypi/simple
-onnxruntime-qnn==1.22.0.dev20250402004
+onnxruntime-qnn==1.22.0.dev20250321002
+# pip:--no-build-isolation
+# pip:--no-deps
+git+https://github.com/microsoft/Olive.git@69e3de54667701dc7d21f149cabd86d17a3fffb9#egg=olive_ai
