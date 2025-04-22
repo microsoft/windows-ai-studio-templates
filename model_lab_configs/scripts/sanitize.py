@@ -21,6 +21,7 @@ class OlivePassNames:
     OnnxDynamicQuantization = "OnnxDynamicQuantization"
     ModelBuilder = "ModelBuilder"
 
+
 class OlivePropertyNames:
     Engine = "engine"
     Passes = "passes"
@@ -40,6 +41,7 @@ class OlivePropertyNames:
 outputModelRelativePath = "\\\"./model/model.onnx\\\""
 outputModelModelBuilderPath = "\\\"./model\\\""
 
+
 # Enums
 
 class IconEnum(Enum):
@@ -56,16 +58,21 @@ class IconEnum(Enum):
     DeepSeek = "DeepSeek"
     laion = "laion"
     qwen = "qwen"
+    HuggingFace = "HuggingFace"
+
 
 class ArchitectureEnum(Enum):
     Transformer = "Transformer"
     CNN = "CNN"
     Diffusion = "Diffusion"
+    Others = "Others"
+
 
 class ModelStatusEnum(Enum):
     Ready = "Ready"
     Coming = "Coming"
     Hide = "Hide"
+
 
 class ParameterTypeEnum(Enum):
     Enum = "enum"
@@ -73,50 +80,63 @@ class ParameterTypeEnum(Enum):
     Bool = "bool"
     String = "str"
 
+
 class ParameterDisplayTypeEnum(Enum):
     Dropdown = "Dropdown"
     RadioGroup = "RadioGroup"
+
 
 class ParameterCheckTypeEnum(Enum):
     Exist = "exist"
     NotExist = "notExist"
 
+
 class ParameterActionTypeEnum(Enum):
     Upsert = "upsert"
     Delete = "delete"
+
+
+class ParameterTagEnum(Enum):
+    QuantizationDataset = "QuantizationDataset"
+    EvaluationDataset = "EvaluationDataset"
+    ActivationType = "ActivationType"
+    WeightType = "WeightType"
+
 
 class PhaseTypeEnum(Enum):
     Conversion = "Conversion"
     Quantization = "Quantization"
     Evaluation = "Evaluation"
 
+
 class ReplaceTypeEnum(Enum):
     String = "string"
     Path = "path"
     PathAdd = "pathAdd"
 
+
 class EPNames(Enum):
     CPUExecutionProvider = "CPUExecutionProvider"
     CUDAExecutionProvider = "CUDAExecutionProvider"
+    QNNExecutionProvider = "QNNExecutionProvider"
+    OpenVINOExecutionProvider = "OpenVINOExecutionProvider"
+    VitisAIExecutionProvider = "VitisAIExecutionProvider"
+
 
 # Global vars
 
 class GlobalVars:  
     SomethingError = False
+
     @classmethod
     def hasError(cls):
         cls.SomethingError = True
 
-    phaseToSection = {
-        PhaseTypeEnum.Conversion: "Convert",
-        PhaseTypeEnum.Quantization: "Quantize",
-        PhaseTypeEnum.Evaluation: "Evaluate"
-    }
     epToName = {
-        "QNNExecutionProvider": "Qualcomm NPU",
-        "OpenVINOExecutionProvider": "Intel NPU",
-        "VitisAIExecutionProvider": "AMD NPU",
-        EPNames.CPUExecutionProvider: "CPU",
+        EPNames.QNNExecutionProvider.value: "Qualcomm NPU",
+        EPNames.OpenVINOExecutionProvider.value: "Intel NPU",
+        EPNames.VitisAIExecutionProvider.value: "AMD NPU",
+        EPNames.CPUExecutionProvider.value: "CPU",
     }
     verbose = True
 
@@ -178,6 +198,7 @@ class ModelList(BaseModel):
             with open(self._file, 'w', encoding='utf-8') as file:
                 file.write(newContent)
 
+
 # Parameter
 
 def checkPath(path: str, oliveJson: Any):
@@ -205,7 +226,7 @@ class ParameterCheck(BaseModel):
 class ParameterAction(BaseModel):
     type: ParameterActionTypeEnum = None
     path: str = None
-    value: str | int | bool | float = None
+    value: str | int | bool | float | Any = None
 
     def check(self, oliveJson: Any):
         if not self.type:
@@ -233,6 +254,7 @@ class Parameter(BaseModel):
 
     """
     name: str = None
+    tags: list[ParameterTagEnum] = None
     description: str = None
     descriptionLink: str = None
     type: ParameterTypeEnum = None
@@ -240,6 +262,7 @@ class Parameter(BaseModel):
     displayType: ParameterDisplayTypeEnum = None
     path: str = None
     values: list[str] = None
+    # TODO update to expression
     checks: list[ParameterCheck] = None
     actions: list[list[ParameterAction]] = None
     fixed: bool = None
@@ -267,7 +290,7 @@ class Parameter(BaseModel):
             elif not checkPath(self.path, oliveJson):
                 return False
             elif self.values or self.checks or self.actions or self.displayNames:
-                print("Redandunt fields")
+                print("Redundant fields")
                 return False
         else:
             expectedLength = 2
@@ -294,48 +317,48 @@ class Parameter(BaseModel):
                 if not (not self.displayType or self.displayType == ParameterDisplayTypeEnum.Dropdown or self.displayType == ParameterDisplayTypeEnum.RadioGroup):
                     print("Display type should be Dropdown or RadioGroup")
                     return False
+
+            # path: bool
+            # path + actions: bool  
+            # path + values: enum
+            # path + values + actions: bool, enum
+            # checks + actions: bool, enum
+            if self.type == ParameterTypeEnum.Bool and self.path and not self.values and not self.checks and not self.actions:
+                pass
+            elif self.type == ParameterTypeEnum.Bool and self.path and not self.values and not self.checks and lenActions == expectedLength:
+                pass
+            elif self.type == ParameterTypeEnum.Enum and self.path and lenValues == expectedLength and not self.checks and not self.actions:
+                pass
+            elif self.path and lenValues == expectedLength and not self.checks and lenActions == expectedLength:
+                pass
+            elif not self.path and not self.values and lenChecks == expectedLength and lenActions == expectedLength:
+                pass
+            else:
+                print(f"Invalid combination. Check comment")
+                return False
             
-            # path + values vs checks + actions
-            if self.path and not self.checks:
-                pass
-            elif not self.path and lenChecks == expectedLength:
-                pass
-            else:
-                print(f"Either Path or checks could be used")
-                return False
-
-            if (lenValues == expectedLength or (not self.values and self.type == ParameterTypeEnum.Bool)) and not self.actions:
-                pass
-            elif not self.values and lenActions == expectedLength:
-                pass
-            else:
-                print(f"Either values or actions could be used")
-                return False
-
             if self.path:
                 if not checkPath(self.path, oliveJson):
                     return False
-                if self.actions:
-                    print("Path should not be used with actions")
-                    return False
                 # TODO more checks
-                value = pydash.get(oliveJson, self.path)
-                if self.values and value not in self.values:
-                    print(f"Value {value} not in values")
-                    return False
-            else:
+                if self.values:
+                    value = pydash.get(oliveJson, self.path)
+                    if value not in self.values:
+                        print(f"Value {value} not in values")
+                        return False
+
+            if self.checks:
                 for i, check in enumerate(self.checks):
                     if not check.check(oliveJson):
                         print(f"Check {i} has error")
                         return False
+
+            if self.actions:
                 for i, actions in enumerate(self.actions):
                     for j, action in enumerate(actions):
                         if not action.check(oliveJson):
                             print(f"Action {i} {j} has error")
                             return False
-                if self.values:
-                    print("Checks should not be used with values")
-                    return False
         return True
 
     def clearValue(self):
@@ -343,6 +366,7 @@ class Parameter(BaseModel):
         Clear everything except template
         """
         self.name = None
+        self.tags = None
         self.description = None
         self.descriptionLink = None
         self.type = None
@@ -352,13 +376,15 @@ class Parameter(BaseModel):
         self.values = None
         self.checks = None
         self.actions = None
-    
+
     def applyTemplate(self, template: Parameter):
         """
         Apply everything except template
         """
         if not self.name:
             self.name = template.name
+        if not self.tags:
+            self.tags = template.tags
         if not self.description:
             self.description = template.description
         if not self.descriptionLink:
@@ -395,6 +421,7 @@ def readCheckParameterTemplate(filePath: str):
             file.write(newContent)
     return parameters
 
+
 # Model
 
 class WorkflowItem(BaseModel):
@@ -425,9 +452,18 @@ class WorkflowItem(BaseModel):
 
 class ModelInfoProject(BaseModel):
     id: str
+    displayName: str = None
+    icon: IconEnum = None
+    modelLink: str = None
 
-    def Check(self):
+    def Check(self, modelInfo: ModelInfo):
         if not self.id:
+            return False
+        if self.displayName and self.displayName != modelInfo.displayName:
+            return False
+        if self.icon and self.icon != modelInfo.icon:
+            return False
+        if self.modelLink and self.modelLink != modelInfo.modelLink:
             return False
         return True
 
@@ -447,13 +483,13 @@ class ModelProjectConfig(BaseModel):
         return modelSpaceConfig
 
     # after template is set
-    def Check(self):
+    def Check(self, modelInfo: ModelInfo):
         for i, model in enumerate(self.workflows):
             if not model.Check():
                 print(f"{self._file} model {i} has error")
                 GlobalVars.hasError()
         
-        if not self.modelInfo.Check():
+        if not self.modelInfo.Check(modelInfo):
             print(f"{self._file} modelInfo has error")
             GlobalVars.hasError()
 
@@ -461,6 +497,7 @@ class ModelProjectConfig(BaseModel):
         if newContent != self._fileContent:
             with open(self._file, 'w', encoding='utf-8') as file:
                 file.write(newContent)
+
 
 # Model Parameter
 
@@ -477,6 +514,7 @@ class RuntimeOverwrite(BaseModel):
 # toggle: usually used for on/off switch
 class Section(BaseModel):
     name: str
+    phase: PhaseTypeEnum
     description: str = None
     parameters: list[Parameter]
     toggle: Parameter = None
@@ -491,7 +529,7 @@ class Section(BaseModel):
         #if not self.description:
         #    return False
         # TODO add place holder for General?
-        if not self.parameters and self.name != GlobalVars.phaseToSection[PhaseTypeEnum.Conversion]:
+        if not self.parameters and self.phase != PhaseTypeEnum.Conversion:
             return False
         
         for i, parameter in enumerate(self.parameters):
@@ -507,12 +545,30 @@ class Section(BaseModel):
             if not parameter.Check(False, oliveJson):
                 print(f"{_file} section {sectionId} parameter {i} has error")
                 GlobalVars.hasError()
+
+            # TODO move tag check into Parameter
             if Section.datasetPathPattern(parameter.path):
+                if self.phase == PhaseTypeEnum.Quantization:
+                    if not parameter.tags or ParameterTagEnum.QuantizationDataset not in parameter.tags:
+                        print(f"{_file} section {sectionId} parameter {i} should have QuantizationDataset tag")
+                        GlobalVars.hasError()
+                elif self.phase == PhaseTypeEnum.Evaluation:
+                    if not parameter.tags or ParameterTagEnum.EvaluationDataset not in parameter.tags:
+                        print(f"{_file} section {sectionId} parameter {i} should have EvaluationDataset tag")
+                        GlobalVars.hasError()
                 missing_keys = [key for key in parameter.values if key not in hFLoginRequiredDatasets]
                 if missing_keys:
                     print("datasets are not in hFLoginRequiredDatasets:", ', '.join(missing_keys))
                     GlobalVars.hasError()
-        
+            elif parameter.path.endswith("activation_type"):
+                if not parameter.tags or ParameterTagEnum.ActivationType not in parameter.tags:
+                    print(f"{_file} section {sectionId} parameter {i} should have ActivationType tag")
+                    GlobalVars.hasError()
+            elif parameter.path.endswith("weight_type"):
+                if not parameter.tags or ParameterTagEnum.WeightType not in parameter.tags:
+                    print(f"{_file} section {sectionId} parameter {i} should have WeightType tag")
+                    GlobalVars.hasError()
+
         if self.toggle:
             if self.toggle.type != ParameterTypeEnum.Bool:
                 print(f"{_file} section {sectionId} toggle must use bool")
@@ -525,7 +581,6 @@ class Section(BaseModel):
     
 
 class ModelParameter(BaseModel):
-    phases: list[PhaseTypeEnum] = None
     # This kind of config will
     # - could not disable quantization
     # - use modelbuilder for conversion, quantization
@@ -554,7 +609,6 @@ class ModelParameter(BaseModel):
         modelParameter._fileContent = parameterContent
         return modelParameter
 
-
     def Check(self, templates: Dict[str, Parameter], oliveJson: Any, hFLoginRequiredDatasets: Dict[str, str]):
         if not self.sections:
             print(f"{self._file} should have sections")
@@ -562,27 +616,27 @@ class ModelParameter(BaseModel):
             return
 
         # TODO Add Convert section
-        if self.sections[0].name == GlobalVars.phaseToSection[PhaseTypeEnum.Conversion]:
+        if self.sections[0].phase == PhaseTypeEnum.Conversion:
             self.sections = self.sections[1:]
         self.sections.insert(0, Section(
-            name=GlobalVars.phaseToSection[PhaseTypeEnum.Conversion],
+            name="Convert",
+            phase=PhaseTypeEnum.Conversion,
             parameters=[],
         ))
-
-        # Check sections to match phases
-        # TODO hardcoded (with additional conversion phase)
-        if len(self.sections) != len(self.phases):
-            print(f"{self._file} has wrong sections compared with phases {self.phases}")
-            GlobalVars.hasError()
         
         # Add runtime
         syskey, system = list(oliveJson[OlivePropertyNames.Systems].items())[0]
         currentEp = system[OlivePropertyNames.Accelerators][0][OlivePropertyNames.ExecutionProviders][0]
+        runtimeValues = [currentEp]
+        runtimeDisplayNames = [GlobalVars.epToName[currentEp]]
+        if currentEp != EPNames.CPUExecutionProvider.value:
+            runtimeValues.append(EPNames.CPUExecutionProvider)
+            runtimeDisplayNames.append(GlobalVars.epToName[EPNames.CPUExecutionProvider.value])
         self.runtime = Parameter(
             name="Evaluate on",
             type=ParameterTypeEnum.Enum,
-            values=[currentEp, EPNames.CPUExecutionProvider],
-            displayNames=[GlobalVars.epToName[currentEp], GlobalVars.epToName[EPNames.CPUExecutionProvider]],
+            values=runtimeValues,
+            displayNames=runtimeDisplayNames,
             path=f"{OlivePropertyNames.Systems}.{syskey}.accelerators.0.execution_providers.0",
             fixed=False,)
         if not self.runtime.Check(False, oliveJson):
@@ -602,62 +656,74 @@ class ModelParameter(BaseModel):
             self.evalRuntimeFeatures = [RuntimeFeatureEnum.Nightly]
 
         for i, section in enumerate(self.sections):
-            # hardcoded name for UI
-            if section.name != GlobalVars.phaseToSection[self.phases[i]]:
-                section.name = GlobalVars.phaseToSection[self.phases[i]]
-                print(f"{self._file} section {i} has wrong name {section.name} compared with phase {self.phases[i]}")
-            
             # Set conversion toggle
-            if section.name == GlobalVars.phaseToSection[PhaseTypeEnum.Conversion]:
+            if section.phase == PhaseTypeEnum.Conversion:
                 if self.useModelBuilder:
                     # TODO modelbuilder
-                    modelBuilder = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] in [OlivePassNames.ModelBuilder]]
-                    conversionPath = f"{OlivePropertyNames.Passes}.{modelBuilder[0]}"
+                    modelBuilder = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] == OlivePassNames.ModelBuilder][0]
+                    conversionPath = f"{OlivePropertyNames.Passes}.{modelBuilder}"
                 else:
-                    conversion = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] in [OlivePassNames.OnnxConversion]]
-                    conversionPath = f"{OlivePropertyNames.Passes}.{conversion[0]}"
+                    conversion = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] == OlivePassNames.OnnxConversion][0]
+                    conversionPath = f"{OlivePropertyNames.Passes}.{conversion}"
                 section.toggle = Parameter(
                     name="Convert to ONNX format",
                     type=ParameterTypeEnum.Bool,
-                    checks=[ParameterCheck(type=ParameterCheckTypeEnum.Exist, path=conversionPath), ParameterCheck(type=ParameterCheckTypeEnum.NotExist, path=conversionPath)],
+                    path=conversionPath,
                     actions=[[], []],
                     fixed=True)
 
             # Set quantization toggle
-            elif section.name == GlobalVars.phaseToSection[PhaseTypeEnum.Quantization]:
+            elif section.phase == PhaseTypeEnum.Quantization:
                 if self.useModelBuilder:
                     # TODO modelbuilder
-                    modelBuilder = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] in [OlivePassNames.ModelBuilder]]
-                    modelBuilderPath = f"{OlivePropertyNames.Passes}.{modelBuilder[0]}"
+                    modelBuilder = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] == OlivePassNames.ModelBuilder][0]
+                    modelBuilderPath = f"{OlivePropertyNames.Passes}.{modelBuilder}"
                     section.toggle = Parameter(
                         name="Quantize model",
                         type=ParameterTypeEnum.Bool,
                         fixed=True,
-                        checks=[ParameterCheck(type=ParameterCheckTypeEnum.Exist, path=modelBuilderPath), ParameterCheck(type=ParameterCheckTypeEnum.NotExist, path=modelBuilderPath)],
+                        path=modelBuilderPath,
                         actions=[[], []])
                 else:
-                    quantize = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] in [OlivePassNames.OnnxQuantization, OlivePassNames.OnnxStaticQuantization, OlivePassNames.OnnxDynamicQuantization]]
-                    quantizePath = f"{OlivePropertyNames.Passes}.{quantize[0]}"
-                    not_conversion = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] not in [OlivePassNames.OnnxConversion]]
-                    actions = [ParameterAction(path=f"{OlivePropertyNames.Passes}.{k}", type=ParameterActionTypeEnum.Delete) for k in not_conversion]
+                    quantize = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] in
+                                [OlivePassNames.OnnxQuantization, OlivePassNames.OnnxStaticQuantization, OlivePassNames.OnnxDynamicQuantization]][0]
+                    quantizePath = f"{OlivePropertyNames.Passes}.{quantize}"
+                    conversion = [(k, v) for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] == OlivePassNames.OnnxConversion][0]
+                    actions = [ParameterAction(path=f"{OlivePropertyNames.Passes}", type=ParameterActionTypeEnum.Upsert, value={conversion[0]:conversion[1]})]
                     section.toggle = Parameter(
                         name="Quantize model",
                         type=ParameterTypeEnum.Bool,
-                        checks=[ParameterCheck(type=ParameterCheckTypeEnum.Exist, path=quantizePath), ParameterCheck(type=ParameterCheckTypeEnum.NotExist, path=quantizePath)],
+                        path=quantizePath,
                         actions=[[], actions])
 
             # Set evaluation toggle
-            elif section.name == GlobalVars.phaseToSection[PhaseTypeEnum.Evaluation]:
+            elif section.phase == PhaseTypeEnum.Evaluation:
                 action = ParameterAction(path=OlivePropertyNames.Evaluator, type=ParameterActionTypeEnum.Delete)
                 section.toggle = Parameter(
                     name="Evaluate model performance",
                     type=ParameterTypeEnum.Bool,
-                    checks=[ParameterCheck(type=ParameterCheckTypeEnum.Exist, path=OlivePropertyNames.Evaluator), ParameterCheck(type=ParameterCheckTypeEnum.NotExist, path=OlivePropertyNames.Evaluator)],
+                    path=OlivePropertyNames.Evaluator,
                     actions=[[], [action]])
 
             if not section.Check(templates, self._file, i, oliveJson, hFLoginRequiredDatasets):
                 print(f"{self._file} section {i} has error")
                 GlobalVars.hasError()
+
+        # Phase check
+        allPhases = [section.phase for section in self.sections]
+        if len(allPhases) == 1 and allPhases[0] == PhaseTypeEnum.Conversion:
+            pass
+        elif len(allPhases) == 2 and allPhases[0] == PhaseTypeEnum.Conversion and allPhases[1] in [PhaseTypeEnum.Quantization, PhaseTypeEnum.Evaluation]:
+            pass
+        elif len(allPhases) == 3 and allPhases[0] == PhaseTypeEnum.Conversion and allPhases[1] == PhaseTypeEnum.Quantization and allPhases[2] == PhaseTypeEnum.Evaluation:
+            pass
+        else:
+            print(f"{self._file} has wrong phases {allPhases}")
+            GlobalVars.hasError()
+
+        if PhaseTypeEnum.Evaluation in allPhases and PhaseTypeEnum.Quantization in allPhases and len(oliveJson[OlivePropertyNames.DataConfigs]) != 2:
+            print(f"{self._file}'s olive json should have two data configs for evaluation")
+            GlobalVars.hasError()
 
         newContent = self.model_dump_json(indent=4, exclude_none=True)
         if newContent != self._fileContent:
@@ -665,15 +731,16 @@ class ModelParameter(BaseModel):
                 file.write(newContent)
 
     def saveReevaluationConfig(self, filePath: str):
-        evaluationSection = [section for section in self.sections if section.name == GlobalVars.phaseToSection[PhaseTypeEnum.Evaluation]]
+        evaluationSection = [section for section in self.sections if section.phase == PhaseTypeEnum.Evaluation]
         if not evaluationSection:
             return
         newParameter = copy.deepcopy(self)
-        newParameter.sections = [section for section in newParameter.sections if section.name == GlobalVars.phaseToSection[PhaseTypeEnum.Evaluation]]
+        newParameter.sections = [section for section in newParameter.sections if section.phase == PhaseTypeEnum.Evaluation]
         newParameter.sections[0].toggle.fixed = True
         newContent = newParameter.model_dump_json(indent=4, exclude_none=True)
         with open(filePath, 'w', encoding='utf-8') as file:
             file.write(newContent)
+
 
 def readCheckOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter):
     """
@@ -721,39 +788,6 @@ def readCheckOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter):
         print(f"{oliveJsonFile} target should be {systemK}")
         GlobalVars.hasError()
         return
-
-    # get phases from oliveJson
-    phases = []
-    all_passes = [v[OlivePropertyNames.Type] for _, v in oliveJson[OlivePropertyNames.Passes].items()]
-
-    if modelParameter.useModelBuilder:
-        if OlivePassNames.ModelBuilder not in all_passes or OlivePassNames.OnnxConversion in all_passes:
-            print(f"{oliveJsonFile} missing ModelBuilder phase")
-            GlobalVars.hasError()
-            return
-        phases.append(PhaseTypeEnum.Conversion)
-        phases.append(PhaseTypeEnum.Quantization)
-    else:
-        if OlivePassNames.OnnxConversion in all_passes:
-            phases.append(PhaseTypeEnum.Conversion)
-        if OlivePassNames.OnnxQuantization in all_passes or OlivePassNames.OnnxStaticQuantization in all_passes or OlivePassNames.OnnxDynamicQuantization in all_passes:
-            phases.append(PhaseTypeEnum.Quantization)
-    if OlivePropertyNames.Evaluator in oliveJson and oliveJson[OlivePropertyNames.Evaluator]:
-        phases.append(PhaseTypeEnum.Evaluation)
-    # TODO hardcoded
-    if PhaseTypeEnum.Conversion != phases[0]:
-        print(f"{oliveJsonFile} missing Conversion phase")
-        GlobalVars.hasError()
-    if PhaseTypeEnum.Quantization != phases[1]:
-        print(f"{oliveJsonFile} missing Quantization phase")
-        GlobalVars.hasError()
-    modelParameter.phases = phases
-    
-    # check evaluation
-    if PhaseTypeEnum.Evaluation in modelParameter.phases:
-        if PhaseTypeEnum.Quantization in modelParameter.phases and len(oliveJson[OlivePropertyNames.DataConfigs]) == 1:
-            print(f"{oliveJsonFile} should have two data configs for evaluation")
-            GlobalVars.hasError()
 
     if modelParameter.isGPURequired:
         # TODO check CUDAExecutionProvider is used somewhere
@@ -813,6 +847,7 @@ def readCheckIpynb(ipynbFile: str, modelItems: dict[str, ModelParameter]):
         return True
     return False
 
+
 # Copy
 
 class Replacement(BaseModel):
@@ -825,6 +860,7 @@ class Copy(BaseModel):
     src: str
     dst: str
     replacements: list[Replacement] = None
+
 
 class CopyConfig(BaseModel):
     copies: list[Copy] = None
@@ -882,6 +918,7 @@ def check_case(path: Path) -> bool:
         print(str(abs_path))
         return False
     return True
+
 
 def main():
     # need to resolve due to d:\ vs D:\
@@ -946,7 +983,10 @@ def main():
                 hasSharedIpynb = os.path.exists(sharedIpynbFile)
                 workflowsAgainstShared: dict[str, ModelParameter] = {}
                 
-                modelSpaceConfig.modelInfo = ModelInfoProject(id=modelInVersion.id)
+                if modelSpaceConfig.modelInfo:
+                    modelSpaceConfig.modelInfo.id = modelInVersion.id
+                else:
+                    modelSpaceConfig.modelInfo = ModelInfoProject(id=modelInVersion.id)
                 for i, modelItem in enumerate(modelSpaceConfig.workflows):
                     # set template
                     modelItem.template = model.id
@@ -978,7 +1018,7 @@ def main():
                             workflowsAgainstShared[modelItem.name] = modelParameter
                 readCheckIpynb(sharedIpynbFile, workflowsAgainstShared)
                     
-                modelSpaceConfig.Check()
+                modelSpaceConfig.Check(modelInVersion)
     modelList.Check()
 
     errorMsg = ''
@@ -996,6 +1036,7 @@ def main():
         errorMsg += "Please fix errors!"
     if errorMsg:
         raise BaseException(errorMsg)
+
 
 if __name__ == '__main__':
     main()

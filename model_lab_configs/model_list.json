@@ -240,6 +240,18 @@
             "architecture": "Transformer",
             "status": "Ready",
             "version": 1
+        },
+        {
+            "displayName": "Model Project Template",
+            "icon": "HuggingFace",
+            "modelLink": "https://huggingface.co/",
+            "id": "huggingface/empty",
+            "runtimes": [
+                "CPU"
+            ],
+            "architecture": "Others",
+            "status": "Ready",
+            "version": 1
         }
     ],
     "HFLoginRequiredDatasets": {
