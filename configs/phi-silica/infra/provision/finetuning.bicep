@@ -1,4 +1,3 @@
-param maximumInstanceCount int
 param timeout int
 param location string = resourceGroup().location
 
