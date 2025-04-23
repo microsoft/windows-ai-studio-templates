@@ -5,6 +5,11 @@ import subprocess
 import sys
 from model_lab import RuntimeEnum
 
+# This script is used to generate the requirements-*.txt
+# They also have special comments:
+# - `# pip:`: anything after it will be sent to pip command like `# pip:--no-build-isolation`
+# - `# copy:`: copy from cache to folder in runtime like `# copy:a/*.dll;b;pre`, `# copy:a/*.dll;b;post`
+
 def get_requires(name):
     package_name = name.split('==')[0]  # Remove version if present
     requires = []
