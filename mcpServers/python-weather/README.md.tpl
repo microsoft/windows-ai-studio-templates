@@ -33,7 +33,7 @@ After setting up the environment, you can run the server in your local dev machi
 3. Click `Run` to test the server with the prompt.
 
 **Congratulations**! You have successfully run the Weather MCP Server in your local dev machine via Agent Builder as the MCP Client.
-![DebugMCP](https://raw.githubusercontent.com/microsoft/windows-ai-studio-templates/refs/heads/dev/mcpServers/MCPScaffold.gif)
+![DebugMCP](https://raw.githubusercontent.com/microsoft/windows-ai-studio-templates/refs/heads/dev/mcpServers/mcp_debug.gif)
 
 ## What's included in the template
 

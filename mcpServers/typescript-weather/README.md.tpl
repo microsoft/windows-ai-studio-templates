@@ -18,7 +18,7 @@ This is a sample MCP Server in TypeScript implementing weather tools with mock r
 3. Click `Run` to test the server with the prompt.
 
 **Congratulations**! You have successfully run the Weather MCP Server in your local dev machine via Agent Builder as the MCP Client.
-![DebugMCP](https://raw.githubusercontent.com/microsoft/windows-ai-studio-templates/refs/heads/dev/mcpServers/MCPScaffold.gif)
+![DebugMCP](https://raw.githubusercontent.com/microsoft/windows-ai-studio-templates/refs/heads/dev/mcpServers/mcp_debug.gif)
 
 ## What's included in the template
 | Folder / File| Contents                                     |
