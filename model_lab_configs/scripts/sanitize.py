@@ -26,6 +26,7 @@ class OlivePropertyNames:
     Engine = "engine"
     Passes = "passes"
     Evaluator = "evaluator"
+    Evaluators = "evaluators"
     Type = "type"
     ExternalData = "save_as_external_data"
     Systems = "systems"
@@ -37,6 +38,9 @@ class OlivePropertyNames:
     OutputDir = "output_dir"
     PythonEnvironmentPath = "python_environment_path"
     EvaluateInputModel = "evaluate_input_model"
+    Metrics = "metrics"
+    UserConfig = "user_config"
+
 
 outputModelRelativePath = "\\\"./model/model.onnx\\\""
 outputModelModelBuilderPath = "\\\"./model\\\""
@@ -92,7 +96,9 @@ class ParameterCheckTypeEnum(Enum):
 
 
 class ParameterActionTypeEnum(Enum):
-    Upsert = "upsert"
+    # Update and Insert are both upsert in runtime. Separate them for validation
+    Update = "update"
+    Insert = "insert"
     Delete = "delete"
 
 
@@ -201,10 +207,10 @@ class ModelList(BaseModel):
 
 # Parameter
 
-def checkPath(path: str, oliveJson: Any):
+def checkPath(path: str, oliveJson: Any, printOnNotExist: bool = True):
     if GlobalVars.verbose: print(path)
     if pydash.get(oliveJson, path) is None:
-        print(f"Not in olive json: {path}")
+        if printOnNotExist: print(f"Not in olive json: {path}")
         return False
     return True
 
@@ -233,9 +239,12 @@ class ParameterAction(BaseModel):
             return False
         if not self.path:
             return False
-        if self.type == ParameterActionTypeEnum.Upsert and not self.value:
+        if self.type in [ParameterActionTypeEnum.Insert, ParameterActionTypeEnum.Update] and not self.value:
             return False
-        if not checkPath(self.path, oliveJson):
+        pathExist = checkPath(self.path, oliveJson, False)
+        if self.type in [ParameterActionTypeEnum.Delete, ParameterActionTypeEnum.Update] and not pathExist:
+            return False
+        if self.type in [ParameterActionTypeEnum.Insert] and pathExist:
             return False
         return True
 
@@ -580,6 +589,10 @@ class Section(BaseModel):
         return True
     
 
+class ADMNPUConfig(BaseModel):
+    inferenceSettings: Any = None
+
+
 class ModelParameter(BaseModel):
     # This kind of config will
     # - could not disable quantization
@@ -589,12 +602,17 @@ class ModelParameter(BaseModel):
     # This kind of config will
     # - run on CUDA EP (onnxruntime-gpu), i.e. need CUDA and cudnn
     # - the previous EP is used for EPContextBinaryGenerator if PythonEnvironment
-    # - TODO do not support cpu evaluation
+    # - do not support cpu evaluation
     # - currently it is tightly coupled with runtimeOverwrite, so pay attention
     isGPURequired: bool = None
     runtimeOverwrite: RuntimeOverwrite = None
     executeRuntimeFeatures: list[RuntimeFeatureEnum] = None
     evalRuntimeFeatures: list[RuntimeFeatureEnum] = None
+
+    # it means default template does not use it
+    # for Cpu, None means add
+    addCpu: bool = None
+    addAmdNpu: ADMNPUConfig = None
 
     runtime: Parameter = None
     sections: list[Section]
@@ -624,14 +642,44 @@ class ModelParameter(BaseModel):
             parameters=[],
         ))
         
+        if self.isGPURequired:
+            self.addCpu = False
+
         # Add runtime
         syskey, system = list(oliveJson[OlivePropertyNames.Systems].items())[0]
         currentEp = system[OlivePropertyNames.Accelerators][0][OlivePropertyNames.ExecutionProviders][0]
         runtimeValues = [currentEp]
         runtimeDisplayNames = [GlobalVars.epToName[currentEp]]
-        if currentEp != EPNames.CPUExecutionProvider.value:
+        runtimeActions = None
+        
+        if self.addAmdNpu and currentEp != EPNames.VitisAIExecutionProvider.value:
+            runtimeValues.append(EPNames.VitisAIExecutionProvider)
+            runtimeDisplayNames.append(GlobalVars.epToName[EPNames.VitisAIExecutionProvider.value])
+            evaluatorName = oliveJson[OlivePropertyNames.Evaluator]
+            if evaluatorName and self.addAmdNpu.inferenceSettings:
+                if runtimeActions is None:
+                    runtimeActions = [[] for _ in range(len(runtimeValues))]
+                else:
+                    runtimeActions.append([])
+                metricsNum = len(pydash.get(oliveJson, f"{OlivePropertyNames.Evaluators}.{evaluatorName}.{OlivePropertyNames.Metrics}"))
+                for i in range(metricsNum):
+                    runtimeActions[-1].append(ParameterAction(
+                        path=f"{OlivePropertyNames.Evaluators}.{evaluatorName}.{OlivePropertyNames.Metrics}[{i}].{OlivePropertyNames.UserConfig}",
+                        type=ParameterActionTypeEnum.Insert,
+                        value={
+                            "inference_settings": {
+                                "onnx": self.addAmdNpu.inferenceSettings,
+                            }
+                        }
+                    ))
+
+        # CPU always last
+        if self.addCpu != False and currentEp != EPNames.CPUExecutionProvider.value:
             runtimeValues.append(EPNames.CPUExecutionProvider)
             runtimeDisplayNames.append(GlobalVars.epToName[EPNames.CPUExecutionProvider.value])
+            if runtimeActions is not None:
+                runtimeActions.append([])
+        
         self.runtime = Parameter(
             name="Evaluate on",
             type=ParameterTypeEnum.Enum,
@@ -639,6 +687,7 @@ class ModelParameter(BaseModel):
             displayNames=runtimeDisplayNames,
             path=f"{OlivePropertyNames.Systems}.{syskey}.accelerators.0.execution_providers.0",
             fixed=False,)
+        self.runtime.actions = runtimeActions
         if not self.runtime.Check(False, oliveJson):
             print(f"{self._file} runtime has error")
             GlobalVars.hasError()
@@ -689,7 +738,7 @@ class ModelParameter(BaseModel):
                                 [OlivePassNames.OnnxQuantization, OlivePassNames.OnnxStaticQuantization, OlivePassNames.OnnxDynamicQuantization]][0]
                     quantizePath = f"{OlivePropertyNames.Passes}.{quantize}"
                     conversion = [(k, v) for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] == OlivePassNames.OnnxConversion][0]
-                    actions = [ParameterAction(path=f"{OlivePropertyNames.Passes}", type=ParameterActionTypeEnum.Upsert, value={conversion[0]:conversion[1]})]
+                    actions = [ParameterAction(path=f"{OlivePropertyNames.Passes}", type=ParameterActionTypeEnum.Update, value={conversion[0]:conversion[1]})]
                     section.toggle = Parameter(
                         name="Quantize model",
                         type=ParameterTypeEnum.Bool,
