@@ -580,6 +580,10 @@ class Section(BaseModel):
         return True
     
 
+class ADMNPUConfig(BaseModel):
+    inferenceSettings: Any = None
+
+
 class ModelParameter(BaseModel):
     # This kind of config will
     # - could not disable quantization
@@ -589,12 +593,17 @@ class ModelParameter(BaseModel):
     # This kind of config will
     # - run on CUDA EP (onnxruntime-gpu), i.e. need CUDA and cudnn
     # - the previous EP is used for EPContextBinaryGenerator if PythonEnvironment
-    # - TODO do not support cpu evaluation
+    # - do not support cpu evaluation
     # - currently it is tightly coupled with runtimeOverwrite, so pay attention
     isGPURequired: bool = None
     runtimeOverwrite: RuntimeOverwrite = None
     executeRuntimeFeatures: list[RuntimeFeatureEnum] = None
     evalRuntimeFeatures: list[RuntimeFeatureEnum] = None
+
+    # it means default template does not use it
+    # for Cpu, None means add
+    addCpu: bool = None
+    addAmdNpu: ADMNPUConfig = None
 
     runtime: Parameter = None
     sections: list[Section]
@@ -624,14 +633,21 @@ class ModelParameter(BaseModel):
             parameters=[],
         ))
         
+        if self.isGPURequired:
+            self.addCpu = False
+
         # Add runtime
         syskey, system = list(oliveJson[OlivePropertyNames.Systems].items())[0]
         currentEp = system[OlivePropertyNames.Accelerators][0][OlivePropertyNames.ExecutionProviders][0]
         runtimeValues = [currentEp]
         runtimeDisplayNames = [GlobalVars.epToName[currentEp]]
-        if currentEp != EPNames.CPUExecutionProvider.value:
+        runtimeActions = None
+        if self.addCpu != False and currentEp != EPNames.CPUExecutionProvider.value:
             runtimeValues.append(EPNames.CPUExecutionProvider)
             runtimeDisplayNames.append(GlobalVars.epToName[EPNames.CPUExecutionProvider.value])
+        if self.addAmdNpu and currentEp != EPNames.VitisAIExecutionProvider.value:
+            runtimeValues.append(EPNames.VitisAIExecutionProvider)
+            runtimeDisplayNames.append(GlobalVars.epToName[EPNames.VitisAIExecutionProvider.value])
         self.runtime = Parameter(
             name="Evaluate on",
             type=ParameterTypeEnum.Enum,
