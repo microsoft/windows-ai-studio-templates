@@ -1,0 +1,2 @@
+# pip:--no-build-isolation
+git+https://github.com/microsoft/Olive.git@69e3de54667701dc7d21f149cabd86d17a3fffb9#egg=olive_ai

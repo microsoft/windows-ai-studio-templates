@@ -652,7 +652,7 @@ class ModelParameter(BaseModel):
             if not self.runtimeOverwrite.Check(oliveJson):
                 print(f"{self._file} runtime overwrite has error")
                 GlobalVars.hasError()
-            self.executeRuntimeFeatures = [RuntimeFeatureEnum.AutoGptq]
+            self.executeRuntimeFeatures = [RuntimeFeatureEnum.Nightly, RuntimeFeatureEnum.AutoGptq]
             self.evalRuntimeFeatures = [RuntimeFeatureEnum.Nightly]
 
         for i, section in enumerate(self.sections):
