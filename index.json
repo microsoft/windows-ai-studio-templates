@@ -59,7 +59,7 @@
       "versions": [
         {
           "model": "Phi Silica V3.6",
-          "sdk": "WinApp SDK 1.7.250127003-experimental3",
+          "sdk": "WinApp SDK 1.8-experimental",
           "workspaceTemplatePath": "configs/phi-silica"
         }
       ]

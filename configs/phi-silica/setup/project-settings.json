@@ -10,11 +10,26 @@
                 "replaceToken": "<training_args_seed>"
             },
             {
-                "type": "String",
-                "defaultValue": "dataset",
-                "info": "Dataset to finetune on.",
-                "label": "Dataset name or path:",
-                "replaceToken": "<finetune_dataset>"
+              "type": "String",
+              "label": "Training Dataset name:",
+              "info": "Dataset to train the model from a local file.",
+              "replaceToken": "<data_configs_data_files>",
+              "optionValues": [
+                "dataset/train.json"
+              ],
+              "defaultValue": "dataset/train.json",
+              "fileName": "train.json"
+            },
+            {
+              "type": "String",
+              "label": "Test Dataset name:",
+              "info": "Dataset to evaluate the model from a local file.",
+              "replaceToken": "<data_configs_data_files>",
+              "optionValues": [
+                "dataset/test.json"
+              ],
+              "defaultValue": "dataset/test.json",
+              "fileName": "train.json"
             },
             {
                 "type": "Integer",

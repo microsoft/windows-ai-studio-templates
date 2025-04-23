@@ -7,7 +7,7 @@ eval_accumulation_steps: <eval_accumulation_steps>
 eval_delay: <eval_delay>
 eval_steps: <eval_steps>
 evaluation_strategy: <evaluation_strategy>
-finetune_dataset: mount/<run_id>/<finetune_dataset>
+finetune_dataset: mount/<run_id>/dataset
 finetune_test_batch_size: <finetune_test_batch_size>
 finetune_test_nsamples: <finetune_test_nsamples>
 finetune_test_seqlen: <finetune_test_seqlen>
