@@ -1,4 +1,5 @@
 from __future__ import annotations
+import argparse
 import re
 import shutil
 import subprocess
@@ -144,7 +145,9 @@ class GlobalVars:
         EPNames.VitisAIExecutionProvider.value: "AMD NPU",
         EPNames.CPUExecutionProvider.value: "CPU",
     }
-    verbose = True
+    verbose = False
+    pathCheck = 0
+    configCheck = 0
 
 
 # Model List
@@ -209,6 +212,7 @@ class ModelList(BaseModel):
 
 def checkPath(path: str, oliveJson: Any, printOnNotExist: bool = True):
     if GlobalVars.verbose: print(path)
+    GlobalVars.pathCheck += 1
     if pydash.get(oliveJson, path) is None:
         if printOnNotExist: print(f"Not in olive json: {path}")
         return False
@@ -620,6 +624,7 @@ class ModelParameter(BaseModel):
     @staticmethod
     def Read(parameterFile: str):
         print(f"Process {parameterFile}")
+        GlobalVars.configCheck += 1
         with open(parameterFile, 'r', encoding='utf-8') as file:
             parameterContent = file.read()
         modelParameter = ModelParameter.model_validate_json(parameterContent, strict=True)
@@ -1071,6 +1076,11 @@ def main():
     modelList.Check()
 
     errorMsg = ''
+
+    print(f"Total {GlobalVars.configCheck} config files checked with total {GlobalVars.pathCheck} path checks")
+    if GlobalVars.pathCheck != 192 or GlobalVars.configCheck != 15:
+        errorMsg += "Please update line above to reflect config changes!\n"
+
     result = subprocess.run(
         ["git", "status", "--porcelain"],
         cwd=configDir,
@@ -1080,12 +1090,16 @@ def main():
     )
     # If the output is not empty, there are uncommitted changes
     if bool(result.stdout.strip()):
-        errorMsg += "Please commit changes!"
+        errorMsg += "Please commit changes!\n"
     if GlobalVars.SomethingError:
-        errorMsg += "Please fix errors!"
+        errorMsg += "Please fix errors!\n"
     if errorMsg:
         raise BaseException(errorMsg)
 
 
 if __name__ == '__main__':
+    argparser = argparse.ArgumentParser(description="Check model lab configs")
+    argparser.add_argument("-v", "--verbose", action="store_true", help="Verbose mode")
+    args = argparser.parse_args()
+    GlobalVars.verbose = args.verbose
     main()
