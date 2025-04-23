@@ -171,7 +171,7 @@ Then you can start from step 5 below to test the prompt:
 1. Open the **Agent Builder** in the AI Toolkit sidebar.
 2. Enter your system prompt from [final_prompt.aitk.txt](./final_prompt.aitk.txt).
 3. Configure the response format:
-  - Click on the **Response Format** dropdown and select `json_schema`.
+  - Click on the **Format** dropdown and select `json_schema`.
   ![json_schema](./images/configure-json-schema.png)
   - Click the **Prepare schema** button.
   - Choose **Use local file** and select either [response_schema_openai.json](./response_schema_openai.json) (for OpenAI models) or [response_schema_gemini.json](response_schema_gemini.json) (for Gemini models) based on which model you're using.

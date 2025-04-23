@@ -1,0 +1,100 @@
+{
+    "ActivationType": {
+        "name": "Activation Type",
+        "tags": [
+            "ActivationType"
+        ],
+        "description": "Quantization data type of activation. ‘QInt8’ for signed 8-bit integer, ‘QUInt8’ for unsigned 8-bit integer etc.",
+        "descriptionLink": "https://onnxruntime.ai/docs/performance/model-optimizations/quantization.html",
+        "type": "enum",
+        "displayType": "RadioGroup",
+        "values": [
+            "QInt8",
+            "QUInt8",
+            "QInt16",
+            "QUInt16"
+        ]
+    },
+    "WeightType": {
+        "name": "Weight Type",
+        "tags": [
+            "WeightType"
+        ],
+        "description": "Data type for quantizing weights. ‘QInt8’ for signed 8-bit integer, ‘QUInt8’ for unsigned 8-bit integer etc.",
+        "descriptionLink": "https://onnxruntime.ai/docs/performance/model-optimizations/quantization.html",
+        "type": "enum",
+        "displayType": "RadioGroup",
+        "values": [
+            "QInt8",
+            "QUInt8",
+            "QInt16",
+            "QUInt16"
+        ]
+    },
+    "ActivationTypeIntel": {
+        "name": "Activation Type",
+        "tags": [
+            "ActivationType"
+        ],
+        "description": "Quantization data type of activation. ‘QInt8’ for signed 8-bit integer, ‘QUInt8’ for unsigned 8-bit integer etc.",
+        "descriptionLink": "https://onnxruntime.ai/docs/performance/model-optimizations/quantization.html",
+        "type": "enum",
+        "displayType": "RadioGroup",
+        "values": [
+            "QInt8"
+        ]
+    },
+    "WeightTypeIntel": {
+        "name": "Weight Type",
+        "tags": [
+            "WeightType"
+        ],
+        "description": "Data type for quantizing weights. ‘QInt8’ for signed 8-bit integer, ‘QUInt8’ for unsigned 8-bit integer etc.",
+        "descriptionLink": "https://onnxruntime.ai/docs/performance/model-optimizations/quantization.html",
+        "type": "enum",
+        "displayType": "RadioGroup",
+        "values": [
+            "QInt8"
+        ]
+    },
+    "EvaluationDataset": {
+        "name": "Evaluation Dataset",
+        "tags": [
+            "EvaluationDataset"
+        ],
+        "type": "enum"
+    },
+    "EvaluationDatasetSize": {
+        "name": "Evaluation Dataset Size",
+        "type": "int"
+    },
+    "EvaluationDatasetSplit": {
+        "name": "Evaluation Dataset Split",
+        "type": "enum",
+        "values": [
+            "train",
+            "validation",
+            "test"
+        ]
+    },
+    "QuantizationDataset": {
+        "name": "Quantization Dataset",
+        "tags": [
+            "QuantizationDataset"
+        ],
+        "type": "enum"
+    },
+    "QuantizationDatasetSize": {
+        "name": "Quantization Dataset Size",
+        "type": "int"
+    },
+    "QuantizationDatasetSplit": {
+        "name": "Quantization Dataset Split",
+        "type": "enum",
+        "values": [
+            "train",
+            "validation",
+            "test"
+        ]
+    }
+}
