@@ -189,6 +189,7 @@ class ModelInfo(BaseModel):
 class ModelList(BaseModel):
     models: list[ModelInfo]
     HFLoginRequiredDatasets: Dict[str, str]
+    DatasetSplit: Dict[str, list[str]]
 
     @staticmethod
     def Read(scriptFolder: str):
@@ -211,6 +212,11 @@ class ModelList(BaseModel):
         if newContent != self._fileContent:
             with open(self._file, 'w', encoding='utf-8') as file:
                 file.write(newContent)
+
+        for key in self.DatasetSplit.keys():
+            if key not in self.HFLoginRequiredDatasets:
+                print(f"{self._file} DatasetSplit {key} not in HFLoginRequiredDatasets")
+                GlobalVars.hasError()
 
 
 # Parameter

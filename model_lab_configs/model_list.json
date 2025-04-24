@@ -261,5 +261,10 @@
         "glue": "https://huggingface.co/datasets/nyu-mll/glue",
         "nlphuji/flickr30k": "https://huggingface.co/datasets/nlphuji/flickr30k",
         "timm/mini-imagenet": "https://huggingface.co/datasets/timm/mini-imagenet"
+    },
+    "DatasetSplit": {
+        "nlphuji/flickr30k": [
+            "test"
+        ]
     }
 }
