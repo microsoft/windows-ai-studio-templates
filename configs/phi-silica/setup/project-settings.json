@@ -29,7 +29,7 @@
                 "dataset/test.json"
               ],
               "defaultValue": "dataset/test.json",
-              "fileName": "train.json"
+              "fileName": "test.json"
             },
             {
                 "type": "Integer",
