@@ -190,6 +190,8 @@ class ModelList(BaseModel):
     models: list[ModelInfo]
     HFLoginRequiredDatasets: Dict[str, str]
     DatasetSplit: Dict[str, list[str]]
+    # align with parameter template
+    DatasetSplitDefault: list[str]
     DatasetSubset: Dict[str, list[str]]
 
     @staticmethod

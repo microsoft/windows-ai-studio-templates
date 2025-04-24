@@ -267,5 +267,10 @@
             "test"
         ]
     },
+    "DatasetSplitDefault": [
+        "train",
+        "validation",
+        "test"
+    ],
     "DatasetSubset": {}
 }
