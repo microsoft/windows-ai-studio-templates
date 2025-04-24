@@ -105,7 +105,12 @@ class ParameterActionTypeEnum(Enum):
 
 class ParameterTagEnum(Enum):
     QuantizationDataset = "QuantizationDataset"
+    QuantizationDatasetSubset = "QuantizationDatasetSubset"
+    QuantizationDatasetSplit = "QuantizationDatasetSplit"
     EvaluationDataset = "EvaluationDataset"
+    EvaluationDatasetSubset = "EvaluationDatasetSubset"
+    EvaluationDatasetSplit = "EvaluationDatasetSplit"
+    DependsOnDataset = "DependsOnDataset"
     ActivationType = "ActivationType"
     WeightType = "WeightType"
 
