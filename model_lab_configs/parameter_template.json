@@ -70,12 +70,24 @@
     },
     "EvaluationDatasetSplit": {
         "name": "Evaluation Dataset Split",
+        "tags": [
+            "EvaluationDatasetSplit",
+            "DependsOnDataset"
+        ],
         "type": "enum",
         "values": [
             "train",
             "validation",
             "test"
         ]
+    },
+    "EvaluationDatasetSubset": {
+        "name": "Evaluation Dataset Subset",
+        "tags": [
+            "EvaluationDatasetSubset",
+            "DependsOnDataset"
+        ],
+        "type": "enum"
     },
     "QuantizationDataset": {
         "name": "Quantization Dataset",
@@ -90,11 +102,23 @@
     },
     "QuantizationDatasetSplit": {
         "name": "Quantization Dataset Split",
+        "tags": [
+            "QuantizationDatasetSplit",
+            "DependsOnDataset"
+        ],
         "type": "enum",
         "values": [
             "train",
             "validation",
             "test"
         ]
+    },
+    "QuantizationDatasetSubset": {
+        "name": "Quantization Dataset Subset",
+        "tags": [
+            "QuantizationDatasetSubset",
+            "DependsOnDataset"
+        ],
+        "type": "enum"
     }
 }
