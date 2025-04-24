@@ -784,17 +784,6 @@ class ModelParameter(BaseModel):
             with open(self._file, 'w', encoding='utf-8') as file:
                 file.write(newContent)
 
-    def saveReevaluationConfig(self, filePath: str):
-        evaluationSection = [section for section in self.sections if section.phase == PhaseTypeEnum.Evaluation]
-        if not evaluationSection:
-            return
-        newParameter = copy.deepcopy(self)
-        newParameter.sections = [section for section in newParameter.sections if section.phase == PhaseTypeEnum.Evaluation]
-        newParameter.sections[0].toggle.fixed = True
-        newContent = newParameter.model_dump_json(indent=4, exclude_none=True)
-        with open(filePath, 'w', encoding='utf-8') as file:
-            file.write(newContent)
-
 
 def readCheckOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter):
     """
@@ -1056,10 +1045,6 @@ def main():
 
                     # check parameter
                     modelParameter.Check(parameterTemplate, oliveJson, modelList.HFLoginRequiredDatasets)
-
-                    # create reevaluation config
-                    re_evaluationFile = os.path.join(modelVerDir, f"{modelItem.templateName}.re.json.config")
-                    modelParameter.saveReevaluationConfig(re_evaluationFile)
 
                     # check ipynb
                     ipynbFile = os.path.join(modelVerDir, f"{modelItem.templateName}_inference_sample.ipynb")
