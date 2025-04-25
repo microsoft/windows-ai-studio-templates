@@ -189,9 +189,11 @@ class ModelInfo(BaseModel):
 class ModelList(BaseModel):
     models: list[ModelInfo]
     HFLoginRequiredDatasets: Dict[str, str]
+    # If it is the first dataset, we will use the config from json
+    # If not and exist in the dict, we will use the one from dict
+    # If not exist in the dict, we will use the config from json
+    # - So custom config could provide a combined list for new datasets
     DatasetSplit: Dict[str, list[str]]
-    # align with parameter template
-    DatasetSplitDefault: list[str]
     DatasetSubset: Dict[str, list[str]]
 
     @staticmethod
@@ -304,7 +306,7 @@ class Parameter(BaseModel):
     # always put template in the end
     template: Parameter | str = None
 
-    def Check(self, isTemplate: bool, oliveJson: Any = None):
+    def Check(self, isTemplate: bool, oliveJson: Any = None, modelList: ModelList = None):
         if isTemplate:
             if self.template:
                 return False
@@ -377,8 +379,19 @@ class Parameter(BaseModel):
                 # TODO more checks
                 if self.values:
                     value = pydash.get(oliveJson, self.path)
-                    if value not in self.values:
-                        print(f"Value {value} not in values")
+                    if self.tags and (ParameterTagEnum.EvaluationDataset in self.tags or ParameterTagEnum.QuantizationDataset in self.tags):
+                        if value != self.values[0]:
+                            print(f"Value {value} not the first in values for {self.path}")
+                            return False
+                        for i in range(len(self.values) - 1):
+                            value_in_list = self.values[i + 1]
+                            if value_in_list not in modelList.DatasetSplit:
+                                print(f"Value {value_in_list} not in DatasetSplit for {self.path}")
+                                return False
+                            if value_in_list not in modelList.DatasetSubset:
+                                print(f"WARNING: Value {value_in_list} not in DatasetSubset for {self.path}. Could be acceptable if it doesn't have subset")
+                    elif value not in self.values:
+                        print(f"Value {value} not in values for {self.path}")
                         return False
 
             if self.checks:
@@ -561,7 +574,7 @@ class Section(BaseModel):
     def datasetPathPattern(path: str): 
         return re.fullmatch(r'data_configs\[(0|[1-9]\d{0,2})\]\.load_dataset_config\.data_name', path)
 
-    def Check(self, templates: Dict[str, Parameter], _file: str, sectionId: int, oliveJson: Any, hFLoginRequiredDatasets: Dict[str, str]):
+    def Check(self, templates: Dict[str, Parameter], _file: str, sectionId: int, oliveJson: Any, modelList: ModelList):
         if not self.name:
             return False
         #if not self.description:
@@ -580,7 +593,7 @@ class Section(BaseModel):
                 parameter.clearValue()
                 parameter.applyTemplate(template)
                 parameter.applyTemplate(templates[template.template])
-            if not parameter.Check(False, oliveJson):
+            if not parameter.Check(False, oliveJson, modelList):
                 print(f"{_file} section {sectionId} parameter {i} has error")
                 GlobalVars.hasError()
 
@@ -594,7 +607,7 @@ class Section(BaseModel):
                     if not parameter.tags or ParameterTagEnum.EvaluationDataset not in parameter.tags:
                         print(f"{_file} section {sectionId} parameter {i} should have EvaluationDataset tag")
                         GlobalVars.hasError()
-                missing_keys = [key for key in parameter.values if key not in hFLoginRequiredDatasets]
+                missing_keys = [key for key in parameter.values if key not in modelList.HFLoginRequiredDatasets]
                 if missing_keys:
                     print("datasets are not in hFLoginRequiredDatasets:", ', '.join(missing_keys))
                     GlobalVars.hasError()
@@ -611,7 +624,7 @@ class Section(BaseModel):
             if self.toggle.type != ParameterTypeEnum.Bool:
                 print(f"{_file} section {sectionId} toggle must use bool")
                 return False
-            if not self.toggle.Check(False, oliveJson):
+            if not self.toggle.Check(False, oliveJson, modelList):
                 print(f"{_file} section {sectionId} toggle has error")
                 GlobalVars.hasError()
 
@@ -657,7 +670,7 @@ class ModelParameter(BaseModel):
         modelParameter._fileContent = parameterContent
         return modelParameter
 
-    def Check(self, templates: Dict[str, Parameter], oliveJson: Any, hFLoginRequiredDatasets: Dict[str, str]):
+    def Check(self, templates: Dict[str, Parameter], oliveJson: Any, modelList: ModelList):
         if not self.sections:
             print(f"{self._file} should have sections")
             GlobalVars.hasError()
@@ -720,7 +733,7 @@ class ModelParameter(BaseModel):
             path=f"{OlivePropertyNames.Systems}.{syskey}.accelerators.0.execution_providers.0",
             fixed=False,)
         self.runtime.actions = runtimeActions
-        if not self.runtime.Check(False, oliveJson):
+        if not self.runtime.Check(False, oliveJson, modelList):
             print(f"{self._file} runtime has error")
             GlobalVars.hasError()
 
@@ -793,7 +806,7 @@ class ModelParameter(BaseModel):
                     path=OlivePropertyNames.Evaluator,
                     actions=[[], [action]])
 
-            if not section.Check(templates, self._file, i, oliveJson, hFLoginRequiredDatasets):
+            if not section.Check(templates, self._file, i, oliveJson, modelList):
                 print(f"{self._file} section {i} has error")
                 GlobalVars.hasError()
 
@@ -1078,7 +1091,7 @@ def main():
                     oliveJson = readCheckOliveConfig(oliveJsonFile, modelParameter)
 
                     # check parameter
-                    modelParameter.Check(parameterTemplate, oliveJson, modelList.HFLoginRequiredDatasets)
+                    modelParameter.Check(parameterTemplate, oliveJson, modelList)
 
                     # check ipynb
                     ipynbFile = os.path.join(modelVerDir, f"{modelItem.templateName}_inference_sample.ipynb")
@@ -1097,7 +1110,7 @@ def main():
     errorMsg = ''
 
     print(f"Total {GlobalVars.configCheck} config files checked with total {GlobalVars.pathCheck} path checks")
-    if GlobalVars.pathCheck != 192 or GlobalVars.configCheck != 15:
+    if GlobalVars.pathCheck != 194 or GlobalVars.configCheck != 15:
         errorMsg += "Please update line above to reflect config changes!\n"
 
     result = subprocess.run(
