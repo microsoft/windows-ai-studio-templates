@@ -40,3 +40,7 @@ In this section, you could configure the parameters for evaluation.
 You could also disable this section. In this case, the workflow will only convert the model to ONNX format but do not evaluate the model.
 
 After configuring all sections, you could click `Run` to start the conversion process.
+
+### Note for `Run`
+
+It takes long time when first time running workflows. In general, it may take 15~20 minutes for overall process, which including environment setup process. AITK model lab need to setup python environment and install dependency packages. Next time it will be much faster.

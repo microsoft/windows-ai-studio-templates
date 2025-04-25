@@ -48,6 +48,14 @@ This column offers several options to manage your tasks. You can perform the fol
 - **Copy Model Path:** Copy the file path of the model for easy access and use in other applications.
 - **Re-evaluate:** Re-run the evaluation process for the converted model.
 
+### Note for `Inference in Sample`
+
+After openning the `ipynb`, Click **Select Kernel** at the top right of the window, then choose **Python Environment**.
+
+Select the environment you want to use. We recommend using the Python environment we provide, located at `C:\Users\{user_name}\.aitk\bin\model_lab_runtime`. This environment already has the required dependencies installed.
+
+The first time you run a notebook with a new kernel, you may be prompted to install **ipykernel**. Please follow the prompt to complete the installation.
+
 ## Selecting Histories
 
 Click on the checkboxes next to the tasks you want to select. You can select multiple tasks at once.
