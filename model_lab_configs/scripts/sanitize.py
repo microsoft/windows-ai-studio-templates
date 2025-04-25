@@ -189,10 +189,10 @@ class ModelInfo(BaseModel):
 class ModelList(BaseModel):
     models: list[ModelInfo]
     HFLoginRequiredDatasets: Dict[str, str]
-    # If it is the first dataset, we will use the config from json
-    # If not and exist in the dict, we will use the one from dict
+    # If exist in the dict, we will use the one from dict
     # If not exist in the dict, we will use the config from json
-    # - So custom config could provide a combined list for new datasets
+    # - if only one value, don't need to add
+    # - custom config could provide a combined list for new datasets
     DatasetSplit: Dict[str, list[str]]
     DatasetSubset: Dict[str, list[str]]
 
