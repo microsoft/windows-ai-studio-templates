@@ -159,6 +159,7 @@ class GlobalVars:
 
 class ModelInfo(BaseModel):
     displayName: str
+    discription: str = None
     icon: IconEnum
     modelLink: str
     id: str
@@ -188,6 +189,7 @@ class ModelInfo(BaseModel):
 
 class ModelList(BaseModel):
     models: list[ModelInfo]
+    template_models: list[ModelInfo]
     HFLoginRequiredDatasets: Dict[str, str]
     # If exist in the dict, we will use the one from dict
     # If not exist in the dict, we will use the config from json
@@ -207,9 +209,12 @@ class ModelList(BaseModel):
         modelList._fileContent = modelListContent
         return modelList
     
+    def allModels(self):
+        return self.models + self.template_models
+
     # Check after set version
     def Check(self):
-        for i, model in enumerate(self.models):
+        for i, model in enumerate(self.allModels()):
             if not model.Check():
                 print(f"{self._file} model {i} has error")
                 GlobalVars.hasError()
@@ -1018,7 +1023,7 @@ def main():
     # check parameter template
     parameterTemplate = readCheckParameterTemplate(os.path.join(configDir, "parameter_template.json"))
     # check each model
-    for model in modelList.models:
+    for model in modelList.allModels():
         if model.id and model.status == ModelStatusEnum.Ready:
             modelDir = os.path.join(configDir, model.id)
 
