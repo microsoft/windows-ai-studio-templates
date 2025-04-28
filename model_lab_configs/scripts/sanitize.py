@@ -190,7 +190,8 @@ class ModelInfo(BaseModel):
 class ModelList(BaseModel):
     models: list[ModelInfo]
     template_models: list[ModelInfo]
-    HFLoginRequiredDatasets: Dict[str, str]
+    HFDatasets: Dict[str, str]
+    LoginRequiredDatasets: list[str]
     # If exist in the dict, we will use the one from dict
     # If not exist in the dict, we will use the config from json
     # - if only one value, don't need to add
@@ -224,13 +225,13 @@ class ModelList(BaseModel):
                 file.write(newContent)
 
         for key in self.DatasetSplit.keys():
-            if key not in self.HFLoginRequiredDatasets:
-                print(f"{self._file} DatasetSplit {key} not in HFLoginRequiredDatasets")
+            if key not in self.HFDatasets:
+                print(f"{self._file} DatasetSplit {key} not in HFDatasets")
                 GlobalVars.hasError()
 
         for key in self.DatasetSubset.keys():
-            if key not in self.HFLoginRequiredDatasets:
-                print(f"{self._file} DatasetSubset {key} not in HFLoginRequiredDatasets")
+            if key not in self.HFDatasets:
+                print(f"{self._file} DatasetSubset {key} not in HFDatasets")
                 GlobalVars.hasError()
 
 
@@ -592,9 +593,9 @@ class Section(BaseModel):
                     if not parameter.tags or ParameterTagEnum.EvaluationDataset not in parameter.tags:
                         print(f"{_file} section {sectionId} parameter {i} should have EvaluationDataset tag")
                         GlobalVars.hasError()
-                missing_keys = [key for key in parameter.values if key not in modelList.HFLoginRequiredDatasets]
+                missing_keys = [key for key in parameter.values if key not in modelList.HFDatasets]
                 if missing_keys:
-                    print("datasets are not in hFLoginRequiredDatasets:", ', '.join(missing_keys))
+                    print("datasets are not in HFDatasets:", ', '.join(missing_keys))
                     GlobalVars.hasError()
             elif parameter.path.endswith("activation_type"):
                 if not parameter.tags or ParameterTagEnum.ActivationType not in parameter.tags:
