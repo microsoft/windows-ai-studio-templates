@@ -424,50 +424,17 @@ class Parameter(BaseModel):
         """
         Clear everything except template
         """
-        self.name = None
-        self.tags = None
-        self.description = None
-        self.descriptionLink = None
-        self.type = None
-        self.displayNames = None
-        self.displayType = None
-        self.path = None
-        self.values = None
-        self.selectors = None
-        self.actions = None
-        self.fixed = None
-        self.customize = None
+        for attr in vars(self):
+            if attr != "template":
+                setattr(self, attr, None)
 
     def applyTemplate(self, template: Parameter):
         """
         Apply everything except template
         """
-        if not self.name:
-            self.name = template.name
-        if not self.tags:
-            self.tags = template.tags
-        if not self.description:
-            self.description = template.description
-        if not self.descriptionLink:
-            self.descriptionLink = template.descriptionLink
-        if not self.type:
-            self.type = template.type
-        if not self.displayNames:
-            self.displayNames = template.displayNames
-        if not self.displayType:
-            self.displayType = template.displayType
-        if not self.path:
-            self.path = template.path
-        if not self.values:
-            self.values = template.values
-        if not self.selectors:
-            self.selectors = template.selectors
-        if not self.actions:
-            self.actions = template.actions
-        if not self.fixed:
-            self.fixed = template.fixed
-        if not self.customize:
-            self.customize = template.customize
+        for attr, value in vars(template).items():
+            if not getattr(self, attr) and attr != "template":
+                setattr(self, attr, value)
 
 
 def readCheckParameterTemplate(filePath: str):
