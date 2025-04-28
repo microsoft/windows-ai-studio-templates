@@ -257,7 +257,7 @@
             "version": 1
         }
     ],
-    "HFLoginRequiredDatasets": {
+    "HFDatasets": {
         "imagenet-1k": "https://huggingface.co/datasets/ILSVRC/imagenet-1k",
         "wikitext": "https://huggingface.co/datasets/Salesforce/wikitext",
         "facebook/xnli": "https://huggingface.co/datasets/facebook/xnli",
@@ -265,6 +265,9 @@
         "nlphuji/flickr30k": "https://huggingface.co/datasets/nlphuji/flickr30k",
         "timm/mini-imagenet": "https://huggingface.co/datasets/timm/mini-imagenet"
     },
+    "LoginRequiredDatasets": [
+        "imagenet-1k"
+    ],
     "DatasetSplit": {
         "nlphuji/flickr30k": [
             "test"
