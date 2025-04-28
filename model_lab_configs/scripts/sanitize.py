@@ -307,6 +307,7 @@ class Parameter(BaseModel):
     selectors: list[ParameterCheck] = None
     actions: list[list[ParameterAction]] = None
     fixed: bool = None
+    customize: bool = None
     # 1st level is Parameter and 2nd level is str in templates
     # always put template in the end
     template: Parameter | str = None
@@ -330,7 +331,7 @@ class Parameter(BaseModel):
                 return False
             elif not checkPath(self.path, oliveJson):
                 return False
-            elif self.values or self.selectors or self.actions or self.displayNames:
+            elif self.values or self.selectors or self.actions or self.displayNames or self.customize:
                 print("Redundant fields")
                 return False
         else:
@@ -357,6 +358,12 @@ class Parameter(BaseModel):
             if self.type == ParameterTypeEnum.Enum:
                 if not (not self.displayType or self.displayType == ParameterDisplayTypeEnum.Dropdown or self.displayType == ParameterDisplayTypeEnum.RadioGroup):
                     print("Display type should be Dropdown or RadioGroup")
+                    return False
+
+            # customize
+            if self.customize == True:
+                if not (self.type == ParameterTypeEnum.Enum and not self.actions and not self.displayNames and not self.selectors):
+                    print("Wrong customize prerequisites!")
                     return False
 
             # path: bool
@@ -428,6 +435,8 @@ class Parameter(BaseModel):
         self.values = None
         self.selectors = None
         self.actions = None
+        self.fixed = None
+        self.customize = None
 
     def applyTemplate(self, template: Parameter):
         """
@@ -455,6 +464,10 @@ class Parameter(BaseModel):
             self.selectors = template.selectors
         if not self.actions:
             self.actions = template.actions
+        if not self.fixed:
+            self.fixed = template.fixed
+        if not self.customize:
+            self.customize = template.customize
 
 
 def readCheckParameterTemplate(filePath: str):
