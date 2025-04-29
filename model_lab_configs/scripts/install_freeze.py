@@ -30,6 +30,9 @@ def main():
         RuntimeEnum.NvidiaGPU: [
             "--extra-index-url https://download.pytorch.org/whl/cu121",
             "torch==2.4.1+cu121",
+        ],
+        RuntimeEnum.AMDNPU: [
+            "numpy==1.26.4"
         ]
     }
     shared = [
@@ -52,7 +55,13 @@ def main():
         RuntimeEnum.IntelNPU: [
             "onnxruntime-openvino==1.20.0"
         ],
-        RuntimeEnum.AMDNPU: [],
+        RuntimeEnum.AMDNPU: [
+            "torchvision==0.22.0",
+            "# onnxruntime",
+            "./voe-1.5.0.dev20250417022941+g53d49594-py3-none-any.whl",
+            "./onnxruntime_vitisai-1.22.0.dev20250417-cp310-cp310-win_amd64.whl",
+            "# copy:onnxruntime_vitisai-1.22.0.dev20250417-cp310-cp310-win_amd64/*.dll;Lib/site-packages/onnxruntime/capi;post"
+        ],
         # https://onnxruntime.ai/docs/execution-providers/CUDA-ExecutionProvider.html
         RuntimeEnum.NvidiaGPU: [
             "onnxruntime-gpu==1.21.0",
@@ -102,7 +111,7 @@ def main():
     outputFile = path.join(path.dirname(__file__), "..", "docs", f"requirements-{args.runtime}.txt")
     with open(outputFile, "w") as f:
         for name in all:
-            if name.startswith("--"):
+            if not '==' in name:
                 f.write(name + "\n")
                 continue
             f.write("# " + name + "\n")
