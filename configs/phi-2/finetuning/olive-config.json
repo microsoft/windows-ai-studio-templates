@@ -5,15 +5,15 @@
             "hf_config": {
                 "model_name": "model-cache/microsoft/phi-2",
                 "task": "text-generation",
-                "model_loading_args": {
+                "from_pretrained_args":  {
                     "trust_remote_code": true
                 }
             }
         }
     },
     "data_configs": {
-        "dataset-default_train": {
-            "name": "dataset-default",
+        "dataset_default_train": {
+            "name": "dataset_default",
             "type": "HuggingfaceContainer",
             "params_config": {
 #data_configs_data_files_extension_start
@@ -45,7 +45,7 @@
                 "lora_r": <lora_r>,
                 "lora_alpha": <lora_alpha>,
                 "lora_dropout": <lora_dropout>,
-                "train_data_config": "dataset-default_train",
+                "train_data_config": "dataset_default_train",
                 "eval_dataset_size": <eval_dataset_size>,
                 "training_args": {
                     "seed": <training_args_seed>,

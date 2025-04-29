@@ -6,11 +6,34 @@
     "configurations": [
         {
             "name": "Python: Current File",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
             "justMyCode": false
+        },
+        {
+            "name": "Python: invoke_finetune_azure",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "finetuning/invoke_olive.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": [
+                "--azure",
+                "--aml_config",
+                "finetuning/aml_config.json",
+            ]
+        },
+        {
+            "name": "Python: invoke_finetune_local",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "finetuning/invoke_olive.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": [                
+            ]
         }
     ]
 }
