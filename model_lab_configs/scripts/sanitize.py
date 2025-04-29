@@ -224,14 +224,14 @@ class ModelList(BaseModel):
             with open(self._file, 'w', encoding='utf-8') as file:
                 file.write(newContent)
 
-        for key in self.DatasetSplit.keys():
+        self.CheckDataset(self.LoginRequiredDatasets, "LoginRequiredDatasets")
+        self.CheckDataset(self.DatasetSplit.keys(), "DatasetSplit")
+        self.CheckDataset(self.DatasetSubset.keys(), "DatasetSubset")
+    
+    def CheckDataset(self, datasetKeys, name: str):
+        for key in datasetKeys:
             if key not in self.HFDatasets:
-                print(f"{self._file} DatasetSplit {key} not in HFDatasets")
-                GlobalVars.hasError()
-
-        for key in self.DatasetSubset.keys():
-            if key not in self.HFDatasets:
-                print(f"{self._file} DatasetSubset {key} not in HFDatasets")
+                print(f"{self._file} {name} {key} not in HFDatasets")
                 GlobalVars.hasError()
 
 
@@ -363,7 +363,7 @@ class Parameter(BaseModel):
 
             # customize
             if self.customize == True:
-                if not (self.type == ParameterTypeEnum.Enum and not self.actions and not self.displayNames and not self.selectors):
+                if not (self.type == ParameterTypeEnum.Enum and self.values and not self.selectors):
                     print("Wrong customize prerequisites!")
                     return False
 
