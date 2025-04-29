@@ -264,5 +264,22 @@
       "parameterSize": "3.8B",
       "fileSize": "2.30 GB",
       "runtime": "cuda"
+    },
+    {
+      "name": "DeepSeek-R1-Distilled-NPU-Optimized",
+      "providerType": "HuggingFace",
+      "uri": "cloudnbits/DeepSeek-R1-Distilled-NPU-Optimized",
+      "modelType": "onnx",
+      "task": "Text Generation",
+      "fineTuningTemplateName": "cloudnbits/DeepSeek-R1-Distilled-NPU-Optimized",
+      "promptTemplate": {
+        "assistant": "{Content}",
+        "prompt": "\u003C｜begin▁of▁sentence｜\u003E｜User｜{Content}｜Assistant｜"
+      },
+      "publisher": "cloudnbits",
+      "architecture": "MoE",
+      "parameterSize": "1.5B",
+      "fileSize": "3.90 GB",
+      "runtime": "NPU"
     }
 ]
