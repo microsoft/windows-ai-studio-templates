@@ -271,6 +271,16 @@
     "DatasetSplit": {
         "nlphuji/flickr30k": [
             "test"
+        ],
+        "imagenet-1k": [
+            "train",
+            "validation",
+            "test"
+        ],
+        "timm/mini-imagenet": [
+            "train",
+            "validation",
+            "test"
         ]
     },
     "DatasetSubset": {}

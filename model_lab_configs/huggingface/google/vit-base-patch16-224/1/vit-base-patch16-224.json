@@ -39,14 +39,15 @@
             "type": "HuggingfaceContainer",
             "user_script": "vit-base-patch16-224.py",
             "load_dataset_config": {
-                "data_name": "imagenet-1k",
+                "data_name": "timm/mini-imagenet",
                 "split": "train",
                 "streaming": true,
                 "trust_remote_code": true
             },
             "pre_process_data_config": {
                 "type": "dataset_pre_process",
-                "size": 256
+                "size": 256,
+                "cache_key": "imagedata_quantization"
             },
             "post_process_data_config": {
                 "type": "dataset_post_process"
@@ -57,14 +58,15 @@
             "type": "HuggingfaceContainer",
             "user_script": "vit-base-patch16-224.py",
             "load_dataset_config": {
-                "data_name": "imagenet-1k",
+                "data_name": "timm/mini-imagenet",
                 "split": "validation",
                 "streaming": true,
                 "trust_remote_code": true
             },
             "pre_process_data_config": {
                 "type": "dataset_pre_process",
-                "size": 1000
+                "size": 1000,
+                "cache_key": "imagedata_evaluation"
             },
             "post_process_data_config": {
                 "type": "dataset_post_process"
