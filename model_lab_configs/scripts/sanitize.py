@@ -91,7 +91,7 @@ class ParameterDisplayTypeEnum(Enum):
     RadioGroup = "RadioGroup"
 
 
-class ParameterCheckTypeEnum(Enum):
+class ParameterSelectorTypeEnum(Enum):
     Exist = "exist"
     NotExist = "notExist"
 
@@ -246,8 +246,8 @@ def checkPath(path: str, oliveJson: Any, printOnNotExist: bool = True):
     return True
 
 
-class ParameterCheck(BaseModel):
-    type: ParameterCheckTypeEnum = None
+class ParameterSelector(BaseModel):
+    type: ParameterSelectorTypeEnum = None
     path: str = None
 
     def check(self, oliveJson: Any):
@@ -305,7 +305,7 @@ class Parameter(BaseModel):
     path: str = None
     values: list[str] = None
     # TODO update to expression
-    selectors: list[ParameterCheck] = None
+    selectors: list[ParameterSelector] = None
     actions: list[list[ParameterAction]] = None
     fixed: bool = None
     customize: bool = None
