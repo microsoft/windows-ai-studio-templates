@@ -9,6 +9,7 @@ from model_lab import RuntimeEnum
 # They also have special comments:
 # - `# pip:`: anything after it will be sent to pip command like `# pip:--no-build-isolation`
 # - `# copy:`: copy from cache to folder in runtime like `# copy:a/*.dll;b;pre`, `# copy:a/*.dll;b;post`
+# - `# download:`: download from release and save it to cache folder like `# download:onnxruntime-genai-cuda-0.7.0-cp39-cp39-win_amd64.whl`
 
 def get_requires(name):
     package_name = name.split('==')[0]  # Remove version if present
@@ -28,8 +29,8 @@ def main():
     # Constants
     pre = {
         RuntimeEnum.NvidiaGPU: [
-            "--extra-index-url https://download.pytorch.org/whl/cu121",
-            "torch==2.4.1+cu121",
+            "--extra-index-url https://download.pytorch.org/whl/cu126",
+            "torch==2.6.0+cu126",
         ],
         RuntimeEnum.AMDNPU: [
             "numpy==1.26.4"
@@ -53,6 +54,7 @@ def main():
             "onnxruntime-qnn==1.20.2"
         ],
         RuntimeEnum.IntelNPU: [
+            # TODO torchvision
             "onnxruntime-openvino==1.20.0"
         ],
         RuntimeEnum.AMDNPU: [
@@ -64,6 +66,7 @@ def main():
         ],
         # https://onnxruntime.ai/docs/execution-providers/CUDA-ExecutionProvider.html
         RuntimeEnum.NvidiaGPU: [
+            "torchvision==0.21.0+cu126",
             "onnxruntime-gpu==1.21.0",
             "onnxruntime-genai-cuda==0.7.0"
         ]
