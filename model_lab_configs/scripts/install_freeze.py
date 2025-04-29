@@ -51,7 +51,7 @@ def main():
         ],
         RuntimeEnum.QNN: [
             "torchvision==0.22.0",
-            "onnxruntime-qnn==1.20.2"
+            "onnxruntime-qnn==1.21.1"
         ],
         RuntimeEnum.IntelNPU: [
             # TODO torchvision
