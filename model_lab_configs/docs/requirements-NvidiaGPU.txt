@@ -59,6 +59,11 @@ ipython==8.35.0
 jupyterlab_widgets==3.0.14
 traitlets==5.14.3
 widgetsnbextension==4.0.14
+# torchvision==0.21.0+cu126
+torchvision==0.21.0+cu126
+numpy==2.2.4
+pillow==11.2.1
+torch==2.6.0+cu126
 # onnxruntime-gpu==1.21.0
 onnxruntime-gpu==1.21.0
 coloredlogs==15.0.1

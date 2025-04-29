@@ -54,6 +54,7 @@ def main():
             "onnxruntime-qnn==1.20.2"
         ],
         RuntimeEnum.IntelNPU: [
+            # TODO torchvision
             "onnxruntime-openvino==1.20.0"
         ],
         RuntimeEnum.AMDNPU: [
@@ -65,6 +66,7 @@ def main():
         ],
         # https://onnxruntime.ai/docs/execution-providers/CUDA-ExecutionProvider.html
         RuntimeEnum.NvidiaGPU: [
+            "torchvision==0.21.0+cu126",
             "onnxruntime-gpu==1.21.0",
             "onnxruntime-genai-cuda==0.7.0"
         ]
