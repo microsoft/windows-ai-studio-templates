@@ -41,9 +41,17 @@ def main():
     ]
     # onnxruntime and genai go here. others should go feature
     post = {
-        RuntimeEnum.CPU: ["onnxruntime==1.21.0"],
-        RuntimeEnum.QNN: ["onnxruntime-qnn==1.20.2"],
-        RuntimeEnum.IntelNPU: ["onnxruntime-openvino==1.20.0"],
+        RuntimeEnum.CPU: [
+            "torchvision==0.22.0",
+            "onnxruntime==1.21.0"
+        ],
+        RuntimeEnum.QNN: [
+            "torchvision==0.22.0",
+            "onnxruntime-qnn==1.20.2"
+        ],
+        RuntimeEnum.IntelNPU: [
+            "onnxruntime-openvino==1.20.0"
+        ],
         RuntimeEnum.AMDNPU: [],
         # https://onnxruntime.ai/docs/execution-providers/CUDA-ExecutionProvider.html
         RuntimeEnum.NvidiaGPU: [
