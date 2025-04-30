@@ -44,6 +44,3 @@ pillow==11.2.1
 torch==2.7.0
 # onnxruntime
 onnxruntime-genai==0.7.0
---pre
---extra-index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/ORT-Nightly/pypi/simple
-onnxruntime-qnn==1.22.0.dev20250321002
