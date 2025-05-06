@@ -45,6 +45,7 @@ class OlivePropertyNames:
 
 outputModelRelativePath = "\\\"./model/model.onnx\\\""
 outputModelModelBuilderPath = "\\\"./model\\\""
+importOnnxruntime = "import onnxruntime as ort"
 
 
 # Enums
@@ -925,6 +926,11 @@ def readCheckIpynb(ipynbFile: str, modelItems: dict[str, ModelParameter]):
             if testPath not in ipynbContent:
                 print(f"{ipynbFile} does not have '{testPath}' for {name}, please use it as input")
                 GlobalVars.hasError()
+            
+            if not modelParameter.useModelBuilder and importOnnxruntime not in ipynbContent:
+                print(f"{ipynbFile} does not have '{importOnnxruntime}' for {name}, please use it as import")
+                GlobalVars.hasError()
+            
         return True
     return False
 
