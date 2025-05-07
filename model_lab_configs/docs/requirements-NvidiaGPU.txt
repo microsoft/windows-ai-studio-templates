@@ -6,15 +6,14 @@ fsspec==2024.12.0
 jinja2==3.1.6
 networkx==3.4.2
 sympy==1.13.1
-typing_extensions==4.13.2
-# olive-ai==0.8.0
-olive-ai==0.8.0
+typing-extensions==4.13.2
+# git+https://github.com/microsoft/Olive.git@59bfe00cbf4895c385c6fb863f3792db50b6012b#egg=olive_ai
+git+https://github.com/microsoft/Olive.git@59bfe00cbf4895c385c6fb863f3792db50b6012b#egg=olive_ai
 numpy==2.2.4
 onnx==1.17.0
-onnxscript==0.2.4
+onnxscript==0.2.5
 optuna==4.3.0
 pandas==2.2.3
-protobuf==3.20.3
 pydantic==2.11.3
 pyyaml==6.0.2
 torch==2.6.0+cu126
@@ -43,8 +42,8 @@ ipykernel==6.29.5
 comm==0.2.2
 debugpy==1.8.14
 ipython==8.35.0
-jupyter_client==8.6.3
-jupyter_core==5.7.2
+jupyter-client==8.6.3
+jupyter-core==5.7.2
 matplotlib-inline==0.1.7
 nest-asyncio==1.6.0
 packaging==24.2
@@ -56,7 +55,7 @@ traitlets==5.14.3
 ipywidgets==8.1.5
 comm==0.2.2
 ipython==8.35.0
-jupyterlab_widgets==3.0.14
+jupyterlab-widgets==3.0.14
 traitlets==5.14.3
 widgetsnbextension==4.0.14
 # torchvision==0.21.0+cu126

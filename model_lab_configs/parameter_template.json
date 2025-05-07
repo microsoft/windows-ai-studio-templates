@@ -15,10 +15,10 @@
         ],
         "displayType": "RadioGroup",
         "values": [
-            "QInt8",
-            "QUInt8",
-            "QInt16",
-            "QUInt16"
+            "int8",
+            "uint8",
+            "int16",
+            "uint16"
         ]
     },
     "WeightType": {
@@ -37,10 +37,10 @@
         ],
         "displayType": "RadioGroup",
         "values": [
-            "QInt8",
-            "QUInt8",
-            "QInt16",
-            "QUInt16"
+            "int8",
+            "uint8",
+            "int16",
+            "uint16"
         ]
     },
     "ActivationTypeIntel": {
@@ -56,7 +56,7 @@
         ],
         "displayType": "RadioGroup",
         "values": [
-            "QInt8"
+            "int8"
         ]
     },
     "WeightTypeIntel": {
@@ -72,7 +72,7 @@
         ],
         "displayType": "RadioGroup",
         "values": [
-            "QInt8"
+            "int8"
         ]
     },
     "EvaluationDataset": {
