@@ -903,17 +903,11 @@ def readCheckOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter):
         jsonUpdated = True
 
     # update save_as_external_data
-    if modelParameter.useModelBuilder or modelParameter.useOpenVINOConversion:
-        pass
-    else:
-        conversionPass = [v for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] == OlivePassNames.OnnxConversion][0]
+    supportedPasses = [v for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] in 
+                       [OlivePassNames.OnnxConversion, OlivePassNames.OnnxQuantization, OlivePassNames.OnnxStaticQuantization, OlivePassNames.OnnxDynamicQuantization]]
+    for conversionPass in supportedPasses:
         if OlivePropertyNames.ExternalData not in conversionPass or not conversionPass[OlivePropertyNames.ExternalData]:
             conversionPass[OlivePropertyNames.ExternalData] = True
-            jsonUpdated = True
-
-        lastPass = [v for k, v in oliveJson[OlivePropertyNames.Passes].items()][-1]
-        if OlivePropertyNames.ExternalData not in lastPass or not lastPass[OlivePropertyNames.ExternalData]:
-            lastPass[OlivePropertyNames.ExternalData] = True
             jsonUpdated = True
 
     if jsonUpdated:
@@ -1121,7 +1115,7 @@ def main():
     print(f"Total {GlobalVars.configCheck} config files checked with total {GlobalVars.pathCheck} path checks")
     # We add this test to make sure the sanity check is working: i.e. paths are checked and files are checked
     # So the numbers need to be updated whenever the config files change
-    if GlobalVars.pathCheck != 200 or GlobalVars.configCheck != 16:
+    if GlobalVars.pathCheck != 198 or GlobalVars.configCheck != 16:
         errorMsg += "Please update line above to reflect config changes!\n"
 
     result = subprocess.run(

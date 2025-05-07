@@ -16,7 +16,7 @@
                 ]
             ],
             "output_names": [
-                "output"
+                "logits"
             ]
         }
     },
@@ -121,6 +121,16 @@
             "quant_preprocess": true,
             "prepare_qnn_config": true,
             "save_as_external_data": true
+        },
+        "addmetadata": {
+            "type": "VitisAIAddMetaData",
+            "config_meta_data_keys": [
+                "architectures",
+                "model_type"
+            ],
+            "activation_type": "uint16",
+            "weight_type": "uint8",
+            "quant_type": "OnnxStaticQuantization"
         }
     },
     "host": "qnn_system",
