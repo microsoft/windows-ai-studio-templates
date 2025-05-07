@@ -19,7 +19,8 @@
             "modelLink": "https://huggingface.co/google-bert/bert-base-multilingual-cased",
             "id": "huggingface/google-bert/bert-base-multilingual-cased",
             "runtimes": [
-                "QNN"
+                "QNN",
+                "AMDNPU"
             ],
             "architecture": "Transformer",
             "status": "Ready",
@@ -31,7 +32,8 @@
             "modelLink": "https://huggingface.co/openai/clip-vit-base-patch32",
             "id": "huggingface/openai/clip-vit-base-patch32",
             "runtimes": [
-                "QNN"
+                "QNN",
+                "AMDNPU"
             ],
             "architecture": "CNN",
             "status": "Ready",
@@ -43,7 +45,8 @@
             "modelLink": "https://huggingface.co/openai/clip-vit-base-patch16",
             "id": "huggingface/openai/clip-vit-base-patch16",
             "runtimes": [
-                "QNN"
+                "QNN",
+                "AMDNPU"
             ],
             "architecture": "CNN",
             "status": "Ready",
@@ -55,7 +58,8 @@
             "modelLink": "https://huggingface.co/openai/clip-vit-large-patch14",
             "id": "huggingface/openai/clip-vit-large-patch14",
             "runtimes": [
-                "QNN"
+                "QNN",
+                "AMDNPU"
             ],
             "architecture": "CNN",
             "status": "Hide",
@@ -67,7 +71,8 @@
             "modelLink": "https://huggingface.co/laion/CLIP-ViT-B-32-laion2B-s34B-b79K",
             "id": "huggingface/laion/CLIP-ViT-B-32-laion2B-s34B-b79K",
             "runtimes": [
-                "QNN"
+                "QNN",
+                "AMDNPU"
             ],
             "architecture": "CNN",
             "status": "Ready",
@@ -79,7 +84,8 @@
             "modelLink": "https://huggingface.co/microsoft/resnet-50",
             "id": "huggingface/microsoft/resnet-50",
             "runtimes": [
-                "QNN"
+                "QNN",
+                "AMDNPU"
             ],
             "architecture": "CNN",
             "status": "Ready",
@@ -139,7 +145,8 @@
             "modelLink": "https://huggingface.co/google/vit-base-patch16-224",
             "id": "huggingface/google/vit-base-patch16-224",
             "runtimes": [
-                "QNN"
+                "QNN",
+                "AMDNPU"
             ],
             "architecture": "Transformer",
             "status": "Ready",
