@@ -66,8 +66,11 @@ Or `Blank Template` : Ideal for advanced users and model is not listed in base m
 On top of the window, there will be a series of dropdown for providing model project location and name.
 
 Select or create a folder as model project folder.
+
 ![](Images/create_project_select_folder.png)
+
 Enter model project name. Press `Enter`.
+
 ![](Images/create_project_input_name.png)
 
 ##### Notice:
@@ -97,7 +100,24 @@ In this section, you could configure the parameters for quantization.
 - **Weight Type**: this is the data type used to represent the learned parameters (weights) of the model.
 - **Quantization Dataset**: dataset used for quantization.
     ##### Notice:
-    **Hugging Face Compliance**: If your selected model or dataset is hosted on Hugging Face, you may be prompted to accept license terms before proceeding. For imanenet-1k dataset, you need to input your HF token to proceed. (instruction for getting the token instruction from HF) This is required to ensure legal compliance.
+    **Hugging Face Compliance Alerts**:
+    - If your selected model or dataset is hosted on Hugging Face, you may be prompted to accept license terms before proceeding.
+
+        ![disclaimer](./Images/run_disclaimer.png)
+
+    - If your workflow uses a dataset that requires license agreement approval on Hugging Face (e.g., ImageNet-1k), you’ll be prompted to accept the terms on the dataset page before proceeding. This is required for legal compliance.
+
+    1. To get your Hugging Face Access Token, click button on poped out window.
+
+        ![token_1](./Images/run_token_1.png)
+
+    2. Click open.
+
+        ![token_2](./Images/run_token_2.png)
+
+    3. Get token on Hugging Face portal. Paste on the top window. Press `Enter`.
+
+        ![token_3](./Images/run_token_3.png)
 
 - **Quantization Dataset Split**: dataset could have different splits like validation, train and test.
 - **Quantization Dataset Size**: the number of data used to quantize the model.
@@ -134,21 +154,14 @@ The first run may take more than 20 minutes as Model Lab installs dependencies a
 
 A terminal view will display progress indicators to keep you informed.
 
-## View Results
-Once complete, results are stored in the **History** tab.
-You can:
-- View metrics and evaluation results
-- Export the run folder
-- Launch inference samples
-- Re-evaluate with new datasets
-
-##### Notice
+##### Notice:
 - If your job is canceled or failed, you can click job name to view the configuration and run job again.
 - To avoid accidental overwrites, each execution creates a new history folder with its own configuration and results.
-- **Compliance Alerts**: If your workflow uses a gated dataset (e.g., from Hugging Face), you’ll be prompted to accept the license terms before proceeding. This is required for legal compliance. (instruction for token xxxx)
 - **Workspace Portability**: All artifacts (e.g., Olive config, scripts, evaluation results) are saved in the run folder. You can export this folder to share with others or run it outside Model Lab.
 
 # Manage History
+Once complete, results are stored in the **History** tab.
+
 The History Board in Model Lab is your central dashboard for tracking, reviewing, and managing all workflow runs. Each time you run a model conversion, optimization, or evaluation, a new entry is created in the History Board—ensuring full traceability and reproducibility.
 ![History](./Images/history.png)
 
