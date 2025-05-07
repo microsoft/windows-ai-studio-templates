@@ -4,7 +4,7 @@ numpy==1.26.4
 git+https://github.com/microsoft/Olive.git@59bfe00cbf4895c385c6fb863f3792db50b6012b#egg=olive_ai
 numpy==1.26.4
 onnx==1.16.1
-onnxscript==0.2.4
+onnxscript==0.2.5
 optuna==4.3.0
 pandas==2.2.3
 pydantic==2.11.3
@@ -57,6 +57,6 @@ numpy==1.26.4
 pillow==11.2.1
 torch==2.7.0
 # onnxruntime
-./voe-1.5.0.dev20250417022941+g53d49594-py3-none-any.whl
-./onnxruntime_vitisai-1.22.0.dev20250417-cp310-cp310-win_amd64.whl
-# copy:onnxruntime_vitisai-1.22.0.dev20250417-cp310-cp310-win_amd64/*.dll;Lib/site-packages/onnxruntime/capi;post
+./voe-1.5.0.dev20250501191909+g87eb429ad-py3-none-any.whl
+./onnxruntime_vitisai-1.22.0.dev20250501-cp310-cp310-win_amd64.whl
+# copy:wcr_05022025/*.dll;Lib/site-packages/onnxruntime/capi;post

@@ -75,7 +75,9 @@
                             "name": "accuracy_score",
                             "priority": 1
                         },
-                        { "name": "f1_score" }
+                        {
+                            "name": "f1_score"
+                        }
                     ]
                 },
                 {
@@ -139,6 +141,17 @@
             "data_config": "glue_mrpc",
             "activation_type": "uint16",
             "precision": "uint8",
+            "save_as_external_data": true
+        },
+        "addmetadata": {
+            "type": "VitisAIAddMetaData",
+            "config_meta_data_keys": [
+                "architectures",
+                "model_type"
+            ],
+            "activation_type": "uint16",
+            "weight_type": "uint8",
+            "quant_type": "OnnxStaticQuantization",
             "save_as_external_data": true
         }
     },
