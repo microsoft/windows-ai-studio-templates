@@ -169,8 +169,8 @@
             "type": "OnnxStaticQuantization",
             "data_config": "calib_data",
             "quant_preprocess": true,
-            "activation_type": "QUInt16",
-            "weight_type": "QUInt8",
+            "activation_type": "uint16",
+            "weight_type": "uint8",
             "save_as_external_data": true
         }
     },
