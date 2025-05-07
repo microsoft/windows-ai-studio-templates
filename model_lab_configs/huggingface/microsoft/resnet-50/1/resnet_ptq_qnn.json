@@ -16,7 +16,7 @@
                 ]
             ],
             "output_names": [
-                "output"
+                "logits"
             ]
         }
     },
