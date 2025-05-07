@@ -6,16 +6,20 @@ import sys
 from model_lab import RuntimeEnum
 
 # This script is used to generate the requirements-*.txt
+# Usage: uv run -p PATH_TO_RUNTIME .\install_freeze.py --runtime RUNTIME --python PATH_TO_RUNTIME
 # They also have special comments:
 # - `# pip:`: anything after it will be sent to pip command like `# pip:--no-build-isolation`
 # - `# copy:`: copy from cache to folder in runtime like `# copy:a/*.dll;b;pre`, `# copy:a/*.dll;b;post`
 # - `# download:`: download from release and save it to cache folder like `# download:onnxruntime-genai-cuda-0.7.0-cp39-cp39-win_amd64.whl`
 
-def get_requires(name):
-    package_name = name.split('==')[0]  # Remove version if present
+def get_requires(name, args):
+    if "#egg=" in name:
+        package_name = name.split("#egg=")[1]
+    else:
+        package_name = name.split('==')[0]  # Remove version if present
     requires = []
     try:
-        output = subprocess.check_output([sys.executable, "-Im", "pip", "show", package_name]).decode('utf-8')
+        output = subprocess.check_output(["uv", "pip", "show", package_name, "-p", args.python]).decode('utf-8')
         for line in output.splitlines():
             if line.startswith('Requires'):
                 requires = line.split(':')[1].strip().split(', ')
@@ -37,7 +41,7 @@ def main():
         ]
     }
     shared = [
-        "olive-ai==0.8.0",
+        "git+https://github.com/microsoft/Olive.git@59bfe00cbf4895c385c6fb863f3792db50b6012b#egg=olive_ai",
         "tabulate==0.9.0",
         "datasets==3.5.0",
         "ipykernel==6.29.5",
@@ -74,6 +78,7 @@ def main():
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--runtime", required=True, help=",".join([k.value for k in RuntimeEnum]))
+    parser.add_argument("--python", required=True, type=str, help="python path. TODO: input twice")
     args = parser.parse_args()
     runtime = RuntimeEnum(args.runtime)
 
@@ -98,10 +103,10 @@ def main():
 
     # Install
     print(f"Installing dependencies: {temp_req}")
-    result = subprocess.run([sys.executable, "-Im", "pip", "install", "--no-warn-script-location", "-r", temp_req], text=True)
+    result = subprocess.run(["uv", "pip", "install", "-r", temp_req, "-p", args.python], text=True)
 
     # Get freeze
-    pip_freeze = subprocess.check_output([sys.executable, "-Im", "pip", "freeze"]).decode('utf-8').splitlines()
+    pip_freeze = subprocess.check_output(["uv", "pip", "freeze", "-p", args.python]).decode('utf-8').splitlines()
     freeze_dict = {}
     for line in pip_freeze:
         if '==' in line:
@@ -114,12 +119,12 @@ def main():
     outputFile = path.join(path.dirname(__file__), "..", "docs", f"requirements-{args.runtime}.txt")
     with open(outputFile, "w") as f:
         for name in all:
-            if not '==' in name:
+            if name.startswith("#") or name.startswith("--") or name.startswith("./"):
                 f.write(name + "\n")
                 continue
             f.write("# " + name + "\n")
             f.write(name + "\n")
-            requires = get_requires(name)
+            requires = get_requires(name, args)
             print(f"Requires for {name}: {requires}")
             for req in requires:
                 if req in freeze_dict:
