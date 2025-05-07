@@ -58,8 +58,8 @@ def main():
             "onnxruntime-qnn==1.21.1"
         ],
         RuntimeEnum.IntelNPU: [
-            # TODO torchvision
-            "onnxruntime-openvino==1.20.0"
+            "torchvision==0.22.0",
+            "onnxruntime-openvino==1.21.0"
         ],
         RuntimeEnum.AMDNPU: [
             "torchvision==0.22.0",
