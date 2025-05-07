@@ -891,17 +891,11 @@ def readCheckOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter):
         jsonUpdated = True
 
     # update save_as_external_data
-    if modelParameter.useModelBuilder:
-        pass
-    else:
-        conversionPass = [v for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] == OlivePassNames.OnnxConversion][0]
+    supportedPasses = [v for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] in 
+                       [OlivePassNames.OnnxConversion, OlivePassNames.OnnxQuantization, OlivePassNames.OnnxStaticQuantization]]
+    for conversionPass in supportedPasses:
         if OlivePropertyNames.ExternalData not in conversionPass or not conversionPass[OlivePropertyNames.ExternalData]:
             conversionPass[OlivePropertyNames.ExternalData] = True
-            jsonUpdated = True
-
-        lastPass = [v for k, v in oliveJson[OlivePropertyNames.Passes].items()][-1]
-        if OlivePropertyNames.ExternalData not in lastPass or not lastPass[OlivePropertyNames.ExternalData]:
-            lastPass[OlivePropertyNames.ExternalData] = True
             jsonUpdated = True
 
     if jsonUpdated:
