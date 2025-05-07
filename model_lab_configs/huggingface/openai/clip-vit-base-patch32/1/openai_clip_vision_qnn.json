@@ -150,7 +150,7 @@
             "data_config": "calib_data",
             "quant_preprocess": true,
             "activation_type": "uint16",
-            "weight_type": "uint8",
+            "precision": "uint8",
             "save_as_external_data": true
         }
     },
