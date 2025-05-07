@@ -240,9 +240,12 @@
             "architecture": "Transformer",
             "status": "Ready",
             "version": 1
-        },
+        }
+    ],
+    "template_models": [
         {
             "displayName": "Model Project Template",
+            "discription": "Customize this to create your own model project",
             "icon": "HuggingFace",
             "modelLink": "https://huggingface.co/",
             "id": "huggingface/empty",
@@ -254,7 +257,7 @@
             "version": 1
         }
     ],
-    "HFLoginRequiredDatasets": {
+    "HFDatasets": {
         "imagenet-1k": "https://huggingface.co/datasets/ILSVRC/imagenet-1k",
         "wikitext": "https://huggingface.co/datasets/Salesforce/wikitext",
         "facebook/xnli": "https://huggingface.co/datasets/facebook/xnli",
@@ -262,8 +265,21 @@
         "nlphuji/flickr30k": "https://huggingface.co/datasets/nlphuji/flickr30k",
         "timm/mini-imagenet": "https://huggingface.co/datasets/timm/mini-imagenet"
     },
+    "LoginRequiredDatasets": [
+        "imagenet-1k"
+    ],
     "DatasetSplit": {
         "nlphuji/flickr30k": [
+            "test"
+        ],
+        "imagenet-1k": [
+            "train",
+            "validation",
+            "test"
+        ],
+        "timm/mini-imagenet": [
+            "train",
+            "validation",
             "test"
         ]
     },

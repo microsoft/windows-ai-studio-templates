@@ -1,14 +1,15 @@
-# olive-ai==0.8.0
-olive-ai==0.8.0
+# numpy==1.26.4
+numpy==1.26.4
+# git+https://github.com/microsoft/Olive.git@59bfe00cbf4895c385c6fb863f3792db50b6012b#egg=olive_ai
+git+https://github.com/microsoft/Olive.git@59bfe00cbf4895c385c6fb863f3792db50b6012b#egg=olive_ai
 numpy==1.26.4
 onnx==1.16.1
-onnxscript==0.2.4
+onnxscript==0.2.5
 optuna==4.3.0
 pandas==2.2.3
-protobuf==3.20.3
 pydantic==2.11.3
 pyyaml==6.0.2
-torch==2.6.0
+torch==2.7.0
 torchmetrics==1.7.1
 transformers==4.51.3
 # tabulate==0.9.0
@@ -50,7 +51,12 @@ ipython==8.35.0
 jupyterlab_widgets==3.0.14
 traitlets==5.14.3
 widgetsnbextension==4.0.14
+# torchvision==0.22.0
+torchvision==0.22.0
+numpy==1.26.4
+pillow==11.2.1
+torch==2.7.0
 # onnxruntime
-./voe-1.5.0.dev20250417022941+g53d49594-py3-none-any.whl
-./onnxruntime_vitisai-1.22.0.dev20250417-cp310-cp310-win_amd64.whl
-# copy:onnxruntime_vitisai-1.22.0.dev20250417-cp310-cp310-win_amd64/*.dll;Lib/site-packages/onnxruntime/capi;post
+./voe-1.5.0.dev20250501191909+g87eb429ad-py3-none-any.whl
+./onnxruntime_vitisai-1.22.0.dev20250501-cp310-cp310-win_amd64.whl
+# copy:wcr_05022025/*.dll;Lib/site-packages/onnxruntime/capi;post

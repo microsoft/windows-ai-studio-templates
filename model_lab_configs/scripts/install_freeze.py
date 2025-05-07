@@ -6,15 +6,20 @@ import sys
 from model_lab import RuntimeEnum
 
 # This script is used to generate the requirements-*.txt
+# Usage: uv run -p PATH_TO_RUNTIME .\install_freeze.py --runtime RUNTIME --python PATH_TO_RUNTIME
 # They also have special comments:
 # - `# pip:`: anything after it will be sent to pip command like `# pip:--no-build-isolation`
 # - `# copy:`: copy from cache to folder in runtime like `# copy:a/*.dll;b;pre`, `# copy:a/*.dll;b;post`
+# - `# download:`: download from release and save it to cache folder like `# download:onnxruntime-genai-cuda-0.7.0-cp39-cp39-win_amd64.whl`
 
-def get_requires(name):
-    package_name = name.split('==')[0]  # Remove version if present
+def get_requires(name, args):
+    if "#egg=" in name:
+        package_name = name.split("#egg=")[1]
+    else:
+        package_name = name.split('==')[0]  # Remove version if present
     requires = []
     try:
-        output = subprocess.check_output([sys.executable, "-Im", "pip", "show", package_name]).decode('utf-8')
+        output = subprocess.check_output(["uv", "pip", "show", package_name, "-p", args.python]).decode('utf-8')
         for line in output.splitlines():
             if line.startswith('Requires'):
                 requires = line.split(':')[1].strip().split(', ')
@@ -28,12 +33,15 @@ def main():
     # Constants
     pre = {
         RuntimeEnum.NvidiaGPU: [
-            "--extra-index-url https://download.pytorch.org/whl/cu121",
-            "torch==2.4.1+cu121",
+            "--extra-index-url https://download.pytorch.org/whl/cu126",
+            "torch==2.6.0+cu126",
+        ],
+        RuntimeEnum.AMDNPU: [
+            "numpy==1.26.4"
         ]
     }
     shared = [
-        "olive-ai==0.8.0",
+        "git+https://github.com/microsoft/Olive.git@59bfe00cbf4895c385c6fb863f3792db50b6012b#egg=olive_ai",
         "tabulate==0.9.0",
         "datasets==3.5.0",
         "ipykernel==6.29.5",
@@ -41,12 +49,28 @@ def main():
     ]
     # onnxruntime and genai go here. others should go feature
     post = {
-        RuntimeEnum.CPU: ["onnxruntime==1.21.0"],
-        RuntimeEnum.QNN: ["onnxruntime-qnn==1.20.2"],
-        RuntimeEnum.IntelNPU: ["onnxruntime-openvino==1.20.0"],
-        RuntimeEnum.AMDNPU: [],
+        RuntimeEnum.CPU: [
+            "torchvision==0.22.0",
+            "onnxruntime==1.21.0"
+        ],
+        RuntimeEnum.QNN: [
+            "torchvision==0.22.0",
+            "onnxruntime-qnn==1.21.1"
+        ],
+        RuntimeEnum.IntelNPU: [
+            # TODO torchvision
+            "onnxruntime-openvino==1.20.0"
+        ],
+        RuntimeEnum.AMDNPU: [
+            "torchvision==0.22.0",
+            "# onnxruntime",
+            "./voe-1.5.0.dev20250417022941+g53d49594-py3-none-any.whl",
+            "./onnxruntime_vitisai-1.22.0.dev20250417-cp310-cp310-win_amd64.whl",
+            "# copy:onnxruntime_vitisai-1.22.0.dev20250417-cp310-cp310-win_amd64/*.dll;Lib/site-packages/onnxruntime/capi;post"
+        ],
         # https://onnxruntime.ai/docs/execution-providers/CUDA-ExecutionProvider.html
         RuntimeEnum.NvidiaGPU: [
+            "torchvision==0.21.0+cu126",
             "onnxruntime-gpu==1.21.0",
             "onnxruntime-genai-cuda==0.7.0"
         ]
@@ -54,6 +78,7 @@ def main():
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--runtime", required=True, help=",".join([k.value for k in RuntimeEnum]))
+    parser.add_argument("--python", required=True, type=str, help="python path. TODO: input twice")
     args = parser.parse_args()
     runtime = RuntimeEnum(args.runtime)
 
@@ -78,10 +103,10 @@ def main():
 
     # Install
     print(f"Installing dependencies: {temp_req}")
-    result = subprocess.run([sys.executable, "-Im", "pip", "install", "--no-warn-script-location", "-r", temp_req], text=True)
+    result = subprocess.run(["uv", "pip", "install", "-r", temp_req, "-p", args.python], text=True)
 
     # Get freeze
-    pip_freeze = subprocess.check_output([sys.executable, "-Im", "pip", "freeze"]).decode('utf-8').splitlines()
+    pip_freeze = subprocess.check_output(["uv", "pip", "freeze", "-p", args.python]).decode('utf-8').splitlines()
     freeze_dict = {}
     for line in pip_freeze:
         if '==' in line:
@@ -94,12 +119,12 @@ def main():
     outputFile = path.join(path.dirname(__file__), "..", "docs", f"requirements-{args.runtime}.txt")
     with open(outputFile, "w") as f:
         for name in all:
-            if name.startswith("--"):
+            if name.startswith("#") or name.startswith("--") or name.startswith("./"):
                 f.write(name + "\n")
                 continue
             f.write("# " + name + "\n")
             f.write(name + "\n")
-            requires = get_requires(name)
+            requires = get_requires(name, args)
             print(f"Requires for {name}: {requires}")
             for req in requires:
                 if req in freeze_dict:

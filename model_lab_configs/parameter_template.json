@@ -4,15 +4,21 @@
         "tags": [
             "ActivationType"
         ],
-        "description": "Quantization data type of activation. ‘QInt8’ for signed 8-bit integer, ‘QUInt8’ for unsigned 8-bit integer etc.",
+        "description": "Quantization data type of activation. ‘Int8’ for signed 8-bit integer, ‘UInt8’ for unsigned 8-bit integer etc.",
         "descriptionLink": "https://onnxruntime.ai/docs/performance/model-optimizations/quantization.html",
         "type": "enum",
+        "displayNames": [
+            "Int8",
+            "UInt8",
+            "Int16",
+            "UInt16"
+        ],
         "displayType": "RadioGroup",
         "values": [
-            "QInt8",
-            "QUInt8",
-            "QInt16",
-            "QUInt16"
+            "int8",
+            "uint8",
+            "int16",
+            "uint16"
         ]
     },
     "WeightType": {
@@ -20,15 +26,21 @@
         "tags": [
             "WeightType"
         ],
-        "description": "Data type for quantizing weights. ‘QInt8’ for signed 8-bit integer, ‘QUInt8’ for unsigned 8-bit integer etc.",
+        "description": "Data type for quantizing weights. ‘Int8’ for signed 8-bit integer, ‘UInt8’ for unsigned 8-bit integer etc.",
         "descriptionLink": "https://onnxruntime.ai/docs/performance/model-optimizations/quantization.html",
         "type": "enum",
+        "displayNames": [
+            "Int8",
+            "UInt8",
+            "Int16",
+            "UInt16"
+        ],
         "displayType": "RadioGroup",
         "values": [
-            "QInt8",
-            "QUInt8",
-            "QInt16",
-            "QUInt16"
+            "int8",
+            "uint8",
+            "int16",
+            "uint16"
         ]
     },
     "ActivationTypeIntel": {
@@ -36,12 +48,15 @@
         "tags": [
             "ActivationType"
         ],
-        "description": "Quantization data type of activation. ‘QInt8’ for signed 8-bit integer, ‘QUInt8’ for unsigned 8-bit integer etc.",
+        "description": "Quantization data type of activation. ‘Int8’ for signed 8-bit integer, ‘UInt8’ for unsigned 8-bit integer etc.",
         "descriptionLink": "https://onnxruntime.ai/docs/performance/model-optimizations/quantization.html",
         "type": "enum",
+        "displayNames": [
+            "Int8"
+        ],
         "displayType": "RadioGroup",
         "values": [
-            "QInt8"
+            "int8"
         ]
     },
     "WeightTypeIntel": {
@@ -49,12 +64,15 @@
         "tags": [
             "WeightType"
         ],
-        "description": "Data type for quantizing weights. ‘QInt8’ for signed 8-bit integer, ‘QUInt8’ for unsigned 8-bit integer etc.",
+        "description": "Data type for quantizing weights. ‘Int8’ for signed 8-bit integer, ‘UInt8’ for unsigned 8-bit integer etc.",
         "descriptionLink": "https://onnxruntime.ai/docs/performance/model-optimizations/quantization.html",
         "type": "enum",
+        "displayNames": [
+            "Int8"
+        ],
         "displayType": "RadioGroup",
         "values": [
-            "QInt8"
+            "int8"
         ]
     },
     "EvaluationDataset": {
@@ -62,7 +80,8 @@
         "tags": [
             "EvaluationDataset"
         ],
-        "type": "enum"
+        "type": "enum",
+        "customize": true
     },
     "EvaluationDatasetSize": {
         "name": "Evaluation Dataset Size",
@@ -79,7 +98,8 @@
             "train",
             "validation",
             "test"
-        ]
+        ],
+        "customize": true
     },
     "EvaluationDatasetSubset": {
         "name": "Evaluation Dataset Subset",
@@ -87,14 +107,16 @@
             "EvaluationDatasetSubset",
             "DependsOnDataset"
         ],
-        "type": "enum"
+        "type": "enum",
+        "customize": true
     },
     "QuantizationDataset": {
         "name": "Quantization Dataset",
         "tags": [
             "QuantizationDataset"
         ],
-        "type": "enum"
+        "type": "enum",
+        "customize": true
     },
     "QuantizationDatasetSize": {
         "name": "Quantization Dataset Size",
@@ -111,7 +133,8 @@
             "train",
             "validation",
             "test"
-        ]
+        ],
+        "customize": true
     },
     "QuantizationDatasetSubset": {
         "name": "Quantization Dataset Subset",
@@ -119,6 +142,7 @@
             "QuantizationDatasetSubset",
             "DependsOnDataset"
         ],
-        "type": "enum"
+        "type": "enum",
+        "customize": true
     }
 }
