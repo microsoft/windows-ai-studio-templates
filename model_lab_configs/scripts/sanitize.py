@@ -22,6 +22,7 @@ class OlivePassNames:
     OnnxDynamicQuantization = "OnnxDynamicQuantization"
     ModelBuilder = "ModelBuilder"
     OpenVINOConversion = "OpenVINOConversion"
+    OpenVINOOptimumConversion = "OpenVINOOptimumConversion"
 
 
 class OlivePropertyNames:
@@ -638,6 +639,10 @@ class ModelParameter(BaseModel):
     # - use OpenVINOConversion for conversion
     useOpenVINOConversion: bool = None
     # This kind of config will
+    # - could not disable quantization
+    # - use OpenVINOOptimumConversion for conversion
+    useOpenVINOOptimumConversion: bool = None
+    # This kind of config will
     # - run on CUDA EP (onnxruntime-gpu), i.e. need CUDA and cudnn
     # - the previous EP is used for EPContextBinaryGenerator if PythonEnvironment
     # - do not support cpu evaluation
@@ -763,6 +768,9 @@ class ModelParameter(BaseModel):
                 elif self.useOpenVINOConversion:
                     # TODO useOpenVINOConversion
                     conversion = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] == OlivePassNames.OpenVINOConversion][0]
+                elif self.useOpenVINOOptimumConversion:
+                    # TODO useOpenVINOOptimumConversion
+                    conversion = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] == OlivePassNames.OpenVINOOptimumConversion][0]
                 else:
                     conversion = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] == OlivePassNames.OnnxConversion][0]
                 conversionPath = f"{OlivePropertyNames.Passes}.{conversion}"
@@ -785,6 +793,10 @@ class ModelParameter(BaseModel):
                 elif self.useOpenVINOConversion:
                     # TODO useOpenVINOConversion
                     quantize = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] == OlivePassNames.OpenVINOConversion][0]
+                    toggleReadOnly = True
+                elif self.useOpenVINOOptimumConversion:
+                    # TODO useOpenVINOOptimumConversion
+                    quantize = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] == OlivePassNames.OpenVINOOptimumConversion][0]
                     toggleReadOnly = True
                 else:
                     quantize = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] in
