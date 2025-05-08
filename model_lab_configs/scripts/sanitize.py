@@ -630,24 +630,34 @@ class ADMNPUConfig(BaseModel):
 
 
 class ModelParameter(BaseModel):
+    # SET AUTOMATICALLY
+    isLLM: bool = None
+    # For template using CUDA and no runtime overwrite, we need to set this so we know the target EP
+    evalRuntime: RuntimeEnum = None
+    # SET AUTOMATICALLY
     # This kind of config will
     # - could not disable quantization
     # - use modelbuilder for conversion
     # - output a model folder instead of model file
-    useModelBuilder: bool = None
+    useModelBuilder: str = None
+    # SET AUTOMATICALLY
     # This kind of config will
     # - could not disable quantization
     # - use OpenVINOConversion for conversion
-    useOpenVINOConversion: bool = None
+    useOpenVINOConversion: str = None
+    # SET AUTOMATICALLY
     # This kind of config will
     # - could not disable quantization
-    # - use OpenVINOOptimumConversion for conversion
-    useOpenVINOOptimumConversion: bool = None
+    # - use OpenVINOConversion for conversion
+    useOpenVINOOptimumConversion: str = None
+    # A SHORTCUT FOR SEVERAL PARAMETERS
     # This kind of config will
-    # - run on CUDA EP (onnxruntime-gpu), i.e. need CUDA and cudnn
-    # - the previous EP is used for EPContextBinaryGenerator if PythonEnvironment
+    # - setup runtimeOverwrite for CUDA EP and others
+    #   + the previous EP is used for EPContextBinaryGeneator by PythonEnvironment
     # - do not support cpu evaluation
-    # - currently it is tightly coupled with runtimeOverwrite, so pay attention
+    # - setup executeRuntimeFeatures, evalRuntimeFeatures
+    isQNNLLM: bool = None
+    # SET AUTOMATICALLY
     isGPURequired: bool = None
     runtimeOverwrite: RuntimeOverwrite = None
     executeRuntimeFeatures: list[RuntimeFeatureEnum] = None
@@ -689,7 +699,12 @@ class ModelParameter(BaseModel):
         if openVINOConversion:
             self.useOpenVINOConversion = openVINOConversion[0]
 
-        if self.useModelBuilder and self.useOpenVINOConversion:
+        # setup useOpenVINOOptimumConversion
+        openVINOOptimumConversion = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] == OlivePassNames.OpenVINOOptimumConversion]
+        if openVINOOptimumConversion:
+            self.useOpenVINOOptimumConversion = openVINOOptimumConversion[0]
+
+        if sum(bool(v) for v in [self.useModelBuilder, self.useOpenVINOConversion, self.useOpenVINOOptimumConversion]) > 1:
             print(f"{self._file} should not have both useModelBuilder and useOpenVINOConversion")
             GlobalVars.hasError()
             return
@@ -779,8 +794,7 @@ class ModelParameter(BaseModel):
                 elif self.useOpenVINOConversion:
                     conversion = self.useOpenVINOConversion
                 elif self.useOpenVINOOptimumConversion:
-                    # TODO useOpenVINOOptimumConversion
-                    conversion = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] == OlivePassNames.OpenVINOOptimumConversion][0]
+                    conversion = self.useOpenVINOOptimumConversion
                 else:
                     conversion = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] == OlivePassNames.OnnxConversion][0]
                 conversionPath = f"{OlivePropertyNames.Passes}.{conversion}"
@@ -803,8 +817,7 @@ class ModelParameter(BaseModel):
                     quantize = self.useOpenVINOConversion
                     toggleReadOnly = True
                 elif self.useOpenVINOOptimumConversion:
-                    # TODO useOpenVINOOptimumConversion
-                    quantize = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] == OlivePassNames.OpenVINOOptimumConversion][0]
+                    quantize = self.useOpenVINOOptimumConversion
                     toggleReadOnly = True
                 else:
                     quantize = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] in
@@ -1134,7 +1147,7 @@ def main():
     print(f"Total {GlobalVars.configCheck} config files checked with total {GlobalVars.pathCheck} path checks")
     # We add this test to make sure the sanity check is working: i.e. paths are checked and files are checked
     # So the numbers need to be updated whenever the config files change
-    if GlobalVars.pathCheck != 234 or GlobalVars.configCheck != 20:
+    if GlobalVars.pathCheck != 246 or GlobalVars.configCheck != 22:
         errorMsg += "Please update line above to reflect config changes!\n"
 
     result = subprocess.run(
