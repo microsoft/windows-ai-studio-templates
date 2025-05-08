@@ -629,20 +629,27 @@ class ADMNPUConfig(BaseModel):
 
 
 class ModelParameter(BaseModel):
+    # SET AUTOMATICALLY
+    isLLM: bool = None
+    # For template using CUDA and no runtime overwrite, we need to set this so we know the target EP
+    evalRuntime: EPNames = None
+    # SET AUTOMATICALLY
     # This kind of config will
     # - could not disable quantization
     # - use modelbuilder for conversion
     # - output a model folder instead of model file
-    useModelBuilder: bool = None
+    useModelBuilder: str = None
+    # SET AUTOMATICALLY
     # This kind of config will
     # - could not disable quantization
     # - use OpenVINOConversion for conversion
-    useOpenVINOConversion: bool = None
+    useOpenVINOConversion: str = None
+    # A SHORTCUT FOR SEVERAL PARAMETERS
     # This kind of config will
-    # - run on CUDA EP (onnxruntime-gpu), i.e. need CUDA and cudnn
-    # - the previous EP is used for EPContextBinaryGenerator if PythonEnvironment
+    # - setup runtimeOverwrite for CUDA EP and others
+    #   + the previous EP is used for EPContextBinaryGeneator by PythonEnvironment
     # - do not support cpu evaluation
-    # - currently it is tightly coupled with runtimeOverwrite, so pay attention
+    # - setup executeRuntimeFeatures, evalRuntimeFeatures
     isQNNLLM: bool = None
     runtimeOverwrite: RuntimeOverwrite = None
     executeRuntimeFeatures: list[RuntimeFeatureEnum] = None
@@ -672,6 +679,17 @@ class ModelParameter(BaseModel):
             print(f"{self._file} should have sections")
             GlobalVars.hasError()
             return
+        
+        # setup useModelBuilder
+        modelBuilder = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] == OlivePassNames.ModelBuilder]
+        if modelBuilder:
+            self.useModelBuilder = modelBuilder[0]
+            self.isLLM = True
+
+        # setup useOpenVINOConversion
+        openVINOConversion = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] == OlivePassNames.OpenVINOConversion]
+        if openVINOConversion:
+            self.useOpenVINOConversion = openVINOConversion[0]
 
         if self.useModelBuilder and self.useOpenVINOConversion:
             print(f"{self._file} should not have both useModelBuilder and useOpenVINOConversion")
@@ -759,11 +777,9 @@ class ModelParameter(BaseModel):
             # Add conversion toggle
             if section.phase == PhaseTypeEnum.Conversion:
                 if self.useModelBuilder:
-                    # TODO modelbuilder
-                    conversion = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] == OlivePassNames.ModelBuilder][0]
+                    conversion = self.useModelBuilder
                 elif self.useOpenVINOConversion:
-                    # TODO useOpenVINOConversion
-                    conversion = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] == OlivePassNames.OpenVINOConversion][0]
+                    conversion = self.useOpenVINOConversion
                 else:
                     conversion = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] == OlivePassNames.OnnxConversion][0]
                 conversionPath = f"{OlivePropertyNames.Passes}.{conversion}"
@@ -780,12 +796,10 @@ class ModelParameter(BaseModel):
                 toggleReadOnly = None
                 actions = []
                 if self.useModelBuilder:
-                    # TODO modelbuilder
-                    quantize = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] == OlivePassNames.ModelBuilder][0]
+                    quantize = self.useModelBuilder
                     toggleReadOnly = True
                 elif self.useOpenVINOConversion:
-                    # TODO useOpenVINOConversion
-                    quantize = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] == OlivePassNames.OpenVINOConversion][0]
+                    quantize = self.useOpenVINOConversion
                     toggleReadOnly = True
                 else:
                     quantize = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] in
@@ -883,10 +897,6 @@ def readCheckOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter):
         print(f"{oliveJsonFile} target should be {systemK}")
         GlobalVars.hasError()
         return
-
-    if modelParameter.isQNNLLM:
-        # TODO check CUDAExecutionProvider is used somewhere
-        pass
 
     jsonUpdated = False
 
