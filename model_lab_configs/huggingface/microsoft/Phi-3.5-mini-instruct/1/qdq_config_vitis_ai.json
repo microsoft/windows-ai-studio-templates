@@ -33,51 +33,30 @@
         }
     ],
     "passes": {
-        "q": {
-            "type": "QuaRot"
-        },
-        "g": {
-            "type": "GptqQuantizer",
-            "sym": true,
-            "group_size": -1
-        },
-        "cs": {
-            "type": "CaptureSplitInfo",
-            "num_splits": 1,
-            "unique_embeds_lm_head_splits": true
-        },
+        "q": { "type": "QuaRot" },
+        "g": { "type": "GptqQuantizer", "sym": true, "group_size": -1 },
+        "cs": { "type": "CaptureSplitInfo", "num_splits": 1, "unique_embeds_lm_head_splits": true },
         "mb": {
             "type": "ModelBuilder",
             "precision": "int4",
             "int4_block_size": 32,
             "int4_accuracy_level": 4,
-            "int4_op_types_to_quantize": [
-                "MatMul",
-                "Gather"
-            ],
+            "int4_op_types_to_quantize": [ "MatMul", "Gather" ],
             "save_as_external_data": true
         },
         "mq": {
             "type": "MatMulNBitsToQDQ",
             "use_int4": true,
             "add_zero_point": true,
-            "nodes_to_exclude": [
-                "/lm_head/MatMul_Q4"
-            ],
+            "nodes_to_exclude": [ "/lm_head/MatMul_Q4" ],
             "save_as_external_data": true
         },
         "gs": {
             "type": "GraphSurgeries",
             "surgeries": [
-                {
-                    "surgeon": "RemoveRopeMultiCache"
-                },
-                {
-                    "surgeon": "AttentionMaskToSequenceLengths"
-                },
-                {
-                    "surgeon": "SimplifiedLayerNormToL2Norm"
-                }
+                { "surgeon": "RemoveRopeMultiCache" },
+                { "surgeon": "AttentionMaskToSequenceLengths" },
+                { "surgeon": "SimplifiedLayerNormToL2Norm" }
             ],
             "save_as_external_data": true
         },
@@ -86,38 +65,28 @@
             "data_config": "wikitext2_train",
             "activation_type": "uint16",
             "precision": "uint8",
-            "calibration_providers": [
-                "CUDAExecutionProvider"
-            ],
+            "calibration_providers": [ "CUDAExecutionProvider" ],
             "quant_preprocess": true,
-            "op_types_to_exclude": [
-                "GatherBlockQuantized",
-                "GroupQueryAttention",
-                "MatMulNBits"
-            ],
+            "op_types_to_exclude": [ "GatherBlockQuantized", "GroupQueryAttention", "MatMulNBits" ],
             "save_as_external_data": true
-        },
-        "sp": {
-            "type": "SplitModel"
-        },
-        "st": {
-            "type": "StaticLLM",
-            "batch_size": 1,
-            "context_length": 64
         },
         "addmetadata": {
             "type": "VitisAIAddMetaData",
-            "config_meta_data_keys": [
-                "architectures",
-                "model_type"
-            ],
+            "config_meta_data_keys": [ "architectures", "model_type" ],
             "activation_type": "uint16",
             "weight_type": "int4",
             "quant_type": "QuaRot"
         },
-        "p": {
-            "type": "VitisAIUpdateGenAIProviderOpts",
-            "provider_options": {}
+        "sp": { "type": "SplitModel" },
+        "st": {
+            "type": "StaticLLM",
+            "batch_size": 1,
+            "context_length": 64,
+            "group_session_options": {
+                "log_id": "onnxruntime-genai",
+                "provider_options": [ { "VitisAI": {  } } ],
+                "graph_optimization_level": "ORT_ENABLE_ALL"
+            }
         }
     },
     "target": "local_system",
