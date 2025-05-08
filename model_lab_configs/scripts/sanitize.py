@@ -651,6 +651,8 @@ class ModelParameter(BaseModel):
     # - do not support cpu evaluation
     # - setup executeRuntimeFeatures, evalRuntimeFeatures
     isQNNLLM: bool = None
+    # SET AUTOMATICALLY
+    isGPURequired: bool = None
     runtimeOverwrite: RuntimeOverwrite = None
     executeRuntimeFeatures: list[RuntimeFeatureEnum] = None
     evalRuntimeFeatures: list[RuntimeFeatureEnum] = None
@@ -828,6 +830,9 @@ class ModelParameter(BaseModel):
             if not section.Check(templates, self._file, i, oliveJson, modelList):
                 print(f"{self._file} section {i} has error")
                 GlobalVars.hasError()
+
+        if currentEp == EPNames.CUDAExecutionProvider.value or self.runtimeOverwrite and self.runtimeOverwrite.executeEp == EPNames.CUDAExecutionProvider:
+            self.isGPURequired = True
 
         # Phase check
         allPhases = [section.phase for section in self.sections]
