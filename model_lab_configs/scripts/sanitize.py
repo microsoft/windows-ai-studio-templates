@@ -632,7 +632,7 @@ class ModelParameter(BaseModel):
     # SET AUTOMATICALLY
     isLLM: bool = None
     # For template using CUDA and no runtime overwrite, we need to set this so we know the target EP
-    evalRuntime: EPNames = None
+    evalRuntime: RuntimeEnum = None
     # SET AUTOMATICALLY
     # This kind of config will
     # - could not disable quantization
