@@ -219,7 +219,8 @@
             "modelLink": "https://huggingface.co/microsoft/Phi-3.5-mini-instruct",
             "id": "huggingface/microsoft/Phi-3.5-mini-instruct",
             "runtimes": [
-                "QNN"
+                "QNN",
+                "AMDNPU"
             ],
             "architecture": "Transformer",
             "status": "Ready",
