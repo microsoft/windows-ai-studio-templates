@@ -108,4 +108,4 @@ transformers==4.50.3
 # uvpip:uninstall onnxruntime;post
 # uvpip:uninstall onnxruntime-openvino;post
 # uvpip:install ./onnxruntime_openvino-1.22.0-cp312-cp312-win_amd64.whl;post
-#?uvpip:install ./onnxruntime_genai-0.9.0.dev0-cp312-cp312-win_amd64.whl --no-deps;post
+# uvpip:install ./onnxruntime_genai-0.9.0.dev0-cp312-cp312-win_amd64.whl --no-deps;post
