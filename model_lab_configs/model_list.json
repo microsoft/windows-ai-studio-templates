@@ -207,7 +207,8 @@
             "modelLink": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B",
             "id": "huggingface/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B",
             "runtimes": [
-                "QNN"
+                "QNN",
+                "AMDNPU"
             ],
             "architecture": "Transformer",
             "status": "Ready",
@@ -232,7 +233,8 @@
             "modelLink": "https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct",
             "id": "huggingface/Qwen/Qwen2.5-1.5B-Instruct",
             "runtimes": [
-                "QNN"
+                "QNN",
+                "AMDNPU"
             ],
             "architecture": "Transformer",
             "status": "Ready",
@@ -244,7 +246,8 @@
             "modelLink": "https://huggingface.co/meta-llama/Llama-3.2-1B-Instruct",
             "id": "huggingface/meta-llama/Llama-3.2-1B-Instruct",
             "runtimes": [
-                "QNN"
+                "QNN",
+                "AMDNPU"
             ],
             "architecture": "Transformer",
             "status": "Ready",
