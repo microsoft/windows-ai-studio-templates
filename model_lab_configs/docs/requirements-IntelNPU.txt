@@ -63,8 +63,8 @@ torchvision==0.21.0
 numpy==1.26.4
 pillow==11.2.1
 torch==2.6.0
-# onnxruntime-openvino==1.21.0
-onnxruntime-openvino==1.21.0
+# onnxruntime==1.21.0
+onnxruntime==1.21.0
 coloredlogs==15.0.1
 flatbuffers==25.2.10
 numpy==1.26.4
@@ -105,3 +105,7 @@ packaging==24.2
 sympy==1.13.1
 torch==2.6.0
 transformers==4.50.3
+# uvpip:uninstall onnxruntime;post
+# uvpip:uninstall onnxruntime-openvino;post
+# uvpip:install ./onnxruntime_openvino-1.22.0-cp312-cp312-win_amd64.whl;post
+#?uvpip:install ./onnxruntime_genai-0.9.0.dev0-cp312-cp312-win_amd64.whl --no-deps;post

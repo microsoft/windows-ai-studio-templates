@@ -52,24 +52,34 @@ def main():
         "ipykernel==6.29.5",
         "ipywidgets==8.1.5",
     ]
-    # onnxruntime and genai go here. others should go feature
+    # torchvision, onnxruntime and genai go here. others should go feature
     post = {
         RuntimeEnum.CPU: [
             "torchvision==0.22.0",
-            "onnxruntime==1.21.0"
+            "onnxruntime==1.21.0",
+            "onnxruntime-genai==0.7.0"
         ],
         RuntimeEnum.QNN: [
             "torchvision==0.22.0",
-            "onnxruntime-qnn==1.21.1"
+            "onnxruntime-qnn==1.21.1",
+            "# uvpip:install onnxruntime-genai==0.7.0 --no-deps;post"
         ],
         RuntimeEnum.IntelNPU: [
             # nncf needs torch 2.6 so torchvision is downgraded
             "torchvision==0.21.0",
-            "onnxruntime-openvino==1.21.0",
+            # onnxruntime-openvino==1.21.0 see below
+            # use this to track depedencies
+            "onnxruntime==1.21.0",
             # from olive[openvino]
             "openvino==2025.1.0",
             "nncf==2.16.0",
-            "optimum[openvino]==1.17.1"
+            "optimum[openvino]==1.17.1",
+            # optimum-intel==1.15.0: onnxruntime so we need to uninstall first
+            "# uvpip:uninstall onnxruntime;post",
+            # uninstall first to fix incomplete installation issue
+            "# uvpip:uninstall onnxruntime-openvino;post",
+            "# uvpip:install ./onnxruntime_openvino-1.22.0-cp312-cp312-win_amd64.whl;post",
+            "# uvpip:install ./onnxruntime_genai-0.9.0.dev0-cp312-cp312-win_amd64.whl --no-deps;post"
         ],
         RuntimeEnum.AMDNPU: [
             "torchvision==0.22.0",
