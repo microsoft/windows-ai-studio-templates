@@ -15,9 +15,8 @@
               "info": "Dataset to train the model from a local file.",
               "replaceToken": "<data_configs_data_files>",
               "optionValues": [
-                "dataset/train.json"
               ],
-              "defaultValue": "dataset/train.json",
+              "defaultValue": "",
               "fileName": "train.json"
             },
             {
@@ -26,9 +25,8 @@
               "info": "Dataset to evaluate the model from a local file.",
               "replaceToken": "<data_configs_data_files>",
               "optionValues": [
-                "dataset/test.json"
               ],
-              "defaultValue": "dataset/test.json",
+              "defaultValue": "",
               "fileName": "test.json"
             },
             {
