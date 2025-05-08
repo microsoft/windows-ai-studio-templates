@@ -151,6 +151,7 @@ class GlobalVars:
         EPNames.OpenVINOExecutionProvider.value: "Intel NPU",
         EPNames.VitisAIExecutionProvider.value: "AMD NPU",
         EPNames.CPUExecutionProvider.value: "CPU",
+        EPNames.CUDAExecutionProvider.value: "NVIDIA GPU",
     }
     verbose = False
     pathCheck = 0
@@ -642,7 +643,7 @@ class ModelParameter(BaseModel):
     # - the previous EP is used for EPContextBinaryGenerator if PythonEnvironment
     # - do not support cpu evaluation
     # - currently it is tightly coupled with runtimeOverwrite, so pay attention
-    isGPURequired: bool = None
+    isQNNLLM: bool = None
     runtimeOverwrite: RuntimeOverwrite = None
     executeRuntimeFeatures: list[RuntimeFeatureEnum] = None
     evalRuntimeFeatures: list[RuntimeFeatureEnum] = None
@@ -687,7 +688,7 @@ class ModelParameter(BaseModel):
             parameters=[],
         ))
         
-        if self.isGPURequired:
+        if self.isQNNLLM:
             self.addCpu = False
 
         # Add runtime
@@ -739,7 +740,7 @@ class ModelParameter(BaseModel):
             GlobalVars.hasError()
 
         # Add runtime overwrite
-        if self.isGPURequired:
+        if self.isQNNLLM:
             if not system[OlivePropertyNames.Type] == "PythonEnvironment":
                 print(f"{self._file}'s olive json does not use PythonEnvironment")
                 GlobalVars.hasError()
@@ -883,7 +884,7 @@ def readCheckOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter):
         GlobalVars.hasError()
         return
 
-    if modelParameter.isGPURequired:
+    if modelParameter.isQNNLLM:
         # TODO check CUDAExecutionProvider is used somewhere
         pass
 
@@ -1115,7 +1116,7 @@ def main():
     print(f"Total {GlobalVars.configCheck} config files checked with total {GlobalVars.pathCheck} path checks")
     # We add this test to make sure the sanity check is working: i.e. paths are checked and files are checked
     # So the numbers need to be updated whenever the config files change
-    if GlobalVars.pathCheck != 198 or GlobalVars.configCheck != 16:
+    if GlobalVars.pathCheck != 207 or GlobalVars.configCheck != 17:
         errorMsg += "Please update line above to reflect config changes!\n"
 
     result = subprocess.run(
