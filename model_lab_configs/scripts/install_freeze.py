@@ -17,6 +17,8 @@ def get_requires(name, args):
         package_name = name.split("#egg=")[1]
     else:
         package_name = name.split('==')[0]  # Remove version if present
+    if "[" in package_name:
+        package_name = package_name.split("[")[0]
     requires = []
     try:
         output = subprocess.check_output(["uv", "pip", "show", package_name, "-p", args.python]).decode('utf-8')
@@ -38,6 +40,9 @@ def main():
         ],
         RuntimeEnum.AMDNPU: [
             "numpy==1.26.4"
+        ],
+        RuntimeEnum.IntelNPU: [
+            "torch==2.6.0"
         ]
     }
     shared = [
@@ -58,8 +63,13 @@ def main():
             "onnxruntime-qnn==1.21.1"
         ],
         RuntimeEnum.IntelNPU: [
-            # TODO torchvision
-            "onnxruntime-openvino==1.20.0"
+            # nncf needs torch 2.6 so torchvision is downgraded
+            "torchvision==0.21.0",
+            "onnxruntime-openvino==1.21.0",
+            # from olive[openvino]
+            "openvino==2025.1.0",
+            "nncf==2.16.0",
+            "optimum[openvino]==1.17.1"
         ],
         RuntimeEnum.AMDNPU: [
             "torchvision==0.22.0",

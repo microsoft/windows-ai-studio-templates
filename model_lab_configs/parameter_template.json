@@ -80,8 +80,7 @@
         "tags": [
             "EvaluationDataset"
         ],
-        "type": "enum",
-        "customize": true
+        "type": "enum"
     },
     "EvaluationDatasetSize": {
         "name": "Evaluation Dataset Size",
@@ -98,8 +97,7 @@
             "train",
             "validation",
             "test"
-        ],
-        "customize": true
+        ]
     },
     "EvaluationDatasetSubset": {
         "name": "Evaluation Dataset Subset",
@@ -107,16 +105,14 @@
             "EvaluationDatasetSubset",
             "DependsOnDataset"
         ],
-        "type": "enum",
-        "customize": true
+        "type": "enum"
     },
     "QuantizationDataset": {
         "name": "Quantization Dataset",
         "tags": [
             "QuantizationDataset"
         ],
-        "type": "enum",
-        "customize": true
+        "type": "enum"
     },
     "QuantizationDatasetSize": {
         "name": "Quantization Dataset Size",
@@ -133,8 +129,7 @@
             "train",
             "validation",
             "test"
-        ],
-        "customize": true
+        ]
     },
     "QuantizationDatasetSubset": {
         "name": "Quantization Dataset Subset",
@@ -142,7 +137,6 @@
             "QuantizationDatasetSubset",
             "DependsOnDataset"
         ],
-        "type": "enum",
-        "customize": true
+        "type": "enum"
     }
 }
