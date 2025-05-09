@@ -15,12 +15,13 @@
                 "group_size": 128,
                 "dataset": "wikitext2",
                 "ratio": 1,
-                "awq": false,
-                "scale_estimation": false,
                 "sym": true,
                 "trust_remote_code": true,
-                "backup_precision": "int8_asym",
-                "sensitivity_metric": "weight_quantization_error"
+                "awq": true,
+                "scale_estimation": true,
+                
+                "backup_precision": "int8_sym"
+                
             }
         },
         "io_update": { "type": "OpenVINOIoUpdate", "static": false, "reuse_cache": true },
