@@ -48,7 +48,7 @@ class OlivePropertyNames:
 outputModelRelativePath = "\\\"./model/model.onnx\\\""
 outputModelModelBuilderPath = "\\\"./model\\\""
 importOnnxruntime = "import onnxruntime as ort"
-
+importOnnxgenairuntime = "import onnxruntime_genai as og"
 
 # Enums
 
@@ -911,15 +911,14 @@ def readCheckOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter):
         print(f"{oliveJsonFile} has wrong execution provider {eps[0]}")
         GlobalVars.hasError()
         return
-    
+
+    jsonUpdated = False
+
     # TODO check host
     # check target
     if OlivePropertyNames.Target not in oliveJson or oliveJson[OlivePropertyNames.Target] != systemK:
-        print(f"{oliveJsonFile} target should be {systemK}")
-        GlobalVars.hasError()
-        return
-
-    jsonUpdated = False
+        oliveJson[OlivePropertyNames.Target] = systemK
+        jsonUpdated = True
 
     # cache / output / evaluate_input_model
     if OlivePropertyNames.CacheDir not in oliveJson or oliveJson[OlivePropertyNames.CacheDir] != "cache":
@@ -959,16 +958,14 @@ def readCheckIpynb(ipynbFile: str, modelItems: dict[str, ModelParameter]):
             ipynbContent = file.read()
         for name, modelParameter in modelItems.items():
             testPath = outputModelRelativePath
-            if modelParameter.useModelBuilder:
+            importStr = importOnnxruntime
+            if modelParameter.isLLM:
                 testPath = outputModelModelBuilderPath
-            if testPath not in ipynbContent:
-                print(f"{ipynbFile} does not have '{testPath}' for {name}, please use it as input")
-                GlobalVars.hasError()
-            
-            if not modelParameter.useModelBuilder and importOnnxruntime not in ipynbContent:
-                print(f"{ipynbFile} does not have '{importOnnxruntime}' for {name}, please use it as import")
-                GlobalVars.hasError()
-            
+                importStr = importOnnxgenairuntime
+            for item in [testPath, importStr]:
+                if item not in ipynbContent:
+                    print(f"{ipynbFile} does not have '{item}' for {name}, please use it as input")
+                    GlobalVars.hasError()        
         return True
     return False
 
@@ -1147,7 +1144,7 @@ def main():
     print(f"Total {GlobalVars.configCheck} config files checked with total {GlobalVars.pathCheck} path checks")
     # We add this test to make sure the sanity check is working: i.e. paths are checked and files are checked
     # So the numbers need to be updated whenever the config files change
-    if GlobalVars.pathCheck != 252 or GlobalVars.configCheck != 23:
+    if GlobalVars.pathCheck != 268 or GlobalVars.configCheck != 27:
         errorMsg += "Please update line above to reflect config changes!\n"
 
     result = subprocess.run(
