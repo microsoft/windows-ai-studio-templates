@@ -911,15 +911,14 @@ def readCheckOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter):
         print(f"{oliveJsonFile} has wrong execution provider {eps[0]}")
         GlobalVars.hasError()
         return
-    
+
+    jsonUpdated = False
+
     # TODO check host
     # check target
     if OlivePropertyNames.Target not in oliveJson or oliveJson[OlivePropertyNames.Target] != systemK:
-        print(f"{oliveJsonFile} target should be {systemK}")
-        GlobalVars.hasError()
-        return
-
-    jsonUpdated = False
+        oliveJson[OlivePropertyNames.Target] = systemK
+        jsonUpdated = True
 
     # cache / output / evaluate_input_model
     if OlivePropertyNames.CacheDir not in oliveJson or oliveJson[OlivePropertyNames.CacheDir] != "cache":
