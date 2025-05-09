@@ -21,7 +21,8 @@
             "id": "huggingface/google-bert/bert-base-multilingual-cased",
             "runtimes": [
                 "QNN",
-                "AMDNPU"
+                "AMDNPU",
+                "IntelNPU"
             ],
             "architecture": "Transformer",
             "status": "Ready",
@@ -86,7 +87,8 @@
             "id": "huggingface/microsoft/resnet-50",
             "runtimes": [
                 "QNN",
-                "AMDNPU"
+                "AMDNPU",
+                "IntelNPU"
             ],
             "architecture": "CNN",
             "status": "Ready",
@@ -147,7 +149,8 @@
             "id": "huggingface/google/vit-base-patch16-224",
             "runtimes": [
                 "QNN",
-                "AMDNPU"
+                "AMDNPU",
+                "IntelNPU"
             ],
             "architecture": "Transformer",
             "status": "Ready",
