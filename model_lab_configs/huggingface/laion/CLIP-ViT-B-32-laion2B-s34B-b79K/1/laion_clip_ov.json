@@ -45,5 +45,5 @@
     "target": "local_system",
     "cache_dir": "cache",
     "evaluate_input_model": false,
-    "output_dir": "models/clip_vit_base_patch16_context_ov_static"
+    "output_dir": "model/clip_vit_base_patch16_context_ov_static"
 }
