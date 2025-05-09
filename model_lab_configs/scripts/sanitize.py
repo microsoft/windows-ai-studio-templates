@@ -958,17 +958,14 @@ def readCheckIpynb(ipynbFile: str, modelItems: dict[str, ModelParameter]):
             ipynbContent = file.read()
         for name, modelParameter in modelItems.items():
             testPath = outputModelRelativePath
+            importStr = importOnnxruntime
             if modelParameter.isLLM:
                 testPath = outputModelModelBuilderPath
-            if testPath not in ipynbContent:
-                print(f"{ipynbFile} does not have '{testPath}' for {name}, please use it as input")
-                GlobalVars.hasError()
-            if modelParameter.isLLM and importOnnxgenairuntime not in ipynbContent:
-                print(f"{ipynbFile} does not have '{importOnnxgenairuntime}' for {name}, please use it as import")
-                GlobalVars.hasError()
-            if not modelParameter.isLLM and importOnnxruntime not in ipynbContent:
-                print(f"{ipynbFile} does not have '{importOnnxruntime}' for {name}, please use it as import")
-                GlobalVars.hasError()            
+                importStr = importOnnxgenairuntime
+            for item in [testPath, importStr]:
+                if item not in ipynbContent:
+                    print(f"{ipynbFile} does not have '{item}' for {name}, please use it as input")
+                    GlobalVars.hasError()        
         return True
     return False
 
