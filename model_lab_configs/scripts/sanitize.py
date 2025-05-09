@@ -48,7 +48,7 @@ class OlivePropertyNames:
 outputModelRelativePath = "\\\"./model/model.onnx\\\""
 outputModelModelBuilderPath = "\\\"./model\\\""
 importOnnxruntime = "import onnxruntime as ort"
-
+importOnnxgenairuntime = "import onnxruntime_genai as og"
 
 # Enums
 
@@ -960,11 +960,11 @@ def readCheckIpynb(ipynbFile: str, modelItems: dict[str, ModelParameter]):
             testPath = outputModelRelativePath
             if modelParameter.useModelBuilder:
                 testPath = outputModelModelBuilderPath
-            if testPath not in ipynbContent:
+            if testPath not in ipynbContent and importOnnxgenairuntime not in ipynbContent:
                 print(f"{ipynbFile} does not have '{testPath}' for {name}, please use it as input")
                 GlobalVars.hasError()
             
-            if not modelParameter.useModelBuilder and importOnnxruntime not in ipynbContent:
+            if not modelParameter.useModelBuilder and (importOnnxruntime not in ipynbContent and importOnnxgenairuntime not in ipynbContent):
                 print(f"{ipynbFile} does not have '{importOnnxruntime}' for {name}, please use it as import")
                 GlobalVars.hasError()
             
@@ -1146,7 +1146,7 @@ def main():
     print(f"Total {GlobalVars.configCheck} config files checked with total {GlobalVars.pathCheck} path checks")
     # We add this test to make sure the sanity check is working: i.e. paths are checked and files are checked
     # So the numbers need to be updated whenever the config files change
-    if GlobalVars.pathCheck != 252 or GlobalVars.configCheck != 23:
+    if GlobalVars.pathCheck != 268 or GlobalVars.configCheck != 27:
         errorMsg += "Please update line above to reflect config changes!\n"
 
     result = subprocess.run(
