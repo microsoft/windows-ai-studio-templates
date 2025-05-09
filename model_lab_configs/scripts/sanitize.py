@@ -225,7 +225,7 @@ class ModelList(BaseModel):
                 GlobalVars.hasError()
         newContent = self.model_dump_json(indent=4, exclude_none=True)
         if newContent != self._fileContent:
-            with open(self._file, 'w', encoding='utf-8') as file:
+            with open(self._file, 'w', encoding='utf-8', newline="\n") as file:
                 file.write(newContent)
 
         self.CheckDataset(self.LoginRequiredDatasets, "LoginRequiredDatasets")
@@ -532,7 +532,7 @@ class ModelProjectConfig(BaseModel):
 
         newContent = self.model_dump_json(indent=4, exclude_none=True)
         if newContent != self._fileContent:
-            with open(self._file, 'w', encoding='utf-8') as file:
+            with open(self._file, 'w', encoding='utf-8', newline="\n") as file:
                 file.write(newContent)
 
 
@@ -868,7 +868,7 @@ class ModelParameter(BaseModel):
 
         newContent = self.model_dump_json(indent=4, exclude_none=True)
         if newContent != self._fileContent:
-            with open(self._file, 'w', encoding='utf-8') as file:
+            with open(self._file, 'w', encoding='utf-8', newline="\n") as file:
                 file.write(newContent)
 
 
