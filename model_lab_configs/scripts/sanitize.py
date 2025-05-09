@@ -17,6 +17,7 @@ from contextlib import contextmanager
 from contextlib import contextmanager
 @contextmanager
 def open_ex(file_path, mode):
+    # Note: The `newline` parameter has no effect when reading a file.
     file = open(file_path, mode, encoding='utf-8', newline='\n')
     try:
         yield file
