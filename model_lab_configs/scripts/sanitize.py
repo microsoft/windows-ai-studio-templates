@@ -12,9 +12,18 @@ import pydash
 import json
 from pathlib import Path
 from model_lab import RuntimeEnum, RuntimeFeatureEnum
+from contextlib import contextmanager
+
+from contextlib import contextmanager
+@contextmanager
+def open_ex(file_path, mode):
+    file = open(file_path, mode, encoding='utf-8', newline='\n')
+    try:
+        yield file
+    finally:
+        file.close()
 
 # Constants
-
 class OlivePassNames:
     OnnxConversion = "OnnxConversion"
     OnnxQuantization = "OnnxQuantization"
@@ -207,7 +216,7 @@ class ModelList(BaseModel):
     def Read(scriptFolder: str):
         modelListFile = os.path.join(scriptFolder, "model_list.json")
         print(f"Process {modelListFile}")
-        with open(modelListFile, 'r', encoding='utf-8') as file:
+        with open_ex(modelListFile, 'r') as file:
             modelListContent = file.read()
         modelList = ModelList.model_validate_json(modelListContent, strict=True)
         modelList._file = modelListFile
@@ -225,7 +234,7 @@ class ModelList(BaseModel):
                 GlobalVars.hasError()
         newContent = self.model_dump_json(indent=4, exclude_none=True)
         if newContent != self._fileContent:
-            with open(self._file, 'w', encoding='utf-8', newline="\n") as file:
+            with open_ex(self._file, 'w') as file:
                 file.write(newContent)
 
         self.CheckDataset(self.LoginRequiredDatasets, "LoginRequiredDatasets")
@@ -444,7 +453,7 @@ class Parameter(BaseModel):
 
 def readCheckParameterTemplate(filePath: str):
     print(f"Process {filePath}")
-    with open(filePath, 'r', encoding='utf-8') as file:
+    with open_ex(filePath, 'r') as file:
         fileContent = file.read()
     adapter = TypeAdapter(Dict[str, Parameter])
     parameters: Dict[str, Parameter] = adapter.validate_json(fileContent, strict=True)
@@ -454,7 +463,7 @@ def readCheckParameterTemplate(filePath: str):
             GlobalVars.hasError()
     newContent = adapter.dump_json(parameters, indent=4, exclude_none=True).decode('utf-8')
     if newContent != fileContent:
-        with open(filePath, 'w', encoding='utf-8', newline="\n") as file:
+        with open_ex(filePath, 'w') as file:
             file.write(newContent)
     return parameters
 
@@ -512,7 +521,7 @@ class ModelProjectConfig(BaseModel):
     @staticmethod
     def Read(modelSpaceConfigFile: str):
         print(f"Process {modelSpaceConfigFile}")
-        with open(modelSpaceConfigFile, 'r', encoding='utf-8') as file:
+        with open_ex(modelSpaceConfigFile, 'r') as file:
             modelSpaceConfigContent = file.read()
         modelSpaceConfig = ModelProjectConfig.model_validate_json(modelSpaceConfigContent, strict=True)
         modelSpaceConfig._file = modelSpaceConfigFile
@@ -532,7 +541,7 @@ class ModelProjectConfig(BaseModel):
 
         newContent = self.model_dump_json(indent=4, exclude_none=True)
         if newContent != self._fileContent:
-            with open(self._file, 'w', encoding='utf-8', newline="\n") as file:
+            with open_ex(self._file, 'w') as file:
                 file.write(newContent)
 
 
@@ -675,7 +684,7 @@ class ModelParameter(BaseModel):
     def Read(parameterFile: str):
         print(f"Process {parameterFile}")
         GlobalVars.configCheck += 1
-        with open(parameterFile, 'r', encoding='utf-8') as file:
+        with open_ex(parameterFile, 'r') as file:
             parameterContent = file.read()
         modelParameter = ModelParameter.model_validate_json(parameterContent, strict=True)
         modelParameter._file = parameterFile
@@ -868,7 +877,7 @@ class ModelParameter(BaseModel):
 
         newContent = self.model_dump_json(indent=4, exclude_none=True)
         if newContent != self._fileContent:
-            with open(self._file, 'w', encoding='utf-8', newline="\n") as file:
+            with open_ex(self._file, 'w') as file:
                 file.write(newContent)
 
 
@@ -877,7 +886,7 @@ def readCheckOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter):
     This will set phases to modelParameter
     """
     print(f"Process {oliveJsonFile}")
-    with open(oliveJsonFile, 'r', encoding='utf-8') as file:
+    with open_ex(oliveJsonFile, 'r') as file:
         oliveJson = json.load(file)
 
     # check if engine is in oliveJson
@@ -942,7 +951,7 @@ def readCheckOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter):
             jsonUpdated = True
 
     if jsonUpdated:
-        with open(oliveJsonFile, 'w', encoding='utf-8', newline="\n") as file:
+        with open_ex(oliveJsonFile, 'w') as file:
             json.dump(oliveJson, file, indent=4)
         print(f"{oliveJsonFile} has been updated")
 
@@ -954,7 +963,7 @@ def readCheckIpynb(ipynbFile: str, modelItems: dict[str, ModelParameter]):
     Note this return exists or not, not valid or not
     """
     if os.path.exists(ipynbFile):
-        with open(ipynbFile, 'r', encoding='utf-8') as file:
+        with open_ex(ipynbFile, 'r') as file:
             ipynbContent = file.read()
         for name, modelParameter in modelItems.items():
             testPath = outputModelRelativePath
@@ -1001,7 +1010,7 @@ class CopyConfig(BaseModel):
             if copy.replacements:
                 stringReplacements = [repl for repl in copy.replacements if repl.type == ReplaceTypeEnum.String]
                 if stringReplacements:
-                    with open(dst, 'r', encoding='utf-8') as file:
+                    with open_ex(dst, 'r') as file:
                         content = file.read()
                     for replacement in stringReplacements:
                         if GlobalVars.verbose: print(replacement.find)
@@ -1010,11 +1019,11 @@ class CopyConfig(BaseModel):
                             GlobalVars.hasError()
                             continue
                         content = content.replace(replacement.find, replacement.replace)
-                    with open(dst, 'w', encoding='utf-8', newline="\n") as file:
+                    with open_ex(dst, 'w') as file:
                         file.write(content)
                 pathReplacements = [repl for repl in copy.replacements if repl.type == ReplaceTypeEnum.Path or repl.type == ReplaceTypeEnum.PathAdd]
                 if pathReplacements:
-                    with open(dst, 'r', encoding='utf-8') as file:
+                    with open_ex(dst, 'r') as file:
                         jsonObj = json.load(file)
                     for replacement in pathReplacements:
                         if GlobalVars.verbose: print(replacement.find)
@@ -1024,7 +1033,7 @@ class CopyConfig(BaseModel):
                             GlobalVars.hasError()
                             continue
                         pydash.set_(jsonObj, replacement.find, replacement.replace)
-                    with open(dst, 'w', encoding='utf-8', newline="\n") as file:
+                    with open_ex(dst, 'w') as file:
                         json.dump(jsonObj, file, indent=4)
 
 
@@ -1076,7 +1085,7 @@ def main():
                 # process copy
                 copyConfigFile = os.path.join(modelVerDir, "_copy.json.config")
                 if os.path.exists(copyConfigFile):
-                    with open(copyConfigFile, 'r', encoding="utf-8") as file:
+                    with open_ex(copyConfigFile, 'r') as file:
                         copyConfigContent = file.read()
                     copyConfig = CopyConfig.model_validate_json(copyConfigContent, strict=True)
                     copyConfig.process(modelVerDir)
