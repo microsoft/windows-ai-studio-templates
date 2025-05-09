@@ -34,8 +34,7 @@
         "optimum_convert": {
             "type": "OpenVINOOptimumConversion",
             "extra_args": {
-                "device": "npu",
-                "library": "transformers"
+                "device": "npu", "library": "transformers"
             }
         },
         "ov_quantize": {
