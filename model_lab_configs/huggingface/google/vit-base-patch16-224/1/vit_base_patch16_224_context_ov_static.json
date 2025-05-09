@@ -1,9 +1,19 @@
 {
-    "input_model": { "type": "HfModel", "model_path": "google/vit-base-patch16-224", "task": "image-classification" },
+    "input_model": {
+        "type": "HfModel",
+        "model_path": "google/vit-base-patch16-224",
+        "task": "image-classification"
+    },
     "systems": {
         "local_system": {
             "type": "LocalSystem",
-            "accelerators": [ { "execution_providers": [ "OpenVINOExecutionProvider" ] } ]
+            "accelerators": [
+                {
+                    "execution_providers": [
+                        "OpenVINOExecutionProvider"
+                    ]
+                }
+            ]
         }
     },
     "data_configs": [
@@ -30,13 +40,27 @@
     "passes": {
         "ov_convert": {
             "type": "OpenVINOConversion",
-            "input_shapes": [ [ 1, 3, 224, 224 ] ],
+            "input_shapes": [
+                [
+                    1,
+                    3,
+                    224,
+                    224
+                ]
+            ],
             "output_model": "vit_base_patch16_224",
             "compress_to_fp16": true
         },
         "io_update": {
             "type": "OpenVINOIoUpdate",
-            "input_shapes": [ [ 1, 3, 224, 224 ] ],
+            "input_shapes": [
+                [
+                    1,
+                    3,
+                    224,
+                    224
+                ]
+            ],
             "static": true,
             "reuse_cache": true
         },
@@ -45,7 +69,13 @@
             "target_device": "npu",
             "data_config": "quantize_data_config",
             "model_type": "TRANSFORMER",
-            "extra_configs": [ { "advanced_quantization_parameters": { "smooth_quant_alpha": 0.6 } } ],
+            "extra_configs": [
+                {
+                    "advanced_quantization_parameters": {
+                        "smooth_quant_alpha": 0.6
+                    }
+                }
+            ],
             "reuse_cache": true
         },
         "encapsulation": {

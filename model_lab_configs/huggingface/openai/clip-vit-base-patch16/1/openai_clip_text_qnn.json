@@ -46,8 +46,8 @@
         "model_script": "openai_clip.py",
         "script_dir": ".",
         "model_attributes": {
-            "architectures":"CLIPModel",
-            "model_type":"clip"
+            "architectures": "CLIPModel",
+            "model_type": "clip"
         }
     },
     "systems": {
@@ -172,7 +172,14 @@
         },
         "surgery": {
             "type": "GraphSurgeries",
-            "surgeries": [ { "surgeon": "ReplaceAttentionMaskValue" }, { "surgeon": "PowReduceSumPowDiv2LpNorm" } ]
+            "surgeries": [
+                {
+                    "surgeon": "ReplaceAttentionMaskValue"
+                },
+                {
+                    "surgeon": "PowReduceSumPowDiv2LpNorm"
+                }
+            ]
         },
         "quantization": {
             "type": "OnnxStaticQuantization",
