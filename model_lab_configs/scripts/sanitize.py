@@ -454,7 +454,7 @@ def readCheckParameterTemplate(filePath: str):
             GlobalVars.hasError()
     newContent = adapter.dump_json(parameters, indent=4, exclude_none=True).decode('utf-8')
     if newContent != fileContent:
-        with open(filePath, 'w', encoding='utf-8') as file:
+        with open(filePath, 'w', encoding='utf-8', newline="\n") as file:
             file.write(newContent)
     return parameters
 
@@ -942,7 +942,7 @@ def readCheckOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter):
             jsonUpdated = True
 
     if jsonUpdated:
-        with open(oliveJsonFile, 'w', encoding='utf-8') as file:
+        with open(oliveJsonFile, 'w', encoding='utf-8', newline="\n") as file:
             json.dump(oliveJson, file, indent=4)
         print(f"{oliveJsonFile} has been updated")
 
@@ -1010,7 +1010,7 @@ class CopyConfig(BaseModel):
                             GlobalVars.hasError()
                             continue
                         content = content.replace(replacement.find, replacement.replace)
-                    with open(dst, 'w', encoding='utf-8') as file:
+                    with open(dst, 'w', encoding='utf-8', newline="\n") as file:
                         file.write(content)
                 pathReplacements = [repl for repl in copy.replacements if repl.type == ReplaceTypeEnum.Path or repl.type == ReplaceTypeEnum.PathAdd]
                 if pathReplacements:
@@ -1024,7 +1024,7 @@ class CopyConfig(BaseModel):
                             GlobalVars.hasError()
                             continue
                         pydash.set_(jsonObj, replacement.find, replacement.replace)
-                    with open(dst, 'w', encoding='utf-8') as file:
+                    with open(dst, 'w', encoding='utf-8', newline="\n") as file:
                         json.dump(jsonObj, file, indent=4)
 
 
