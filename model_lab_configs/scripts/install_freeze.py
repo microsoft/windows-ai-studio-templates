@@ -6,7 +6,7 @@ import sys
 from model_lab import RuntimeEnum
 
 # This script is used to generate the requirements-*.txt
-# Usage: uv run -p PATH_TO_RUNTIME .\install_freeze.py --runtime RUNTIME --python PATH_TO_RUNTIME
+# Usage: uv run -p PATH_TO_RUNTIME .\install_freeze.py --python PATH_TO_RUNTIME
 # They also have special comments:
 # - `# pip:`: anything after it will be sent to pip command like `# pip:--no-build-isolation`
 # - `# copy:`: copy from cache to folder in runtime like `# copy:a/*.dll;b;pre`, `# copy:a/*.dll;b;post`
@@ -98,9 +98,15 @@ def main():
     }
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--runtime", required=True, help=",".join([k.value for k in RuntimeEnum]))
+    parser.add_argument("--runtime", default="", help=",".join([k.value for k in RuntimeEnum]))
     parser.add_argument("--python", required=True, type=str, help="python path. TODO: input twice")
     args = parser.parse_args()
+
+    if not args.runtime:
+        pythonSegs = args.python.split("-")
+        args.runtime = pythonSegs[-4]
+        print(args.runtime)
+
     runtime = RuntimeEnum(args.runtime)
 
     # prepare file
