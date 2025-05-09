@@ -18,7 +18,7 @@ pydantic==2.11.1
 pyyaml==6.0.2
 torch==2.6.0
 torchmetrics==1.7.0
-transformers==4.50.3
+transformers==4.46.3
 # tabulate==0.9.0
 tabulate==0.9.0
 # datasets==3.5.0
@@ -95,16 +95,13 @@ safetensors==0.5.3
 scikit-learn==1.6.1
 scipy==1.15.2
 tabulate==0.9.0
-# optimum[openvino]==1.17.1
-optimum[openvino]==1.17.1
-coloredlogs==15.0.1
-datasets==3.5.0
+# optimum[openvino]==1.24.0
+optimum[openvino]==1.24.0
 huggingface-hub==0.30.1
 numpy==1.26.4
 packaging==24.2
-sympy==1.13.1
 torch==2.6.0
-transformers==4.50.3
+transformers==4.46.3
 # uvpip:uninstall onnxruntime;post
 # uvpip:uninstall onnxruntime-openvino;post
 # uvpip:install ./onnxruntime_openvino-1.22.0-cp312-cp312-win_amd64.whl;post

@@ -73,7 +73,7 @@ def main():
             # from olive[openvino]
             "openvino==2025.1.0",
             "nncf==2.16.0",
-            "optimum[openvino]==1.17.1",
+            "optimum[openvino]==1.24.0",
             # optimum-intel==1.15.0: onnxruntime so we need to uninstall first
             "# uvpip:uninstall onnxruntime;post",
             # uninstall first to fix incomplete installation issue
