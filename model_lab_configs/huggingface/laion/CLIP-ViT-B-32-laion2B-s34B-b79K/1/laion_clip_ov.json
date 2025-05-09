@@ -19,7 +19,7 @@
         }
     ],
     "passes": {
-        "optimum_convert": { "type": "OpenVINOOptimumConversion", "extra_args": { "device": "npu" } },
+        "optimum_convert": { "type": "OpenVINOOptimumConversion", "extra_args": { "device": "npu", "library": "transformers" } },
         "ov_quantize": {
             "type": "OpenVINOQuantization",
             "target_device": "npu",
