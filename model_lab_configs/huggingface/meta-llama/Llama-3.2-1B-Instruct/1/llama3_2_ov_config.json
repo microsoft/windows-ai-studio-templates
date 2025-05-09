@@ -1,15 +1,26 @@
 {
-    "input_model": { "type": "HfModel", "model_path": "meta-llama/Llama-3.2-1B-Instruct" },
+    "input_model": {
+        "type": "HfModel",
+        "model_path": "meta-llama/Llama-3.2-1B-Instruct"
+    },
     "systems": {
         "local_system": {
             "type": "LocalSystem",
-            "accelerators": [ { "execution_providers": [ "OpenVINOExecutionProvider" ] } ]
+            "accelerators": [
+                {
+                    "execution_providers": [
+                        "OpenVINOExecutionProvider"
+                    ]
+                }
+            ]
         }
     },
     "passes": {
         "optimum_convert": {
             "type": "OpenVINOOptimumConversion",
-            "extra_args": { "device": "npu" },
+            "extra_args": {
+                "device": "npu"
+            },
             "ov_quant_config": {
                 "weight_format": "int4",
                 "group_size": 128,
@@ -20,10 +31,14 @@
                 "awq": true,
                 "scale_estimation": true,
                 
-                "backup_precision": "int8_sym"                
+                "backup_precision": "int8_sym"
             }
         },
-        "io_update": { "type": "OpenVINOIoUpdate", "static": false, "reuse_cache": true },
+        "io_update": {
+            "type": "OpenVINOIoUpdate",
+            "static": false,
+            "reuse_cache": true
+        },
         "encapsulation": {
             "type": "OpenVINOEncapsulation",
             "target_device": "npu",
