@@ -21,7 +21,6 @@
                 "scale_estimation": false,
                 "sensitivity_metric": "weight_quantization_error",
                 "backup_precision": "int8_asym"
-                
             }
         },
         "io_update": { "type": "OpenVINOIoUpdate", "static": false, "reuse_cache": true },
