@@ -1,5 +1,5 @@
 
-# Convert a model with AI Toolkit for VS Code (Preview)
+# Convert a Model with AI Toolkit for VS Code (Preview)
 
 In this article :
 - [Overview](#overview)
@@ -7,7 +7,7 @@ In this article :
 - [Convert a model](#convert-a-model)
 - [See also](#see-also)
 
-# Overview 
+# Overview
 Model conversion is an integrated development environment designed to help developers and AI engineers to convert, quantize, optimize and evaluate the pre-built machine learning models on your local windows platform. It offers a streamlined, end-to-end experience for models converted from sources like Hugging Face, optimizing them and enabling inference on local devices powered by NPUs, GPUs, and CPUs.
 
 In this article, you'll learn how to:
@@ -23,17 +23,17 @@ In this article, you'll learn how to:
 
 # Convert a Model
 ## Step 1: Create Project
-Creating a project in model conversion is the first step toward converting, optimizing, quantizing and evaluating machine learning models. 
+Creating a project in model conversion is the first step toward converting, optimizing, quantizing and evaluating machine learning models.
 
 ### 1. Launch Model Conversion
-Select `MODEL LAB` on the primary sider bar. Click `Workflow`. 
+Select `Models` on the primary sider bar. Click `Conversion`.
 
 ### 2. Start a New Project
 Click on `New Model Project`.
 ![](Images/create_project_default.png)
 
 ### 3. Choose a Base Model
-- `Hugging Face Model`: choose the base model with predefined recipes from the supported model list (see Note).
+- `Hugging Face Model`: choose the base model with predefined recipes from the supported model list (see [Notice](#notice)).
 - Or `Model Template` : For advanced users. Model is not included in the base model, select empty template for your customized recipes.
 
 ![](Images/create_project_model_list.png)
@@ -50,7 +50,7 @@ Entering a unique Project Localtion and a Project Name. A new folder with the sp
 ![](Images/create_project_input_name.png)
 
 #### Notice:
-- When first time you create a model project, it will take a while to setup environment. 
+- When first time you create a model project, it will take a while to setup environment.
 
 - **ReadMe Access**: A README file is included in each project. If you close it, you can reopen it via the workspace.
 
@@ -102,14 +102,14 @@ Select or create a folder as model project folder.
 
 
 ## Step 2 : Run workflow
-Running a workflow in model conversion is the core step that transform the pre-built ML model into an optimized and quantized onnx model. 
+Running a workflow in model conversion is the core step that transform the pre-built ML model into an optimized and quantized onnx model.
 
 ### 1. Open Your Model Project
 - Ensure that the model project is open. If it isn't, navigate to File -> Open Folder in VS Code to open the model project.
 
 ### 2. Review Workflow Configuration
-- Navigate to primary sider bar 'Model Lab'-> 'workflow'
-- Click the workflow template to view the conversion recipe. 
+- Navigate to primary sider bar `Models`-> `Conversion`
+- Click the workflow template to view the conversion recipe.
 ![Run Panel](./Images/Run.png)
 
     #### Conversion
@@ -148,7 +148,7 @@ Running a workflow in model conversion is the core step that transform the pre-b
     You could also disable this section. In this case, the workflow will only convert the model to ONNX format but do not quantize the model.
 
     #### Evaluation
-    In this section, you need to select the Execution Provider (EP) you want to use for evaluation, regardless of the platform on which the model was converted. 
+    In this section, you need to select the Execution Provider (EP) you want to use for evaluation, regardless of the platform on which the model was converted.
     - **Evaluate on**: the target device that you want to evaluate the model. Possible values are:
         - **Qualcomm NPU**: to use this, you need a compatible Qualcomm device.
         - **CPU**: any CPU could work.
@@ -164,32 +164,33 @@ Running a workflow in model conversion is the core step that transform the pre-b
 - During the job running, you can `Cancel` the job by clicking on the status indicator or the three-dot menu under `Actions` in History board and select `Stop Running`.
 
 #### Notice:
-- *Model conversion and quantization"*: you can run workflow on any device expect for LLM models. The 'Quantization' configuration is optimized for NPU only.It's recommaneded to uncheck this step if target system is not NPU.
-- *LLM model Quantization*: If you want to quantize the [LLM models](#llm-models), a Nvidia GPU is required.
+- **Model conversion and quantization**: you can run workflow on any device expect for LLM models. The `Quantization` configuration is optimized for NPU only. It's recommaneded to uncheck this step if target system is not NPU.
+- **LLM model Quantization**: If you want to quantize the [LLM models](#llm-models), a Nvidia GPU is required.
 
-    If you want to quantize the model on another device with GPU, you can setup environment by yourselves, please refer [ManualConversionOnGPU](./Reference//ManualConversionOnGPU.md). Please note that only "Quantization" step need the GPU. After quantization, you can evaluate the model on NPU or CPU.
+    If you want to quantize the model on another device with GPU, you can setup environment by yourselves, please refer [ManualConversionOnGPU](./Reference/ManualConversionOnGPU.md). Please note that only "Quantization" step need the GPU. After quantization, you can evaluate the model on NPU or CPU.
 
 #### Tips for Re-evaluation
 After a model has been successfully converted, you could use the re-evaluate function to perform evaluation again without the model conversion.
 - Go to the History board and find the model run job.
-- Click the three-dot menu under Actions to 'Re-evluate' the model. 
+- Click the three-dot menu under `Actions` to `Re-evluate` the model.
 - You can choose the different EPs or datasets for re-evaluation
-![Re-evaluate Panel](./Images/Re-evaluate.png)
+
+    ![Re-evaluate Panel](./Images/Re-evaluate.png)
 
 #### Tips for failed job
 If your job is canceled or failed, you can click job name to adjust the workflow and run job again. To avoid accidental overwrites, each execution creates a new history folder with its own configuration and results.
 
 ## Step 3 : View results
-The History Board in Model Lab is your central dashboard for tracking, reviewing, and managing all workflow runs. Each time you run a model conversion and evaluation, a new entry is created in the History Board—ensuring full traceability and reproducibility.
+The History Board in `Conversion` is your central dashboard for tracking, reviewing, and managing all workflow runs. Each time you run a model conversion and evaluation, a new entry is created in the History Board—ensuring full traceability and reproducibility.
 
 - Find the workflow run that you want to review. Each run is listed with a status indicator (e.g. Succeeded, Cancelled)
 - Click on the run name to view the conversion configurations
-- Click on the 'logs' under Status indicator to to view logs and detailed execution results
+- Click on the `logs` under Status indicator to to view logs and detailed execution results
 - Once the model converted successfully, you can view the evaluation results under Metrics. Metrics such as accuracy, latency and throughput are displayed alongside each run
 ![History](./Images/history.png)
 
-## Step 4 : Use sample notebook for model inference 
-- Go to the History board. Click the three-dot menu under 'Actions'.
+## Step 4 : Use sample notebook for model inference
+- Go to the History board. Click the three-dot menu under `Actions`.
 
     Select `Inference in Samples` from the dropdown.
 
@@ -197,19 +198,19 @@ The History Board in Model Lab is your central dashboard for tracking, reviewing
 
 - Choose the Python Environment
   - You'll be prompted to select a Python virtual environment.
-The default runtime is: `C:\Users<your name>.aitk\bin\model_lab_runtime\Python-CPU-win32-x64-0.0.1`. 
-  - Note that the default runtime contains everything needed, otherwise, manually install the requirements.txt 
+The default runtime is: `C:\Users<your name>.aitk\bin\model_lab_runtime\Python-CPU-win32-x64-0.0.1`.
+  - Note that the default runtime contains everything needed, otherwise, manually install the requirements.txt
 - The sample will launch in a Jupyter Notebook. You can customize the input data or parameters to test different scenarios.
 
     #### Tips and Best Practices
-    - **Model Compatibility:** Ensure the converted model supports the specified EPs in the inference samples 
+    - **Model Compatibility:** Ensure the converted model supports the specified EPs in the inference samples
     - **Sample Location:** Inference samples are stored alongside the run artifacts in the history folder.
-  
+
 ## Step 5 : Export and share with others
-Go to the History board. Click `Export` to share the model project with others. This only copy the model project without history folder. If you want to share models with others, please select the corresponding jobs, This will copy the selected history folder conaining the model and its configuration. 
+Go to the History board. Click `Export` to share the model project with others. This only copy the model project without history folder. If you want to share models with others, please select the corresponding jobs, This will copy the selected history folder conaining the model and its configuration.
 
 # See Also
 - [How to manually setup GPU conversion](./Reference/ManualConversionOnGPU.md)
 - [How to manually setup environment](./Reference/SetupWithoutAITK.md)
 - [How to customize model template](./Reference/TemplateProject.md)
-- [Model lab file structure](./Reference/FileStructure.md)
+- [Conversion file structure](./Reference/FileStructure.md)

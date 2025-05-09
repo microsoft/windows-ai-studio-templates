@@ -51,7 +51,7 @@ The timestamp in the `history` folder name indicates the run time like: `April 1
 - `model`: model files.
 - `model_config.json`: contains details about the model.
 - `footprints.json`, `output_footprint.json`, `run_history.txt`: Olive output.
-- `history.config`, `history.config.user`: History configurations used by Model Lab.
+- `history.config`, `history.config.user`: History configurations used by Model Conversion.
 - `inference_sample.ipynb`: sample to test the output model.
 - `log.txt`: contain logs.
 - `metrics.json`: contain evaluation result if evaluation is enabled.
