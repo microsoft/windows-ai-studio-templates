@@ -20,8 +20,7 @@
                 "awq": true,
                 "scale_estimation": true,
                 
-                "backup_precision": "int8_sym"
-                
+                "backup_precision": "int8_sym"                
             }
         },
         "io_update": { "type": "OpenVINOIoUpdate", "static": false, "reuse_cache": true },
