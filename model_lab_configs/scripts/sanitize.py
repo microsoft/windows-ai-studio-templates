@@ -14,7 +14,6 @@ from pathlib import Path
 from model_lab import RuntimeEnum, RuntimeFeatureEnum
 from contextlib import contextmanager
 
-from contextlib import contextmanager
 @contextmanager
 def open_ex(file_path, mode):
     # Note: The `newline` parameter has no effect when reading a file.
