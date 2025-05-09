@@ -2,20 +2,20 @@
 # Convert a model with AI Toolkit for VS Code (Preview)
 
 In this article :
-- Overview
-- Prerequises
-- Convert a model 
-- See also
+- [Overview](#overview)
+- [Prerequises](#prerequisites)
+- [Convert a model](#convert-a-model)
+- [See also](#see-also)
 
 # Overview 
 Model conversion is an integrated development environment designed to help developers and AI engineers to convert, quantize, optimize and evaluate the pre-built machine learning models on your local windows platform. It offers a streamlined, end-to-end experience for models converted from sources like Hugging Face, optimizing them and enabling inference on local devices powered by NPUs, GPUs, and CPUs.
 
 In this article, you'll learn how to:
-- Create a model project 
-- Run workflow
-- View results
-- Use sample notebook for model inference 
-- Sharing resutls
+- [Create a model project](#step-1-create-project)
+- [Run workflow](#step-2--run-workflow)
+- [View results](#step-3--view-results)
+- [Use sample notebook for model inference](#step-4--use-sample-notebook-for-model-inference)
+- [Sharing resutls](#step-5--export-and-share-with-others)
 
 # Prerequisites
 - VS Code must be installed. For more information, see [Download VS Code](https://code.visualstudio.com/download)
@@ -29,7 +29,7 @@ Creating a project in model conversion is the first step toward converting, opti
 Select `MODEL LAB` on the primary sider bar. Click `Workflow`. 
 
 ### 2. Start a New Project
-Click on “New Model Project”.
+Click on `New Model Project`.
 ![](Images/create_project_default.png)
 
 ### 3. Choose a Base Model
@@ -42,16 +42,19 @@ Click on “New Model Project”.
 Entering a unique Project Localtion and a Project Name. A new folder with the specified project name will be created in the location you selected to store the project files.
 
 - Select or create a folder as model project folder.
+
 ![](Images/create_project_select_folder.png)
 
 - Enter model project name. Press `Enter`.
+
 ![](Images/create_project_input_name.png)
 
 #### Notice:
 - When first time you create a model project, it will take a while to setup environment. 
 
 - **ReadMe Access**: A README file is included in each project. If you close it, you can reopen it via the workspace.
-![](Images/create_project_readme.png)
+
+    ![](Images/create_project_readme.png)
 
 - **Supported Models**: Model Conversion currently supports a growing list of models, including top Hugging Face models in PyTorch format.
 
@@ -76,23 +79,26 @@ Entering a unique Project Localtion and a Project Name. A new folder with the sp
   | CLIP ViT Base Patch32                  | `clip-vit-base-patch32`                         |
 
 
-### Add Model into existing project
-- If you already opened the model project, click `Workflow`. Click `Add models` on right pannel. Or you need to open the model project and then click `Add modle` on the right panel 
-![](../images/create_project_add_models.png)
+### (Optional) Add Model into existing project
+- If you already opened the model project, click `Workflow`. Click `Add models` on right pannel. Or you need to open the model project and then click `Add modle` on the right panel
+
+    ![](Images/create_project_add_models.png)
+
 - Choose a base model or template . Click `Add`.
 - A folder contains new model files will be created in current project folder.
 
-### Create a new model project
+### (Optional) Create a new model project
 - If you already opened the model project, click `Workflow`. On right panel, Click `New Project`.
-![](../images/create_project_add_models.png)
-- Alternatively, you can close model project and [create project](#create-project) from beginning.
+
+    ![](Images/create_project_add_models.png)
+- Alternatively, you can close model project and [create project](#step-1-create-project) from beginning.
 Select or create a folder as model project folder.
 
-![](Images/create_project_select_folder.png)
+    Enter model project name. Press `Enter`.
 
-Enter model project name. Press `Enter`.
+    ![](Images/create_project_select_folder.png)
 
-![](Images/create_project_input_name.png)
+    ![](Images/create_project_input_name.png)
 
 
 ## Step 2 : Run workflow
@@ -102,67 +108,67 @@ Running a workflow in model conversion is the core step that transform the pre-b
 - Ensure that the model project is open. If it isn't, navigate to File -> Open Folder in VS Code to open the model project.
 
 ### 2. Review Workflow Configuration
-- Navigate to left panel 'Model Lab'-> 'workflow'
+- Navigate to primary sider bar 'Model Lab'-> 'workflow'
 - Click the workflow template to view the conversion recipe. 
 ![Run Panel](./Images/Run.png)
 
-#### Conversion
-The workflow will always execute the conversion step, which transforms the model into ONNX format. This step cannot be disabled.
+    #### Conversion
+    The workflow will always execute the conversion step, which transforms the model into ONNX format. This step cannot be disabled.
 
-#### Quantization
-In this section, you could configure the parameters for quantization.
-- **Activation Type**: this is the data type used to represent the intermediate outputs (activations) of each layer in the neural network.
-- **Weight Type**: this is the data type used to represent the learned parameters (weights) of the model.
-- **Quantization Dataset**: calibration dataset used for quantization.
-    ##### Notice:
-    **Hugging Face Compliance Alerts**:
-    - If your selected model or dataset is hosted on Hugging Face, you may be prompted to accept license terms before proceeding.
+    #### Quantization
+    In this section, you could configure the parameters for quantization.
+    - **Activation Type**: this is the data type used to represent the intermediate outputs (activations) of each layer in the neural network.
+    - **Weight Type**: this is the data type used to represent the learned parameters (weights) of the model.
+    - **Quantization Dataset**: calibration dataset used for quantization.
+        ##### Notice:
+        **Hugging Face Compliance Alerts**:
+        - During the quantization, we need the calibration datasets. You may be prompted to accept license terms before proceeding.
 
-        ![disclaimer](./Images/run_disclaimer.png)
+            ![disclaimer](./Images/run_disclaimer.png)
 
-    - If your workflow uses a dataset that requires license agreement approval on Hugging Face (e.g., ImageNet-1k), you’ll be prompted to accept the terms on the dataset page before proceeding. This is required for legal compliance.
+        - If your workflow uses a dataset that requires license agreement approval on Hugging Face (e.g., ImageNet-1k), you’ll be prompted to accept the terms on the dataset page before proceeding. This is required for legal compliance.
 
-    1. To get your Hugging Face Access Token, click button on poped out window.
+        1. To get your Hugging Face Access Token, click button on poped out window.
 
-        ![token_1](./Images/run_token_1.png)
+            ![token_1](./Images/run_token_1.png)
 
-    2. Click open.
+        2. Click open.
 
-        ![token_2](./Images/run_token_2.png)
+            ![token_2](./Images/run_token_2.png)
 
-    3. Get token on Hugging Face portal. Paste on the top window. Press `Enter`.
+        3. Get token on Hugging Face portal. Paste on the top window. Press `Enter`.
 
-        ![token_3](./Images/run_token_3.png)
+            ![token_3](./Images/run_token_3.png)
 
-- **Quantization Dataset Split**: dataset could have different splits like validation, train and test.
-- **Quantization Dataset Size**: the number of data used to quantize the model.
+    - **Quantization Dataset Split**: dataset could have different splits like validation, train and test.
+    - **Quantization Dataset Size**: the number of data used to quantize the model.
 
-For more information about activation and weight type, please see [Data type selection](https://onnxruntime.ai/docs/performance/model-optimizations/quantization.html#data-type-selection).
+    For more information about activation and weight type, please see [Data type selection](https://onnxruntime.ai/docs/performance/model-optimizations/quantization.html#data-type-selection).
 
-You could also disable this section. In this case, the workflow will only convert the model to ONNX format but do not quantize the model.
+    You could also disable this section. In this case, the workflow will only convert the model to ONNX format but do not quantize the model.
 
-#### Evaluation
-In this section, you need to select the Execution Provider (EP) you want to use for evaluation, regardless of the platform on which the model was converted. 
-- **Evaluate on**: the target device that you want to evaluate the model. Possible values are:
-  + **Qualcomm NPU**: to use this, you need a compatible Qualcomm device.
-  + **CPU**: any CPU could work.
-- **Evaluation Dataset**: dataset used for evaluation.
-- **Evaluation Dataset Split**: dataset could have different splits like validation, train and test.
-- **Evaluation Dataset Size**: the number of data used to evaluate the model.
+    #### Evaluation
+    In this section, you need to select the Execution Provider (EP) you want to use for evaluation, regardless of the platform on which the model was converted. 
+    - **Evaluate on**: the target device that you want to evaluate the model. Possible values are:
+        - **Qualcomm NPU**: to use this, you need a compatible Qualcomm device.
+        - **CPU**: any CPU could work.
+    - **Evaluation Dataset**: dataset used for evaluation.
+    - **Evaluation Dataset Split**: dataset could have different splits like validation, train and test.
+    - **Evaluation Dataset Size**: the number of data used to evaluate the model.
 
-You could also disable this section. In this case, the workflow will only convert the model to ONNX format but do not evaluate the model.
+    You could also disable this section. In this case, the workflow will only convert the model to ONNX format but do not evaluate the model.
 
 ### 3. Run the Workflow
-- If the workflow configuration meet your needs, click **Run** to begin the job.
+- If the workflow configuration meet your needs, click `Run` to begin the job.
 - A default job name will be generated using the workflow name and timestamp (e.g., `bert_qdq_2025-05-06_20-45-00`) for easy tracking.
-- During the job running, you can **Cancel" the job by clicking on the status indicator or the three-dot menu under `Actions` in History board and select `Stop Running`.
+- During the job running, you can `Cancel` the job by clicking on the status indicator or the three-dot menu under `Actions` in History board and select `Stop Running`.
 
-#### Notice
-- *Compliance Alerts**: During the quantization, we need the calibration datasets. You need to accept the compliance alerts before model conversion. Some private or gated datasets require you to accept the license agreement on Hugging Face. For more details [Autentication for gated datasets](https://huggingface.co/docs/hub/datasets-polars-auth). After you take action on Hugging Face, please provide the access token during the workflow run. This will be used to autenticate and authorize your access to gated datasets. 
+#### Notice:
 - *Model conversion and quantization"*: you can run workflow on any device expect for LLM models. The 'Quantization' configuration is optimized for NPU only.It's recommaneded to uncheck this step if target system is not NPU.
-- *LLM model Quantization*: If you want to quantize the [LLM models](#llm-models), a Nvidia GPU is required. 
-If you want to quantize the model on another device with GPU, you can setup environment by yourselves, please refer [ManualConversionOnGPU](Tutorials/ManualConversionOnGPU.md). Please note that only "Quantization" step need the GPU. After quantization, you can evaluate the model on NPU or CPU.
-  
+- *LLM model Quantization*: If you want to quantize the [LLM models](#llm-models), a Nvidia GPU is required.
+
+    If you want to quantize the model on another device with GPU, you can setup environment by yourselves, please refer [ManualConversionOnGPU](./Reference//ManualConversionOnGPU.md). Please note that only "Quantization" step need the GPU. After quantization, you can evaluate the model on NPU or CPU.
+
 #### Tips for Re-evaluation
 After a model has been successfully converted, you could use the re-evaluate function to perform evaluation again without the model conversion.
 - Go to the History board and find the model run job.
@@ -183,22 +189,27 @@ The History Board in Model Lab is your central dashboard for tracking, reviewing
 ![History](./Images/history.png)
 
 ## Step 4 : Use sample notebook for model inference 
-- Go to the History board. Click the three-dot menu under 'Actions'. Select **“Inference in Samples”** from the dropdown.
+- Go to the History board. Click the three-dot menu under 'Actions'.
+
+    Select `Inference in Samples` from the dropdown.
+
+    ![Action](./Images/historyaction.png)
+
 - Choose the Python Environment
-  - You’ll be prompted to select a Python virtual environment.
+  - You'll be prompted to select a Python virtual environment.
 The default runtime is: `C:\Users<your name>.aitk\bin\model_lab_runtime\Python-CPU-win32-x64-0.0.1`. 
   - Note that the default runtime contains everything needed, otherwise, manually install the requirements.txt 
 - The sample will launch in a Jupyter Notebook. You can customize the input data or parameters to test different scenarios.
 
-  #### Tips and Best Practices
-  - **Model Compatibility:** Ensure the converted model supports the specified EPs in the inference samples 
-  - **Sample Location:** Inference samples are stored alongside the run artifacts in the history folder.
+    #### Tips and Best Practices
+    - **Model Compatibility:** Ensure the converted model supports the specified EPs in the inference samples 
+    - **Sample Location:** Inference samples are stored alongside the run artifacts in the history folder.
   
 ## Step 5 : Export and share with others
-Go to the History board. Click "Export" to share the model project with others. This only copy the model project without history folder. If you want to share models with others, please select the corresponding jobs, This will copy the selected history folder conaining the model and its configuration. 
+Go to the History board. Click `Export` to share the model project with others. This only copy the model project without history folder. If you want to share models with others, please select the corresponding jobs, This will copy the selected history folder conaining the model and its configuration. 
 
 # See Also
-- How to manually setup GPU converssion..........
-- How to customize model template.... 
-- filexxx.
-- xxx
+- [How to manually setup GPU conversion](./Reference/ManualConversionOnGPU.md)
+- [How to manually setup environment](./Reference/SetupWithoutAITK.md)
+- [How to customize model template](./Reference/TemplateProject.md)
+- [Model lab file structure](./Reference/FileStructure.md)
