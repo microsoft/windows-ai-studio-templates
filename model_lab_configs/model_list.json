@@ -35,7 +35,8 @@
             "id": "huggingface/openai/clip-vit-base-patch32",
             "runtimes": [
                 "QNN",
-                "AMDNPU"
+                "AMDNPU",
+                "IntelNPU"
             ],
             "architecture": "CNN",
             "status": "Ready",
@@ -48,7 +49,8 @@
             "id": "huggingface/openai/clip-vit-base-patch16",
             "runtimes": [
                 "QNN",
-                "AMDNPU"
+                "AMDNPU",
+                "IntelNPU"
             ],
             "architecture": "CNN",
             "status": "Ready",
@@ -211,7 +213,8 @@
             "id": "huggingface/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B",
             "runtimes": [
                 "QNN",
-                "AMDNPU"
+                "AMDNPU",
+                "IntelNPU"
             ],
             "architecture": "Transformer",
             "status": "Ready",
@@ -224,7 +227,8 @@
             "id": "huggingface/microsoft/Phi-3.5-mini-instruct",
             "runtimes": [
                 "QNN",
-                "AMDNPU"
+                "AMDNPU",
+                "IntelNPU"
             ],
             "architecture": "Transformer",
             "status": "Ready",
@@ -237,7 +241,8 @@
             "id": "huggingface/Qwen/Qwen2.5-1.5B-Instruct",
             "runtimes": [
                 "QNN",
-                "AMDNPU"
+                "AMDNPU",
+                "IntelNPU"
             ],
             "architecture": "Transformer",
             "status": "Ready",
@@ -250,7 +255,8 @@
             "id": "huggingface/meta-llama/Llama-3.2-1B-Instruct",
             "runtimes": [
                 "QNN",
-                "AMDNPU"
+                "AMDNPU",
+                "IntelNPU"
             ],
             "architecture": "Transformer",
             "status": "Ready",
@@ -280,7 +286,8 @@
         "glue": "https://huggingface.co/datasets/nyu-mll/glue",
         "nlphuji/flickr30k": "https://huggingface.co/datasets/nlphuji/flickr30k",
         "timm/mini-imagenet": "https://huggingface.co/datasets/timm/mini-imagenet",
-        "wikipedia": "https://huggingface.co/datasets/wikimedia/wikipedia"
+        "wikipedia": "https://huggingface.co/datasets/wikimedia/wikipedia",
+        "google-research-datasets/conceptual_captions": "https://huggingface.co/datasets/google-research-datasets/conceptual_captions"
     },
     "LoginRequiredDatasets": [
         "imagenet-1k"
