@@ -22,6 +22,7 @@ class OlivePassNames:
     OnnxDynamicQuantization = "OnnxDynamicQuantization"
     ModelBuilder = "ModelBuilder"
     OpenVINOConversion = "OpenVINOConversion"
+    OpenVINOOptimumConversion = "OpenVINOOptimumConversion"
 
 
 class OlivePropertyNames:
@@ -644,6 +645,11 @@ class ModelParameter(BaseModel):
     # - could not disable quantization
     # - use OpenVINOConversion for conversion
     useOpenVINOConversion: str = None
+    # SET AUTOMATICALLY
+    # This kind of config will
+    # - could not disable quantization
+    # - use OpenVINOConversion for conversion
+    useOpenVINOOptimumConversion: str = None
     # A SHORTCUT FOR SEVERAL PARAMETERS
     # This kind of config will
     # - setup runtimeOverwrite for CUDA EP and others
@@ -693,7 +699,12 @@ class ModelParameter(BaseModel):
         if openVINOConversion:
             self.useOpenVINOConversion = openVINOConversion[0]
 
-        if self.useModelBuilder and self.useOpenVINOConversion:
+        # setup useOpenVINOOptimumConversion
+        openVINOOptimumConversion = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] == OlivePassNames.OpenVINOOptimumConversion]
+        if openVINOOptimumConversion:
+            self.useOpenVINOOptimumConversion = openVINOOptimumConversion[0]
+
+        if sum(bool(v) for v in [self.useModelBuilder, self.useOpenVINOConversion, self.useOpenVINOOptimumConversion]) > 1:
             print(f"{self._file} should not have both useModelBuilder and useOpenVINOConversion")
             GlobalVars.hasError()
             return
@@ -782,6 +793,8 @@ class ModelParameter(BaseModel):
                     conversion = self.useModelBuilder
                 elif self.useOpenVINOConversion:
                     conversion = self.useOpenVINOConversion
+                elif self.useOpenVINOOptimumConversion:
+                    conversion = self.useOpenVINOOptimumConversion
                 else:
                     conversion = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] == OlivePassNames.OnnxConversion][0]
                 conversionPath = f"{OlivePropertyNames.Passes}.{conversion}"
@@ -802,6 +815,9 @@ class ModelParameter(BaseModel):
                     toggleReadOnly = True
                 elif self.useOpenVINOConversion:
                     quantize = self.useOpenVINOConversion
+                    toggleReadOnly = True
+                elif self.useOpenVINOOptimumConversion:
+                    quantize = self.useOpenVINOOptimumConversion
                     toggleReadOnly = True
                 else:
                     quantize = [k for k, v in oliveJson[OlivePropertyNames.Passes].items() if v[OlivePropertyNames.Type] in
@@ -1131,7 +1147,7 @@ def main():
     print(f"Total {GlobalVars.configCheck} config files checked with total {GlobalVars.pathCheck} path checks")
     # We add this test to make sure the sanity check is working: i.e. paths are checked and files are checked
     # So the numbers need to be updated whenever the config files change
-    if GlobalVars.pathCheck != 234 or GlobalVars.configCheck != 20:
+    if GlobalVars.pathCheck != 252 or GlobalVars.configCheck != 23:
         errorMsg += "Please update line above to reflect config changes!\n"
 
     result = subprocess.run(
