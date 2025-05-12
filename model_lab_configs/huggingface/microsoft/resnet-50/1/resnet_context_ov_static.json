@@ -56,6 +56,38 @@
             }
         }
     ],
+    "evaluators": {
+        "common_evaluator": {
+            "metrics": [
+                {
+                    "name": "accuracy",
+                    "type": "accuracy",
+                    "data_config": "evaluation_data_config",
+                    "sub_types": [
+                        {
+                            "name": "accuracy_score",
+                            "priority": 1,
+                            "metric_config": {
+                                "task": "multiclass",
+                                "num_classes": 1001
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "latency",
+                    "type": "latency",
+                    "data_config": "evaluation_data_config",
+                    "sub_types": [
+                        {
+                            "name": "avg",
+                            "priority": 2
+                        }
+                    ]
+                }
+            ]
+        }
+    },
     "passes": {
         "ov_convert": {
             "type": "OpenVINOConversion",
