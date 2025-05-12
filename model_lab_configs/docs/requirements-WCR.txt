@@ -43,5 +43,4 @@ numpy==2.2.4
 pillow==11.2.1
 torch==2.7.0
 # onnxruntime
-./onnxruntime-1.22.0-cp312-cp312-win_amd64.whl
-./wcr-0.2.0-cp312-cp312-win_amd64.whl
+./onnxruntime_winml-1.22.0-cp312-cp312-win_amd64.whl
