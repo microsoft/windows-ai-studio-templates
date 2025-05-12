@@ -48,7 +48,7 @@ class ImagenetDataset(Dataset):
         return min(len(self.images), len(self.labels))
 
     def __getitem__(self, idx):
-        return {"input": self.images[idx]}, self.labels[idx]
+        return {"pixel_values": self.images[idx]}, self.labels[idx]
 
 
 @Registry.register_post_process()
