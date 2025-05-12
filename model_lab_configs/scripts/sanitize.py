@@ -851,6 +851,10 @@ class ModelParameter(BaseModel):
                     type=ParameterTypeEnum.Bool,
                     path=OlivePropertyNames.Evaluator,
                     actions=[[], [action]])
+                evaluatorName = oliveJson[OlivePropertyNames.Evaluator]
+                if not checkPath(f"{OlivePropertyNames.Evaluators}.{evaluatorName}", oliveJson):
+                    print(f"{self._file} does not have evaluator {evaluatorName}")
+                    GlobalVars.hasError()
 
             if not section.Check(templates, self._file, i, oliveJson, modelList):
                 print(f"{self._file} section {i} has error")
@@ -1153,7 +1157,7 @@ def main():
     print(f"Total {GlobalVars.configCheck} config files checked with total {GlobalVars.pathCheck} path checks")
     # We add this test to make sure the sanity check is working: i.e. paths are checked and files are checked
     # So the numbers need to be updated whenever the config files change
-    if GlobalVars.pathCheck != 285 or GlobalVars.configCheck != 30:
+    if GlobalVars.pathCheck != 297 or GlobalVars.configCheck != 30:
         errorMsg += "Please update line 'if GlobalVars.pathCheck != XXX or GlobalVars.configCheck != YYY' to reflect config changes!\n"
 
     result = subprocess.run(
