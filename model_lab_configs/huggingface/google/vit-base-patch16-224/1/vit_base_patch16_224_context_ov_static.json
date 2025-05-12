@@ -67,7 +67,7 @@
         "ov_quantize": {
             "type": "OpenVINOQuantization",
             "target_device": "npu",
-            "data_config": "quantize_data_config",
+            "data_config": "quantization_data_config",
             "model_type": "TRANSFORMER",
             "extra_configs": [
                 {
