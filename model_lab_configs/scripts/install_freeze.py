@@ -61,13 +61,13 @@ def main():
         ],
         RuntimeEnum.QNN: [
             "torchvision==0.22.0",
-            "onnxruntime-qnn==1.21.1",
+            "onnxruntime-qnn==1.22.0",
             "# uvpip:install onnxruntime-genai==0.7.0 --no-deps;post"
         ],
         RuntimeEnum.IntelNPU: [
             # nncf needs torch 2.6 so torchvision is downgraded
             "torchvision==0.21.0",
-            # onnxruntime-openvino==1.21.0 see below
+            # onnxruntime-openvino see below
             # use this to track depedencies
             "onnxruntime==1.21.0",
             # from olive[openvino]
@@ -92,7 +92,7 @@ def main():
         # https://onnxruntime.ai/docs/execution-providers/CUDA-ExecutionProvider.html
         RuntimeEnum.NvidiaGPU: [
             "torchvision==0.21.0+cu126",
-            "onnxruntime-gpu==1.21.0",
+            "onnxruntime-gpu==1.22.0",
             "onnxruntime-genai-cuda==0.7.0"
         ]
     }

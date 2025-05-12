@@ -54,8 +54,8 @@ torchvision==0.22.0
 numpy==2.2.4
 pillow==11.2.1
 torch==2.7.0
-# onnxruntime-qnn==1.21.1
-onnxruntime-qnn==1.21.1
+# onnxruntime-qnn==1.22.0
+onnxruntime-qnn==1.22.0
 coloredlogs==15.0.1
 flatbuffers==25.2.10
 numpy==2.2.4
