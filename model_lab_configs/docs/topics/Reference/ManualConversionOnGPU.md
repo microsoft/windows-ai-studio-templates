@@ -1,3 +1,6 @@
+## Background
+Conversion of LLM models requires a Nvidia GPU. If you want model lab to manage your local GPU, you can refer [convert model](../QuickStart.md#conversion). Otherwise, follow this document.
+
 ## Manual Run Model Conversion GPU
 This workflow is configured using the `qnn_config.json` file. It requires two separate Python environments described below.
 
