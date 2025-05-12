@@ -74,4 +74,4 @@ sympy==1.13.1
 # onnxruntime-genai-cuda==0.7.0
 onnxruntime-genai-cuda==0.7.0
 numpy==2.2.4
-onnxruntime-gpu==1.21.0
+onnxruntime-gpu==1.22.0
