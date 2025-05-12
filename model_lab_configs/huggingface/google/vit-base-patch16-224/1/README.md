@@ -1,11 +1,11 @@
 # Vision Transformer (ViT) Optimization
 This folder contains examples of ViT optimization using different workflows.
-- Qualcomm NPU: [with QNN execution provider in ONNX Runtime](#vit-optimization-with-qnn-execution-providers)
+- [QDQ for Qualcomm NPU / AMD NPU](#vit-optimization-with-qdq)
 
 ## Optimization Workflows
-### ViT optimization with QNN execution providers
-This example performs ViT optimization with QNN execution providers in one workflow. It performs the optimization pipeline:
-- *Huggingface Model -> Onnx Model -> QNN Quantized Onnx Model*
+### ViT optimization with qdq
+This example performs ViT optimization in one workflow. It performs the optimization pipeline:
+- *Huggingface Model -> Onnx Model -> Quantized Onnx Model*
 
 Config file: [vit-base-patch16-224.json](vit-base-patch16-224.json)
 
