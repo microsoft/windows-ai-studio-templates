@@ -80,7 +80,7 @@ Entering a unique Project Localtion and a Project Name. A new folder with the sp
 
 
 ### (Optional) Add Model into existing project
-- If you already opened the model project, click `Workflow`. Click `Add models` on right pannel. Or you need to open the model project and then click `Add modle` on the right panel
+- If you already opened the model project, click `Models` -> `Conversion`. Click `Add models` on right pannel. Or you need to open the model project and then click `Add modle` on the right panel
 
     ![](Images/create_project_add_models.png)
 
@@ -88,7 +88,7 @@ Entering a unique Project Localtion and a Project Name. A new folder with the sp
 - A folder contains new model files will be created in current project folder.
 
 ### (Optional) Create a new model project
-- If you already opened the model project, click `Workflow`. On right panel, Click `New Project`.
+- If you already opened the model project, click `Models` -> `Conversion`. On right panel, Click `New Project`.
 
     ![](Images/create_project_add_models.png)
 - Alternatively, you can close model project and [create project](#step-1-create-project) from beginning.
@@ -110,7 +110,8 @@ Running a workflow in model conversion is the core step that transform the pre-b
 ### 2. Review Workflow Configuration
 - Navigate to primary sider bar `Models`-> `Conversion`
 - Click the workflow template to view the conversion recipe.
-![Run Panel](./Images/Run.png)
+
+    ![Run Panel](./Images/Run.png)
 
     #### Conversion
     The workflow will always execute the conversion step, which transforms the model into ONNX format. This step cannot be disabled.
@@ -122,7 +123,7 @@ Running a workflow in model conversion is the core step that transform the pre-b
     - **Quantization Dataset**: calibration dataset used for quantization.
         ##### Notice:
         **Hugging Face Compliance Alerts**:
-        - During the quantization, we need the calibration datasets. You may be prompted to accept license terms before proceeding.
+        - During the quantization, we need the calibration datasets. You may be prompted to accept license terms before proceeding. If you missed the notification, the running process will be paused, waiting for your input. Please make sure notifications are enabled and that you accept the required licenses.
 
             ![disclaimer](./Images/run_disclaimer.png)
 
@@ -162,6 +163,7 @@ Running a workflow in model conversion is the core step that transform the pre-b
 - If the workflow configuration meet your needs, click `Run` to begin the job.
 - A default job name will be generated using the workflow name and timestamp (e.g., `bert_qdq_2025-05-06_20-45-00`) for easy tracking.
 - During the job running, you can `Cancel` the job by clicking on the status indicator or the three-dot menu under `Actions` in History board and select `Stop Running`.
+-  **Hugging Face Compliance Alerts**: During the quantization, we need the calibration datasets. You may be prompted to accept license terms before proceeding. If you missed the notification, the running process will be paused, waiting for your input. Please make sure notifications are enabled and that you accept the required licenses.
 
 #### Notice:
 - **Model conversion and quantization**: you can run workflow on any device expect for LLM models. The `Quantization` configuration is optimized for NPU only. It's recommaneded to uncheck this step if target system is not NPU.
