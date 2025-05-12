@@ -46,7 +46,7 @@ def main():
         ]
     }
     shared = [
-        "git+https://github.com/microsoft/Olive.git@59bfe00cbf4895c385c6fb863f3792db50b6012b#egg=olive_ai",
+        "git+https://github.com/microsoft/Olive.git@3964a9c4b9c13b7c750a992afb395c3e8cd2abc7#egg=olive_ai",
         "tabulate==0.9.0",
         "datasets==3.5.0",
         "ipykernel==6.29.5",

@@ -10,3 +10,4 @@ class RuntimeEnum(Enum):
 class RuntimeFeatureEnum(Enum):
     AutoGptq = "AutoGptq"
     Nightly = "Nightly"
+    Genai = "Genai"
