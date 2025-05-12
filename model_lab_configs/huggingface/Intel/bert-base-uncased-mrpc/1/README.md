@@ -1,4 +1,10 @@
-# BERT optimization with QDQ on NPU
+# BERT optimization
+
+This folder contains examples of BERT optimization using different workflows.
+- QDQ for Qualcomm NPU / AMD NPU
+- OpenVINO for Intel NPU
+
+## QDQ for Qualcomm NPU / AMD NPU
 
 This workflow performs BERT optimization on NPU with ONNX Runtime QDQ. It performs the optimization pipeline:
 

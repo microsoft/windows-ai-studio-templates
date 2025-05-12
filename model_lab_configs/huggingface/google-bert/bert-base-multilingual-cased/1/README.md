@@ -1,11 +1,17 @@
-## BERT Optimization Workflows
-### BERT Quantization QDQ
+# BERT Optimization
+
+This folder contains examples of BERT optimization using different workflows.
+- QDQ for Qualcomm NPU / AMD NPU
+- OpenVINO for Intel NPU
+
+## BERT Quantization QDQ
+
 This workflow quantizes the model. It performs the pipeline:
 - *HF Model-> ONNX Model ->Quantized Onnx Model*
 
 Config file: `bert-base-multilingual-cased_qdq.json`
 
-#### Latency / Throughput
+### Latency / Throughput
 
 | Model Version         | Latency (ms/sample)  | Throughput (token per second)| Dataset       |
 |-----------------------|----------------------|------------------------------|---------------|

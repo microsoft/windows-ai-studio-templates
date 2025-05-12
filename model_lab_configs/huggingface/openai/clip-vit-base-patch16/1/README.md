@@ -1,4 +1,4 @@
-# Openai Clip text optimization with QDQ
+# Openai Clip text optimization with QDQ for Qualcomm NPU / AMD NPU
 
 This example performs Openai Clip optimization with QDQ in one workflow. It performs the optimization pipeline:
 
@@ -13,7 +13,7 @@ The quantization uses 256 samples from train split of imagenet-1k dataset and th
 | --------------------- | ----------------- | ---------- | ---------------------- |
 | QUInt16               | QUInt8            | 100        | 6.53724                |
 
-# Openai Clip vision optimization with QDQ
+# Openai Clip vision optimization with QDQ for Qualcomm NPU / AMD NPU
 
 This example performs Openai Clip optimization with QDQ in one workflow. It performs the optimization pipeline:
 
@@ -27,3 +27,7 @@ The quantization uses 256 samples from train split of imagenet-1k dataset and th
 | Activation Type&nbsp; | Weight Type&nbsp; | Size&nbsp; | Latency ms (avg)&nbsp; |
 | --------------------- | ----------------- | ---------- | ---------------------- |
 | QUInt16               | QUInt8            | 100        | 20.13231               |
+
+# Openai Clip optimization with OpenVINO
+
+This example performs Openai Clip optimization with OpenVINO in one workflow for Intel NPU.

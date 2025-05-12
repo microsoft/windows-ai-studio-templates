@@ -1,6 +1,12 @@
-# ResNet optimization with QDQ
+# ResNet optimization
 
-This example performs ResNet optimization with QDQ in one workflow. It performs the optimization pipeline:
+This folder contains examples of ResNet optimization using different workflows.
+- QDQ for Qualcomm NPU / AMD NPU
+- OpenVINO for Intel NPU
+
+## QDQ for Qualcomm NPU / AMD NPU
+
+This workflow performs ResNet optimization with QDQ in one workflow. It performs the optimization pipeline:
 
 - *PyTorch Model -> Onnx Model -> Quantized Onnx Model*
 
