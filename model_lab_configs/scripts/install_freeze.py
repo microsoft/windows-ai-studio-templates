@@ -46,7 +46,7 @@ def main():
         ]
     }
     shared = [
-        "git+https://github.com/microsoft/Olive.git@3964a9c4b9c13b7c750a992afb395c3e8cd2abc7#egg=olive_ai",
+        "olive-ai==0.9.0",
         "tabulate==0.9.0",
         "datasets==3.5.0",
         "ipykernel==6.29.5",
@@ -61,7 +61,7 @@ def main():
         ],
         RuntimeEnum.QNN: [
             "torchvision==0.22.0",
-            "onnxruntime-qnn==1.22.0",
+            "onnxruntime-qnn==1.21.1",
             "# uvpip:install onnxruntime-genai==0.7.0 --no-deps;post"
         ],
         RuntimeEnum.IntelNPU: [

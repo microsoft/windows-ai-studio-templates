@@ -1,5 +1,5 @@
-# git+https://github.com/microsoft/Olive.git@3964a9c4b9c13b7c750a992afb395c3e8cd2abc7#egg=olive_ai
-git+https://github.com/microsoft/Olive.git@3964a9c4b9c13b7c750a992afb395c3e8cd2abc7#egg=olive_ai
+# olive-ai==0.9.0
+olive-ai==0.9.0
 numpy==2.2.4
 onnx==1.17.0
 onnxscript==0.2.5
@@ -54,8 +54,8 @@ torchvision==0.22.0
 numpy==2.2.4
 pillow==11.2.1
 torch==2.7.0
-# onnxruntime-qnn==1.22.0
-onnxruntime-qnn==1.22.0
+# onnxruntime-qnn==1.21.1
+onnxruntime-qnn==1.21.1
 coloredlogs==15.0.1
 flatbuffers==25.2.10
 numpy==2.2.4
