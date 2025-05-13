@@ -292,6 +292,9 @@
     "LoginRequiredDatasets": [
         "imagenet-1k"
     ],
+    "LoginRequiredModelIds": [
+        "huggingface/meta-llama/Llama-3.2-1B-Instruct"
+    ],
     "DatasetSplit": {
         "nlphuji/flickr30k": [
             "test"
