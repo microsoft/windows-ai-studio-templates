@@ -63,8 +63,8 @@ torchvision==0.21.0+cu126
 numpy==2.2.4
 pillow==11.2.1
 torch==2.6.0+cu126
-# onnxruntime-gpu==1.22.0
-onnxruntime-gpu==1.22.0
+# onnxruntime-gpu==1.21.0
+onnxruntime-gpu==1.21.0
 coloredlogs==15.0.1
 flatbuffers==25.2.10
 numpy==2.2.4
