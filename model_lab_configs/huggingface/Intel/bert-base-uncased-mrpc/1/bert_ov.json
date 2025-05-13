@@ -23,7 +23,7 @@
             "load_dataset_config": {
                 "type": "bert_base_uncased_mrpc_dataset",
                 "data_name": "glue",
-                "split": "validation",
+                "split": "train",
                 "max_samples": 300
             },
             "dataloader_config": {
