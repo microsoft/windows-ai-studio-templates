@@ -205,6 +205,7 @@ class ModelList(BaseModel):
     template_models: list[ModelInfo]
     HFDatasets: Dict[str, str]
     LoginRequiredDatasets: list[str]
+    LoginRequiredModelIds: list[str]
     # If exist in the dict, we will use the one from dict
     # If not exist in the dict, we will use the config from json
     # - if only one value, don't need to add
@@ -240,11 +241,18 @@ class ModelList(BaseModel):
         self.CheckDataset(self.LoginRequiredDatasets, "LoginRequiredDatasets")
         self.CheckDataset(self.DatasetSplit.keys(), "DatasetSplit")
         self.CheckDataset(self.DatasetSubset.keys(), "DatasetSubset")
+        self.CheckModel(self.LoginRequiredModelIds, "LoginRequiredModelIds")
     
     def CheckDataset(self, datasetKeys, name: str):
         for key in datasetKeys:
             if key not in self.HFDatasets:
                 print(f"{self._file} {name} {key} not in HFDatasets")
+                GlobalVars.hasError()
+    def CheckModel(self, modelIds, name: str):
+        tmpAllModelIds = {model.id for model in self.models}
+        for key in modelIds:
+            if key not in tmpAllModelIds:
+                print(f"{self._file} {name} {key} not in ModelInfos")
                 GlobalVars.hasError()
 
 
