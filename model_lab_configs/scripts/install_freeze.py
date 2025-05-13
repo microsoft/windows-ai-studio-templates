@@ -99,7 +99,7 @@ def main():
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--runtime", default="", help=",".join([k.value for k in RuntimeEnum]))
-    parser.add_argument("--python", required=True, type=str, help="python path. TODO: input twice")
+    parser.add_argument("--python", "-p", required=True, type=str, help="python path. TODO: input twice")
     args = parser.parse_args()
 
     if not args.runtime:
