@@ -40,6 +40,31 @@
       "revision": "main"
     },
     {
+      "name": "microsoft/phi-silica",
+      "icon": "ms",
+      "author": "Microsoft",
+      "description": "Description for Phi Silica",
+      "configPath": "finetune.yaml",
+      "availabilityLocations": [
+        {
+          "providerType": "Microsoft",
+          "modelId": "microsoft/phi-silica",
+          "revision": "main"
+        }
+      ],
+      "type": "Text Generation",
+      "revision": "main",
+      "disabledLocalFinetuning": true,
+      "supportHistory": true,
+      "versions": [
+        {
+          "model": "Phi Silica V3.6",
+          "sdk": "WinApp SDK 1.8-experimental",
+          "workspaceTemplatePath": "configs/phi-silica"
+        }
+      ]
+    },
+    {
       "name": "microsoft/phi-1_5",
       "icon": "ms",
       "author": "Microsoft",
