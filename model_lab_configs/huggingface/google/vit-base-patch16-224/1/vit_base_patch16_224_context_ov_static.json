@@ -48,7 +48,7 @@
             },
             "pre_process_data_config": {
                 "type": "dataset_pre_process",
-                "size": 256,
+                "size": 1000,
                 "cache_key": "imagedata_evaluation"
             },
             "post_process_data_config": {
