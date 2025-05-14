@@ -44,3 +44,4 @@ pillow==11.2.1
 torch==2.7.0
 # onnxruntime
 ./onnxruntime_winml-1.22.0-cp312-cp312-win_amd64.whl
+./onnxruntime_genai_winml-0.9.0.dev0-cp312-cp312-win_amd64.whl
