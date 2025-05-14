@@ -1,5 +1,17 @@
-# transformers==4.50.3
+# olive-ai==0.9.0
+git+https://github.com/microsoft/Olive.git@ad2d8d8f3abf13e70d95d4b560373bafeeee72d2#egg=olive_ai
+numpy==2.2.4
+onnx==1.17.0
+onnxscript==0.2.5
+optuna==4.2.1
+pandas==2.2.3
+pydantic==2.11.1
+pyyaml==6.0.2
+torch==2.7.0
+torchmetrics==1.7.0
 transformers==4.50.3
+# tabulate==0.9.0
+tabulate==0.9.0
 # datasets==3.5.0
 datasets==3.5.0
 aiohttp==3.11.16
@@ -44,3 +56,4 @@ pillow==11.2.1
 torch==2.7.0
 # onnxruntime
 ./onnxruntime_winml-1.22.0-cp312-cp312-win_amd64.whl
+./onnxruntime_genai_winml-0.9.0.dev0-cp312-cp312-win_amd64.whl
