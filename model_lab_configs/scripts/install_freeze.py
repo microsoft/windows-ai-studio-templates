@@ -45,7 +45,7 @@ def main():
             "torch==2.6.0"
         ],
         RuntimeEnum.WCR: [
-            "git+https://github.com/microsoft/Olive.git@ad2d8d8f3abf13e70d95d4b560373bafeeee72d2#egg=olive_ai"
+            "git+https://github.com/microsoft/Olive.git@377e233de4814b1bc92e173d6dbb503f1f94dc04#egg=olive_ai"
         ]
     }
     shared = [
