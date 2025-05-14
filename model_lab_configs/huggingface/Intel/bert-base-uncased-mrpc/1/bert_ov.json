@@ -9,6 +9,7 @@
             "type": "LocalSystem",
             "accelerators": [
                 {
+                    "device": "npu",
                     "execution_providers": [
                         "OpenVINOExecutionProvider"
                     ]
