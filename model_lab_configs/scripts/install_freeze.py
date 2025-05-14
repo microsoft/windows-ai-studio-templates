@@ -78,11 +78,12 @@ def main():
             "nncf==2.16.0",
             "optimum[openvino]==1.24.0",
             # optimum-intel==1.15.0: onnxruntime so we need to uninstall first
-            "# uvpip:uninstall onnxruntime;post",
+            #"# uvpip:uninstall onnxruntime;post",
             # uninstall first to fix incomplete installation issue
-            "# uvpip:uninstall onnxruntime-openvino;post",
-            "# uvpip:install ./onnxruntime_openvino-1.22.0-cp312-cp312-win_amd64.whl;post",
-            "# uvpip:install ./onnxruntime_genai-0.9.0.dev0-cp312-cp312-win_amd64.whl --no-deps;post"
+            #"# uvpip:uninstall onnxruntime-openvino;post",
+            #"# uvpip:install ./onnxruntime_openvino-1.22.0-cp312-cp312-win_amd64.whl;post",
+            #"# uvpip:install ./onnxruntime_genai-0.9.0.dev0-cp312-cp312-win_amd64.whl --no-deps;post"
+            "onnxruntime-genai==0.7.0"
         ],
         RuntimeEnum.AMDNPU: [
             "torchvision==0.22.0",
