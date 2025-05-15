@@ -55,6 +55,7 @@ class OlivePropertyNames:
 
 
 outputModelRelativePath = "\\\"./model/model.onnx\\\""
+outputModelIntelNPURelativePath = "\\\"./model/o"
 outputModelModelBuilderPath = "\\\"./model\\\""
 importOnnxruntime = "import onnxruntime as ort"
 importOnnxgenairuntime = "import onnxruntime_genai as og"
@@ -983,6 +984,8 @@ def readCheckIpynb(ipynbFile: str, modelItems: dict[str, ModelParameter]):
             if modelParameter.isLLM:
                 testPath = outputModelModelBuilderPath
                 importStr = importOnnxgenairuntime
+            elif len(modelParameter.runtime.values) == 1 and modelParameter.runtime.values[0] == EPNames.OpenVINOExecutionProvider.value:
+                testPath = outputModelIntelNPURelativePath
             for item in [testPath, importStr]:
                 if item not in ipynbContent:
                     print(f"{ipynbFile} does not have '{item}' for {name}, please use it as input")
