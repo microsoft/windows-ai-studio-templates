@@ -46,13 +46,6 @@
         "common_evaluator": {
             "metrics": [
                 {
-                    "name": "accuracy",
-                    "type": "accuracy",
-                    "backend": "huggingface_metrics",
-                    "data_config": "evaluation_data_config",
-                    "sub_types": [ { "name": "accuracy", "priority": 1 }, { "name": "f1" } ]
-                },
-                {
                     "name": "latency",
                     "type": "latency",
                     "sub_types": [
