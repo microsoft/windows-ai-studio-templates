@@ -49,6 +49,10 @@ def main():
         RuntimeEnum.IntelNPU: [
             "torch==2.6.0",
         ],
+        RuntimeEnum.QNN: [
+            # TODO my fix comment out qnn config
+            "olive-ai==0.9.0",
+        ],
     }
     shared = [
         oliveAi,
@@ -135,7 +139,7 @@ def main():
                 all.append(line)
 
                 # remove olive
-                if line.endswith("egg=olive_ai"):
+                if line.endswith("egg=olive_ai") or line.startswith("olive-ai=="):
                     shared = shared[1:]
         for line in shared:
             f.write(line + "\n")
