@@ -106,3 +106,5 @@ transformers==4.46.3
 onnxruntime-genai==0.7.0
 numpy==1.26.4
 onnxruntime==1.21.0
+evaluate==0.4.3
+scikit-learn==1.6.1

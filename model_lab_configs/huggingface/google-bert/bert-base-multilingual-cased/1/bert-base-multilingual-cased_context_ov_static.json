@@ -33,6 +33,20 @@
             }
         }
     ],
+    "evaluators": {
+        "common_evaluator": {
+            "metrics": [
+                {
+                    "name": "latency",
+                    "type": "latency",
+                    "sub_types": [
+                        { "name": "avg", "priority": 2, "metric_config": { "warmup_num": 20, "repeat_test_num": 100 } },
+                        { "name": "p90", "metric_config": { "warmup_num": 20, "repeat_test_num": 100 } }
+                    ]
+                }
+            ]
+        }
+    },
     "passes": {
         "optimum_convert": {
             "type": "OpenVINOOptimumConversion",
@@ -77,6 +91,7 @@
     "host": "local_system",
     "target": "local_system",
     "cache_dir": "cache",
+    "evaluator": "common_evaluator",
     "evaluate_input_model": false,
     "output_dir": "model/bert-base-multilingual-cased_context_ov_static"
 }

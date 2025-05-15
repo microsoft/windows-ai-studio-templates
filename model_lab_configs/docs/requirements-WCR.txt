@@ -65,3 +65,5 @@ sympy==1.14.0
 # ./onnxruntime_genai_winml-0.9.0.dev0-cp312-cp312-win_amd64.whl
 ./onnxruntime_genai_winml-0.9.0.dev0-cp312-cp312-win_amd64.whl
 numpy==2.2.4
+evaluate==0.4.3
+scikit-learn==1.6.1
