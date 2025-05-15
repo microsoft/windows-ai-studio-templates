@@ -62,12 +62,12 @@ def main():
         RuntimeEnum.CPU: [
             torchVision,
             "onnxruntime==1.21.0",
-            "onnxruntime-genai==0.7.0"
+            "onnxruntime-genai==0.7.0",
         ],
         RuntimeEnum.QNN: [
             torchVision,
             "onnxruntime-qnn==1.21.1",
-            "# uvpip:install onnxruntime-genai==0.7.0 --no-deps;post"
+            "# uvpip:install onnxruntime-genai==0.7.0 --no-deps;post",
         ],
         RuntimeEnum.IntelNPU: [
             # nncf needs torch 2.6 so torchvision is downgraded
@@ -85,7 +85,7 @@ def main():
             #"# uvpip:uninstall onnxruntime-openvino;post",
             #"# uvpip:install ./onnxruntime_openvino-1.22.0-cp312-cp312-win_amd64.whl;post",
             #"# uvpip:install ./onnxruntime_genai-0.9.0.dev0-cp312-cp312-win_amd64.whl --no-deps;post"
-            "onnxruntime-genai==0.7.0"
+            "onnxruntime-genai==0.7.0",
         ],
         RuntimeEnum.AMDNPU: [
             torchVision,
@@ -93,18 +93,20 @@ def main():
             "./voe-1.5.0.dev20250501191909+g87eb429ad-py3-none-any.whl",
             "./onnxruntime_vitisai-1.22.0.dev20250501-cp310-cp310-win_amd64.whl",
             "# copy:wcr_05022025/*.dll;Lib/site-packages/onnxruntime/capi;post",
-            "# uvpip:install ./onnxruntime_genai-0.7.0.dev0-cp310-cp310-win_amd64.whl --no-deps;post"
+            "# uvpip:install ./onnxruntime_genai-0.7.0.dev0-cp310-cp310-win_amd64.whl --no-deps;post",
         ],
         # https://onnxruntime.ai/docs/execution-providers/CUDA-ExecutionProvider.html
         RuntimeEnum.NvidiaGPU: [
             "torchvision==0.21.0+cu126",
             "onnxruntime-gpu==1.21.0",
-            "onnxruntime-genai-cuda==0.7.0"
+            "onnxruntime-genai-cuda==0.7.0",
         ],
         RuntimeEnum.WCR: [
             torchVision,
             "./onnxruntime_winml-1.22.0-cp312-cp312-win_amd64.whl",
-            "./onnxruntime_genai_winml-0.9.0.dev0-cp312-cp312-win_amd64.whl"
+            "./onnxruntime_genai_winml-0.9.0.dev0-cp312-cp312-win_amd64.whl",
+            "evaluate==0.4.3",
+            "scikit-learn==1.6.1",
         ],
     }
 
