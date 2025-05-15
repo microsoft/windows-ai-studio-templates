@@ -15,6 +15,10 @@ from model_lab import RuntimeEnum
 def get_requires(name, args):
     if "#egg=" in name:
         package_name = name.split("#egg=")[1]
+    elif name.startswith("./onnxruntime_winml-"):
+        package_name = "onnxruntime-winml"
+    elif name.startswith("./onnxruntime_genai_winml-"):
+        package_name = "onnxruntime-genai-winml"
     else:
         package_name = name.split('==')[0]  # Remove version if present
     if "[" in package_name:
@@ -33,19 +37,20 @@ def get_requires(name, args):
 
 def main():
     # Constants
+    oliveAi = "git+https://github.com/microsoft/Olive.git@7e666230bf692a9794abb878f178c2c8be0bb6a9#egg=olive_ai"
     pre = {
         RuntimeEnum.NvidiaGPU: [
             "--extra-index-url https://download.pytorch.org/whl/cu126",
             "torch==2.6.0+cu126",
         ],
         RuntimeEnum.AMDNPU: [
-            "numpy==1.26.4"
+            "numpy==1.26.4",
         ],
         RuntimeEnum.IntelNPU: [
-            "torch==2.6.0"
+            "torch==2.6.0",
         ],
         RuntimeEnum.WCR: [
-            "git+https://github.com/microsoft/Olive.git@377e233de4814b1bc92e173d6dbb503f1f94dc04#egg=olive_ai"
+            oliveAi,
         ]
     }
     shared = [
@@ -77,7 +82,7 @@ def main():
             "openvino==2025.1.0",
             "nncf==2.16.0",
             "optimum[openvino]==1.24.0",
-            # optimum-intel==1.15.0: onnxruntime so we need to uninstall first
+            # optimum-intel==1.15.0: depends on onnxruntime so we need to uninstall first
             #"# uvpip:uninstall onnxruntime;post",
             # uninstall first to fix incomplete installation issue
             #"# uvpip:uninstall onnxruntime-openvino;post",
@@ -159,7 +164,7 @@ def main():
     outputFile = path.join(path.dirname(__file__), "..", "docs", f"requirements-{args.runtime}.txt")
     with open(outputFile, "w") as f:
         for name in all:
-            if name.startswith("#") or name.startswith("--") or name.startswith("./"):
+            if name.startswith("#") or name.startswith("--"):
                 f.write(name + "\n")
                 continue
             f.write("# " + name + "\n")
