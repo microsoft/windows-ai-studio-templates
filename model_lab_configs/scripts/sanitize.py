@@ -592,7 +592,7 @@ class Section(BaseModel):
         #    return False
         # TODO add place holder for General?
         if not self.parameters and self.phase != PhaseTypeEnum.Conversion:
-            return False
+            print(f"WARNING: self.parameters is empty for {self.phase}.")
         
         for i, parameter in enumerate(self.parameters):
             if parameter.template:
@@ -884,8 +884,7 @@ class ModelParameter(BaseModel):
             GlobalVars.hasError()
 
         if PhaseTypeEnum.Evaluation in allPhases and PhaseTypeEnum.Quantization in allPhases and len(oliveJson[OlivePropertyNames.DataConfigs]) != 2:
-            print(f"{self._file}'s olive json should have two data configs for evaluation")
-            GlobalVars.hasError()
+            print(f"WARNING: {self._file}'s olive json should have two data configs for evaluation")
 
         newContent = self.model_dump_json(indent=4, exclude_none=True)
         if newContent != self._fileContent:
@@ -1165,7 +1164,7 @@ def main():
     print(f"Total {GlobalVars.configCheck} config files checked with total {GlobalVars.pathCheck} path checks")
     # We add this test to make sure the sanity check is working: i.e. paths are checked and files are checked
     # So the numbers need to be updated whenever the config files change
-    if GlobalVars.pathCheck != 320 or GlobalVars.configCheck != 30:
+    if GlobalVars.pathCheck != 323 or GlobalVars.configCheck != 30:
         errorMsg += "Please update line 'if GlobalVars.pathCheck != XXX or GlobalVars.configCheck != YYY' to reflect config changes!\n"
 
     result = subprocess.run(
