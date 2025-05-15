@@ -6,7 +6,7 @@ import sys
 from model_lab import RuntimeEnum
 
 # This script is used to generate the requirements-*.txt
-# Usage: uv run -p PATH_TO_RUNTIME .\install_freeze.py --python PATH_TO_RUNTIME
+# Usage: uv run .\install_freeze.py --python PATH_TO_RUNTIME
 # They also have special comments:
 # - `# pip:`: anything after it will be sent to pip command like `# pip:--no-build-isolation`
 # - `# copy:`: copy from cache to folder in runtime like `# copy:a/*.dll;b;pre`, `# copy:a/*.dll;b;post`
@@ -43,6 +43,9 @@ def main():
         ],
         RuntimeEnum.IntelNPU: [
             "torch==2.6.0"
+        ],
+        RuntimeEnum.WCR: [
+            "git+https://github.com/microsoft/Olive.git@377e233de4814b1bc92e173d6dbb503f1f94dc04#egg=olive_ai"
         ]
     }
     shared = [
@@ -75,11 +78,12 @@ def main():
             "nncf==2.16.0",
             "optimum[openvino]==1.24.0",
             # optimum-intel==1.15.0: onnxruntime so we need to uninstall first
-            "# uvpip:uninstall onnxruntime;post",
+            #"# uvpip:uninstall onnxruntime;post",
             # uninstall first to fix incomplete installation issue
-            "# uvpip:uninstall onnxruntime-openvino;post",
-            "# uvpip:install ./onnxruntime_openvino-1.22.0-cp312-cp312-win_amd64.whl;post",
-            "# uvpip:install ./onnxruntime_genai-0.9.0.dev0-cp312-cp312-win_amd64.whl --no-deps;post"
+            #"# uvpip:uninstall onnxruntime-openvino;post",
+            #"# uvpip:install ./onnxruntime_openvino-1.22.0-cp312-cp312-win_amd64.whl;post",
+            #"# uvpip:install ./onnxruntime_genai-0.9.0.dev0-cp312-cp312-win_amd64.whl --no-deps;post"
+            "onnxruntime-genai==0.7.0"
         ],
         RuntimeEnum.AMDNPU: [
             "torchvision==0.22.0",
@@ -94,7 +98,12 @@ def main():
             "torchvision==0.21.0+cu126",
             "onnxruntime-gpu==1.21.0",
             "onnxruntime-genai-cuda==0.7.0"
-        ]
+        ],
+        RuntimeEnum.WCR: [
+            "torchvision==0.22.0",
+            "./onnxruntime_winml-1.22.0-cp312-cp312-win_amd64.whl",
+            "./onnxruntime_genai_winml-0.9.0.dev0-cp312-cp312-win_amd64.whl"
+        ],
     }
 
     parser = argparse.ArgumentParser()
@@ -120,6 +129,10 @@ def main():
             for line in pre[runtime]:
                 f.write(line + "\n")
                 all.append(line)
+
+                # remove olive
+                if line.endswith("egg=olive_ai"):
+                    shared = shared[1:]
         for line in shared:
             f.write(line + "\n")
             all.append(line)
