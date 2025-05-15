@@ -7,8 +7,8 @@ networkx==3.4.2
 setuptools==80.3.1
 sympy==1.13.1
 typing-extensions==4.13.2
-# olive-ai==0.9.0
-olive-ai==0.9.0
+# git+https://github.com/microsoft/Olive.git@7e666230bf692a9794abb878f178c2c8be0bb6a9#egg=olive_ai
+git+https://github.com/microsoft/Olive.git@7e666230bf692a9794abb878f178c2c8be0bb6a9#egg=olive_ai
 numpy==1.26.4
 onnx==1.17.0
 onnxscript==0.2.5
@@ -102,7 +102,7 @@ numpy==1.26.4
 packaging==24.2
 torch==2.6.0
 transformers==4.46.3
-# uvpip:uninstall onnxruntime;post
-# uvpip:uninstall onnxruntime-openvino;post
-# uvpip:install ./onnxruntime_openvino-1.22.0-cp312-cp312-win_amd64.whl;post
-# uvpip:install ./onnxruntime_genai-0.9.0.dev0-cp312-cp312-win_amd64.whl --no-deps;post
+# onnxruntime-genai==0.7.0
+onnxruntime-genai==0.7.0
+numpy==1.26.4
+onnxruntime==1.21.0
