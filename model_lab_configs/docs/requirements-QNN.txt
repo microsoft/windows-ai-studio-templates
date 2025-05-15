@@ -1,5 +1,5 @@
-# git+https://github.com/microsoft/Olive.git@7e666230bf692a9794abb878f178c2c8be0bb6a9#egg=olive_ai
-git+https://github.com/microsoft/Olive.git@7e666230bf692a9794abb878f178c2c8be0bb6a9#egg=olive_ai
+# olive-ai==0.9.0
+olive-ai==0.9.0
 numpy==2.2.4
 onnx==1.17.0
 onnxscript==0.2.5

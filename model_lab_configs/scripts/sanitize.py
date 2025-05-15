@@ -13,6 +13,7 @@ import json
 from pathlib import Path
 from model_lab import RuntimeEnum, RuntimeFeatureEnum
 from contextlib import contextmanager
+import re
 
 @contextmanager
 def open_ex(file_path, mode):
@@ -54,10 +55,12 @@ class OlivePropertyNames:
     UserConfig = "user_config"
 
 
-outputModelRelativePath = "\\\"./model/model.onnx\\\""
-outputModelModelBuilderPath = "\\\"./model\\\""
-importOnnxruntime = "import onnxruntime as ort"
-importOnnxgenairuntime = "import onnxruntime_genai as og"
+outputModelRelativePath = r"\\\"./model/model.onnx\\\""
+outputModelIntelNPURelativePath = r"\\\"./model/(ov_model_st_quant|openvino_model_quant_st|openvino_model_st_quant).onnx\\\""
+outputModelModelBuilderPath = r"\\\"./model\\\""
+
+importOnnxruntime = r"import onnxruntime as ort"
+importOnnxgenairuntime = r"import onnxruntime_genai as og"
 
 # Enums
 
@@ -982,8 +985,10 @@ def readCheckIpynb(ipynbFile: str, modelItems: dict[str, ModelParameter]):
             if modelParameter.isLLM:
                 testPath = outputModelModelBuilderPath
                 importStr = importOnnxgenairuntime
+            elif len(modelParameter.runtime.values) == 1 and modelParameter.runtime.values[0] == EPNames.OpenVINOExecutionProvider.value:
+                testPath = outputModelIntelNPURelativePath
             for item in [testPath, importStr]:
-                if item not in ipynbContent:
+                if not re.search(item, ipynbContent):
                     print(f"{ipynbFile} does not have '{item}' for {name}, please use it as input")
                     GlobalVars.hasError()        
         return True
