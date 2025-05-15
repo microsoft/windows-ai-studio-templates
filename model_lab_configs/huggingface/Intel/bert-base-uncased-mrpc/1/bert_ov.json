@@ -34,17 +34,14 @@
         },
         {
             "name": "evaluation_data_config",
-            "user_script": "user_script.py",
-            "load_dataset_config": {
-                "type": "bert_base_uncased_mrpc_dataset",
-                "data_name": "glue",
-                "split": "validation",
-                "max_samples": 1000
+            "type": "HuggingfaceContainer",
+            "load_dataset_config": { "data_name": "glue", "subset": "mrpc", "split": "test" },
+            "pre_process_data_config": {
+                "input_cols": [ "sentence1", "sentence2" ],
+                "max_length": 128,
+                "padding": "max_length"
             },
-            "dataloader_config": {
-                "batch_size": 1,
-                "drop_last": true
-            }
+            "dataloader_config": { "batch_size": 1 }
         }
     ],
     "evaluators": {
@@ -53,26 +50,16 @@
                 {
                     "name": "accuracy",
                     "type": "accuracy",
+                    "backend": "huggingface_metrics",
                     "data_config": "evaluation_data_config",
-                    "sub_types": [
-                        {
-                            "name": "accuracy_score",
-                            "priority": 1
-                        },
-                        {
-                            "name": "f1_score"
-                        }
-                    ]
+                    "sub_types": [ { "name": "accuracy", "priority": 1 }, { "name": "f1" } ]
                 },
                 {
                     "name": "latency",
                     "type": "latency",
-                    "data_config": "evaluation_data_config",
                     "sub_types": [
-                        {
-                            "name": "avg",
-                            "priority": 2
-                        }
+                        { "name": "avg", "priority": 2, "metric_config": { "warmup_num": 20, "repeat_test_num": 100 } },
+                        { "name": "p90", "metric_config": { "warmup_num": 20, "repeat_test_num": 100 } }
                     ]
                 }
             ]
