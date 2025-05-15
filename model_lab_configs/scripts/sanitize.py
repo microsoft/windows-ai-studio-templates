@@ -53,9 +53,8 @@ class OlivePropertyNames:
     Metrics = "metrics"
     UserConfig = "user_config"
 
-
-outputModelRelativePath = r'"\.\/model\/.*model.*\.onnx"'
-outputModelModelBuilderPath = "\\\"./model\\\""
+outputModelRelativePath = r'onnx_model_path = \\?"\.\/model\/[a-zA-Z_]*model[a-zA-Z_]*\.onnx\\?"'
+outputModelModelBuilderPath = r'model_folder = \\?"\./model\\?"'
 importOnnxruntime = "import onnxruntime as ort"
 importOnnxgenairuntime = "import onnxruntime_genai as og"
 
@@ -983,7 +982,7 @@ def readCheckIpynb(ipynbFile: str, modelItems: dict[str, ModelParameter]):
                 testPath = outputModelModelBuilderPath
                 importStr = importOnnxgenairuntime
             for item in [testPath, importStr]:
-                if re.match(item, ipynbContent):
+                if not re.search(item, ipynbContent):
                     print(f"{ipynbFile} does not have '{item}' for {name}, please use it as input")
                     GlobalVars.hasError()        
         return True
