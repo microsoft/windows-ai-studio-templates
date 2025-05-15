@@ -15,10 +15,8 @@ from model_lab import RuntimeEnum
 def get_requires(name, args):
     if "#egg=" in name:
         package_name = name.split("#egg=")[1]
-    elif name.startswith("./onnxruntime_winml-"):
-        package_name = "onnxruntime-winml"
-    elif name.startswith("./onnxruntime_genai_winml-"):
-        package_name = "onnxruntime-genai-winml"
+    elif name.startswith("./"):
+        package_name = name[2:].split("-")[0].replace("_", "-")
     else:
         package_name = name.split('==')[0]  # Remove version if present
     if "[" in package_name:
@@ -37,7 +35,9 @@ def get_requires(name, args):
 
 def main():
     # Constants
+    # if from git: "git+https://github.com/microsoft/Olive.git@COMMIT_ID#egg=olive_ai
     oliveAi = "git+https://github.com/microsoft/Olive.git@7e666230bf692a9794abb878f178c2c8be0bb6a9#egg=olive_ai"
+    torchVision = "torchvision==0.22.0"
     pre = {
         RuntimeEnum.NvidiaGPU: [
             "--extra-index-url https://download.pytorch.org/whl/cu126",
@@ -49,12 +49,9 @@ def main():
         RuntimeEnum.IntelNPU: [
             "torch==2.6.0",
         ],
-        RuntimeEnum.WCR: [
-            oliveAi,
-        ]
     }
     shared = [
-        "olive-ai==0.9.0",
+        oliveAi,
         "tabulate==0.9.0",
         "datasets==3.5.0",
         "ipykernel==6.29.5",
@@ -63,12 +60,12 @@ def main():
     # torchvision, onnxruntime and genai go here. others should go feature
     post = {
         RuntimeEnum.CPU: [
-            "torchvision==0.22.0",
+            torchVision,
             "onnxruntime==1.21.0",
             "onnxruntime-genai==0.7.0"
         ],
         RuntimeEnum.QNN: [
-            "torchvision==0.22.0",
+            torchVision,
             "onnxruntime-qnn==1.21.1",
             "# uvpip:install onnxruntime-genai==0.7.0 --no-deps;post"
         ],
@@ -91,7 +88,7 @@ def main():
             "onnxruntime-genai==0.7.0"
         ],
         RuntimeEnum.AMDNPU: [
-            "torchvision==0.22.0",
+            torchVision,
             "# onnxruntime",
             "./voe-1.5.0.dev20250501191909+g87eb429ad-py3-none-any.whl",
             "./onnxruntime_vitisai-1.22.0.dev20250501-cp310-cp310-win_amd64.whl",
@@ -105,7 +102,7 @@ def main():
             "onnxruntime-genai-cuda==0.7.0"
         ],
         RuntimeEnum.WCR: [
-            "torchvision==0.22.0",
+            torchVision,
             "./onnxruntime_winml-1.22.0-cp312-cp312-win_amd64.whl",
             "./onnxruntime_genai_winml-0.9.0.dev0-cp312-cp312-win_amd64.whl"
         ],
