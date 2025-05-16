@@ -53,6 +53,7 @@ class OlivePropertyNames:
     EvaluateInputModel = "evaluate_input_model"
     Metrics = "metrics"
     UserConfig = "user_config"
+    CleanCache = "clean_cache"
 
 
 outputModelRelativePath = r"\\\"./model/model.onnx\\\""
@@ -944,6 +945,10 @@ def readCheckOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter):
         jsonUpdated = True
 
     # cache / output / evaluate_input_model
+    if OlivePropertyNames.CleanCache in oliveJson and oliveJson[OlivePropertyNames.CleanCache]:
+        oliveJson.pop(OlivePropertyNames.CleanCache)
+        jsonUpdated = True
+
     if OlivePropertyNames.CacheDir not in oliveJson or oliveJson[OlivePropertyNames.CacheDir] != "cache":
         oliveJson[OlivePropertyNames.CacheDir] = "cache"
         jsonUpdated = True
