@@ -36,7 +36,7 @@ def get_requires(name, args):
 def main():
     # Constants
     # if from git: "git+https://github.com/microsoft/Olive.git@COMMIT_ID#egg=olive_ai
-    oliveAi = "git+https://github.com/microsoft/Olive.git@7e666230bf692a9794abb878f178c2c8be0bb6a9#egg=olive_ai"
+    oliveAi = "olive-ai==0.9.1"
     torchVision = "torchvision==0.22.0"
     pre = {
         RuntimeEnum.NvidiaGPU: [
@@ -48,10 +48,6 @@ def main():
         ],
         RuntimeEnum.IntelNPU: [
             "torch==2.6.0",
-        ],
-        RuntimeEnum.QNN: [
-            # TODO my fix comment out qnn config
-            "olive-ai==0.9.0",
         ],
     }
     shared = [

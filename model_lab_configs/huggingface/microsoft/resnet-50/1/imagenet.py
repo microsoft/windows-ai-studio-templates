@@ -60,15 +60,8 @@ def dataset_post_process(output):
     )
 
 
-preprocess = transforms.Compose(
-    [
-        transforms.Resize(256),
-        transforms.CenterCrop(224),
-        transforms.ToTensor(),
-        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
-    ]
-)
-
+from transformers import AutoImageProcessor
+processor = AutoImageProcessor.from_pretrained("microsoft/resnet-50", use_fast=True)
 
 @Registry.register_pre_process()
 def dataset_pre_process(output_data, **kwargs):
@@ -93,7 +86,7 @@ def dataset_pre_process(output_data, **kwargs):
         image = sample["image"]
         label = sample["label"]
         image = image.convert("RGB")
-        image = preprocess(image)
+        image = processor(image)["pixel_values"][0]
         images.append(image)
         labels.append(label)
 

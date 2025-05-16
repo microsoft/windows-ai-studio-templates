@@ -59,16 +59,8 @@ def dataset_post_process(output):
         else output.argmax(axis=1)
     )
 
-
-preprocess = transforms.Compose(
-    [
-        transforms.Resize(256),
-        transforms.CenterCrop(224),
-        transforms.ToTensor(),
-        transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5]),
-    ]
-)
-
+from transformers import AutoImageProcessor
+processor = AutoImageProcessor.from_pretrained("google/vit-base-patch16-224", use_fast=True)
 
 @Registry.register_pre_process()
 def dataset_pre_process(output_data, **kwargs):
@@ -93,7 +85,7 @@ def dataset_pre_process(output_data, **kwargs):
         image = sample["image"]
         label = sample["label"]
         image = image.convert("RGB")
-        image = preprocess(image)
+        image = processor(image)["pixel_values"][0]
         images.append(image)
         labels.append(label)
 

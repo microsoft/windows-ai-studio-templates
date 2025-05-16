@@ -1169,7 +1169,7 @@ def main():
     print(f"Total {GlobalVars.configCheck} config files checked with total {GlobalVars.pathCheck} path checks")
     # We add this test to make sure the sanity check is working: i.e. paths are checked and files are checked
     # So the numbers need to be updated whenever the config files change
-    if GlobalVars.configCheck != 34 or GlobalVars.pathCheck != 385:
+    if GlobalVars.configCheck != 37 or GlobalVars.pathCheck != 424:
         errorMsg += "Please update line 'if GlobalVars.configCheck != XXX or GlobalVars.pathCheck != YYY' to reflect config changes!\n"
 
     result = subprocess.run(
