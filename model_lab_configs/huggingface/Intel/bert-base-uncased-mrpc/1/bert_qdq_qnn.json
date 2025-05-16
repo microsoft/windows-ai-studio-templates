@@ -29,7 +29,7 @@
                 "split": "validation"
             },
             "pre_process_data_config": {
-                "max_length": 128,
+                "max_length": 512,
                 "padding": "max_length",
                 "input_cols": [
                     "sentence1",
@@ -50,7 +50,7 @@
                 "split": "validation"
             },
             "pre_process_data_config": {
-                "max_length": 128,
+                "max_length": 512,
                 "padding": "max_length",
                 "input_cols": [
                     "sentence1",
