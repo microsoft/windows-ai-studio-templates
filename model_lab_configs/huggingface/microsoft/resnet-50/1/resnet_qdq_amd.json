@@ -46,7 +46,8 @@
             "pre_process_data_config": {
                 "type": "dataset_pre_process",
                 "size": 64,
-                "cache_key": "imagedata_quantization"
+                "cache_key": "imagedata_quantization",
+                "transpose": true
             },
             "post_process_data_config": {
                 "type": "dataset_post_process"
@@ -65,7 +66,8 @@
             "pre_process_data_config": {
                 "type": "dataset_pre_process",
                 "size": 1000,
-                "cache_key": "imagedata_evaluation"
+                "cache_key": "imagedata_evaluation",
+                "transpose": true
             },
             "post_process_data_config": {
                 "type": "dataset_post_process"

@@ -8,7 +8,7 @@ from pathlib import Path
 import numpy as np
 import torchvision.transforms as transforms
 import transformers
-from torch import from_numpy
+from torch import from_numpy, permute
 from torch.utils.data import Dataset
 
 from olive.data.registry import Registry
@@ -71,9 +71,11 @@ def dataset_pre_process(output_data, **kwargs):
         output_data = output_data.shuffle(seed=seed)
     cache_key = kwargs.get("cache_key")
     size = kwargs.get("size", 256)
+    transpose = kwargs.get("transpose", False)
     cache_file = None
     if cache_key:
-        cache_file = Path(f"./cache/data/{cache_key}_{output_data.info.dataset_name}_{size}.npz")
+        suffix = "nhwc" if transpose else "nchw"
+        cache_file = Path(f"./cache/data/{cache_key}_{output_data.info.dataset_name}_{size}_{suffix}.npz")
         if cache_file.exists():
             with np.load(Path(cache_file)) as data:
                 return ImagenetDataset(data)
@@ -87,6 +89,8 @@ def dataset_pre_process(output_data, **kwargs):
         label = sample["label"]
         image = image.convert("RGB")
         image = processor(image)["pixel_values"][0]
+        if transpose:
+            image = permute(image, (1, 2, 0))
         images.append(image)
         labels.append(label)
 
