@@ -7,8 +7,8 @@ jinja2==3.1.6
 networkx==3.4.2
 sympy==1.13.1
 typing-extensions==4.13.2
-# git+https://github.com/microsoft/Olive.git@7e666230bf692a9794abb878f178c2c8be0bb6a9#egg=olive_ai
-git+https://github.com/microsoft/Olive.git@7e666230bf692a9794abb878f178c2c8be0bb6a9#egg=olive_ai
+# olive-ai==0.9.1
+olive-ai==0.9.1
 numpy==2.2.4
 onnx==1.17.0
 onnxscript==0.2.5
