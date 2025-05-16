@@ -19,7 +19,7 @@
     "data_configs": [
         {
             "name": "quantize_data_config",
-            "user_script": "openai_clip_ov.py",
+            "user_script": "laion_clip_ov.py",
             "load_dataset_config": {
                 "type": "conceptual_captions_dataset",
                 "data_name": "google-research-datasets/conceptual_captions",
@@ -68,7 +68,7 @@
             "target_device": "npu",
             "data_config": "quantize_data_config",
             "model_type": "TRANSFORMER",
-            "user_script": "openai_clip_ov.py",
+            "user_script": "laion_clip_ov.py",
             "transform_fn": "custom_transform_func",
             "extra_configs": [
                 {
