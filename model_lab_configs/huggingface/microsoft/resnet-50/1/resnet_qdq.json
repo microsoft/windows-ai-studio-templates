@@ -26,7 +26,7 @@
             "accelerators": [
                 {
                     "execution_providers": [
-                        "QNNExecutionProvider"
+                        "VitisAIExecutionProvider"
                     ]
                 }
             ]
@@ -112,14 +112,15 @@
             "all_tensors_to_one_file": true,
             "use_dynamo_exporter": false
         },
+        "transpose_input": {
+            "type": "InputNCHWtoNHWC"
+        },
         "OnnxQuantization": {
             "type": "OnnxQuantization",
             "data_config": "quantize_data_config",
-            "activation_type": "uint16",
+            "activation_type": "uint8",
             "precision": "uint8",
             "calibrate_method": "MinMax",
-            "quant_preprocess": true,
-            "prepare_qnn_config": true,
             "save_as_external_data": true
         },
         "addmetadata": {
@@ -128,7 +129,7 @@
                 "architectures",
                 "model_type"
             ],
-            "activation_type": "uint16",
+            "activation_type": "uint8",
             "weight_type": "uint8",
             "quant_type": "OnnxStaticQuantization"
         }
