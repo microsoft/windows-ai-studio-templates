@@ -8,7 +8,7 @@
             "type": "LocalSystem",
             "accelerators": [
                 {
-                    "device": "npu",
+                    "device": "npu", "library": "transformers",
                     "execution_providers": [
                         "OpenVINOExecutionProvider"
                     ]
@@ -71,7 +71,7 @@
         "optimum_convert": {
             "type": "OpenVINOOptimumConversion",
             "extra_args": {
-                "device": "npu"
+                "device": "npu", "library": "transformers"
             }
         },
         "ov_quantize": {
