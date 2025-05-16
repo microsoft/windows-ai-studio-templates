@@ -48,10 +48,19 @@
         "common_evaluator": {
             "metrics": [
                 {
+                    "name": "accuracy",
+                    "type": "accuracy",
+                    "backend": "huggingface_metrics",
+                    "data_config": "metric_data_config",
+                    "sub_types": [
+                        { "name": "accuracy", "priority": 1, "goal": { "type": "max-degradation", "value": 0.05 } }
+                    ]
+                },
+                {
                     "name": "latency",
                     "type": "latency",
                     "sub_types": [
-                        { "name": "avg", "priority": 1, "metric_config": { "warmup_num": 20, "repeat_test_num": 100 } },
+                        { "name": "avg", "priority": 2, "metric_config": { "warmup_num": 20, "repeat_test_num": 100 } },
                         { "name": "p90", "metric_config": { "warmup_num": 20, "repeat_test_num": 100 } }
                     ]
                 }
