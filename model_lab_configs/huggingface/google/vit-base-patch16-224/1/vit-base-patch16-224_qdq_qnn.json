@@ -135,7 +135,7 @@
         },
         "OnnxQuantization": {
             "type": "OnnxQuantization",
-            "data_config": "calib_data",
+            "data_config": "quantization_data_config",
             "quant_preprocess": true,
             "activation_type": "uint16",
             "precision": "uint8",
