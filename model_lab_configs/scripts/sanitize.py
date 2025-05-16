@@ -1169,8 +1169,8 @@ def main():
     print(f"Total {GlobalVars.configCheck} config files checked with total {GlobalVars.pathCheck} path checks")
     # We add this test to make sure the sanity check is working: i.e. paths are checked and files are checked
     # So the numbers need to be updated whenever the config files change
-    if GlobalVars.pathCheck != 323 or GlobalVars.configCheck != 30:
-        errorMsg += "Please update line 'if GlobalVars.pathCheck != XXX or GlobalVars.configCheck != YYY' to reflect config changes!\n"
+    if GlobalVars.configCheck != 34 or GlobalVars.pathCheck != 385:
+        errorMsg += "Please update line 'if GlobalVars.configCheck != XXX or GlobalVars.pathCheck != YYY' to reflect config changes!\n"
 
     result = subprocess.run(
         ["git", "status", "--porcelain"],

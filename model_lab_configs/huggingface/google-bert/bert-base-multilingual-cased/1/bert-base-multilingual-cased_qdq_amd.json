@@ -11,7 +11,7 @@
                 {
                     "device": "npu",
                     "execution_providers": [
-                        "QNNExecutionProvider"
+                        "VitisAIExecutionProvider"
                     ]
                 }
             ]
