@@ -127,7 +127,6 @@
     "target": "qnn_system",
     "evaluator": "common_evaluator",
     "cache_dir": "cache",
-    "clean_cache": true,
     "output_dir": "model/resnet_ptq_qnn",
     "evaluate_input_model": false
 }
