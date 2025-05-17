@@ -51,6 +51,8 @@ def main():
         ],
     }
     shared = [
+        # sticking to ONNX IR version 10 which can still be consumed by ORT v1.22.0
+        "onnx==1.17.0",
         oliveAi,
         "tabulate==0.9.0",
         "datasets==3.5.0",
