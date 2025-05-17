@@ -31,7 +31,7 @@
                     "premise"
                 ],
                 "padding": "max_length",
-                "max_length": 512,
+                "max_length": 128,
                 "max_samples": 10
             },
             "dataloader_config": {
@@ -51,7 +51,7 @@
                     "premise"
                 ],
                 "padding": "max_length",
-                "max_length": 512,
+                "max_length": 128,
                 "max_samples": 10
             },
             "dataloader_config": {
@@ -118,7 +118,7 @@
             ],
             "dim_value": [
                 1,
-                512
+                128
             ]
         },
         "surgery": {
