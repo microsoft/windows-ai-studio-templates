@@ -50,7 +50,7 @@
                 "split": "validation"
             },
             "pre_process_data_config": {
-                "max_length": 512,
+                "max_length": 128,
                 "padding": "max_length",
                 "input_cols": [
                     "sentence1",
@@ -110,7 +110,7 @@
             ],
             "dim_value": [
                 1,
-                512
+                128
             ]
         },
         "surgery": {
