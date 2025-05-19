@@ -167,6 +167,14 @@ class GlobalVars:
         EPNames.CPUExecutionProvider.value: "CPU",
         EPNames.CUDAExecutionProvider.value: "NVIDIA GPU",
     }
+    runtimeToEp = {
+        RuntimeEnum.CPU: EPNames.CPUExecutionProvider.value,
+        RuntimeEnum.QNN: EPNames.QNNExecutionProvider.value,
+        RuntimeEnum.IntelNPU: EPNames.OpenVINOExecutionProvider.value,
+        RuntimeEnum.AMDNPU: EPNames.VitisAIExecutionProvider.value,
+        RuntimeEnum.NvidiaGPU: EPNames.CUDAExecutionProvider.value,
+        # Inference N/A
+    }
     verbose = False
     pathCheck = 0
     configCheck = 0
@@ -983,7 +991,8 @@ def readCheckIpynb(ipynbFile: str, modelItems: dict[str, ModelParameter]):
     """
     if os.path.exists(ipynbFile):
         with open_ex(ipynbFile, 'r') as file:
-            ipynbContent = file.read()
+            ipynbContent: str = file.read()
+        allRuntimes: list[str] = []
         for name, modelParameter in modelItems.items():
             testPath = outputModelRelativePath
             importStr = importOnnxruntime
@@ -995,7 +1004,38 @@ def readCheckIpynb(ipynbFile: str, modelItems: dict[str, ModelParameter]):
             for item in [testPath, importStr]:
                 if not re.search(item, ipynbContent):
                     print(f"{ipynbFile} does not have '{item}' for {name}, please use it as input")
-                    GlobalVars.hasError()        
+                    GlobalVars.hasError()
+            if modelParameter.evalRuntime:
+                runtime = GlobalVars.runtimeToEp[modelParameter.evalRuntime]
+                if runtime not in allRuntimes:
+                    allRuntimes.append(runtime)
+            else:
+                for runtime in modelParameter.runtime.values:
+                    if runtime not in allRuntimes:
+                        allRuntimes.append(runtime)
+
+        targetEP = None
+        if len(allRuntimes) == 2 and EPNames.CPUExecutionProvider.value in allRuntimes:
+            allRuntimes.remove(EPNames.CPUExecutionProvider.value)
+            targetEP = allRuntimes[0]
+        elif len(allRuntimes) == 1:
+            targetEP = allRuntimes[0]
+        elif len(allRuntimes) > 1:
+            # TODO we use QNN as default
+            if EPNames.QNNExecutionProvider.value in allRuntimes:
+                targetEP = EPNames.QNNExecutionProvider.value
+            elif EPNames.CPUExecutionProvider.value in allRuntimes:
+                targetEP = EPNames.CPUExecutionProvider.value
+            else:
+                targetEP = allRuntimes[0]
+        if targetEP:
+            targetStr = f"ExecutionProvider=\\\"{targetEP}\\\""
+            if ipynbContent.count(targetStr) != 1:
+                print(f"{ipynbFile} should have 1 {targetStr}")
+                GlobalVars.hasError()
+        else:
+            print(f"{ipynbFile} has no runtime for it!")
+            GlobalVars.hasError()
         return True
     return False
 
