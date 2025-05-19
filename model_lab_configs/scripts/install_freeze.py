@@ -11,8 +11,13 @@ from model_lab import RuntimeEnum
 # - `# pip:`: anything after it will be sent to pip command like `# pip:--no-build-isolation`
 # - `# copy:`: copy from cache to folder in runtime like `# copy:a/*.dll;b;pre`, `# copy:a/*.dll;b;post`
 # - `# download:`: download from release and save it to cache folder like `# download:onnxruntime-genai-cuda-0.7.0-cp39-cp39-win_amd64.whl`
+uvpipInstall = "# uvpip:install"
 
-def get_requires(name, args):
+def get_requires(name: str, args):
+    # TODO for this case, need to install via Model Lab first
+    if name.startswith(uvpipInstall):
+        name = name.split(" ")[2].strip()
+
     if "#egg=" in name:
         package_name = name.split("#egg=")[1]
     elif name.startswith("./"):
@@ -105,10 +110,12 @@ def main():
         ],
         RuntimeEnum.WCR: [
             torchVision,
-            "./onnxruntime_winml-1.22.0-cp312-cp312-win_amd64.whl",
-            "./onnxruntime_genai_winml-0.9.0.dev0-cp312-cp312-win_amd64.whl",
+            "onnxruntime-winml",
+            "onnxruntime-genai-winml",
             "evaluate==0.4.3",
             "scikit-learn==1.6.1",
+            "--extra-index-url http://localhost:8080/simple",
+            "--extra-index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/ORT-Nightly/pypi/simple",
         ],
     }
 
@@ -165,10 +172,10 @@ def main():
     outputFile = path.join(path.dirname(__file__), "..", "docs", f"requirements-{args.runtime}.txt")
     with open(outputFile, "w") as f:
         for name in all:
-            if name.startswith("#") or name.startswith("--"):
+            if (name.startswith("#") and not name.startswith(uvpipInstall)) or name.startswith("--"):
                 f.write(name + "\n")
                 continue
-            f.write("# " + name + "\n")
+            if not name.startswith("#"): f.write("# " + name + "\n")
             f.write(name + "\n")
             requires = get_requires(name, args)
             print(f"Requires for {name}: {requires}")
