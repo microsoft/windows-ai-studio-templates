@@ -110,10 +110,12 @@ def main():
         ],
         RuntimeEnum.WCR: [
             torchVision,
-            "# uvpip:install onnxruntime-winml --extra-index-url http://localhost:8080/simple --no-deps;post",
-            "# uvpip:install onnxruntime-genai-winml --extra-index-url http://localhost:8080/simple --no-deps;post",
+            "onnxruntime-winml",
+            "onnxruntime-genai-winml",
             "evaluate==0.4.3",
             "scikit-learn==1.6.1",
+            "--extra-index-url http://localhost:8080/simple",
+            "--extra-index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/ORT-Nightly/pypi/simple",
         ],
     }
 
