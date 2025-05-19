@@ -14,6 +14,7 @@ from model_lab import RuntimeEnum
 uvpipInstall = "# uvpip:install"
 
 def get_requires(name: str, args):
+    # TODO for this case, need to install via Model Lab first
     if name.startswith(uvpipInstall):
         name = name.split(" ")[2].strip()
 
