@@ -88,5 +88,4 @@ joblib==1.5.0
 numpy==2.2.4
 scipy==1.15.3
 threadpoolctl==3.6.0
---extra-index-url http://localhost:8080/simple
 --extra-index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/ORT-Nightly/pypi/simple

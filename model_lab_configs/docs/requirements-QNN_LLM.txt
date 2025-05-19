@@ -27,5 +27,5 @@ packaging==24.2
 protobuf==6.30.2
 sympy==1.14.0
 # onnxruntime-genai-winml dependencies
-# uvpip:install onnxruntime-genai-winml --extra-index-url http://localhost:8080/simple --no-deps;post
+# uvpip:install onnxruntime-genai-winml --extra-index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/ORT-Nightly/pypi/simple --no-deps;post
 numpy==2.2.4
