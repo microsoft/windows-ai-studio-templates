@@ -105,10 +105,12 @@ def main():
         ],
         RuntimeEnum.WCR: [
             torchVision,
-            "./onnxruntime_winml-1.22.0-cp312-cp312-win_amd64.whl",
-            "./onnxruntime_genai_winml-0.9.0.dev0-cp312-cp312-win_amd64.whl",
+            "onnxruntime-winml",
+            "onnxruntime-genai-winml",
             "evaluate==0.4.3",
             "scikit-learn==1.6.1",
+            "--extra-index-url http://localhost:8080/simple",
+            "--extra-index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/ORT-Nightly/pypi/simple",
         ],
     }
 
