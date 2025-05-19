@@ -157,7 +157,11 @@ class GlobalVars:
     SomethingError = False
 
     @classmethod
-    def hasError(cls):
+    def hasError(cls, msg: str = None):
+        if msg:
+            print("ERROR: " + msg)
+        else:
+            print("ERROR: See log around for details")
         cls.SomethingError = True
 
     epToName = {
@@ -1021,7 +1025,7 @@ def readCheckIpynb(ipynbFile: str, modelItems: dict[str, ModelParameter]):
         elif len(allRuntimes) == 1:
             targetEP = allRuntimes[0]
         elif len(allRuntimes) > 1:
-            # TODO we use QNN as default
+            # TODO we use QNN as default because currently we only replace this
             if EPNames.QNNExecutionProvider.value in allRuntimes:
                 targetEP = EPNames.QNNExecutionProvider.value
             elif EPNames.CPUExecutionProvider.value in allRuntimes:
@@ -1209,13 +1213,11 @@ def main():
                 modelSpaceConfig.Check(modelInVersion)
     modelList.Check()
 
-    errorMsg = ''
-
     print(f"Total {GlobalVars.configCheck} config files checked with total {GlobalVars.pathCheck} path checks")
     # We add this test to make sure the sanity check is working: i.e. paths are checked and files are checked
     # So the numbers need to be updated whenever the config files change
     if GlobalVars.configCheck != 37 or GlobalVars.pathCheck != 424:
-        errorMsg += "Please update line 'if GlobalVars.configCheck != XXX or GlobalVars.pathCheck != YYY' to reflect config changes!\n"
+        GlobalVars.hasError("Please update line 'if GlobalVars.configCheck != XXX or GlobalVars.pathCheck != YYY' to reflect config changes!")
 
     result = subprocess.run(
         ["git", "status", "--porcelain"],
@@ -1226,11 +1228,9 @@ def main():
     )
     # If the output is not empty, there are uncommitted changes
     if bool(result.stdout.strip()):
-        errorMsg += "Please commit changes!\n"
+        GlobalVars.hasError("Please commit changes!")
     if GlobalVars.SomethingError:
-        errorMsg += "Please fix errors!\n"
-    if errorMsg:
-        raise BaseException(errorMsg)
+        raise BaseException("Please fix errors!")
 
 
 if __name__ == '__main__':

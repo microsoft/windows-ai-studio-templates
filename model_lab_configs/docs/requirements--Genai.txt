@@ -1,3 +1,0 @@
-# no deps so onnxruntime will not be installed
-onnxruntime-genai==0.7.0
-# pip:--no-deps
