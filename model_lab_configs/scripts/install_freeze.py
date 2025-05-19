@@ -160,7 +160,7 @@ def main():
 
     # write result
     outputFile = path.join(path.dirname(__file__), "..", "docs", f"requirements-{args.runtime}.txt")
-    with open(outputFile, "w") as f:
+    with open(outputFile, "w", newline="\n") as f:
         for name in all:
             if (name.startswith("#") and not name.startswith(uvpipInstallPrefix) and not name.startswith(depsPrefix)) or name.startswith("--"):
                 f.write(name + "\n")
