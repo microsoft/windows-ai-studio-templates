@@ -54,16 +54,16 @@ torchvision==0.22.0
 numpy==2.2.4
 pillow==11.2.1
 torch==2.7.0
-# ./onnxruntime_winml-1.22.0-cp312-cp312-win_amd64.whl
-./onnxruntime_winml-1.22.0-cp312-cp312-win_amd64.whl
+# onnxruntime-winml
+onnxruntime-winml
 coloredlogs==15.0.1
 flatbuffers==25.2.10
 numpy==2.2.4
 packaging==24.2
 protobuf==6.30.2
 sympy==1.14.0
-# ./onnxruntime_genai_winml-0.8.0-cp312-cp312-win_amd64.whl
-./onnxruntime_genai_winml-0.8.0-cp312-cp312-win_amd64.whl
+# onnxruntime-genai-winml
+onnxruntime-genai-winml
 numpy==2.2.4
 # evaluate==0.4.3
 evaluate==0.4.3
@@ -84,3 +84,5 @@ joblib==1.5.0
 numpy==2.2.4
 scipy==1.15.3
 threadpoolctl==3.6.0
+--extra-index-url http://localhost:8080/simple
+--extra-index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/ORT-Nightly/pypi/simple
