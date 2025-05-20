@@ -45,14 +45,14 @@ def main():
     torchVision = "torchvision==0.22.0"
     pre = {
         RuntimeEnum.NvidiaGPU: [
-            "--extra-index-url https://download.pytorch.org/whl/cu126",
-            "torch==2.6.0+cu126",
+            "--extra-index-url https://download.pytorch.org/whl/cu128",
+            "torch==2.7.0+cu128",
         ],
         RuntimeEnum.AMDNPU: [
             "numpy==1.26.4",
         ],
         RuntimeEnum.IntelNPU: [
-            "torch==2.6.0",
+            "torch==2.7.0",
         ],
     }
     shared = [

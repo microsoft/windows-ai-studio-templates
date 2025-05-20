@@ -58,8 +58,8 @@ ipython==8.35.0
 jupyterlab-widgets==3.0.14
 traitlets==5.14.3
 widgetsnbextension==4.0.14
-# torchvision==0.22.0+cu128
-torchvision==0.22.0+cu128
+# torchvision==0.21.0+cu126
+torchvision==0.21.0+cu126
 numpy==2.2.4
 pillow==11.2.1
 torch==2.7.0+cu128
