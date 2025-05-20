@@ -11,12 +11,15 @@ from model_lab import RuntimeEnum
 # - `# pip:`: anything after it will be sent to pip command like `# pip:--no-build-isolation`
 # - `# copy:`: copy from cache to folder in runtime like `# copy:a/*.dll;b;pre`, `# copy:a/*.dll;b;post`
 # - `# download:`: download from release and save it to cache folder like `# download:onnxruntime-genai-cuda-0.7.0-cp39-cp39-win_amd64.whl`
-uvpipInstall = "# uvpip:install"
+uvpipInstallPrefix = "# uvpip:install"
+depsPrefix = "# deps:"
 
 def get_requires(name: str, args):
     # TODO for this case, need to install via Model Lab first
-    if name.startswith(uvpipInstall):
+    if name.startswith(uvpipInstallPrefix):
         name = name.split(" ")[2].strip()
+    elif name.startswith(depsPrefix):
+        name = name.split(":")[1].strip()
 
     if "#egg=" in name:
         package_name = name.split("#egg=")[1]
@@ -48,9 +51,6 @@ def main():
             "--extra-index-url https://download.pytorch.org/whl/cu126",
             "torch==2.6.0+cu126",
         ],
-        RuntimeEnum.AMDNPU: [
-            "numpy==1.26.4",
-        ],
         RuntimeEnum.IntelNPU: [
             "torch==2.6.0",
         ],
@@ -66,11 +66,6 @@ def main():
     ]
     # torchvision, onnxruntime and genai go here. others should go feature
     post = {
-        RuntimeEnum.CPU: [
-            torchVision,
-            "onnxruntime==1.21.0",
-            "onnxruntime-genai==0.7.0",
-        ],
         RuntimeEnum.QNN: [
             torchVision,
             "onnxruntime-qnn==1.21.1",
@@ -86,21 +81,8 @@ def main():
             "openvino==2025.1.0",
             "nncf==2.16.0",
             "optimum[openvino]==1.24.0",
-            # optimum-intel==1.15.0: depends on onnxruntime so we need to uninstall first
-            #"# uvpip:uninstall onnxruntime;post",
-            # uninstall first to fix incomplete installation issue
-            #"# uvpip:uninstall onnxruntime-openvino;post",
-            #"# uvpip:install ./onnxruntime_openvino-1.22.0-cp312-cp312-win_amd64.whl;post",
-            #"# uvpip:install ./onnxruntime_genai-0.9.0.dev0-cp312-cp312-win_amd64.whl --no-deps;post"
+            # optimum-intel==1.15.0: depends on onnxruntime so we need to use a separate venv
             "onnxruntime-genai==0.7.0",
-        ],
-        RuntimeEnum.AMDNPU: [
-            torchVision,
-            "# onnxruntime",
-            "./voe-1.5.0.dev20250501191909+g87eb429ad-py3-none-any.whl",
-            "./onnxruntime_vitisai-1.22.0.dev20250501-cp310-cp310-win_amd64.whl",
-            "# copy:wcr_05022025/*.dll;Lib/site-packages/onnxruntime/capi;post",
-            "# uvpip:install ./onnxruntime_genai-0.7.0.dev0-cp310-cp310-win_amd64.whl --no-deps;post",
         ],
         # https://onnxruntime.ai/docs/execution-providers/CUDA-ExecutionProvider.html
         RuntimeEnum.NvidiaGPU: [
@@ -115,10 +97,16 @@ def main():
             "evaluate==0.4.3",
             "scikit-learn==1.6.1",
         ],
+        RuntimeEnum.QNN_LLLM: [
+            "ipykernel==6.29.5",
+            "ipywidgets==8.1.5",
+            "# deps:onnxruntime-winml",
+            "# uvpip:install onnxruntime-genai-winml --extra-index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/ORT-Nightly/pypi/simple --no-deps;post",
+        ],
     }
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--runtime", default="", help=",".join([k.value for k in RuntimeEnum]))
+    parser.add_argument("--runtime", "-r", default="", help=",".join([k.value for k in RuntimeEnum]))
     parser.add_argument("--python", "-p", required=True, type=str, help="python path. TODO: input twice")
     args = parser.parse_args()
 
@@ -128,6 +116,9 @@ def main():
         print(args.runtime)
 
     runtime = RuntimeEnum(args.runtime)
+    onlyInference = False
+    if runtime in [RuntimeEnum.QNN_LLLM]:
+        onlyInference = True
 
     # prepare file
     configs_dir = path.dirname(path.dirname(__file__))
@@ -144,9 +135,10 @@ def main():
                 # remove olive
                 if line.endswith("egg=olive_ai") or line.startswith("olive-ai=="):
                     shared = shared[1:]
-        for line in shared:
-            f.write(line + "\n")
-            all.append(line)
+        if not onlyInference:
+            for line in shared:
+                f.write(line + "\n")
+                all.append(line)
         if runtime in post:
             for line in post[runtime]:
                 f.write(line + "\n")
@@ -168,9 +160,9 @@ def main():
 
     # write result
     outputFile = path.join(path.dirname(__file__), "..", "docs", f"requirements-{args.runtime}.txt")
-    with open(outputFile, "w") as f:
+    with open(outputFile, "w", newline="\n") as f:
         for name in all:
-            if (name.startswith("#") and not name.startswith(uvpipInstall)) or name.startswith("--"):
+            if (name.startswith("#") and not name.startswith(uvpipInstallPrefix) and not name.startswith(depsPrefix)) or name.startswith("--"):
                 f.write(name + "\n")
                 continue
             if not name.startswith("#"): f.write("# " + name + "\n")
