@@ -104,7 +104,7 @@ def main():
         ],
         # https://onnxruntime.ai/docs/execution-providers/CUDA-ExecutionProvider.html
         RuntimeEnum.NvidiaGPU: [
-            "torchvision==0.21.0+cu126",
+            "torchvision==0.22.0+cu128",
             "onnxruntime-gpu==1.21.0",
             "onnxruntime-genai-cuda==0.7.0",
         ],
