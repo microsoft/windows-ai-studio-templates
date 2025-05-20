@@ -1,4 +1,4 @@
---extra-index-url https://download.pytorch.org/whl/cu126
+--extra-index-url https://download.pytorch.org/whl/cu128
 # torch==2.7.0+cu128
 torch==2.7.0+cu128
 filelock==3.18.0
