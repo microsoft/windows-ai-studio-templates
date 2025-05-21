@@ -1,11 +1,11 @@
-# torch==2.7.0
-torch==2.7.0
+# torch==2.6.0
+torch==2.6.0
 filelock==3.18.0
 fsspec==2024.12.0
 jinja2==3.1.6
 networkx==3.4.2
 setuptools==80.3.1
-sympy==1.13.3
+sympy==1.13.1
 typing-extensions==4.13.2
 # olive-ai==0.9.1
 olive-ai==0.9.1
@@ -16,7 +16,7 @@ optuna==4.2.1
 pandas==2.2.3
 pydantic==2.11.1
 pyyaml==6.0.2
-torch==2.7.0
+torch==2.6.0
 torchmetrics==1.7.0
 transformers==4.48.0
 # tabulate==0.9.0
@@ -58,11 +58,11 @@ ipython==9.0.2
 jupyterlab-widgets==3.0.13
 traitlets==5.14.3
 widgetsnbextension==4.0.13
-# torchvision==0.22.0
-torchvision==0.22.0
+# torchvision==0.21.0
+torchvision==0.21.0
 numpy==1.26.4
 pillow==11.2.1
-torch==2.7.0
+torch==2.6.0
 # onnxruntime==1.21.0
 onnxruntime==1.21.0
 coloredlogs==15.0.1
@@ -70,7 +70,7 @@ flatbuffers==25.2.10
 numpy==1.26.4
 packaging==24.2
 protobuf==6.30.2
-sympy==1.13.3
+sympy==1.13.1
 # openvino==2025.1.0
 openvino==2025.1.0
 numpy==1.26.4
@@ -100,7 +100,7 @@ optimum[openvino]==1.24.0
 huggingface-hub==0.30.1
 numpy==1.26.4
 packaging==24.2
-torch==2.7.0
+torch==2.6.0
 transformers==4.48.0
 # onnxruntime-genai==0.7.0
 onnxruntime-genai==0.7.0
