@@ -48,8 +48,8 @@ def main():
     torchVision = "torchvision==0.22.0"
     pre = {
         RuntimeEnum.NvidiaGPU: [
-            "--extra-index-url https://download.pytorch.org/whl/cu126",
-            "torch==2.6.0+cu126",
+            "--extra-index-url https://download.pytorch.org/whl/cu128",
+            "torch==2.7.0+cu128",
         ],
         RuntimeEnum.IntelNPU: [
             "torch==2.6.0",
@@ -86,7 +86,7 @@ def main():
         ],
         # https://onnxruntime.ai/docs/execution-providers/CUDA-ExecutionProvider.html
         RuntimeEnum.NvidiaGPU: [
-            "torchvision==0.21.0+cu126",
+            "torchvision==0.22.0+cu128",
             "onnxruntime-gpu==1.21.0",
             "onnxruntime-genai-cuda==0.7.0",
         ],
