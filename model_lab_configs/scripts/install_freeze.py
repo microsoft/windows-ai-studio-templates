@@ -52,7 +52,7 @@ def main():
             "torch==2.7.0+cu128",
         ],
         RuntimeEnum.IntelNPU: [
-            "torch==2.7.0",
+            "torch==2.6.0",
         ],
     }
     shared = [
