@@ -92,8 +92,8 @@ def main():
         ],
         RuntimeEnum.WCR: [
             torchVision,
-            "# uvpip:install onnxruntime-winml --extra-index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/ORT-Nightly/pypi/simple --no-deps;post",
-            "# uvpip:install onnxruntime-genai-winml --extra-index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/ORT-Nightly/pypi/simple --no-deps;post",
+            "# uvpip:install onnxruntime-winml==1.22.0 --extra-index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/ORT-Nightly/pypi/simple --no-deps;post",
+            "# uvpip:install onnxruntime-genai-winml==0.8.0 --extra-index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/ORT-Nightly/pypi/simple --no-deps;post",
             "evaluate==0.4.3",
             "scikit-learn==1.6.1",
         ],
@@ -101,7 +101,7 @@ def main():
             "ipykernel==6.29.5",
             "ipywidgets==8.1.5",
             "# deps:onnxruntime-winml",
-            "# uvpip:install onnxruntime-genai-winml --extra-index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/ORT-Nightly/pypi/simple --no-deps;post",
+            "# uvpip:install onnxruntime-genai-winml==0.8.0 --extra-index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/ORT-Nightly/pypi/simple --no-deps;post",
         ],
     }
 
