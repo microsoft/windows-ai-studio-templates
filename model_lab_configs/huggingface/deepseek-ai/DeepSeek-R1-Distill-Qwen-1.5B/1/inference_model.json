@@ -1,0 +1,31 @@
+{
+  "Name": "deepseek-r1-distill-qwen-1.5b-cpu-int4-rtn-block-32-acc-level-4",
+  "PromptTemplate": {
+    "assistant": "{Content}",
+    "prompt": "\u003C\uFF5CUser\uFF5C\u003E{Content}\u003C\uFF5CAssistant\uFF5C\u003E"
+  },
+  "ParameterSchema": {
+    "enabled": [
+      {
+        "name": "max_tokens",
+        "default": 2048
+      },
+      {
+        "name": "temperature",
+        "default": 0.6
+      },
+      {
+        "name": "top_p",
+        "default": 0.9
+      },
+      {
+        "name": "top_k",
+        "default": 5
+      },
+      {
+        "name": "random_seed",
+        "default": 57894
+      }
+    ]
+  }
+}
