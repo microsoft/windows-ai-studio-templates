@@ -90,7 +90,7 @@ resource environment 'Microsoft.App/managedEnvironments@2023-11-02-preview' = {
       {
         workloadProfileType: 'NC24-A100'
         name: 'GPU'
-        minimumCount: 0
+        minimumCount: 1
         maximumCount: maximumInstanceCount
       }
     ]
