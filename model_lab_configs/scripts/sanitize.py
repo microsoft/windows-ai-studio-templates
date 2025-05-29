@@ -182,6 +182,14 @@ class GlobalVars:
     verbose = False
     pathCheck = 0
     configCheck = 0
+    olivePath = None
+
+class BaseModelClass(BaseModel):
+    def writeIfChanged(self):
+        newContent = self.model_dump_json(indent=4, exclude_none=True)
+        if newContent != self._fileContent:
+            with open_ex(self._file, 'w') as file:
+                file.write(newContent)
 
 
 # Model List
@@ -216,7 +224,7 @@ class ModelInfo(BaseModel):
         return True
         
 
-class ModelList(BaseModel):
+class ModelList(BaseModelClass):
     models: list[ModelInfo]
     template_models: list[ModelInfo]
     HFDatasets: Dict[str, str]
@@ -249,10 +257,7 @@ class ModelList(BaseModel):
             if not model.Check():
                 print(f"{self._file} model {i} has error")
                 GlobalVars.hasError()
-        newContent = self.model_dump_json(indent=4, exclude_none=True)
-        if newContent != self._fileContent:
-            with open_ex(self._file, 'w') as file:
-                file.write(newContent)
+        self.writeIfChanged()
 
         self.CheckDataset(self.LoginRequiredDatasets, "LoginRequiredDatasets")
         self.CheckDataset(self.DatasetSplit.keys(), "DatasetSplit")
@@ -538,7 +543,7 @@ class ModelInfoProject(BaseModel):
         return True
 
 
-class ModelProjectConfig(BaseModel):
+class ModelProjectConfig(BaseModelClass):
     workflows: list[WorkflowItem]
     modelInfo: ModelInfoProject = None
 
@@ -563,10 +568,7 @@ class ModelProjectConfig(BaseModel):
             print(f"{self._file} modelInfo has error")
             GlobalVars.hasError()
 
-        newContent = self.model_dump_json(indent=4, exclude_none=True)
-        if newContent != self._fileContent:
-            with open_ex(self._file, 'w') as file:
-                file.write(newContent)
+        self.writeIfChanged()
 
 
 # Model Parameter
@@ -662,7 +664,8 @@ class ADMNPUConfig(BaseModel):
     inferenceSettings: Any = None
 
 
-class ModelParameter(BaseModel):
+class ModelParameter(BaseModelClass):
+    oliveFile: str = None
     # SET AUTOMATICALLY
     isLLM: bool = None
     # For template using CUDA and no runtime overwrite, we need to set this so we know the target EP
@@ -887,7 +890,11 @@ class ModelParameter(BaseModel):
         if currentEp == EPNames.CUDAExecutionProvider.value or self.runtimeOverwrite and self.runtimeOverwrite.executeEp == EPNames.CUDAExecutionProvider:
             self.isGPURequired = True
 
-        # Phase check
+        self.checkPhase(oliveJson)
+        self.checkOliveFile(oliveJson)
+        self.writeIfChanged()
+    
+    def checkPhase(self, oliveJson: Any):
         allPhases = [section.phase for section in self.sections]
         if len(allPhases) == 1 and allPhases[0] == PhaseTypeEnum.Conversion:
             pass
@@ -898,14 +905,20 @@ class ModelParameter(BaseModel):
         else:
             print(f"{self._file} has wrong phases {allPhases}")
             GlobalVars.hasError()
-
+        
         if PhaseTypeEnum.Evaluation in allPhases and PhaseTypeEnum.Quantization in allPhases and len(oliveJson[OlivePropertyNames.DataConfigs]) != 2:
             print(f"WARNING: {self._file}'s olive json should have two data configs for evaluation")
 
-        newContent = self.model_dump_json(indent=4, exclude_none=True)
-        if newContent != self._fileContent:
-            with open_ex(self._file, 'w') as file:
-                file.write(newContent)
+    def checkOliveFile(self, oliveJson: Any):
+        if not self.oliveFile or not GlobalVars.olivePath:
+            return
+        from deepdiff import DeepDiff
+        with open_ex(os.path.join(GlobalVars.olivePath, "examples", self.oliveFile), 'r') as file:
+            oliveFileJson = json.load(file)
+        diff = DeepDiff(oliveJson[OlivePropertyNames.Passes], oliveFileJson[OlivePropertyNames.Passes])
+        if diff:
+            print(f"WARNING: different from {self.oliveFile}")
+            print(diff)
 
 
 def readCheckOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter):
@@ -1236,6 +1249,8 @@ def main():
 if __name__ == '__main__':
     argparser = argparse.ArgumentParser(description="Check model lab configs")
     argparser.add_argument("-v", "--verbose", action="store_true", help="Verbose mode")
+    argparser.add_argument("-o", "--olive", default="d:\\olive", type=str, help="Path to olive repo to check json files")
     args = argparser.parse_args()
     GlobalVars.verbose = args.verbose
+    GlobalVars.olivePath = args.olive
     main()
