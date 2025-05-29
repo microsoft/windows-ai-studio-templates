@@ -8,15 +8,15 @@
     "enabled": [
       {
         "name": "max_tokens",
-        "default": 2048
+        "default": 512
       },
       {
         "name": "temperature",
-        "default": 0.66
+        "default": 0.6
       },
       {
         "name": "top_p",
-        "default": 0.9
+        "default": 0.95
       },
       {
         "name": "top_k",
@@ -24,7 +24,7 @@
       },
       {
         "name": "random_seed",
-        "default": 42
+        "default": 3328
       }
     ]
   }

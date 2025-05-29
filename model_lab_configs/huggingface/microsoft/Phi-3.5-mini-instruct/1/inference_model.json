@@ -1,9 +1,31 @@
 {
-  "Name": "Phi-3.5-mini-cpu-int4-awq-block-128-acc-level-4-onnx",
+  "Name": "Phi-3.5-mini-instruct-onnx",
   "PromptTemplate": {
-    "system": "\u003C|system|\u003E\n{Content}\u003C|end|\u003E",
-    "user": "\u003C|user|\u003E\n{Content}\u003C|end|\u003E",
-    "assistant": "\u003C|assistant|\u003E\n{Content}\u003C|end|\u003E",
-    "prompt": "\u003C|user|\u003E\n{Content}\u003C|end|\u003E\n\u003C|assistant|\u003E"
+    "assistant": "{Content}",
+    "prompt":"<|user|>\n{Content} <|end|>\n<|assistant|>"
+  },
+  "ParameterSchema": {
+    "enabled": [
+      {
+        "name": "max_tokens",
+        "default": 512
+      },
+      {
+        "name": "temperature",
+        "default": 0.6
+      },
+      {
+        "name": "top_p",
+        "default": 0.9
+      },
+      {
+        "name": "top_k",
+        "default": 5
+      },
+      {
+        "name": "random_seed",
+        "default": 57894
+      }
+    ]
   }
 }

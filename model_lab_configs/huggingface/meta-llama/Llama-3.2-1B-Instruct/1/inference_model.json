@@ -8,11 +8,11 @@
     "enabled": [
       {
         "name": "max_tokens",
-        "default": 2048
+        "default": 512
       },
       {
         "name": "temperature",
-        "default": 0.7
+        "default": 0.6
       },
       {
         "name": "top_p",
