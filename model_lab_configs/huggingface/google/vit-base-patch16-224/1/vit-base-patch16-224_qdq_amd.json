@@ -107,6 +107,7 @@
     },
     "passes": {
         "conversion": {
+            "device": "cpu",
             "type": "OnnxConversion",
             "target_opset": 17,
             "save_as_external_data": true,

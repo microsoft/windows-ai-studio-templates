@@ -915,7 +915,38 @@ class ModelParameter(BaseModelClass):
         from deepdiff import DeepDiff
         with open_ex(os.path.join(GlobalVars.olivePath, "examples", self.oliveFile), 'r') as file:
             oliveFileJson = json.load(file)
-        diff = DeepDiff(oliveJson[OlivePropertyNames.Passes], oliveFileJson[OlivePropertyNames.Passes])
+        diff = DeepDiff(oliveFileJson[OlivePropertyNames.Passes], oliveJson[OlivePropertyNames.Passes])
+        
+        addeds = diff.pop('dictionary_item_added', [])
+        newAddeds = []
+        for added in addeds:
+            if "['save_as_external_data']" in added:
+                pass
+            else:
+                newAddeds.append(added)
+        if newAddeds:
+            diff['dictionary_item_added'] = newAddeds
+
+        removeds = diff.pop('dictionary_item_removed', [])
+        newRemoveds = []
+        for removed in removeds:
+            if "['reuse_cache']" in removed:
+                pass
+            else:
+                newRemoveds.append(removed)
+        if newRemoveds:
+            diff['dictionary_item_removed'] = newRemoveds
+
+        changeds: dict[str, Any] = diff.pop('values_changed', {})
+        newChangeds = {}
+        for changed in changeds:
+            if "['data_config']" in changed:
+                pass
+            else:
+                newChangeds[changed] = changeds[changed]
+        if newChangeds:
+            diff['values_changed'] = newChangeds
+
         if diff:
             print(f"WARNING: different from {self.oliveFile}")
             print(diff)
