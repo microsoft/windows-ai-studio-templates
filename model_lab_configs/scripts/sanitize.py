@@ -905,7 +905,7 @@ class ModelParameter(BaseModelClass):
         else:
             print(f"{self._file} has wrong phases {allPhases}")
             GlobalVars.hasError()
-        
+
         if PhaseTypeEnum.Evaluation in allPhases and PhaseTypeEnum.Quantization in allPhases and len(oliveJson[OlivePropertyNames.DataConfigs]) != 2:
             print(f"WARNING: {self._file}'s olive json should have two data configs for evaluation")
 
@@ -1280,7 +1280,7 @@ def main():
 if __name__ == '__main__':
     argparser = argparse.ArgumentParser(description="Check model lab configs")
     argparser.add_argument("-v", "--verbose", action="store_true", help="Verbose mode")
-    argparser.add_argument("-o", "--olive", default="d:\\olive", type=str, help="Path to olive repo to check json files")
+    argparser.add_argument("-o", "--olive", default="", type=str, help="Path to olive repo to check json files")
     args = argparser.parse_args()
     GlobalVars.verbose = args.verbose
     GlobalVars.olivePath = args.olive
