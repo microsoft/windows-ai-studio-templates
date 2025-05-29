@@ -183,6 +183,7 @@ class GlobalVars:
     pathCheck = 0
     configCheck = 0
     olivePath = None
+    oliveCheck = 0
 
 class BaseModelClass(BaseModel):
     def writeIfChanged(self):
@@ -948,8 +949,10 @@ class ModelParameter(BaseModelClass):
             diff['values_changed'] = newChangeds
 
         if diff:
-            print(f"WARNING: different from {self.oliveFile}")
+            # Check out branch hualxie/example_align for alignments
+            GlobalVars.hasError(f"different from {self.oliveFile}")
             print(diff)
+        GlobalVars.oliveCheck += 1
 
 
 def readCheckOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter):
@@ -1258,6 +1261,7 @@ def main():
     modelList.Check()
 
     print(f"Total {GlobalVars.configCheck} config files checked with total {GlobalVars.pathCheck} path checks")
+    if GlobalVars.olivePath: print(f"Total {GlobalVars.oliveCheck} config files checked against olive json files")
     # We add this test to make sure the sanity check is working: i.e. paths are checked and files are checked
     # So the numbers need to be updated whenever the config files change
     if GlobalVars.configCheck != 37 or GlobalVars.pathCheck != 424:
@@ -1280,7 +1284,7 @@ def main():
 if __name__ == '__main__':
     argparser = argparse.ArgumentParser(description="Check model lab configs")
     argparser.add_argument("-v", "--verbose", action="store_true", help="Verbose mode")
-    argparser.add_argument("-o", "--olive", default="", type=str, help="Path to olive repo to check json files")
+    argparser.add_argument("-o", "--olive", default="d:\\olive", type=str, help="Path to olive repo to check json files")
     args = argparser.parse_args()
     GlobalVars.verbose = args.verbose
     GlobalVars.olivePath = args.olive
