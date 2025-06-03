@@ -182,6 +182,15 @@ class GlobalVars:
     verbose = False
     pathCheck = 0
     configCheck = 0
+    olivePath = None
+    oliveCheck = 0
+
+class BaseModelClass(BaseModel):
+    def writeIfChanged(self):
+        newContent = self.model_dump_json(indent=4, exclude_none=True)
+        if newContent != self._fileContent:
+            with open_ex(self._file, 'w') as file:
+                file.write(newContent)
 
 
 # Model List
@@ -216,7 +225,7 @@ class ModelInfo(BaseModel):
         return True
         
 
-class ModelList(BaseModel):
+class ModelList(BaseModelClass):
     models: list[ModelInfo]
     template_models: list[ModelInfo]
     HFDatasets: Dict[str, str]
@@ -249,10 +258,7 @@ class ModelList(BaseModel):
             if not model.Check():
                 print(f"{self._file} model {i} has error")
                 GlobalVars.hasError()
-        newContent = self.model_dump_json(indent=4, exclude_none=True)
-        if newContent != self._fileContent:
-            with open_ex(self._file, 'w') as file:
-                file.write(newContent)
+        self.writeIfChanged()
 
         self.CheckDataset(self.LoginRequiredDatasets, "LoginRequiredDatasets")
         self.CheckDataset(self.DatasetSplit.keys(), "DatasetSplit")
@@ -538,7 +544,7 @@ class ModelInfoProject(BaseModel):
         return True
 
 
-class ModelProjectConfig(BaseModel):
+class ModelProjectConfig(BaseModelClass):
     workflows: list[WorkflowItem]
     modelInfo: ModelInfoProject = None
 
@@ -563,10 +569,7 @@ class ModelProjectConfig(BaseModel):
             print(f"{self._file} modelInfo has error")
             GlobalVars.hasError()
 
-        newContent = self.model_dump_json(indent=4, exclude_none=True)
-        if newContent != self._fileContent:
-            with open_ex(self._file, 'w') as file:
-                file.write(newContent)
+        self.writeIfChanged()
 
 
 # Model Parameter
@@ -662,7 +665,8 @@ class ADMNPUConfig(BaseModel):
     inferenceSettings: Any = None
 
 
-class ModelParameter(BaseModel):
+class ModelParameter(BaseModelClass):
+    oliveFile: str = None
     # SET AUTOMATICALLY
     isLLM: bool = None
     # For template using CUDA and no runtime overwrite, we need to set this so we know the target EP
@@ -887,7 +891,11 @@ class ModelParameter(BaseModel):
         if currentEp == EPNames.CUDAExecutionProvider.value or self.runtimeOverwrite and self.runtimeOverwrite.executeEp == EPNames.CUDAExecutionProvider:
             self.isGPURequired = True
 
-        # Phase check
+        self.checkPhase(oliveJson)
+        self.checkOliveFile(oliveJson)
+        self.writeIfChanged()
+    
+    def checkPhase(self, oliveJson: Any):
         allPhases = [section.phase for section in self.sections]
         if len(allPhases) == 1 and allPhases[0] == PhaseTypeEnum.Conversion:
             pass
@@ -902,10 +910,49 @@ class ModelParameter(BaseModel):
         if PhaseTypeEnum.Evaluation in allPhases and PhaseTypeEnum.Quantization in allPhases and len(oliveJson[OlivePropertyNames.DataConfigs]) != 2:
             print(f"WARNING: {self._file}'s olive json should have two data configs for evaluation")
 
-        newContent = self.model_dump_json(indent=4, exclude_none=True)
-        if newContent != self._fileContent:
-            with open_ex(self._file, 'w') as file:
-                file.write(newContent)
+    def checkOliveFile(self, oliveJson: Any):
+        if not self.oliveFile or not GlobalVars.olivePath:
+            return
+        from deepdiff import DeepDiff
+        with open_ex(os.path.join(GlobalVars.olivePath, "examples", self.oliveFile), 'r') as file:
+            oliveFileJson = json.load(file)
+        diff = DeepDiff(oliveFileJson[OlivePropertyNames.Passes], oliveJson[OlivePropertyNames.Passes])
+        
+        addeds = diff.pop('dictionary_item_added', [])
+        newAddeds = []
+        for added in addeds:
+            if "['save_as_external_data']" in added:
+                pass
+            else:
+                newAddeds.append(added)
+        if newAddeds:
+            diff['dictionary_item_added'] = newAddeds
+
+        removeds = diff.pop('dictionary_item_removed', [])
+        newRemoveds = []
+        for removed in removeds:
+            if "['reuse_cache']" in removed:
+                pass
+            else:
+                newRemoveds.append(removed)
+        if newRemoveds:
+            diff['dictionary_item_removed'] = newRemoveds
+
+        changeds: dict[str, Any] = diff.pop('values_changed', {})
+        newChangeds = {}
+        for changed in changeds:
+            if "['data_config']" in changed:
+                pass
+            else:
+                newChangeds[changed] = changeds[changed]
+        if newChangeds:
+            diff['values_changed'] = newChangeds
+
+        if diff:
+            # Check out branch hualxie/example_align for alignments
+            GlobalVars.hasError(f"different from {self.oliveFile}")
+            print(diff)
+        GlobalVars.oliveCheck += 1
 
 
 def readCheckOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter):
@@ -1214,6 +1261,7 @@ def main():
     modelList.Check()
 
     print(f"Total {GlobalVars.configCheck} config files checked with total {GlobalVars.pathCheck} path checks")
+    if GlobalVars.olivePath: print(f"Total {GlobalVars.oliveCheck} config files checked against olive json files")
     # We add this test to make sure the sanity check is working: i.e. paths are checked and files are checked
     # So the numbers need to be updated whenever the config files change
     if GlobalVars.configCheck != 37 or GlobalVars.pathCheck != 424:
@@ -1236,6 +1284,8 @@ def main():
 if __name__ == '__main__':
     argparser = argparse.ArgumentParser(description="Check model lab configs")
     argparser.add_argument("-v", "--verbose", action="store_true", help="Verbose mode")
+    argparser.add_argument("-o", "--olive", default="d:\\olive", type=str, help="Path to olive repo to check json files")
     args = argparser.parse_args()
     GlobalVars.verbose = args.verbose
+    GlobalVars.olivePath = args.olive
     main()
