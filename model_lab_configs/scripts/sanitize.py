@@ -934,7 +934,7 @@ class ModelParameter(BaseModelClass):
         removeds: list[str] = diff.pop('dictionary_item_removed', [])
         newRemoveds = []
         for removed in removeds:
-            if removed.endswith("['reuse_cache']"):
+            if removed.endswith("['reuse_cache']") or removed.endswith("['device']") or removed.endswith("['dynamic']"):
                 pass
             else:
                 newRemoveds.append(removed)
