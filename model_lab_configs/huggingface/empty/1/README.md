@@ -28,11 +28,6 @@ Update `displayName` and `modelLink` to the one you used.
 This file is used to render the Run UX.
 You could remove or add parameters match to your `sample.json`. Path update may be needed.
 
-## Update sample.re.custom.config (optional)
-
-This file is used to render the Re-evaluatiion UX.
-You could remove or add parameters match to your `sample.json`. Path update may be needed.
-
 ## Update inference_sample.ipynb (optional)
 
 Write your own code to test the output model.

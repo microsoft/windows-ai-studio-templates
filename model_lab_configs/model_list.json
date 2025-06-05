@@ -310,5 +310,9 @@
             "test"
         ]
     },
-    "DatasetSubset": {}
+    "DatasetSubset": {
+        "nlphuji/flickr30k": [],
+        "imagenet-1k": [],
+        "timm/mini-imagenet": []
+    }
 }
