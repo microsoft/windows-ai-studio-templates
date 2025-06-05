@@ -944,7 +944,7 @@ class ModelParameter(BaseModelClass):
         changeds: dict[str, Any] = diff.pop('values_changed', {})
         newChangeds = {}
         for changed in changeds:
-            if changed.endswith("['data_config']"):
+            if changed.endswith("['data_config']") or changed.endswith("['user_script']"):
                 pass
             else:
                 newChangeds[changed] = changeds[changed]
