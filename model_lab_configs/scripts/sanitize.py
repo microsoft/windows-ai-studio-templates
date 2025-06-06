@@ -924,7 +924,8 @@ class ModelParameter(BaseModelClass):
         addeds: list[str] = diff.pop('dictionary_item_added', [])
         newAddeds = []
         for added in addeds:
-            if added.endswith("['save_as_external_data']") or added.endswith("['dynamic']") or added.endswith("['use_dynamo_exporter']"):
+            if added.endswith("['save_as_external_data']"):
+                # We add it to align model format
                 pass
             else:
                 newAddeds.append(added)
@@ -934,7 +935,8 @@ class ModelParameter(BaseModelClass):
         removeds: list[str] = diff.pop('dictionary_item_removed', [])
         newRemoveds = []
         for removed in removeds:
-            if removed.endswith("['reuse_cache']") or removed.endswith("['device']") or removed.endswith("['dynamic']"):
+            if removed.endswith("['reuse_cache']"):
+                # In debug mode for olive, this will throw exception 'file is occupied' for ov recipes
                 pass
             else:
                 newRemoveds.append(removed)
@@ -945,6 +947,7 @@ class ModelParameter(BaseModelClass):
         newChangeds = {}
         for changed in changeds:
             if changed.endswith("['data_config']") or changed.endswith("['user_script']"):
+                # Data config name or *.py could be different
                 pass
             else:
                 newChangeds[changed] = changeds[changed]
