@@ -924,7 +924,8 @@ class ModelParameter(BaseModelClass):
         addeds: list[str] = diff.pop('dictionary_item_added', [])
         newAddeds = []
         for added in addeds:
-            if added.endswith("['save_as_external_data']") or added.endswith("['dynamic']") or added.endswith("['use_dynamo_exporter']"):
+            if added.endswith("['save_as_external_data']"):
+                # We add it to align model format
                 pass
             else:
                 newAddeds.append(added)
