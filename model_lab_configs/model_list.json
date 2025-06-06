@@ -62,11 +62,13 @@
             "modelLink": "https://huggingface.co/openai/clip-vit-large-patch14",
             "id": "huggingface/openai/clip-vit-large-patch14",
             "runtimes": [
-                "QNN"
+                "QNN",
+                "AMDNPU",
+                "IntelNPU"
             ],
             "architecture": "CNN",
-            "status": "Hide",
-            "version": -1
+            "status": "Ready",
+            "version": 1
         },
         {
             "displayName": "laion/CLIP-ViT-B-32-laion2B-s34B-b79K",
