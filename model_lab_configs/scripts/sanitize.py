@@ -911,27 +911,30 @@ class ModelParameter(BaseModelClass):
             print(f"WARNING: {self._file}'s olive json should have two data configs for evaluation")
 
     def checkOliveFile(self, oliveJson: Any):
-        if not self.oliveFile or not GlobalVars.olivePath:
+        if not GlobalVars.olivePath:
+            return
+        if not self.oliveFile:
+            print(f"WARNING: {self._file} does not have oliveFile")
             return
         from deepdiff import DeepDiff
         with open_ex(os.path.join(GlobalVars.olivePath, "examples", self.oliveFile), 'r') as file:
             oliveFileJson = json.load(file)
         diff = DeepDiff(oliveFileJson[OlivePropertyNames.Passes], oliveJson[OlivePropertyNames.Passes])
         
-        addeds = diff.pop('dictionary_item_added', [])
+        addeds: list[str] = diff.pop('dictionary_item_added', [])
         newAddeds = []
         for added in addeds:
-            if "['save_as_external_data']" in added:
+            if added.endswith("['save_as_external_data']") or added.endswith("['dynamic']") or added.endswith("['use_dynamo_exporter']"):
                 pass
             else:
                 newAddeds.append(added)
         if newAddeds:
             diff['dictionary_item_added'] = newAddeds
 
-        removeds = diff.pop('dictionary_item_removed', [])
+        removeds: list[str] = diff.pop('dictionary_item_removed', [])
         newRemoveds = []
         for removed in removeds:
-            if "['reuse_cache']" in removed:
+            if removed.endswith("['reuse_cache']") or removed.endswith("['device']") or removed.endswith("['dynamic']"):
                 pass
             else:
                 newRemoveds.append(removed)
@@ -941,7 +944,7 @@ class ModelParameter(BaseModelClass):
         changeds: dict[str, Any] = diff.pop('values_changed', {})
         newChangeds = {}
         for changed in changeds:
-            if "['data_config']" in changed:
+            if changed.endswith("['data_config']") or changed.endswith("['user_script']"):
                 pass
             else:
                 newChangeds[changed] = changeds[changed]
@@ -1284,7 +1287,7 @@ def main():
 if __name__ == '__main__':
     argparser = argparse.ArgumentParser(description="Check model lab configs")
     argparser.add_argument("-v", "--verbose", action="store_true", help="Verbose mode")
-    argparser.add_argument("-o", "--olive", default="d:\\olive", type=str, help="Path to olive repo to check json files")
+    argparser.add_argument("-o", "--olive", default="", type=str, help="Path to olive repo to check json files")
     args = argparser.parse_args()
     GlobalVars.verbose = args.verbose
     GlobalVars.olivePath = args.olive
