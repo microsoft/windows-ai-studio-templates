@@ -711,6 +711,9 @@ class DebugInfo(BaseModel):
             return self.useOpenVINOOptimumConversion
         else:
             return None
+        
+    def isEmpty(self):
+        return not (self.useModelBuilder or self.useOpenVINOConversion or self.useOpenVINOOptimumConversion)
 
 
 class ModelParameter(BaseModelClass):
@@ -896,6 +899,8 @@ class ModelParameter(BaseModelClass):
 
         self.checkPhase(oliveJson)
         self.checkOliveFile(oliveJson)
+        if self.debugInfo.isEmpty():
+            self.debugInfo = None
         self.writeIfChanged()
     
     def checkPhase(self, oliveJson: Any):
