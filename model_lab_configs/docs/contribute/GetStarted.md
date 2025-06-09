@@ -105,4 +105,11 @@ In the config, if template is used, you need only to write values for template p
 
 ## Run sanitize.py and fix issues
 
-After all files are setup, please run `santize.py` and fix issues.
+After all files are setup, please run `scripts\santize.py` and fix issues.
+
+## Run pack_to_extension.py to try E2E
+
+After there is no issues, please run `scripts\pack_to_extension.py` to pack the current templates git repo into the extension and try the new template E2E.
+
+You could also use `--restore` to restore the original one.
+
