@@ -1166,6 +1166,23 @@ def check_case(path: Path) -> bool:
     return True
 
 
+def process_gitignore(modelVerDir: str, configDir: str):
+    gitignoreFile = os.path.join(modelVerDir, ".gitignore")
+    templateFile = os.path.join(configDir, "gitignore.md")
+    if not os.path.exists(gitignoreFile):
+        print(f"WARNNG: {gitignoreFile} not exists. Copy the template one")
+        shutil.copy(templateFile, gitignoreFile)
+    else:
+        # Ensure each non-empty line in template is present in the .gitignore file (exact match)
+        with open_ex(gitignoreFile, 'r') as file:
+            gitignoreLines = [line.strip() for line in file if line.strip()]
+        with open_ex(templateFile, 'r') as file:
+            templateLines = [line.strip() for line in file if line.strip()]
+        missing = [line for line in templateLines if line not in gitignoreLines]
+        for line in missing:
+            GlobalVars.hasError(f"{gitignoreFile} does not have line '{line}'")
+
+
 def main():
     # need to resolve due to d:\ vs D:\
     configDir = str(Path(os.path.dirname(os.path.dirname(__file__))).resolve(strict=False))
@@ -1215,15 +1232,9 @@ def main():
                 # check requirement.txt
                 requirementFile = os.path.join(modelVerDir, "requirements.txt")
                 if not os.path.exists(requirementFile):
-                    print(f"{requirementFile} not exists. Copy the template one")
-                    GlobalVars.hasError()
-                    shutil.copy(os.path.join(configDir, "requirements.md"), requirementFile)
+                    print(f"WARNNG: {requirementFile} not exists.")
                 # copy .gitignore
-                gitignoreFile = os.path.join(modelVerDir, ".gitignore")
-                if not os.path.exists(gitignoreFile):
-                    print(f"{gitignoreFile} not exists. Copy the template one")
-                # always replace with latest
-                shutil.copy(os.path.join(configDir, "gitignore.md"), os.path.join(modelVerDir, ".gitignore"))
+                process_gitignore(modelVerDir, configDir)
                 # check ipynb
                 sharedIpynbFile = os.path.join(modelVerDir, "inference_sample.ipynb")
                 hasSharedIpynb = os.path.exists(sharedIpynbFile)
