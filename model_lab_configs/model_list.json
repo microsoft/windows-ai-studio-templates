@@ -62,7 +62,9 @@
             "modelLink": "https://huggingface.co/openai/clip-vit-large-patch14",
             "id": "huggingface/openai/clip-vit-large-patch14",
             "runtimes": [
-                "QNN"
+                "QNN",
+                "AMDNPU",
+                "IntelNPU"
             ],
             "architecture": "CNN",
             "status": "Hide",
