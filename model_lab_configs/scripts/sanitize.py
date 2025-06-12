@@ -511,8 +511,6 @@ def readCheckParameterTemplate(filePath: str):
 class WorkflowItem(BaseModel):
     name: str
     file: str
-    template: str = None
-    version: int = 0
     templateName: str = None
     # DO NOT ADD ANYTHING ELSE HERE
     # We should add it to the *.json.config
@@ -524,10 +522,6 @@ class WorkflowItem(BaseModel):
             return False
         if '\\' in self.file:
             printErrorAndExit("Please use / instead of \\")
-            return False
-        if not self.template:
-            return False
-        if self.version <= 0:
             return False
         if not self.templateName:
             return False
@@ -1227,8 +1221,6 @@ def main():
                     modelSpaceConfig.modelInfo = ModelInfoProject(id=modelInVersion.id)
                 for i, modelItem in enumerate(modelSpaceConfig.workflows):
                     # set template
-                    modelItem.template = model.id
-                    modelItem.version = modelInVersion.version
                     modelItem.templateName = os.path.basename(modelItem.file)[:-5]
 
                     # read parameter
