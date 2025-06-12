@@ -1025,7 +1025,7 @@ def readCheckOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter):
     if jsonUpdated:
         with open_ex(oliveJsonFile, 'w') as file:
             json.dump(oliveJson, file, indent=4)
-        printVerbose(f"{oliveJsonFile} has been updated")
+        printInfo(f"{oliveJsonFile} has been updated")
 
     return oliveJson
 
