@@ -3,6 +3,7 @@ import argparse
 import re
 import shutil
 import subprocess
+import sys
 from typing import Any, Dict
 from pydantic import BaseModel, TypeAdapter
 import os
@@ -14,6 +15,26 @@ from pathlib import Path
 from model_lab import RuntimeEnum, RuntimeFeatureEnum
 from contextlib import contextmanager
 import re
+import inspect
+
+def printProcess(msg:str):
+    if(GlobalVars.verbose): print(f"Process {msg}")
+def printInfo(msg: str):
+    if(GlobalVars.verbose): print(msg)
+def printError(msg: str):
+    frame = inspect.currentframe().f_back
+    filename = os.path.relpath(frame.f_code.co_filename)
+    lineno = frame.f_lineno
+    # Red text, with file and line number, clickable in terminal
+    print(f"\033[31mERROR: {filename}:{lineno}: {msg}\033[0m")  
+    sys.exit(1)
+def printWarning(msg: str):
+    frame = inspect.currentframe().f_back
+    filename = os.path.relpath(frame.f_code.co_filename)
+    lineno = frame.f_lineno
+    # Yellow text, with file and line number, clickable in terminal
+    print(f"\033[33mWARNING: {filename}:{lineno}: {msg}\033[0m")
+
 
 @contextmanager
 def open_ex(file_path, mode):
@@ -153,17 +174,7 @@ class EPNames(Enum):
 
 # Global vars
 
-class GlobalVars:  
-    SomethingError = False
-
-    @classmethod
-    def hasError(cls, msg: str = None):
-        if msg:
-            print("ERROR: " + msg)
-        else:
-            print("ERROR: See log around for details")
-        cls.SomethingError = True
-
+class GlobalVars:
     epToName = {
         EPNames.QNNExecutionProvider.value: "Qualcomm NPU",
         EPNames.OpenVINOExecutionProvider.value: "Intel NPU",
@@ -241,7 +252,7 @@ class ModelList(BaseModelClass):
     @staticmethod
     def Read(scriptFolder: str):
         modelListFile = os.path.join(scriptFolder, "model_list.json")
-        print(f"Process {modelListFile}")
+        printProcess(modelListFile)
         with open_ex(modelListFile, 'r') as file:
             modelListContent = file.read()
         modelList = ModelList.model_validate_json(modelListContent, strict=True)
@@ -256,7 +267,7 @@ class ModelList(BaseModelClass):
     def Check(self):
         for i, model in enumerate(self.allModels()):
             if not model.Check():
-                GlobalVars.hasError(f"{self._file} model {i} has error")
+                printError(f"{self._file} model {i} has error")
         self.writeIfChanged()
 
         self.CheckDataset(self.LoginRequiredDatasets, "LoginRequiredDatasets")
@@ -267,21 +278,21 @@ class ModelList(BaseModelClass):
     def CheckDataset(self, datasetKeys, name: str):
         for key in datasetKeys:
             if key not in self.HFDatasets:
-                GlobalVars.hasError(f"{self._file} {name} {key} not in HFDatasets")
+                printError(f"{self._file} {name} {key} not in HFDatasets")
     def CheckModel(self, modelIds, name: str):
         tmpAllModelIds = {model.id for model in self.models}
         for key in modelIds:
             if key not in tmpAllModelIds:
-                GlobalVars.hasError(f"{self._file} {name} {key} not in ModelInfos")
+                printError(f"{self._file} {name} {key} not in ModelInfos")
 
 
 # Parameter
 
 def checkPath(path: str, oliveJson: Any, printOnNotExist: bool = True):
-    if GlobalVars.verbose: print(path)
+    printInfo(path)
     GlobalVars.pathCheck += 1
     if pydash.get(oliveJson, path) is None:
-        if printOnNotExist: print(f"Not in olive json: {path}")
+        if printOnNotExist: printInfo(f"Not in olive json: {path}")
         return False
     return True
 
@@ -363,7 +374,7 @@ class Parameter(BaseModel):
             return False
         if not self.description:
             if self.descriptionLink:
-                GlobalVars.hasError("Description link should not be used without description")
+                printError("Description link should not be used without description")
                 return False
         if not self.type:
             return False
@@ -373,7 +384,7 @@ class Parameter(BaseModel):
             elif not checkPath(self.path, oliveJson):
                 return False
             elif self.values or self.selectors or self.actions or self.displayNames or self.customize:
-                GlobalVars.hasError("Redundant fields")
+                printError("Redundant fields")
                 return False
         else:
             expectedLength = 2
@@ -383,28 +394,28 @@ class Parameter(BaseModel):
             if self.type == ParameterTypeEnum.Enum:
                 expectedLength = max(lenValues, lenChecks)
                 if expectedLength == 0:
-                    GlobalVars.hasError("Enum should have values or checks")
+                    printError("Enum should have values or checks")
                     return False
             
             # Display names
             if self.type == ParameterTypeEnum.Enum and self.selectors and not self.displayNames:
-                GlobalVars.hasError("Display names should be used with checks")
+                printError("Display names should be used with checks")
                 return False
 
             if self.displayNames and len(self.displayNames) != expectedLength:
-                GlobalVars.hasError(f"Display names has wrong length {expectedLength}")
+                printError(f"Display names has wrong length {expectedLength}")
                 return False
             
             # Display type
             if self.type == ParameterTypeEnum.Enum:
                 if not (not self.displayType or self.displayType == ParameterDisplayTypeEnum.Dropdown or self.displayType == ParameterDisplayTypeEnum.RadioGroup):
-                    GlobalVars.hasError("Display type should be Dropdown or RadioGroup")
+                    printError("Display type should be Dropdown or RadioGroup")
                     return False
 
             # customize
             if self.customize == True:
                 if not (self.type == ParameterTypeEnum.Enum and self.values and not self.selectors):
-                    GlobalVars.hasError("Wrong customize prerequisites!")
+                    printError("Wrong customize prerequisites!")
                     return False
 
             # path: bool
@@ -423,7 +434,7 @@ class Parameter(BaseModel):
             elif not self.path and not self.values and lenChecks == expectedLength and lenActions == expectedLength:
                 pass
             else:
-                print(f"Invalid combination. Check comment")
+                printError(f"Invalid combination. Check comment")
                 return False
             
             if self.path:
@@ -434,33 +445,31 @@ class Parameter(BaseModel):
                     value = pydash.get(oliveJson, self.path)
                     if self.tags and (ParameterTagEnum.EvaluationDataset in self.tags or ParameterTagEnum.QuantizationDataset in self.tags):
                         if value != self.values[0]:
-                            print(f"Value {value} not the first in values for {self.path}")
-                            GlobalVars.hasError(f"Value {value} not the first in values for {self.path}")
+                            printError(f"Value {value} not the first in values for {self.path}")
                             return False
                         for i in range(len(self.values) - 1):
                             value_in_list = self.values[i + 1]
                             if value_in_list not in modelList.DatasetSplit:
-                                print(f"Value {value_in_list} not in DatasetSplit for {self.path}")
-                                GlobalVars.hasError(f"Value {value_in_list} not in DatasetSplit for {self.path}")
+                                printError(f"Value {value_in_list} not in DatasetSplit for {self.path}")
                                 return False
                             if value_in_list not in modelList.DatasetSubset:
-                                print(f"WARNING: Value {value_in_list} not in DatasetSubset for {self.path}. Could be acceptable if it doesn't have subset")
+                                printWarning(f"Value {value_in_list} not in DatasetSubset for {self.path}. Could be acceptable if it doesn't have subset")
                         # No error for this, just warning
                     elif value not in self.values:
-                        GlobalVars.hasError(f"Value {value} not in values for {self.path}")
+                        printError(f"Value {value} not in values for {self.path}")
                         return False
 
             if self.selectors:
                 for i, check in enumerate(self.selectors):
                     if not check.check(oliveJson):
-                        GlobalVars.hasError(f"Check {i} has error")
+                        printError(f"Check {i} has error")
                         return False
 
             if self.actions:
                 for i, actions in enumerate(self.actions):
                     for j, action in enumerate(actions):
                         if not action.check(oliveJson):
-                            GlobalVars.hasError(f"Action {i} {j} has error")
+                            printError(f"Action {i} {j} has error")
                             return False
         return True
 
@@ -482,14 +491,14 @@ class Parameter(BaseModel):
 
 
 def readCheckParameterTemplate(filePath: str):
-    print(f"Process {filePath}")
+    printProcess(filePath)
     with open_ex(filePath, 'r') as file:
         fileContent = file.read()
     adapter = TypeAdapter(Dict[str, Parameter])
     parameters: Dict[str, Parameter] = adapter.validate_json(fileContent, strict=True)
     for key, parameter in parameters.items():
         if not parameter.Check(True):
-            GlobalVars.hasError(f"{filePath} parameter {key} has error")
+            printError(f"{filePath} parameter {key} has error")
     newContent = adapter.dump_json(parameters, indent=4, exclude_none=True).decode('utf-8')
     if newContent != fileContent:
         with open_ex(filePath, 'w') as file:
@@ -514,7 +523,7 @@ class WorkflowItem(BaseModel):
         if not self.file:
             return False
         if '\\' in self.file:
-            print("Please use / instead of \\")
+            printError("Please use / instead of \\")
             return False
         if not self.template:
             return False
@@ -549,7 +558,7 @@ class ModelProjectConfig(BaseModelClass):
 
     @staticmethod
     def Read(modelSpaceConfigFile: str):
-        print(f"Process {modelSpaceConfigFile}")
+        printProcess(modelSpaceConfigFile)
         with open_ex(modelSpaceConfigFile, 'r') as file:
             modelSpaceConfigContent = file.read()
         modelSpaceConfig = ModelProjectConfig.model_validate_json(modelSpaceConfigContent, strict=True)
@@ -561,10 +570,10 @@ class ModelProjectConfig(BaseModelClass):
     def Check(self, modelInfo: ModelInfo):
         for i, model in enumerate(self.workflows):
             if not model.Check():
-                GlobalVars.hasError(f"{self._file} model {i} has error")
+                printError(f"{self._file} model {i} has error")
         
         if not self.modelInfo.Check(modelInfo):
-            GlobalVars.hasError(f"{self._file} modelInfo has error")
+            printError(f"{self._file} modelInfo has error")
 
         self.writeIfChanged()
 
@@ -608,45 +617,44 @@ class Section(BaseModel):
         #    return False
         # TODO add place holder for General?
         if not self.parameters and self.phase != PhaseTypeEnum.Conversion:
-            print(f"WARNING: self.parameters is empty for {self.phase}.")
+            printWarning(f"self.parameters is empty for {self.phase}.")
         
         for i, parameter in enumerate(self.parameters):
             if parameter.template:
                 template = parameter.template
                 if template.template not in templates:
-                    print(f"{_file} section {sectionId} parameter {i} has wrong template")
-                    GlobalVars.hasError(f"{_file} section {sectionId} parameter {i} has wrong template")
+                    printError(f"{_file} section {sectionId} parameter {i} has wrong template")
                     continue
                 parameter.clearValue()
                 parameter.applyTemplate(template)
                 parameter.applyTemplate(templates[template.template])
             if not parameter.Check(False, oliveJson, modelList):
-                GlobalVars.hasError(f"{_file} section {sectionId} parameter {i} has error")
+                printError(f"{_file} section {sectionId} parameter {i} has error")
 
             # TODO move tag check into Parameter
             if Section.datasetPathPattern(parameter.path):
                 if self.phase == PhaseTypeEnum.Quantization:
                     if not parameter.tags or ParameterTagEnum.QuantizationDataset not in parameter.tags:
-                        GlobalVars.hasError(f"{_file} section {sectionId} parameter {i} should have QuantizationDataset tag")
+                        printError(f"{_file} section {sectionId} parameter {i} should have QuantizationDataset tag")
                 elif self.phase == PhaseTypeEnum.Evaluation:
                     if not parameter.tags or ParameterTagEnum.EvaluationDataset not in parameter.tags:
-                        GlobalVars.hasError(f"{_file} section {sectionId} parameter {i} should have EvaluationDataset tag")
+                        printError(f"{_file} section {sectionId} parameter {i} should have EvaluationDataset tag")
                 missing_keys = [key for key in parameter.values if key not in modelList.HFDatasets]
                 if missing_keys:
-                    GlobalVars.hasError(f"datasets are not in HFDatasets: {', '.join(missing_keys)}")
+                    printError(f"datasets are not in HFDatasets: {', '.join(missing_keys)}")
             elif parameter.path.endswith("activation_type"):
                 if not parameter.tags or ParameterTagEnum.ActivationType not in parameter.tags:
-                    GlobalVars.hasError(f"{_file} section {sectionId} parameter {i} should have ActivationType tag")
+                    printError(f"{_file} section {sectionId} parameter {i} should have ActivationType tag")
             elif parameter.path.endswith("weight_type"):
                 if not parameter.tags or ParameterTagEnum.WeightType not in parameter.tags:
-                    GlobalVars.hasError(f"{_file} section {sectionId} parameter {i} should have WeightType tag")
+                    printError(f"{_file} section {sectionId} parameter {i} should have WeightType tag")
 
         if self.toggle:
             if self.toggle.type != ParameterTypeEnum.Bool:
-                print(f"{_file} section {sectionId} toggle must use bool")
+                printError(f"{_file} section {sectionId} toggle must use bool")
                 return False
             if not self.toggle.Check(False, oliveJson, modelList):
-                GlobalVars.hasError(f"{_file} section {sectionId} toggle has error")
+                printError(f"{_file} section {sectionId} toggle has error")
 
         return True
     
@@ -688,7 +696,7 @@ class DebugInfo(BaseModel):
             self.useOpenVINOOptimumConversion = openVINOOptimumConversion[0]
 
         if sum(bool(v) for v in [self.useModelBuilder, self.useOpenVINOConversion, self.useOpenVINOOptimumConversion]) > 1:
-            GlobalVars.hasError(f"{self._file} should not have both useModelBuilder and useOpenVINOConversion")
+            printError(f"{self._file} should not have both useModelBuilder and useOpenVINOConversion")
             return False
         return True
 
@@ -735,7 +743,7 @@ class ModelParameter(BaseModelClass):
 
     @staticmethod
     def Read(parameterFile: str):
-        print(f"Process {parameterFile}")
+        printProcess(parameterFile)
         GlobalVars.configCheck += 1
         with open_ex(parameterFile, 'r') as file:
             parameterContent = file.read()
@@ -746,7 +754,7 @@ class ModelParameter(BaseModelClass):
 
     def Check(self, templates: Dict[str, Parameter], oliveJson: Any, modelList: ModelList):
         if not self.sections:
-            GlobalVars.hasError(f"{self._file} should have sections")
+            printError(f"{self._file} should have sections")
             return
         
         if not self.checkDebugInfo(oliveJson):
@@ -810,19 +818,19 @@ class ModelParameter(BaseModelClass):
             readOnly=False,)
         self.runtime.actions = runtimeActions
         if not self.runtime.Check(False, oliveJson, modelList):
-            GlobalVars.hasError(f"{self._file} runtime has error")
+            printError(f"{self._file} runtime has error")
 
         # Add runtime overwrite
         if self.isQNNLLM:
             if not system[OlivePropertyNames.Type] == "PythonEnvironment":
-                GlobalVars.hasError(f"{self._file}'s olive json does not use PythonEnvironment")
+                printError(f"{self._file}'s olive json does not use PythonEnvironment")
             self.runtimeOverwrite = RuntimeOverwrite(
                 autoGenerated=True,
                 pyEnvPath=f"{OlivePropertyNames.Systems}.{syskey}.{OlivePropertyNames.PythonEnvironmentPath}",
                 executeEp=EPNames.CUDAExecutionProvider,
                 evaluateUsedInExecute=True,)
             if not self.runtimeOverwrite.Check(oliveJson):
-                GlobalVars.hasError(f"{self._file} runtime overwrite has error")
+                printError(f"{self._file} runtime overwrite has error")
             self.executeRuntimeFeatures = [RuntimeFeatureEnum.AutoGptq]
             self.evalRuntimeFeatures = [RuntimeFeatureEnum.Nightly]
 
@@ -873,11 +881,10 @@ class ModelParameter(BaseModelClass):
                     actions=[[], [action]])
                 evaluatorName = oliveJson[OlivePropertyNames.Evaluator]
                 if not checkPath(f"{OlivePropertyNames.Evaluators}.{evaluatorName}", oliveJson):
-                    print(f"{self._file} does not have evaluator {evaluatorName}")
-                    GlobalVars.hasError(f"{self._file} does not have evaluator {evaluatorName}")
+                    printError(f"{self._file} does not have evaluator {evaluatorName}")
 
             if not section.Check(templates, self._file, i, oliveJson, modelList):
-                GlobalVars.hasError(f"{self._file} section {i} has error")
+                printError(f"{self._file} section {i} has error")
 
         if currentEp == EPNames.CUDAExecutionProvider.value or self.runtimeOverwrite and self.runtimeOverwrite.executeEp == EPNames.CUDAExecutionProvider:
             self.isGPURequired = True
@@ -897,16 +904,16 @@ class ModelParameter(BaseModelClass):
         elif len(allPhases) == 3 and allPhases[0] == PhaseTypeEnum.Conversion and allPhases[1] == PhaseTypeEnum.Quantization and allPhases[2] == PhaseTypeEnum.Evaluation:
             pass
         else:
-            GlobalVars.hasError(f"{self._file} has wrong phases {allPhases}")
+            printError(f"{self._file} has wrong phases {allPhases}")
 
         if PhaseTypeEnum.Evaluation in allPhases and PhaseTypeEnum.Quantization in allPhases and len(oliveJson[OlivePropertyNames.DataConfigs]) != 2:
-            print(f"WARNING: {self._file}'s olive json should have two data configs for evaluation")
+            printWarning(f"{self._file}'s olive json should have two data configs for evaluation")
 
     def checkOliveFile(self, oliveJson: Any):
         if not GlobalVars.olivePath:
-            return
+            printError("olivePath is not set")
         if not self.oliveFile:
-            print(f"WARNING: {self._file} does not have oliveFile")
+            printWarning(f"{self._file} does not have oliveFile")
             return
         from deepdiff import DeepDiff
         with open_ex(os.path.join(GlobalVars.olivePath, "examples", self.oliveFile), 'r') as file:
@@ -947,8 +954,7 @@ class ModelParameter(BaseModelClass):
             diff['values_changed'] = newChangeds
 
         if diff:
-            GlobalVars.hasError(f"different from {self.oliveFile}")
-            print(diff)
+            printError(f"different from {self.oliveFile}\r\n{diff}")
         GlobalVars.oliveCheck += 1
 
     def checkDebugInfo(self, oliveJson: Any):
@@ -962,34 +968,34 @@ def readCheckOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter):
     """
     This will set phases to modelParameter
     """
-    print(f"Process {oliveJsonFile}")
+    printProcess(oliveJsonFile)
     with open_ex(oliveJsonFile, 'r') as file:
         oliveJson = json.load(file)
 
     # check if engine is in oliveJson
     if OlivePropertyNames.Engine in oliveJson:
-        GlobalVars.hasError(f"{oliveJsonFile} has engine. Should place in the root instead")
+        printError(f"{oliveJsonFile} has engine. Should place in the root instead")
         return
     
     if OlivePropertyNames.Evaluator in oliveJson and not isinstance(oliveJson[OlivePropertyNames.Evaluator], str):
-        GlobalVars.hasError(f"{oliveJsonFile} evaluator property should be str")
+        printError(f"{oliveJsonFile} evaluator property should be str")
         return
     
     # check if has more than one systems and more than one accelerators
     if OlivePropertyNames.Systems not in oliveJson or len(oliveJson[OlivePropertyNames.Systems]) != 1:
-        GlobalVars.hasError(f"{oliveJsonFile} should have only one system")
+        printError(f"{oliveJsonFile} should have only one system")
         return
     systemK, systemV = list(oliveJson[OlivePropertyNames.Systems].items())[0]
     accelerators = systemV[OlivePropertyNames.Accelerators]
     if len(accelerators) != 1:
-        GlobalVars.hasError(f"{oliveJsonFile} should have only one accelerator")
+        printError(f"{oliveJsonFile} should have only one accelerator")
         return
     eps = accelerators[0][OlivePropertyNames.ExecutionProviders]
     if len(eps) != 1:
-        GlobalVars.hasError(f"{oliveJsonFile} should have only one execution provider")
+        printError(f"{oliveJsonFile} should have only one execution provider")
         return
     if eps[0] not in GlobalVars.epToName:
-        GlobalVars.hasError(f"{oliveJsonFile} has wrong execution provider {eps[0]}")
+        printError(f"{oliveJsonFile} has wrong execution provider {eps[0]}")
         return
 
     jsonUpdated = False
@@ -1010,7 +1016,7 @@ def readCheckOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter):
         jsonUpdated = True
 
     if OlivePropertyNames.OutputDir not in oliveJson or not str(oliveJson[OlivePropertyNames.OutputDir]).startswith("model/"):
-        GlobalVars.hasError(f"{oliveJsonFile} should have use model/XXX as {OlivePropertyNames.OutputDir}")
+        printError(f"{oliveJsonFile} should have use model/XXX as {OlivePropertyNames.OutputDir}")
 
     if OlivePropertyNames.EvaluateInputModel not in oliveJson or oliveJson[OlivePropertyNames.EvaluateInputModel]:
         oliveJson[OlivePropertyNames.EvaluateInputModel] = False
@@ -1027,7 +1033,7 @@ def readCheckOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter):
     if jsonUpdated:
         with open_ex(oliveJsonFile, 'w') as file:
             json.dump(oliveJson, file, indent=4)
-        print(f"{oliveJsonFile} has been updated")
+        printVerbose(f"{oliveJsonFile} has been updated")
 
     return oliveJson
 
@@ -1050,7 +1056,7 @@ def readCheckIpynb(ipynbFile: str, modelItems: dict[str, ModelParameter]):
                 testPath = outputModelIntelNPURelativePath
             for item in [testPath, importStr]:
                 if not re.search(item, ipynbContent):
-                    GlobalVars.hasError(f"{ipynbFile} does not have '{item}' for {name}, please use it as input")
+                    printError(f"{ipynbFile} does not have '{item}' for {name}, please use it as input")
             if modelParameter.evalRuntime:
                 runtime = GlobalVars.runtimeToEp[modelParameter.evalRuntime]
                 if runtime not in allRuntimes:
@@ -1077,9 +1083,9 @@ def readCheckIpynb(ipynbFile: str, modelItems: dict[str, ModelParameter]):
         if targetEP:
             targetStr = f"ExecutionProvider=\\\"{targetEP}\\\""
             if ipynbContent.count(targetStr) != 1:
-                GlobalVars.hasError(f"{ipynbFile} should have 1 {targetStr}")
+                printError(f"{ipynbFile} should have 1 {targetStr}")
         else:
-            GlobalVars.hasError(f"{ipynbFile} has no runtime for it!")
+            printError(f"{ipynbFile} has no runtime for it!")
         return True
     return False
 
@@ -1108,7 +1114,7 @@ class CopyConfig(BaseModel):
             src = os.path.join(modelVerDir, copy.src)
             dst = os.path.join(modelVerDir, copy.dst)
             if not os.path.exists(src):
-                GlobalVars.hasError(f"{src} does not exist")
+                printError(f"{src} does not exist")
                 continue
             shutil.copy(src, dst)
             if copy.replacements:
@@ -1117,9 +1123,9 @@ class CopyConfig(BaseModel):
                     with open_ex(dst, 'r') as file:
                         content = file.read()
                     for replacement in stringReplacements:
-                        if GlobalVars.verbose: print(replacement.find)
+                        printInfo(replacement.find)
                         if replacement.find not in content:
-                            GlobalVars.hasError(f"Not in dst file {dst}: {replacement.find}")
+                            printError(f"Not in dst file {dst}: {replacement.find}")
                             continue
                         content = content.replace(replacement.find, replacement.replace)
                     with open_ex(dst, 'w') as file:
@@ -1129,10 +1135,10 @@ class CopyConfig(BaseModel):
                     with open_ex(dst, 'r') as file:
                         jsonObj = json.load(file)
                     for replacement in pathReplacements:
-                        if GlobalVars.verbose: print(replacement.find)
+                        printInfo(replacement.find)
                         target = pydash.get(jsonObj, replacement.find)
                         if replacement.type == ReplaceTypeEnum.Path and target is None or replacement.type == ReplaceTypeEnum.PathAdd and target:
-                            GlobalVars.hasError(f"Not match type in dst json {dst}: {replacement.find}")
+                            printError(f"Not match type in dst json {dst}: {replacement.find}")
                             continue
                         pydash.set_(jsonObj, replacement.find, replacement.replace)
                     with open_ex(dst, 'w') as file:
@@ -1147,9 +1153,7 @@ def check_case(path: Path) -> bool:
         return False
 
     if str(path) != str(abs_path):
-        print(str(path))
-        print(str(abs_path))
-        GlobalVars.hasError(f"Path case mismatch: {path} vs {abs_path}")
+        printError(f"Path case mismatch: {path} vs {abs_path}")
         return False
     return True
 
@@ -1158,7 +1162,7 @@ def process_gitignore(modelVerDir: str, configDir: str):
     gitignoreFile = os.path.join(modelVerDir, ".gitignore")
     templateFile = os.path.join(configDir, "gitignore.md")
     if not os.path.exists(gitignoreFile):
-        print(f"WARNNG: {gitignoreFile} not exists. Copy the template one")
+        printWarning(f"{gitignoreFile} not exists. Copy the template one")
         shutil.copy(templateFile, gitignoreFile)
     else:
         # Ensure each non-empty line in template is present in the .gitignore file (exact match)
@@ -1168,7 +1172,7 @@ def process_gitignore(modelVerDir: str, configDir: str):
             templateLines = [line.strip() for line in file if line.strip()]
         missing = [line for line in templateLines if line not in gitignoreLines]
         for line in missing:
-            GlobalVars.hasError(f"{gitignoreFile} does not have line '{line}'")
+            printError(f"{gitignoreFile} does not have line '{line}'")
 
 
 def main():
@@ -1184,7 +1188,7 @@ def main():
             modelDir = os.path.join(configDir, model.id)
 
             if not check_case(modelDir):
-                GlobalVars.hasError(f"Model folder does not exist, or check if case matches between model.id {model.id} and model folder.")
+                printError(f"Model folder does not exist, or check if case matches between model.id {model.id} and model folder.")
 
             # get all versions
             allVersions = [int(name) for name in os.listdir(modelDir) if os.path.isdir(os.path.join(modelDir, name))]
@@ -1192,7 +1196,7 @@ def main():
             model.version = allVersions[-1]
             # check if version is continuous
             if allVersions[0] != 1 or allVersions[-1] != len(allVersions):
-                GlobalVars.hasError(f"{modelDir} has wrong versions {allVersions}")
+                printError(f"{modelDir} has wrong versions {allVersions}")
 
             # process each version
             for version in allVersions:
@@ -1213,11 +1217,11 @@ def main():
                 # check md
                 mdFile = os.path.join(modelVerDir, "README.md")
                 if not os.path.exists(mdFile):
-                    GlobalVars.hasError(f"{mdFile} not exists")
+                    printError(f"{mdFile} not exists")
                 # check requirement.txt
                 requirementFile = os.path.join(modelVerDir, "requirements.txt")
                 if not os.path.exists(requirementFile):
-                    print(f"WARNNG: {requirementFile} not exists.")
+                    printWarning(f"{requirementFile} not exists.")
                 # copy .gitignore
                 process_gitignore(modelVerDir, configDir)
                 # check ipynb
@@ -1250,7 +1254,7 @@ def main():
                     hasSpecialIpynb = readCheckIpynb(ipynbFile, {modelItem.name: modelParameter})
                     if not hasSpecialIpynb:
                         if not hasSharedIpynb:
-                            GlobalVars.hasError(f"{ipynbFile} nor {sharedIpynbFile} not exists.")
+                            printError(f"{ipynbFile} nor {sharedIpynbFile} not exists.")
                         else:
                             workflowsAgainstShared[modelItem.name] = modelParameter
                 readCheckIpynb(sharedIpynbFile, workflowsAgainstShared)
@@ -1258,8 +1262,8 @@ def main():
                 modelSpaceConfig.Check(modelInVersion)
     modelList.Check()
 
-    print(f"Total {GlobalVars.configCheck} config files checked with total {GlobalVars.pathCheck} path checks")
-    if GlobalVars.olivePath: print(f"Total {GlobalVars.oliveCheck} config files checked against olive json files")
+    
+    if GlobalVars.olivePath: printWarning(f"Total {GlobalVars.oliveCheck} config files checked against olive json files")
 
     result = subprocess.run(
         ["git", "status", "--porcelain"],
@@ -1268,16 +1272,16 @@ def main():
         stderr=subprocess.PIPE,
         text=True
     )
-    if GlobalVars.SomethingError:
-        raise BaseException("Please fix errors!")
     
     # We add this test to make sure the sanity check is working: i.e. paths are checked and files are checked
     # So the numbers need to be updated whenever the config files change
     if GlobalVars.configCheck != 37 or GlobalVars.pathCheck != 424:
-        raise BaseException("Please update line 'if GlobalVars.configCheck != XXX or GlobalVars.pathCheck != YYY' to reflect config changes!")
+        printError(f"Total {GlobalVars.configCheck} config files checked with total {GlobalVars.pathCheck} path checks")
+        sys.exit(1)
     # If the output is not empty, there are uncommitted changes
     if bool(result.stdout.strip()):
-        raise BaseException("Please commit changes!")
+        printError("Please commit changes!")
+        sys.exit(1)
 
 if __name__ == '__main__':
     argparser = argparse.ArgumentParser(description="Check model lab configs")
