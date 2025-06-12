@@ -911,7 +911,7 @@ class ModelParameter(BaseModelClass):
 
     def checkOliveFile(self, oliveJson: Any):
         if not GlobalVars.olivePath:
-            printErrorAndExit("olivePath is not set")
+            return
         if not self.oliveFile:
             printWarning(f"{self._file} does not have oliveFile")
             return
