@@ -1201,6 +1201,7 @@ def main():
 
                 # get model space config
                 modelSpaceConfig = ModelProjectConfig.Read(os.path.join(modelVerDir, "model_project.config"))
+                modelSpaceConfig.modelInfo.version = int(os.path.basename(modelVerDir))
                 # check md
                 mdFile = os.path.join(modelVerDir, "README.md")
                 if not os.path.exists(mdFile):
