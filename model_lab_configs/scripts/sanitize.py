@@ -530,6 +530,7 @@ class WorkflowItem(BaseModel):
 
 class ModelInfoProject(BaseModel):
     id: str
+    version: int = 1
     displayName: str = None
     icon: IconEnum = None
     modelLink: str = None
