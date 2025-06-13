@@ -292,7 +292,7 @@ def checkPath(path: str, oliveJson: Any, printOnNotExist: bool = True):
     printInfo(path)
     GlobalVars.pathCheck += 1
     if pydash.get(oliveJson, path) is None:
-        if printOnNotExist: printInfo(f"Not in olive json: {path}")
+        if printOnNotExist: printError(f"Not in olive json: {path}")
         return False
     return True
 
@@ -453,8 +453,8 @@ class Parameter(BaseModel):
                                 printError(f"Value {value_in_list} not in DatasetSplit for {self.path}")
                                 return False
                             if value_in_list not in modelList.DatasetSubset:
-                                printWarning(f"Value {value_in_list} not in DatasetSubset for {self.path}. Could be acceptable if it doesn't have subset")
-                        # No error for this, just warning
+                                # No error for this, just warning
+                                printWarning(f"Value {value_in_list} not in DatasetSubset for {self.path}. Could be acceptable if it doesn't have subset")                        
                     elif value not in self.values:
                         printError(f"Value {value} not in values for {self.path}")
                         return False
@@ -1030,7 +1030,6 @@ def readCheckOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter):
     if jsonUpdated:
         with open_ex(oliveJsonFile, 'w') as file:
             json.dump(oliveJson, file, indent=4)
-        printInfo(f"{oliveJsonFile} has been updated")
 
     return oliveJson
 
@@ -1258,9 +1257,9 @@ def main():
                     
                 modelSpaceConfig.Check(modelInVersion)
     modelList.Check()
-
     
-    if GlobalVars.olivePath: printWarning(f"Total {GlobalVars.oliveCheck} config files checked against olive json files")
+    if GlobalVars.olivePath: 
+        printWarning(f"Total {GlobalVars.oliveCheck} config files checked against olive json files")
 
     result = subprocess.run(
         ["git", "status", "--porcelain"],
