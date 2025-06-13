@@ -1264,11 +1264,7 @@ def main():
         text=True
     )
 
-    if len(GlobalVars.errorList) > 0:
-        for (filename, lineno, msg) in GlobalVars.errorList:
-            # Red text, with file and line number, clickable in terminal
-            print(f"\033[31mERROR: {filename}:{lineno}: {msg}\033[0m")
-    else:
+    if len(GlobalVars.errorList) == 0:
         # We add this test to make sure the sanity check is working: i.e. paths are checked and files are checked
         # So the numbers need to be updated whenever the config files change
         if GlobalVars.configCheck != 37 or GlobalVars.pathCheck != 424:
@@ -1276,6 +1272,9 @@ def main():
         # If the output is not empty, there are uncommitted changes
         if bool(result.stdout.strip()):
             printError("Please commit changes!")
+    for (filename, lineno, msg) in GlobalVars.errorList:
+        # Red text, with file and line number, clickable in terminal
+        print(f"\033[31mERROR: {filename}:{lineno}: {msg}\033[0m")
 
 if __name__ == '__main__':
     argparser = argparse.ArgumentParser(description="Check model lab configs")
