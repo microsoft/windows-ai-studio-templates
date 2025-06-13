@@ -965,24 +965,29 @@ def readCheckOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter):
     printProcess(oliveJsonFile)
     with open_ex(oliveJsonFile, 'r') as file:
         oliveJson = json.load(file)
-
     # check if engine is in oliveJson
     if OlivePropertyNames.Engine in oliveJson:
         printError(f"{oliveJsonFile} has engine. Should place in the root instead")
+        return
     if OlivePropertyNames.Evaluator in oliveJson and not isinstance(oliveJson[OlivePropertyNames.Evaluator], str):
         printError(f"{oliveJsonFile} evaluator property should be str")
+        return
     # check if has more than one systems and more than one accelerators
     if OlivePropertyNames.Systems not in oliveJson or len(oliveJson[OlivePropertyNames.Systems]) != 1:
         printError(f"{oliveJsonFile} should have only one system")
+        return
     systemK, systemV = list(oliveJson[OlivePropertyNames.Systems].items())[0]
     accelerators = systemV[OlivePropertyNames.Accelerators]
     if len(accelerators) != 1:
         printError(f"{oliveJsonFile} should have only one accelerator")
+        return
     eps = accelerators[0][OlivePropertyNames.ExecutionProviders]
     if len(eps) != 1:
         printError(f"{oliveJsonFile} should have only one execution provider")
+        return
     if eps[0] not in GlobalVars.epToName:
         printError(f"{oliveJsonFile} has wrong execution provider {eps[0]}")
+        return
 
     jsonUpdated = False
 
