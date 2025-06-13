@@ -25,9 +25,8 @@ def printErrorAndExit(msg: str):
     frame = inspect.currentframe().f_back
     filename = os.path.relpath(frame.f_code.co_filename)
     lineno = frame.f_lineno
-    # Red text, with file and line number, clickable in terminal
-    print(f"\033[31mERROR: {filename}:{lineno}: {msg}\033[0m")  
-    sys.exit(1)
+    # print all errors in the end
+    GlobalVars.errorList.append((filename, lineno, msg))    
 def printWarning(msg: str):
     frame = inspect.currentframe().f_back
     filename = os.path.relpath(frame.f_code.co_filename)
@@ -175,6 +174,7 @@ class EPNames(Enum):
 # Global vars
 
 class GlobalVars:
+    errorList = []
     epToName = {
         EPNames.QNNExecutionProvider.value: "Qualcomm NPU",
         EPNames.OpenVINOExecutionProvider.value: "Intel NPU",
@@ -536,6 +536,7 @@ class WorkflowItem(BaseModel):
 
 class ModelInfoProject(BaseModel):
     id: str
+    version: int = 1
     displayName: str = None
     icon: IconEnum = None
     modelLink: str = None
@@ -971,24 +972,29 @@ def readCheckOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter):
     printProcess(oliveJsonFile)
     with open_ex(oliveJsonFile, 'r') as file:
         oliveJson = json.load(file)
-
     # check if engine is in oliveJson
     if OlivePropertyNames.Engine in oliveJson:
         printErrorAndExit(f"{oliveJsonFile} has engine. Should place in the root instead")
+        return
     if OlivePropertyNames.Evaluator in oliveJson and not isinstance(oliveJson[OlivePropertyNames.Evaluator], str):
         printErrorAndExit(f"{oliveJsonFile} evaluator property should be str")
+        return
     # check if has more than one systems and more than one accelerators
     if OlivePropertyNames.Systems not in oliveJson or len(oliveJson[OlivePropertyNames.Systems]) != 1:
         printErrorAndExit(f"{oliveJsonFile} should have only one system")
+        return
     systemK, systemV = list(oliveJson[OlivePropertyNames.Systems].items())[0]
     accelerators = systemV[OlivePropertyNames.Accelerators]
     if len(accelerators) != 1:
         printErrorAndExit(f"{oliveJsonFile} should have only one accelerator")
+        return
     eps = accelerators[0][OlivePropertyNames.ExecutionProviders]
     if len(eps) != 1:
         printErrorAndExit(f"{oliveJsonFile} should have only one execution provider")
+        return
     if eps[0] not in GlobalVars.epToName:
         printErrorAndExit(f"{oliveJsonFile} has wrong execution provider {eps[0]}")
+        return
 
     jsonUpdated = False
 
@@ -1264,16 +1270,18 @@ def main():
         stderr=subprocess.PIPE,
         text=True
     )
-    
-    # We add this test to make sure the sanity check is working: i.e. paths are checked and files are checked
-    # So the numbers need to be updated whenever the config files change
-    if GlobalVars.configCheck != 37 or GlobalVars.pathCheck != 424:
-        printErrorAndExit(f"Total {GlobalVars.configCheck} config files checked with total {GlobalVars.pathCheck} path checks")
-        sys.exit(1)
-    # If the output is not empty, there are uncommitted changes
-    if bool(result.stdout.strip()):
-        printErrorAndExit("Please commit changes!")
-        sys.exit(1)
+
+    if len(GlobalVars.errorList) == 0:
+        # We add this test to make sure the sanity check is working: i.e. paths are checked and files are checked
+        # So the numbers need to be updated whenever the config files change
+        if GlobalVars.configCheck != 37 or GlobalVars.pathCheck != 424:
+            printErrorAndExit(f"Total {GlobalVars.configCheck} config files checked with total {GlobalVars.pathCheck} path checks")
+        # If the output is not empty, there are uncommitted changes
+        if bool(result.stdout.strip()):
+            printErrorAndExit("Please commit changes!")
+    for (filename, lineno, msg) in GlobalVars.errorList:
+        # Red text, with file and line number, clickable in terminal
+        print(f"\033[31mERROR: {filename}:{lineno}: {msg}\033[0m")
 
 if __name__ == '__main__':
     argparser = argparse.ArgumentParser(description="Check model lab configs")
