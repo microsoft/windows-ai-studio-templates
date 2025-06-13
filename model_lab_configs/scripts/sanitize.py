@@ -25,8 +25,8 @@ def printError(msg: str):
     frame = inspect.currentframe().f_back
     filename = os.path.relpath(frame.f_code.co_filename)
     lineno = frame.f_lineno
-    # Red text, with file and line number, clickable in terminal
-    print(f"\033[31mERROR: {filename}:{lineno}: {msg}\033[0m")
+    # print all errors in the end
+    GlobalVars.errorList.append((filename, lineno, msg))    
 def printWarning(msg: str):
     frame = inspect.currentframe().f_back
     filename = os.path.relpath(frame.f_code.co_filename)
@@ -174,6 +174,7 @@ class EPNames(Enum):
 # Global vars
 
 class GlobalVars:
+    errorList = []
     epToName = {
         EPNames.QNNExecutionProvider.value: "Qualcomm NPU",
         EPNames.OpenVINOExecutionProvider.value: "Intel NPU",
@@ -1262,14 +1263,19 @@ def main():
         stderr=subprocess.PIPE,
         text=True
     )
-    
-    # We add this test to make sure the sanity check is working: i.e. paths are checked and files are checked
-    # So the numbers need to be updated whenever the config files change
-    if GlobalVars.configCheck != 37 or GlobalVars.pathCheck != 424:
-        printError(f"Total {GlobalVars.configCheck} config files checked with total {GlobalVars.pathCheck} path checks")
-    # If the output is not empty, there are uncommitted changes
-    if bool(result.stdout.strip()):
-        printError("Please commit changes!")
+
+    if len(GlobalVars.errorList) > 0:
+        for (filename, lineno, msg) in GlobalVars.errorList:
+            # Red text, with file and line number, clickable in terminal
+            print(f"\033[31mERROR: {filename}:{lineno}: {msg}\033[0m")
+    else:
+        # We add this test to make sure the sanity check is working: i.e. paths are checked and files are checked
+        # So the numbers need to be updated whenever the config files change
+        if GlobalVars.configCheck != 37 or GlobalVars.pathCheck != 424:
+            printError(f"Total {GlobalVars.configCheck} config files checked with total {GlobalVars.pathCheck} path checks")
+        # If the output is not empty, there are uncommitted changes
+        if bool(result.stdout.strip()):
+            printError("Please commit changes!")
 
 if __name__ == '__main__':
     argparser = argparse.ArgumentParser(description="Check model lab configs")
