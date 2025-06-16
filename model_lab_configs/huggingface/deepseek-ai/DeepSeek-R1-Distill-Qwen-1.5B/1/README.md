@@ -4,7 +4,7 @@ This repository demonstrates the optimization of the [DeepSeek-R1-Distill-Qwen-1
 
 - QDQ for AMD NPU
 - PTQ + AOT for QNN NPU
-   + This process extends the QDQ flow and compiling specifically for **Qualcomm NPUs*
+   + This process extends the QDQ flow and compiling specifically for **Qualcomm NPUs**
 - OpenVINO for Intel NPU
    + This process uses OpenVINO specific passes like `OpenVINOOptimumConversion`, `OpenVINOIoUpdate` and `OpenVINOEncapsulation`
 
