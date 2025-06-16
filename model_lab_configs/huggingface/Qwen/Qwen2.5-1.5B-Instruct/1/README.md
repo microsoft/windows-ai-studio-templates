@@ -1,6 +1,12 @@
 # Qwen2.5-1.5B-Instruct Model Optimization
 
-This repository demonstrates the optimization of the [Qwen2.5-1.5B-Instruct](https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct) model using **post-training quantization (PTQ)** techniques. The optimization process is divided into two main workflows:
+This repository demonstrates the optimization of the [Qwen2.5-1.5B-Instruct](https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct) model using **post-training quantization (PTQ)** techniques. The optimization process is divided into three main workflows:
+
+- QDQ for AMD NPU
+- PTQ + AOT for QNN NPU
+   + This process extends the QDQ flow and compiling specifically for **Qualcomm NPUs*
+- OpenVINO for Intel NPU
+   + This process uses OpenVINO specific passes like `OpenVINOOptimumConversion`, `OpenVINOIoUpdate` and `OpenVINOEncapsulation`
 
 ## **QDQ Model with 4-bit Weights & 16-bit Activations**
 
