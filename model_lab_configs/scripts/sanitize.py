@@ -292,7 +292,7 @@ def checkPath(path: str, oliveJson: Any, printOnNotExist: bool = True):
     printInfo(path)
     GlobalVars.pathCheck += 1
     if pydash.get(oliveJson, path) is None:
-        if printOnNotExist: printInfo(f"Not in olive json: {path}")
+        if printOnNotExist: printError(f"Not in olive json: {path}")
         return False
     return True
 
@@ -453,8 +453,8 @@ class Parameter(BaseModel):
                                 printError(f"Value {value_in_list} not in DatasetSplit for {self.path}")
                                 return False
                             if value_in_list not in modelList.DatasetSubset:
+                                # No error for this, just warning
                                 printWarning(f"Value {value_in_list} not in DatasetSubset for {self.path}. Could be acceptable if it doesn't have subset")
-                        # No error for this, just warning
                     elif value not in self.values:
                         printError(f"Value {value} not in values for {self.path}")
                         return False
@@ -1025,8 +1025,6 @@ def readCheckOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter):
     if jsonUpdated:
         with open_ex(oliveJsonFile, 'w') as file:
             json.dump(oliveJson, file, indent=4)
-        printInfo(f"{oliveJsonFile} has been updated")
-
     return oliveJson
 
 
@@ -1253,7 +1251,6 @@ def main():
                 modelSpaceConfig.Check(modelInVersion)
     modelList.Check()
 
-    
     if GlobalVars.olivePath: printWarning(f"Total {GlobalVars.oliveCheck} config files checked against olive json files")
 
     result = subprocess.run(
@@ -1267,7 +1264,7 @@ def main():
     if len(GlobalVars.errorList) == 0:
         # We add this test to make sure the sanity check is working: i.e. paths are checked and files are checked
         # So the numbers need to be updated whenever the config files change
-        if GlobalVars.configCheck != 37 or GlobalVars.pathCheck != 424:
+        if GlobalVars.configCheck != 40 or GlobalVars.pathCheck != 466:
             printError(f"Total {GlobalVars.configCheck} config files checked with total {GlobalVars.pathCheck} path checks")
         # If the output is not empty, there are uncommitted changes
         if bool(result.stdout.strip()):

@@ -1,6 +1,7 @@
 # ResNet optimization
 
 This folder contains examples of ResNet optimization using different workflows.
+
 - QDQ for Qualcomm NPU / AMD NPU
 - OpenVINO for Intel NPU
 
