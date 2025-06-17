@@ -1,6 +1,7 @@
 # BERT optimization
 
 This folder contains examples of BERT optimization using different workflows.
+
 - QDQ for Qualcomm NPU / AMD NPU
 - OpenVINO for Intel NPU
 
