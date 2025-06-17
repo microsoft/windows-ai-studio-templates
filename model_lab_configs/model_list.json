@@ -96,7 +96,7 @@
             ],
             "architecture": "CNN",
             "status": "Ready",
-            "version": 2
+            "version": 1
         },
         {
             "displayName": "meta-llama/Llama-2-7b-hf",
