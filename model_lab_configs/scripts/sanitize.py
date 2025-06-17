@@ -954,6 +954,7 @@ class ModelParameter(BaseModelClass):
             diff['values_changed'] = newChangeds
 
         if diff:
+            # Check out branch hualxie/example_align for alignments
             printError(f"different from {self.oliveFile}\r\n{diff}")
         GlobalVars.oliveCheck += 1
 
@@ -1279,7 +1280,7 @@ def main():
     if len(GlobalVars.errorList) == 0:
         # We add this test to make sure the sanity check is working: i.e. paths are checked and files are checked
         # So the numbers need to be updated whenever the config files change
-        if GlobalVars.configCheck != 37 or GlobalVars.pathCheck != 424:
+        if GlobalVars.configCheck != 41 or GlobalVars.pathCheck != 475:
             printError(f"Total {GlobalVars.configCheck} config files checked with total {GlobalVars.pathCheck} path checks")
         # If the output is not empty, there are uncommitted changes
         if bool(result.stdout.strip()):
