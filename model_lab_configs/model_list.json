@@ -67,7 +67,7 @@
                 "IntelNPU"
             ],
             "architecture": "CNN",
-            "status": "Ready",
+            "status": "Hide",
             "version": 1
         },
         {
