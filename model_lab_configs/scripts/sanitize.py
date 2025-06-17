@@ -169,6 +169,7 @@ class EPNames(Enum):
     QNNExecutionProvider = "QNNExecutionProvider"
     OpenVINOExecutionProvider = "OpenVINOExecutionProvider"
     VitisAIExecutionProvider = "VitisAIExecutionProvider"
+    NvTensorRTRTXExecutionProvider = "NvTensorRTRTXExecutionProvider"
 
 
 # Global vars
@@ -181,6 +182,7 @@ class GlobalVars:
         EPNames.VitisAIExecutionProvider.value: "AMD NPU",
         EPNames.CPUExecutionProvider.value: "CPU",
         EPNames.CUDAExecutionProvider.value: "NVIDIA GPU",
+        EPNames.NvTensorRTRTXExecutionProvider.value: "NVIDIA GPU (TRT RTX)",
     }
     runtimeToEp = {
         RuntimeEnum.CPU: EPNames.CPUExecutionProvider.value,
@@ -188,6 +190,7 @@ class GlobalVars:
         RuntimeEnum.IntelNPU: EPNames.OpenVINOExecutionProvider.value,
         RuntimeEnum.AMDNPU: EPNames.VitisAIExecutionProvider.value,
         RuntimeEnum.NvidiaGPU: EPNames.CUDAExecutionProvider.value,
+        RuntimeEnum.TRTRTX: EPNames.NvTensorRTRTXExecutionProvider.value,
         # Inference N/A
     }
     verbose = False

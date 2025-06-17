@@ -9,6 +9,7 @@ class RuntimeEnum(Enum):
     WCR = "WCR"
     # Inference
     QNN_LLLM = "QNN_LLM"
+    TRTRTX = "TRTRTX"
     
 
 class RuntimeFeatureEnum(Enum):
