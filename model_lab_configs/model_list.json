@@ -68,7 +68,7 @@
             ],
             "architecture": "CNN",
             "status": "Hide",
-            "version": 1
+            "version": -1
         },
         {
             "displayName": "laion/CLIP-ViT-B-32-laion2B-s34B-b79K",
