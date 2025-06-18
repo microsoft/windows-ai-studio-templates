@@ -231,7 +231,7 @@ class ModelInfo(BaseModel):
             return False
         if not self.runtimes:
             return False
-        if self.version == -1 and self.status == ModelStatusEnum.Ready:
+        if self.version <= 0 and self.status == ModelStatusEnum.Ready:
             return False
         return True
         
@@ -954,6 +954,7 @@ class ModelParameter(BaseModelClass):
             diff['values_changed'] = newChangeds
 
         if diff:
+            # Check out branch hualxie/example_align for alignments
             printError(f"different from {self.oliveFile}\r\n{diff}")
         GlobalVars.oliveCheck += 1
 
@@ -1171,6 +1172,14 @@ def process_gitignore(modelVerDir: str, configDir: str):
             printError(f"{gitignoreFile} does not have line '{line}'")
 
 
+def shouldCheckModel(configDir: str, model: ModelInfo) -> str:
+    modelDir = os.path.join(configDir, model.id)
+    # If we have folder, we also check it
+    if model.status == ModelStatusEnum.Ready or os.path.exists(modelDir):
+        return modelDir
+    return None
+
+
 def main():
     # need to resolve due to d:\ vs D:\
     configDir = str(Path(os.path.dirname(os.path.dirname(__file__))).resolve(strict=False))
@@ -1180,9 +1189,8 @@ def main():
     parameterTemplate = readCheckParameterTemplate(os.path.join(configDir, "parameter_template.json"))
     # check each model
     for model in modelList.allModels():
-        if model.id and model.status == ModelStatusEnum.Ready:
-            modelDir = os.path.join(configDir, model.id)
-
+        modelDir = shouldCheckModel(configDir, model)
+        if modelDir:
             if not check_case(modelDir):
                 printError(f"Model folder does not exist, or check if case matches between model.id {model.id} and model folder.")
 
