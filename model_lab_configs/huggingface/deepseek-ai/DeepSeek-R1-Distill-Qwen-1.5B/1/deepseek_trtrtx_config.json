@@ -34,7 +34,8 @@
             "all_tensors_to_one_file": true,
             "use_dynamo_exporter": false
         },
-        "onnx_float_to_float16": { "type": "OnnxFloatToFloat16" }
+        "onnx_float_to_float16": { "type": "OnnxFloatToFloat16",
+            "save_as_external_data": true }
     },
     "target": "local_system",
     "log_severity_level": 1,

@@ -89,7 +89,8 @@
             "save_as_external_data": true
         },
         "onnx_float_to_float16": {
-            "type": "OnnxFloatToFloat16"
+            "type": "OnnxFloatToFloat16",
+            "save_as_external_data": true
         },
         "dynamic_shape_to_fixed": {
             "type": "DynamicToFixedShape",
