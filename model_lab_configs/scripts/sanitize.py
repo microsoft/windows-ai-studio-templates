@@ -1280,7 +1280,7 @@ def main():
     if len(GlobalVars.errorList) == 0:
         # We add this test to make sure the sanity check is working: i.e. paths are checked and files are checked
         # So the numbers need to be updated whenever the config files change
-        if GlobalVars.configCheck != 41 or GlobalVars.pathCheck != 475:
+        if GlobalVars.configCheck != 37 or GlobalVars.pathCheck != 424:
             printError(f"Total {GlobalVars.configCheck} config files checked with total {GlobalVars.pathCheck} path checks")
         # If the output is not empty, there are uncommitted changes
         if bool(result.stdout.strip()):
