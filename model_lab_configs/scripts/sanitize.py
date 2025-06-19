@@ -190,7 +190,7 @@ class GlobalVars:
         RuntimeEnum.IntelNPU: EPNames.OpenVINOExecutionProvider.value,
         RuntimeEnum.AMDNPU: EPNames.VitisAIExecutionProvider.value,
         RuntimeEnum.NvidiaGPU: EPNames.CUDAExecutionProvider.value,
-        RuntimeEnum.TRTRTX: EPNames.NvTensorRTRTXExecutionProvider.value,
+        RuntimeEnum.NvidiaTRTRTX: EPNames.NvTensorRTRTXExecutionProvider.value,
         # Inference N/A
     }
     verbose = False

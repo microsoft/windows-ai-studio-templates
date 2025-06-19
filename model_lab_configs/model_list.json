@@ -9,7 +9,7 @@
                 "QNN",
                 "AMDNPU",
                 "IntelNPU",
-                "TRTRTX"
+                "NvidiaTRTRTX"
             ],
             "architecture": "Transformer",
             "status": "Ready",
@@ -24,7 +24,7 @@
                 "QNN",
                 "AMDNPU",
                 "IntelNPU",
-                "TRTRTX"
+                "NvidiaTRTRTX"
             ],
             "architecture": "Transformer",
             "status": "Ready",
@@ -39,7 +39,7 @@
                 "QNN",
                 "AMDNPU",
                 "IntelNPU",
-                "TRTRTX"
+                "NvidiaTRTRTX"
             ],
             "architecture": "CNN",
             "status": "Ready",
@@ -54,7 +54,7 @@
                 "QNN",
                 "AMDNPU",
                 "IntelNPU",
-                "TRTRTX"
+                "NvidiaTRTRTX"
             ],
             "architecture": "CNN",
             "status": "Ready",
@@ -69,7 +69,7 @@
                 "QNN",
                 "AMDNPU",
                 "IntelNPU",
-                "TRTRTX"
+                "NvidiaTRTRTX"
             ],
             "architecture": "CNN",
             "status": "Hide",
@@ -84,7 +84,7 @@
                 "QNN",
                 "AMDNPU",
                 "IntelNPU",
-                "TRTRTX"
+                "NvidiaTRTRTX"
             ],
             "architecture": "CNN",
             "status": "Ready",
@@ -99,7 +99,7 @@
                 "QNN",
                 "AMDNPU",
                 "IntelNPU",
-                "TRTRTX"
+                "NvidiaTRTRTX"
             ],
             "architecture": "CNN",
             "status": "Ready",
@@ -162,7 +162,7 @@
                 "QNN",
                 "AMDNPU",
                 "IntelNPU",
-                "TRTRTX"
+                "NvidiaTRTRTX"
             ],
             "architecture": "Transformer",
             "status": "Ready",
@@ -225,7 +225,7 @@
                 "QNN",
                 "AMDNPU",
                 "IntelNPU",
-                "TRTRTX"
+                "NvidiaTRTRTX"
             ],
             "architecture": "Transformer",
             "status": "Ready",
@@ -240,7 +240,7 @@
                 "QNN",
                 "AMDNPU",
                 "IntelNPU",
-                "TRTRTX"
+                "NvidiaTRTRTX"
             ],
             "architecture": "Transformer",
             "status": "Ready",
@@ -255,7 +255,7 @@
                 "QNN",
                 "AMDNPU",
                 "IntelNPU",
-                "TRTRTX"
+                "NvidiaTRTRTX"
             ],
             "architecture": "Transformer",
             "status": "Ready",
@@ -270,7 +270,7 @@
                 "QNN",
                 "AMDNPU",
                 "IntelNPU",
-                "TRTRTX"
+                "NvidiaTRTRTX"
             ],
             "architecture": "Transformer",
             "status": "Ready",
