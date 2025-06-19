@@ -51,6 +51,10 @@ def main():
             "--extra-index-url https://download.pytorch.org/whl/cu128",
             "torch==2.7.0+cu128",
         ],
+        RuntimeEnum.WCR_CUDA: [
+            "--extra-index-url https://download.pytorch.org/whl/cu128",
+            "torch==2.7.0+cu128",
+        ],
         RuntimeEnum.IntelNPU: [
             "torch==2.6.0",
         ],
@@ -92,6 +96,13 @@ def main():
         ],
         RuntimeEnum.WCR: [
             torchVision,
+            "# uvpip:install onnxruntime-winml==1.22.0 --extra-index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/ORT-Nightly/pypi/simple --no-deps;post",
+            "# uvpip:install onnxruntime-genai-winml==0.8.0 --extra-index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/ORT-Nightly/pypi/simple --no-deps;post",
+            "evaluate==0.4.3",
+            "scikit-learn==1.6.1",
+        ],
+        RuntimeEnum.WCR_CUDA: [
+            "torchvision==0.22.0+cu128",
             "# uvpip:install onnxruntime-winml==1.22.0 --extra-index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/ORT-Nightly/pypi/simple --no-deps;post",
             "# uvpip:install onnxruntime-genai-winml==0.8.0 --extra-index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/ORT-Nightly/pypi/simple --no-deps;post",
             "evaluate==0.4.3",
