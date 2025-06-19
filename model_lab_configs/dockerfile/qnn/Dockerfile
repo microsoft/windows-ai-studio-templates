@@ -5,6 +5,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential curl wget git ca-certificates \
     libssl-dev zlib1g-dev libbz2-dev libreadline-dev \
     libsqlite3-dev libncursesw5-dev libffi-dev liblzma-dev xz-utils \
+    libc++1 libc++abi1 \
  && rm -rf /var/lib/apt/lists/*
 
 # Install Python 3.10 from source
@@ -18,9 +19,6 @@ RUN curl -fsSL https://www.python.org/ftp/python/${PY310_VERSION}/Python-${PY310
 # Symlink Python 3.10 binaries
 RUN ln -s /opt/python-${PY310_VERSION}/bin/python3.10 /usr/local/bin/python3.10 && \
     ln -s /opt/python-${PY310_VERSION}/bin/pip3.10 /usr/local/bin/pip3.10
-
-# Set working directory
-WORKDIR /workspace
 
 # Copy requirements files
 COPY requirements-3.10.txt .
@@ -41,4 +39,3 @@ RUN python3.10 -m pip install https://github.com/microsoft/windows-ai-studio-tem
 
 # Clean pip cache to reduce image size
 RUN python3.10 -m pip cache purge && python3.12 -m pip cache purge
-
