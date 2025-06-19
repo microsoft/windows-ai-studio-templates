@@ -14,10 +14,10 @@ Files in current template folder:
 
 - qdq.json: the latest olive json, i.e. patch 2
 - qdq.json.config: targeting patch 0, i.e. original one 
-- qdq.o.json.config: original json
 - qdq.p2.json.config: ux config for patch 2
 - qdq.p1.json.config: ux config for patch 1
 - qdq.o1.json.config: olive json for patch 1
+- qdq.o0.json.config: original json
 
 Change in model_project.config:
 
