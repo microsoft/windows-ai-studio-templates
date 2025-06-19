@@ -92,5 +92,5 @@
     "evaluator": "common_evaluator",
     "cache_dir": "cache",
     "clean_cache": true,
-    "output_dir": "models/clip-vit-base-patch32"
+    "output_dir": "model/clip-vit-base-patch32"
 }

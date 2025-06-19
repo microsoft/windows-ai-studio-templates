@@ -65,5 +65,5 @@
     "target": "local_system",
     "evaluator": "common_evaluator",
     "cache_dir": "cache",
-    "output_dir": "models/resnet_trtrtx"
+    "output_dir": "model/resnet_trtrtx"
 }

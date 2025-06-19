@@ -105,6 +105,7 @@
         },
         "surgery": {
             "type": "GraphSurgeries",
+            "save_as_external_data": true,
             "surgeries": [
                 {
                     "surgeon": "ReplaceAttentionMaskValue"

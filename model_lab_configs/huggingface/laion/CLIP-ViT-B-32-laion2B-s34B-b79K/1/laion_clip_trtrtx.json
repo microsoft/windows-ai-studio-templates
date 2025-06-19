@@ -94,5 +94,5 @@
     "evaluator": "common_evaluator",
     "cache_dir": "cache",
     "clean_cache": true,
-    "output_dir": "models/CLIP-ViT-B-32-laion2B-s34B-b79K"
+    "output_dir": "model/CLIP-ViT-B-32-laion2B-s34B-b79K"
 }
