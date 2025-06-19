@@ -179,6 +179,12 @@ def main():
                     else:
                         raise Exception(f"Cannot find {req} in pip freeze")
 
+    # remove duplicate lines from output file
+    with open(outputFile, "r") as f:
+        lines = f.readlines()
+    unique_lines = list(dict.fromkeys(lines))  # Preserve order and remove duplicates
+    with open(outputFile, "w") as f:
+        f.writelines(unique_lines)
 
 if __name__ == "__main__":
     main()
