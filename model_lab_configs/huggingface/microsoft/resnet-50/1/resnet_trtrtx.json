@@ -50,7 +50,7 @@
                 "cache_key": "imagenet"
             },
             "post_process_data_config": {
-                "type": "imagenet_post_fun"
+                "type": "dataset_post_process"
             }
         }
     ],
