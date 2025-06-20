@@ -13,6 +13,8 @@ from model_lab import RuntimeEnum
 # - `# download:`: download from release and save it to cache folder like `# download:onnxruntime-genai-cuda-0.7.0-cp39-cp39-win_amd64.whl`
 uvpipInstallPrefix = "# uvpip:install"
 depsPrefix = "# deps:"
+cudaExtraUrl = "--extra-index-url https://download.pytorch.org/whl/cu128"
+torchCudaVersion = "torch==2.7.0+cu128"
 
 def get_requires(name: str, args):
     # TODO for this case, need to install via Model Lab first
@@ -48,12 +50,12 @@ def main():
     torchVision = "torchvision==0.22.0"
     pre = {
         RuntimeEnum.NvidiaGPU: [
-            "--extra-index-url https://download.pytorch.org/whl/cu128",
-            "torch==2.7.0+cu128",
+            cudaExtraUrl,
+            torchCudaVersion,
         ],
         RuntimeEnum.WCR_CUDA: [
-            "--extra-index-url https://download.pytorch.org/whl/cu128",
-            "torch==2.7.0+cu128",
+            cudaExtraUrl,
+            torchCudaVersion,
         ],
         RuntimeEnum.IntelNPU: [
             "torch==2.6.0",
@@ -194,7 +196,7 @@ def main():
     with open(outputFile, "r") as f:
         lines = f.readlines()
     unique_lines = list(dict.fromkeys(lines))  # Preserve order and remove duplicates
-    with open(outputFile, "w") as f:
+    with open(outputFile, "w", newline='\n') as f:
         f.writelines(unique_lines)
 
 if __name__ == "__main__":
