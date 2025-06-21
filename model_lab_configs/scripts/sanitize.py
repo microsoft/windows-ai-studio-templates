@@ -195,6 +195,8 @@ class GlobalVars:
     configCheck = 0
     olivePath = None
     oliveCheck = 0
+    hfCheck = False
+
 
 class BaseModelClass(BaseModel):
     def writeIfChanged(self):
@@ -206,6 +208,36 @@ class BaseModelClass(BaseModel):
 
 # Model List
 
+class ModelHFInfo(BaseModel):
+    # From HF, it is a list
+    architectures: list[str] = None
+    # A repo in HF could have several models like SD
+    modelTypes: list[str] = None
+
+    def Check(self, id: str):
+        if not id:
+            return True
+
+        if GlobalVars.hfCheck:
+            try:
+                from huggingface_hub import hf_hub_download
+                config_path = hf_hub_download(repo_id=id[12:], filename="config.json")
+                with open_ex(config_path, 'r') as file:
+                    config = json.load(file)
+                if "model_type" in config:
+                    self.modelTypes = [config["model_type"]]
+                if "architectures" in config:
+                    self.architectures = config["architectures"]
+            except Exception as e:
+                print(f"WARNING: Failed to download config.json from {id}: {e}")
+
+        if not self.architectures:
+            return False
+        if not self.modelTypes:
+            return False
+        return True
+
+
 class ModelInfo(BaseModel):
     displayName: str
     discription: str = None
@@ -214,6 +246,7 @@ class ModelInfo(BaseModel):
     id: str
     runtimes: list[RuntimeEnum]
     architecture: ArchitectureEnum
+    hf: ModelHFInfo = None
     status: ModelStatusEnum = ModelStatusEnum.Hide
     version: int = -1
 
@@ -233,8 +266,12 @@ class ModelInfo(BaseModel):
             return False
         if self.version <= 0 and self.status == ModelStatusEnum.Ready:
             return False
+        if not self.hf:
+            self.hf = ModelHFInfo()
+        if not self.hf.Check(self.id):
+            return False
         return True
-        
+
 
 class ModelList(BaseModelClass):
     models: list[ModelInfo]
@@ -1293,7 +1330,9 @@ if __name__ == '__main__':
     argparser = argparse.ArgumentParser(description="Check model lab configs")
     argparser.add_argument("-v", "--verbose", action="store_true", help="Verbose mode")
     argparser.add_argument("-o", "--olive", default="", type=str, help="Path to olive repo to check json files")
+    argparser.add_argument("--hf", action="store_true", help="Perform hf related checks")
     args = argparser.parse_args()
     GlobalVars.verbose = args.verbose
     GlobalVars.olivePath = args.olive
+    GlobalVars.hfCheck = args.hf
     main()
