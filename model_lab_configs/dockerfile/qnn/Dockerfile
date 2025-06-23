@@ -21,19 +21,20 @@ RUN ln -s /opt/python-${PY310_VERSION}/bin/python3.10 /usr/local/bin/python3.10 
     ln -s /opt/python-${PY310_VERSION}/bin/pip3.10 /usr/local/bin/pip3.10
 
 # Copy requirements files
-COPY requirements-3.10.txt .
-COPY requirements-3.12.txt .
-COPY requirements-3.12-nightly.txt .
+COPY docs/requirements-NvidiaGPU.txt .
+COPY docs/requirements-QNN.txt .
+COPY docs/requirements-QNN-Nightly.txt .
 
 # Install
 RUN python3.10 -m pip install --upgrade pip && \
-    python3.10 -m pip install -r requirements-3.10.txt
+    python3.10 -m pip install -r requirements-NvidiaGPU.txt
+
+# Skip ort-qnn installation failure
+RUN python3.12 -m pip install --upgrade pip && \
+    python3.12 -m pip install -r requirements-QNN.txt || true
 
 RUN python3.12 -m pip install --upgrade pip && \
-    python3.12 -m pip install -r requirements-3.12.txt
-
-RUN python3.12 -m pip install --upgrade pip && \
-    python3.12 -m pip install --no-deps -r requirements-3.12-nightly.txt
+    python3.12 -m pip install --no-deps -r requirements-QNN-Nightly.txt
 
 RUN python3.10 -m pip install https://github.com/microsoft/windows-ai-studio-templates/releases/download/model-lab-runtime-0.0.1/auto_gptq-0.8.0.dev0+cu128-cp310-cp310-linux_x86_64.whl
 

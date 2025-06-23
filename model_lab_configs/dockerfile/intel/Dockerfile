@@ -9,11 +9,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
  && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements files
-COPY requirements-3.12.txt .
+COPY docs/requirements-IntelNPU.txt .
 
 # Install
 RUN python3.12 -m pip install --upgrade pip && \
-    python3.12 -m pip install -r requirements-3.12.txt
+    python3.12 -m pip install -r requirements-IntelNPU.txt
 
 # Clean pip cache to reduce image size
 RUN python3.12 -m pip cache purge
