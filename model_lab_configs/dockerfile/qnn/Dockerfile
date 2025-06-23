@@ -30,8 +30,10 @@ RUN python3.10 -m pip install --upgrade pip && \
     python3.10 -m pip install -r requirements-NvidiaGPU.txt
 
 # Skip ort-qnn installation failure
-RUN python3.12 -m pip install --upgrade pip && \
-    python3.12 -m pip install -r requirements-QNN.txt || true
+RUN set -eux; \
+  for pkg in $(cat requirements-QNN.txt); do \
+    python3.12 -m pip install "$pkg" || echo "Failed to install $pkg"; \
+  done
 
 RUN python3.12 -m pip install --upgrade pip && \
     python3.12 -m pip install --no-deps -r requirements-QNN-Nightly.txt
