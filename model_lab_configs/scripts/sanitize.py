@@ -1294,6 +1294,6 @@ if __name__ == '__main__':
     argparser.add_argument("-v", "--verbose", action="store_true", help="Verbose mode")
     argparser.add_argument("-o", "--olive", default="", type=str, help="Path to olive repo to check json files")
     args = argparser.parse_args()
-    GlobalVars.verbose = args.verbose
+    GlobalVars.verbose = True# args.verbose
     GlobalVars.olivePath = args.olive
     main()
