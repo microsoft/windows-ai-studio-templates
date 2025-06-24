@@ -47,7 +47,8 @@ widgetsnbextension==4.0.13
 # torchvision==0.22.0
 torchvision==0.22.0
 pillow==11.2.1
-# uvpip:install onnxruntime-winml==1.22.0 --extra-index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/ORT-Nightly/pypi/simple --no-deps;post
+torch==2.7.0
+# uvpip:install onnxruntime-winml==1.22.0.post1 --extra-index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/ORT-Nightly/pypi/simple --no-deps;post
 coloredlogs==15.0.1
 flatbuffers==25.2.10
 sympy==1.14.0
