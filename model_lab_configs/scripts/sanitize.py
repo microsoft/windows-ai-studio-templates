@@ -3,7 +3,6 @@ import argparse
 import re
 import shutil
 import subprocess
-import sys
 from typing import Any, Dict
 from pydantic import BaseModel, TypeAdapter
 import os
@@ -715,6 +714,7 @@ class DebugInfo(BaseModel):
 
 
 class ModelParameter(BaseModelClass):
+    name: str
     oliveFile: str = None
     isLLM: bool = None
     # For template using CUDA and no runtime overwrite, we need to set this so we know the target EP
