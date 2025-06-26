@@ -1232,7 +1232,8 @@ def main():
                     modelSpaceConfig.modelInfo = ModelInfoProject(id=modelInVersion.id)
                 for i, modelItem in enumerate(modelSpaceConfig.workflows):
                     # set template
-                    modelItem.templateName = os.path.basename(modelItem.file)[:-5]
+                    fileName = os.path.basename(modelItem.file)[:-5]
+                    modelItem.templateName = fileName
 
                     # read parameter
                     modelParameter = ModelParameter.Read(os.path.join(modelVerDir, f"{modelItem.file}.config"))
@@ -1245,7 +1246,8 @@ def main():
                     modelParameter.Check(parameterTemplate, oliveJson, modelList)
 
                     # check ipynb
-                    ipynbFile = os.path.join(modelVerDir, f"{modelItem.templateName}_inference_sample.ipynb")
+                    # although filename and templateName are same here, use fileName to align with Skylight implementation
+                    ipynbFile = os.path.join(modelVerDir, f"{fileName}_inference_sample.ipynb")
                     hasSpecialIpynb = readCheckIpynb(ipynbFile, {modelItem.file: modelParameter})
                     if not hasSpecialIpynb:
                         if not hasSharedIpynb:
