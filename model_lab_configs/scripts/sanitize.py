@@ -3,7 +3,6 @@ import argparse
 import re
 import shutil
 import subprocess
-import sys
 from typing import Any, Dict
 from pydantic import BaseModel, TypeAdapter
 import os
@@ -457,7 +456,7 @@ class Parameter(BaseModel):
                                 return False
                             if value_in_list not in modelList.DatasetSubset:
                                 # No error for this, just warning
-                                printWarning(f"Value {value_in_list} not in DatasetSubset for {self.path}. Could be acceptable if it doesn't have subset")                        
+                                printWarning(f"Value {value_in_list} not in DatasetSubset for {self.path}. Could be acceptable if it doesn't have subset")
                     elif value not in self.values:
                         printError(f"Value {value} not in values for {self.path}")
                         return False
@@ -514,8 +513,6 @@ def readCheckParameterTemplate(filePath: str):
 class WorkflowItem(BaseModel):
     name: str
     file: str
-    template: str = None
-    version: int = 0
     templateName: str = None
     # DO NOT ADD ANYTHING ELSE HERE
     # We should add it to the *.json.config
@@ -528,10 +525,6 @@ class WorkflowItem(BaseModel):
         if '\\' in self.file:
             printError("Please use / instead of \\")
             return False
-        if not self.template:
-            return False
-        if self.version <= 0:
-            return False
         if not self.templateName:
             return False
         return True
@@ -539,6 +532,7 @@ class WorkflowItem(BaseModel):
 
 class ModelInfoProject(BaseModel):
     id: str
+    version: int = -1
     displayName: str = None
     icon: IconEnum = None
     modelLink: str = None
@@ -718,6 +712,7 @@ class DebugInfo(BaseModel):
 
 
 class ModelParameter(BaseModelClass):
+    name: str
     oliveFile: str = None
     isLLM: bool = None
     # For template using CUDA and no runtime overwrite, we need to set this so we know the target EP
@@ -1034,7 +1029,6 @@ def readCheckOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter):
     if jsonUpdated:
         with open_ex(oliveJsonFile, 'w') as file:
             json.dump(oliveJson, file, indent=4)
-
     return oliveJson
 
 
@@ -1221,6 +1215,7 @@ def main():
 
                 # get model space config
                 modelSpaceConfig = ModelProjectConfig.Read(os.path.join(modelVerDir, "model_project.config"))
+                modelSpaceConfig.modelInfo.version = int(os.path.basename(modelVerDir))
                 # check md
                 mdFile = os.path.join(modelVerDir, "README.md")
                 if not os.path.exists(mdFile):
@@ -1242,8 +1237,6 @@ def main():
                     modelSpaceConfig.modelInfo = ModelInfoProject(id=modelInVersion.id)
                 for i, modelItem in enumerate(modelSpaceConfig.workflows):
                     # set template
-                    modelItem.template = model.id
-                    modelItem.version = modelInVersion.version
                     modelItem.templateName = os.path.basename(modelItem.file)[:-5]
 
                     # read parameter
@@ -1268,9 +1261,8 @@ def main():
                     
                 modelSpaceConfig.Check(modelInVersion)
     modelList.Check()
-    
-    if GlobalVars.olivePath: 
-        printWarning(f"Total {GlobalVars.oliveCheck} config files checked against olive json files")
+
+    if GlobalVars.olivePath: printWarning(f"Total {GlobalVars.oliveCheck} config files checked against olive json files")
 
     result = subprocess.run(
         ["git", "status", "--porcelain"],
