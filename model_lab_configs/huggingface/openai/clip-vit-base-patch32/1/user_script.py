@@ -14,8 +14,8 @@ from olive.data.registry import Registry
 class CLIPDataset(Dataset):
     def __init__(
         self,
-        model_name="openai/clip-vit-base-patch32",
-        dataset_name="nlphuji/flickr30k",
+        model_name,
+        dataset_name,
         start=0,
         end=500,
         image_size=(224, 224),

@@ -45,7 +45,7 @@ Create new folder following the id plus the version number like `model_lab_confi
 - .gitignore: optional. If you want to bring your own, please make sure it convers `requirements.md`
 - README.md: required
 - requirements.txt: optional. If exist, it will be installed after runtime requirements
-    + For better compatibility support, should include lib version
+    + For better compatibility support, should include lib version like `package>=1.2.3,<2.0.0`
 - inference_sample.ipynb: required. We should guide user how to use the model in WinML
     + This one will be used for olive json. If you want to provide a specific one, you could create one like `vit-base-patch16-224_qdq_qnn_inference_sample.ipynb`
 
@@ -116,5 +116,7 @@ You could also use `--restore` to restore the original one.
 
 ## Submit pr with relative info
 
-After testing is done, please submit pr with changes and include the result `metrics.json`, so reviewers know that the model is running well.
+After testing is done, please submit pr with changes and include the following, so reviewers know that the model is running well.
 
+- Screenshot of successful templates results
+- Inside README.md, include metrics for further reference
