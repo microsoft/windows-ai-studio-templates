@@ -508,15 +508,13 @@ def readCheckParameterTemplate(filePath: str):
 # Model
 
 class WorkflowItem(BaseModel):
-    name: str
+    displayName: str = None
     file: str
     templateName: str = None
     # DO NOT ADD ANYTHING ELSE HERE
     # We should add it to the *.json.config
 
     def Check(self):
-        if not self.name:
-            return False
         if not self.file:
             return False
         if '\\' in self.file:
@@ -1248,12 +1246,12 @@ def main():
 
                     # check ipynb
                     ipynbFile = os.path.join(modelVerDir, f"{modelItem.templateName}_inference_sample.ipynb")
-                    hasSpecialIpynb = readCheckIpynb(ipynbFile, {modelItem.name: modelParameter})
+                    hasSpecialIpynb = readCheckIpynb(ipynbFile, {modelItem.file: modelParameter})
                     if not hasSpecialIpynb:
                         if not hasSharedIpynb:
                             printError(f"{ipynbFile} nor {sharedIpynbFile} not exists.")
                         else:
-                            workflowsAgainstShared[modelItem.name] = modelParameter
+                            workflowsAgainstShared[modelItem.file] = modelParameter
                 readCheckIpynb(sharedIpynbFile, workflowsAgainstShared)
                     
                 modelSpaceConfig.Check(modelInVersion)
