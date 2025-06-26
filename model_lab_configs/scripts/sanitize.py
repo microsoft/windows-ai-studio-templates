@@ -937,6 +937,9 @@ class ModelParameter(BaseModelClass):
             if removed.endswith("['reuse_cache']"):
                 # In debug mode for olive, this will throw exception 'file is occupied' for ov recipes
                 pass
+            elif removed.endswith("root['add_metadata']"):
+                # In debug mode for olive, this will throw exception 'file is occupied' for ov recipes
+                pass
             else:
                 newRemoveds.append(removed)
         if newRemoveds:
