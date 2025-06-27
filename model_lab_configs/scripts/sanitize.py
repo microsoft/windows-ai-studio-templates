@@ -360,7 +360,9 @@ class Parameter(BaseModel):
     actions: list[list[ParameterAction]] = None
     readOnly: bool | None = None
     customize: bool = None
-    defaultValue: str | int | bool | float | Any = None
+    # When the path does not exist, we will use this value as the default value
+    # defaultValue is already used in Skylight, so do not use it
+    fallbackValue: str | int | bool | float | Any = None
     # 1st level is Parameter and 2nd level is str in templates
     # always put template in the end
     template: Parameter | str = None
