@@ -278,6 +278,19 @@
             "architecture": "Others",
             "status": "Ready",
             "version": 1
+        },
+        {
+            "displayName": "LLM Evaluator Template",
+            "icon": "HuggingFace",
+            "modelLink": "https://huggingface.co/",
+            "id": "extension/llm_evaluator",
+            "runtimes": [
+                "CPU"
+            ],
+            "architecture": "Others",
+            "status": "Hide",
+            "version": 1,
+            "extension": true
         }
     ],
     "HFDatasets": {
