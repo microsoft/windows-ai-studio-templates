@@ -354,7 +354,7 @@ class Parameter(BaseModel):
     displayNames: list[str] = None
     displayType: ParameterDisplayTypeEnum = None
     path: str = None
-    values: list[str] = None
+    values: list[str | int | float | Any] = None
     # TODO update to expression
     selectors: list[ParameterCheck] = None
     actions: list[list[ParameterAction]] = None
@@ -740,7 +740,6 @@ class ModelParameter(BaseModelClass):
     @staticmethod
     def Read(parameterFile: str):
         printProcess(parameterFile)
-        GlobalVars.configCheck += 1
         with open_ex(parameterFile, 'r') as file:
             parameterContent = file.read()
         modelParameter = ModelParameter.model_validate_json(parameterContent, strict=True)
@@ -749,6 +748,7 @@ class ModelParameter(BaseModelClass):
         return modelParameter
 
     def Check(self, templates: Dict[str, Parameter], oliveJson: Any, modelList: ModelList):
+        GlobalVars.configCheck += 1
         if not self.sections:
             printError(f"{self._file} should have sections")
             return
@@ -1288,7 +1288,7 @@ def main():
     if len(GlobalVars.errorList) == 0:
         # We add this test to make sure the sanity check is working: i.e. paths are checked and files are checked
         # So the numbers need to be updated whenever the config files change
-        if GlobalVars.configCheck != 37 or GlobalVars.pathCheck != 424:
+        if GlobalVars.configCheck != 38 or GlobalVars.pathCheck != 430:
             printError(f"Total {GlobalVars.configCheck} config files checked with total {GlobalVars.pathCheck} path checks")
         # If the output is not empty, there are uncommitted changes
         if bool(result.stdout.strip()):
