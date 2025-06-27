@@ -1,10 +1,11 @@
 """
 Model project configuration classes
 """
+
 from typing import List, Optional
 from pydantic import BaseModel
 
-from scripts.sanitize.model_info import ModelInfo
+from .model_info import ModelInfo
 from .base import BaseModelClass
 from .constants import IconEnum
 from .utils import open_ex, printProcess, printError
@@ -22,7 +23,7 @@ class WorkflowItem(BaseModel):
             return False
         if not self.file:
             return False
-        if '\\' in self.file:
+        if "\\" in self.file:
             printError("Please use / instead of \\")
             return False
         if not self.templateName:
@@ -56,9 +57,11 @@ class ModelProjectConfig(BaseModelClass):
     @staticmethod
     def Read(modelSpaceConfigFile: str):
         printProcess(modelSpaceConfigFile)
-        with open_ex(modelSpaceConfigFile, 'r') as file:
+        with open_ex(modelSpaceConfigFile, "r") as file:
             modelSpaceConfigContent = file.read()
-        modelSpaceConfig = ModelProjectConfig.model_validate_json(modelSpaceConfigContent, strict=True)
+        modelSpaceConfig = ModelProjectConfig.model_validate_json(
+            modelSpaceConfigContent, strict=True
+        )
         modelSpaceConfig._file = modelSpaceConfigFile
         modelSpaceConfig._fileContent = modelSpaceConfigContent
         return modelSpaceConfig
@@ -68,7 +71,7 @@ class ModelProjectConfig(BaseModelClass):
         for i, model in enumerate(self.workflows):
             if not model.Check():
                 printError(f"{self._file} model {i} has error")
-        
+
         if not self.modelInfo.Check(modelInfo):
             printError(f"{self._file} modelInfo has error")
 

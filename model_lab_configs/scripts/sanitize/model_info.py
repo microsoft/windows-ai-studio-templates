@@ -1,6 +1,7 @@
 """
 Model information and model list classes
 """
+
 from __future__ import annotations
 from typing import Dict, List, Optional
 from pydantic import BaseModel
@@ -11,6 +12,7 @@ from .utils import open_ex, printProcess, printError
 
 # This file is import by others
 # To avoid circular import issues, we should carefully manage imports
+
 
 class ModelInfo(BaseModel):
     displayName: str
@@ -28,7 +30,6 @@ class ModelInfo(BaseModel):
             return False
         if self.status == ModelStatusEnum.Hide:
             return True
-        
         if not self.displayName:
             return False
         if not self.modelLink:
@@ -58,15 +59,16 @@ class ModelList(BaseModelClass):
     @staticmethod
     def Read(scriptFolder: str):
         import os
+
         modelListFile = os.path.join(scriptFolder, "model_list.json")
         printProcess(modelListFile)
-        with open_ex(modelListFile, 'r') as file:
+        with open_ex(modelListFile, "r") as file:
             modelListContent = file.read()
         modelList = ModelList.model_validate_json(modelListContent, strict=True)
         modelList._file = modelListFile
         modelList._fileContent = modelListContent
         return modelList
-    
+
     def allModels(self):
         return self.models + self.template_models
 
@@ -81,12 +83,12 @@ class ModelList(BaseModelClass):
         self.CheckDataset(self.DatasetSplit.keys(), "DatasetSplit")
         self.CheckDataset(self.DatasetSubset.keys(), "DatasetSubset")
         self.CheckModel(self.LoginRequiredModelIds, "LoginRequiredModelIds")
-    
+
     def CheckDataset(self, datasetKeys, name: str):
         for key in datasetKeys:
             if key not in self.HFDatasets:
                 printError(f"{self._file} {name} {key} not in HFDatasets")
-    
+
     def CheckModel(self, modelIds, name: str):
         tmpAllModelIds = {model.id for model in self.models}
         for key in modelIds:

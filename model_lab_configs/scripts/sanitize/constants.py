@@ -1,6 +1,7 @@
 """
 Constants and Enums for the sanitize module
 """
+
 from enum import Enum
 
 
