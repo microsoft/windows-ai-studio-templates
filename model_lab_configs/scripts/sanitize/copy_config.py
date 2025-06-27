@@ -1,6 +1,7 @@
 """
 Copy configuration classes
 """
+
 from typing import Any, List, Optional, Union
 from pydantic import BaseModel
 from .constants import ReplaceTypeEnum
@@ -39,7 +40,7 @@ class CopyConfig(BaseModel):
             if copy.replacements:
                 stringReplacements = [repl for repl in copy.replacements if repl.type == ReplaceTypeEnum.String]
                 if stringReplacements:
-                    with open_ex(dst, 'r') as file:
+                    with open_ex(dst, "r") as file:
                         content = file.read()
                     for replacement in stringReplacements:
                         printInfo(replacement.find)
@@ -47,18 +48,27 @@ class CopyConfig(BaseModel):
                             printError(f"Not in dst file {dst}: {replacement.find}")
                             continue
                         content = content.replace(replacement.find, replacement.replace)
-                    with open_ex(dst, 'w') as file:
+                    with open_ex(dst, "w") as file:
                         file.write(content)
-                pathReplacements = [repl for repl in copy.replacements if repl.type == ReplaceTypeEnum.Path or repl.type == ReplaceTypeEnum.PathAdd]
+                pathReplacements = [
+                    repl
+                    for repl in copy.replacements
+                    if repl.type == ReplaceTypeEnum.Path or repl.type == ReplaceTypeEnum.PathAdd
+                ]
                 if pathReplacements:
-                    with open_ex(dst, 'r') as file:
+                    with open_ex(dst, "r") as file:
                         jsonObj = json.load(file)
                     for replacement in pathReplacements:
                         printInfo(replacement.find)
                         target = pydash.get(jsonObj, replacement.find)
-                        if replacement.type == ReplaceTypeEnum.Path and target is None or replacement.type == ReplaceTypeEnum.PathAdd and target:
+                        if (
+                            replacement.type == ReplaceTypeEnum.Path
+                            and target is None
+                            or replacement.type == ReplaceTypeEnum.PathAdd
+                            and target
+                        ):
                             printError(f"Not match type in dst json {dst}: {replacement.find}")
                             continue
                         pydash.set_(jsonObj, replacement.find, replacement.replace)
-                    with open_ex(dst, 'w') as file:
+                    with open_ex(dst, "w") as file:
                         json.dump(jsonObj, file, indent=4)

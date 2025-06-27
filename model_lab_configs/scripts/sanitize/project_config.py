@@ -59,9 +59,7 @@ class ModelProjectConfig(BaseModelClass):
         printProcess(modelSpaceConfigFile)
         with open_ex(modelSpaceConfigFile, "r") as file:
             modelSpaceConfigContent = file.read()
-        modelSpaceConfig = ModelProjectConfig.model_validate_json(
-            modelSpaceConfigContent, strict=True
-        )
+        modelSpaceConfig = ModelProjectConfig.model_validate_json(modelSpaceConfigContent, strict=True)
         modelSpaceConfig._file = modelSpaceConfigFile
         modelSpaceConfig._fileContent = modelSpaceConfigContent
         return modelSpaceConfig

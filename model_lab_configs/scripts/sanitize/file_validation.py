@@ -69,16 +69,11 @@ def readCheckOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter):
     if OlivePropertyNames.Engine in oliveJson:
         printError(f"{oliveJsonFile} has engine. Should place in the root instead")
         return
-    if OlivePropertyNames.Evaluator in oliveJson and not isinstance(
-        oliveJson[OlivePropertyNames.Evaluator], str
-    ):
+    if OlivePropertyNames.Evaluator in oliveJson and not isinstance(oliveJson[OlivePropertyNames.Evaluator], str):
         printError(f"{oliveJsonFile} evaluator property should be str")
         return
     # check if has more than one systems and more than one accelerators
-    if (
-        OlivePropertyNames.Systems not in oliveJson
-        or len(oliveJson[OlivePropertyNames.Systems]) != 1
-    ):
+    if OlivePropertyNames.Systems not in oliveJson or len(oliveJson[OlivePropertyNames.Systems]) != 1:
         printError(f"{oliveJsonFile} should have only one system")
         return
     systemK, systemV = list(oliveJson[OlivePropertyNames.Systems].items())[0]
@@ -98,39 +93,25 @@ def readCheckOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter):
 
     # TODO check host
     # check target
-    if (
-        OlivePropertyNames.Target not in oliveJson
-        or oliveJson[OlivePropertyNames.Target] != systemK
-    ):
+    if OlivePropertyNames.Target not in oliveJson or oliveJson[OlivePropertyNames.Target] != systemK:
         oliveJson[OlivePropertyNames.Target] = systemK
         jsonUpdated = True
 
     # cache / output / evaluate_input_model
-    if (
-        OlivePropertyNames.CleanCache in oliveJson
-        and oliveJson[OlivePropertyNames.CleanCache]
-    ):
+    if OlivePropertyNames.CleanCache in oliveJson and oliveJson[OlivePropertyNames.CleanCache]:
         oliveJson.pop(OlivePropertyNames.CleanCache)
         jsonUpdated = True
 
-    if (
-        OlivePropertyNames.CacheDir not in oliveJson
-        or oliveJson[OlivePropertyNames.CacheDir] != "cache"
-    ):
+    if OlivePropertyNames.CacheDir not in oliveJson or oliveJson[OlivePropertyNames.CacheDir] != "cache":
         oliveJson[OlivePropertyNames.CacheDir] = "cache"
         jsonUpdated = True
 
-    if OlivePropertyNames.OutputDir not in oliveJson or not str(
-        oliveJson[OlivePropertyNames.OutputDir]
-    ).startswith("model/"):
-        printError(
-            f"{oliveJsonFile} should have use model/XXX as {OlivePropertyNames.OutputDir}"
-        )
-
-    if (
-        OlivePropertyNames.EvaluateInputModel not in oliveJson
-        or oliveJson[OlivePropertyNames.EvaluateInputModel]
+    if OlivePropertyNames.OutputDir not in oliveJson or not str(oliveJson[OlivePropertyNames.OutputDir]).startswith(
+        "model/"
     ):
+        printError(f"{oliveJsonFile} should have use model/XXX as {OlivePropertyNames.OutputDir}")
+
+    if OlivePropertyNames.EvaluateInputModel not in oliveJson or oliveJson[OlivePropertyNames.EvaluateInputModel]:
         oliveJson[OlivePropertyNames.EvaluateInputModel] = False
         jsonUpdated = True
 
@@ -147,10 +128,7 @@ def readCheckOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter):
         ]
     ]
     for conversionPass in supportedPasses:
-        if (
-            OlivePropertyNames.ExternalData not in conversionPass
-            or not conversionPass[OlivePropertyNames.ExternalData]
-        ):
+        if OlivePropertyNames.ExternalData not in conversionPass or not conversionPass[OlivePropertyNames.ExternalData]:
             conversionPass[OlivePropertyNames.ExternalData] = True
             jsonUpdated = True
 
@@ -177,15 +155,12 @@ def readCheckIpynb(ipynbFile: str, modelItems: dict[str, ModelParameter]):
             elif (
                 modelParameter.runtime.values
                 and len(modelParameter.runtime.values) == 1
-                and modelParameter.runtime.values[0]
-                == EPNames.OpenVINOExecutionProvider.value
+                and modelParameter.runtime.values[0] == EPNames.OpenVINOExecutionProvider.value
             ):
                 testPath = outputModelIntelNPURelativePath
             for item in [testPath, importStr]:
                 if not re.search(item, ipynbContent):
-                    printError(
-                        f"{ipynbFile} does not have '{item}' for {name}, please use it as input"
-                    )
+                    printError(f"{ipynbFile} does not have '{item}' for {name}, please use it as input")
             if modelParameter.evalRuntime:
                 runtime = GlobalVars.runtimeToEp[modelParameter.evalRuntime]
                 if runtime not in allRuntimes:

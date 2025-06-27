@@ -32,9 +32,7 @@ def get_requires(name: str, args):
         package_name = package_name.split("[")[0]
     requires = []
     try:
-        output = subprocess.check_output(
-            ["uv", "pip", "show", package_name, "-p", args.python]
-        ).decode("utf-8")
+        output = subprocess.check_output(["uv", "pip", "show", package_name, "-p", args.python]).decode("utf-8")
         for line in output.splitlines():
             if line.startswith("Requires"):
                 requires = line.split(":")[1].strip().split(", ")
@@ -109,12 +107,8 @@ def main():
     }
 
     parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--runtime", "-r", default="", help=",".join([k.value for k in RuntimeEnum])
-    )
-    parser.add_argument(
-        "--python", "-p", required=True, type=str, help="python path. TODO: input twice"
-    )
+    parser.add_argument("--runtime", "-r", default="", help=",".join([k.value for k in RuntimeEnum]))
+    parser.add_argument("--python", "-p", required=True, type=str, help="python path. TODO: input twice")
     args = parser.parse_args()
 
     if not args.runtime:
@@ -153,16 +147,10 @@ def main():
 
     # Install
     print(f"Installing dependencies: {temp_req}")
-    result = subprocess.run(
-        ["uv", "pip", "install", "-r", temp_req, "-p", args.python], text=True
-    )
+    result = subprocess.run(["uv", "pip", "install", "-r", temp_req, "-p", args.python], text=True)
 
     # Get freeze
-    pip_freeze = (
-        subprocess.check_output(["uv", "pip", "freeze", "-p", args.python])
-        .decode("utf-8")
-        .splitlines()
-    )
+    pip_freeze = subprocess.check_output(["uv", "pip", "freeze", "-p", args.python]).decode("utf-8").splitlines()
     freeze_dict = {}
     for line in pip_freeze:
         if "==" in line:
@@ -172,15 +160,11 @@ def main():
     print(f"Installed dependencies: {freeze_dict}")
 
     # write result
-    outputFile = path.join(
-        path.dirname(__file__), "..", "docs", f"requirements-{args.runtime}.txt"
-    )
+    outputFile = path.join(path.dirname(__file__), "..", "docs", f"requirements-{args.runtime}.txt")
     with open(outputFile, "w", newline="\n") as f:
         for name in all:
             if (
-                name.startswith("#")
-                and not name.startswith(uvpipInstallPrefix)
-                and not name.startswith(depsPrefix)
+                name.startswith("#") and not name.startswith(uvpipInstallPrefix) and not name.startswith(depsPrefix)
             ) or name.startswith("--"):
                 f.write(name + "\n")
                 continue

@@ -51,9 +51,7 @@ class Section(BaseModel):
 
     @staticmethod
     def datasetPathPattern(path: str):
-        return re.fullmatch(
-            r"data_configs\[(0|[1-9]\d{0,2})\]\.load_dataset_config\.data_name", path
-        )
+        return re.fullmatch(r"data_configs\[(0|[1-9]\d{0,2})\]\.load_dataset_config\.data_name", path)
 
     def Check(
         self,
@@ -75,14 +73,10 @@ class Section(BaseModel):
             if parameter.template:
                 template = parameter.template
                 if not isinstance(template, Parameter):
-                    printError(
-                        f"{_file} section {sectionId} parameter {i} has wrong template"
-                    )
+                    printError(f"{_file} section {sectionId} parameter {i} has wrong template")
                     continue
                 if template.template not in templates:
-                    printError(
-                        f"{_file} section {sectionId} parameter {i} has wrong template"
-                    )
+                    printError(f"{_file} section {sectionId} parameter {i} has wrong template")
                     continue
                 parameter.clearValue()
                 parameter.applyTemplate(template)
@@ -93,47 +87,21 @@ class Section(BaseModel):
             # TODO move tag check into Parameter
             if parameter.path and Section.datasetPathPattern(parameter.path):
                 if self.phase == PhaseTypeEnum.Quantization:
-                    if (
-                        not parameter.tags
-                        or ParameterTagEnum.QuantizationDataset not in parameter.tags
-                    ):
-                        printError(
-                            f"{_file} section {sectionId} parameter {i} should have QuantizationDataset tag"
-                        )
+                    if not parameter.tags or ParameterTagEnum.QuantizationDataset not in parameter.tags:
+                        printError(f"{_file} section {sectionId} parameter {i} should have QuantizationDataset tag")
                 elif self.phase == PhaseTypeEnum.Evaluation:
-                    if (
-                        not parameter.tags
-                        or ParameterTagEnum.EvaluationDataset not in parameter.tags
-                    ):
-                        printError(
-                            f"{_file} section {sectionId} parameter {i} should have EvaluationDataset tag"
-                        )
+                    if not parameter.tags or ParameterTagEnum.EvaluationDataset not in parameter.tags:
+                        printError(f"{_file} section {sectionId} parameter {i} should have EvaluationDataset tag")
                 if parameter.values:
-                    missing_keys = [
-                        key
-                        for key in parameter.values
-                        if key not in modelList.HFDatasets
-                    ]
+                    missing_keys = [key for key in parameter.values if key not in modelList.HFDatasets]
                     if missing_keys:
-                        printError(
-                            f"datasets are not in HFDatasets: {', '.join(missing_keys)}"
-                        )
+                        printError(f"datasets are not in HFDatasets: {', '.join(missing_keys)}")
             elif parameter.path and parameter.path.endswith("activation_type"):
-                if (
-                    not parameter.tags
-                    or ParameterTagEnum.ActivationType not in parameter.tags
-                ):
-                    printError(
-                        f"{_file} section {sectionId} parameter {i} should have ActivationType tag"
-                    )
+                if not parameter.tags or ParameterTagEnum.ActivationType not in parameter.tags:
+                    printError(f"{_file} section {sectionId} parameter {i} should have ActivationType tag")
             elif parameter.path and parameter.path.endswith("weight_type"):
-                if (
-                    not parameter.tags
-                    or ParameterTagEnum.WeightType not in parameter.tags
-                ):
-                    printError(
-                        f"{_file} section {sectionId} parameter {i} should have WeightType tag"
-                    )
+                if not parameter.tags or ParameterTagEnum.WeightType not in parameter.tags:
+                    printError(f"{_file} section {sectionId} parameter {i} should have WeightType tag")
 
         if self.toggle:
             if self.toggle.type != ParameterTypeEnum.Bool:
@@ -204,9 +172,7 @@ class DebugInfo(BaseModel):
             )
             > 1
         ):
-            printError(
-                f"should not have both useModelBuilder and useOpenVINOConversion"
-            )
+            printError(f"should not have both useModelBuilder and useOpenVINOConversion")
             return False
         return True
 
@@ -221,11 +187,7 @@ class DebugInfo(BaseModel):
             return None
 
     def isEmpty(self):
-        return not (
-            self.useModelBuilder
-            or self.useOpenVINOConversion
-            or self.useOpenVINOOptimumConversion
-        )
+        return not (self.useModelBuilder or self.useOpenVINOConversion or self.useOpenVINOOptimumConversion)
 
 
 class ModelParameter(BaseModelClass):
@@ -233,9 +195,7 @@ class ModelParameter(BaseModelClass):
     oliveFile: Optional[str] = None
     isLLM: Optional[bool] = None
     # For template using CUDA and no runtime overwrite, we need to set this so we know the target EP
-    evalRuntime: Optional[RuntimeEnum] = (
-        None  # Changed to str to avoid forward reference
-    )
+    evalRuntime: Optional[RuntimeEnum] = None  # Changed to str to avoid forward reference
     debugInfo: Optional[DebugInfo] = None
     # A SHORTCUT FOR SEVERAL PARAMETERS
     # This kind of config will
@@ -263,16 +223,12 @@ class ModelParameter(BaseModelClass):
         GlobalVars.configCheck += 1
         with open_ex(parameterFile, "r") as file:
             parameterContent = file.read()
-        modelParameter = ModelParameter.model_validate_json(
-            parameterContent, strict=True
-        )
+        modelParameter = ModelParameter.model_validate_json(parameterContent, strict=True)
         modelParameter._file = parameterFile
         modelParameter._fileContent = parameterContent
         return modelParameter
 
-    def Check(
-        self, templates: Dict[str, Parameter], oliveJson: Any, modelList: ModelList
-    ):
+    def Check(self, templates: Dict[str, Parameter], oliveJson: Any, modelList: ModelList):
         if not self.sections:
             printError(f"{self._file} should have sections")
             return
@@ -298,18 +254,14 @@ class ModelParameter(BaseModelClass):
 
         # Add runtime
         syskey, system = list(oliveJson[OlivePropertyNames.Systems].items())[0]
-        currentEp = system[OlivePropertyNames.Accelerators][0][
-            OlivePropertyNames.ExecutionProviders
-        ][0]
+        currentEp = system[OlivePropertyNames.Accelerators][0][OlivePropertyNames.ExecutionProviders][0]
         runtimeValues: List[str] = [currentEp]
         runtimeDisplayNames = [GlobalVars.epToName[currentEp]]
         runtimeActions = None
 
         if self.addAmdNpu and currentEp != EPNames.VitisAIExecutionProvider.value:
             runtimeValues.append(EPNames.VitisAIExecutionProvider.value)
-            runtimeDisplayNames.append(
-                GlobalVars.epToName[EPNames.VitisAIExecutionProvider.value]
-            )
+            runtimeDisplayNames.append(GlobalVars.epToName[EPNames.VitisAIExecutionProvider.value])
             evaluatorName = oliveJson[OlivePropertyNames.Evaluator]
             if evaluatorName and self.addAmdNpu.inferenceSettings:
                 if runtimeActions is None:
@@ -338,9 +290,7 @@ class ModelParameter(BaseModelClass):
         # CPU always last
         if self.addCpu != False and currentEp != EPNames.CPUExecutionProvider.value:
             runtimeValues.append(EPNames.CPUExecutionProvider.value)
-            runtimeDisplayNames.append(
-                GlobalVars.epToName[EPNames.CPUExecutionProvider.value]
-            )
+            runtimeDisplayNames.append(GlobalVars.epToName[EPNames.CPUExecutionProvider.value])
             if runtimeActions is not None:
                 runtimeActions.append([])
 
@@ -453,9 +403,7 @@ class ModelParameter(BaseModelClass):
                     actions=[[], [action]],
                 )
                 evaluatorName = oliveJson[OlivePropertyNames.Evaluator]
-                if not checkPath(
-                    f"{OlivePropertyNames.Evaluators}.{evaluatorName}", oliveJson
-                ):
+                if not checkPath(f"{OlivePropertyNames.Evaluators}.{evaluatorName}", oliveJson):
                     printError(f"{self._file} does not have evaluator {evaluatorName}")
 
             if not section.Check(templates, self._file or "", i, oliveJson, modelList):
@@ -499,9 +447,7 @@ class ModelParameter(BaseModelClass):
             and PhaseTypeEnum.Quantization in allPhases
             and len(oliveJson[OlivePropertyNames.DataConfigs]) != 2
         ):
-            printWarning(
-                f"{self._file}'s olive json should have two data configs for evaluation"
-            )
+            printWarning(f"{self._file}'s olive json should have two data configs for evaluation")
 
     def checkOliveFile(self, oliveJson: Any):
         if not GlobalVars.olivePath:
@@ -510,9 +456,7 @@ class ModelParameter(BaseModelClass):
             printWarning(f"{self._file} does not have oliveFile")
             return
 
-        with open_ex(
-            os.path.join(GlobalVars.olivePath, "examples", self.oliveFile), "r"
-        ) as file:
+        with open_ex(os.path.join(GlobalVars.olivePath, "examples", self.oliveFile), "r") as file:
             oliveFileJson = json.load(file)
         diff = DeepDiff(
             oliveFileJson[OlivePropertyNames.Passes],
@@ -544,9 +488,7 @@ class ModelParameter(BaseModelClass):
         changeds: dict[str, Any] = diff.pop("values_changed", {})
         newChangeds = {}
         for changed in changeds:
-            if changed.endswith("['data_config']") or changed.endswith(
-                "['user_script']"
-            ):
+            if changed.endswith("['data_config']") or changed.endswith("['user_script']"):
                 # Data config name or *.py could be different
                 pass
             else:

@@ -41,18 +41,10 @@ class ParameterAction(BaseModel):
             return False
         if not self.path:
             return False
-        if (
-            self.type
-            in [ParameterActionTypeEnum.Insert, ParameterActionTypeEnum.Update]
-            and not self.value
-        ):
+        if self.type in [ParameterActionTypeEnum.Insert, ParameterActionTypeEnum.Update] and not self.value:
             return False
         pathExist = checkPath(self.path, oliveJson, False)
-        if (
-            self.type
-            in [ParameterActionTypeEnum.Delete, ParameterActionTypeEnum.Update]
-            and not pathExist
-        ):
+        if self.type in [ParameterActionTypeEnum.Delete, ParameterActionTypeEnum.Update] and not pathExist:
             return False
         if self.type in [ParameterActionTypeEnum.Insert] and pathExist:
             return False
@@ -120,13 +112,7 @@ class Parameter(BaseModel):
                 return False
             elif not checkPath(self.path, oliveJson):
                 return False
-            elif (
-                self.values
-                or self.selectors
-                or self.actions
-                or self.displayNames
-                or self.customize
-            ):
+            elif self.values or self.selectors or self.actions or self.displayNames or self.customize:
                 printError("Redundant fields")
                 return False
         else:
@@ -141,11 +127,7 @@ class Parameter(BaseModel):
                     return False
 
             # Display names
-            if (
-                self.type == ParameterTypeEnum.Enum
-                and self.selectors
-                and not self.displayNames
-            ):
+            if self.type == ParameterTypeEnum.Enum and self.selectors and not self.displayNames:
                 printError("Display names should be used with checks")
                 return False
 
@@ -165,11 +147,7 @@ class Parameter(BaseModel):
 
             # customize
             if self.customize == True:
-                if not (
-                    self.type == ParameterTypeEnum.Enum
-                    and self.values
-                    and not self.selectors
-                ):
+                if not (self.type == ParameterTypeEnum.Enum and self.values and not self.selectors):
                     printError("Wrong customize prerequisites!")
                     return False
 
@@ -202,19 +180,9 @@ class Parameter(BaseModel):
                 and not self.actions
             ):
                 pass
-            elif (
-                self.path
-                and lenValues == expectedLength
-                and not self.selectors
-                and lenActions == expectedLength
-            ):
+            elif self.path and lenValues == expectedLength and not self.selectors and lenActions == expectedLength:
                 pass
-            elif (
-                not self.path
-                and not self.values
-                and lenChecks == expectedLength
-                and lenActions == expectedLength
-            ):
+            elif not self.path and not self.values and lenChecks == expectedLength and lenActions == expectedLength:
                 pass
             else:
                 printError(f"Invalid combination. Check comment")
@@ -233,24 +201,14 @@ class Parameter(BaseModel):
                         or ParameterTagEnum.QuantizationDataset in self.tags
                     ):
                         if value != self.values[0]:
-                            printError(
-                                f"Value {value} not the first in values for {self.path}"
-                            )
+                            printError(f"Value {value} not the first in values for {self.path}")
                             return False
                         for i in range(len(self.values) - 1):
                             value_in_list = self.values[i + 1]
-                            if (
-                                modelList
-                                and value_in_list not in modelList.DatasetSplit
-                            ):
-                                printError(
-                                    f"Value {value_in_list} not in DatasetSplit for {self.path}"
-                                )
+                            if modelList and value_in_list not in modelList.DatasetSplit:
+                                printError(f"Value {value_in_list} not in DatasetSplit for {self.path}")
                                 return False
-                            if (
-                                modelList
-                                and value_in_list not in modelList.DatasetSubset
-                            ):
+                            if modelList and value_in_list not in modelList.DatasetSubset:
                                 # No error for this, just warning
                                 printWarning(
                                     f"Value {value_in_list} not in DatasetSubset for {self.path}. Could be acceptable if it doesn't have subset"
@@ -299,9 +257,7 @@ def readCheckParameterTemplate(filePath: str):
     for key, parameter in parameters.items():
         if not parameter.Check(True):
             printError(f"{filePath} parameter {key} has error")
-    newContent = adapter.dump_json(parameters, indent=4, exclude_none=True).decode(
-        "utf-8"
-    )
+    newContent = adapter.dump_json(parameters, indent=4, exclude_none=True).decode("utf-8")
     if newContent != fileContent:
         with open_ex(filePath, "w") as file:
             file.write(newContent)

@@ -30,9 +30,7 @@ def findFolder():
 
     user_profile = os.path.expanduser("~")
     vscode_extensions = os.path.join(user_profile, ".vscode", "extensions")
-    pattern = os.path.join(
-        vscode_extensions, "ms-windows-ai-studio.windows-ai-studio-*-*"
-    )
+    pattern = os.path.join(vscode_extensions, "ms-windows-ai-studio.windows-ai-studio-*-*")
 
     folders = [f for f in glob.glob(pattern) if os.path.isdir(f)]
     if not folders:

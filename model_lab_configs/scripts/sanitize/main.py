@@ -53,18 +53,12 @@ def main():
     # need to resolve due to d:\ vs D:\
     # Now main.py is in sanitize/ folder, so we need to go up three levels:
     # sanitize/main.py -> scripts/ -> model_lab_configs/
-    configDir = str(
-        Path(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))).resolve(
-            strict=False
-        )
-    )
+    configDir = str(Path(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))).resolve(strict=False))
 
     # get model list
     modelList = ModelList.Read(configDir)
     # check parameter template
-    parameterTemplate = readCheckParameterTemplate(
-        os.path.join(configDir, "parameter_template.json")
-    )
+    parameterTemplate = readCheckParameterTemplate(os.path.join(configDir, "parameter_template.json"))
 
     # check each model
     for model in modelList.allModels():
@@ -76,11 +70,7 @@ def main():
                 )
 
             # get all versions
-            allVersions = [
-                int(name)
-                for name in os.listdir(modelDir)
-                if os.path.isdir(os.path.join(modelDir, name))
-            ]
+            allVersions = [int(name) for name in os.listdir(modelDir) if os.path.isdir(os.path.join(modelDir, name))]
             allVersions.sort()
             model.version = allVersions[-1]
             # check if version is continuous
@@ -99,15 +89,11 @@ def main():
                 if os.path.exists(copyConfigFile):
                     with open_ex(copyConfigFile, "r") as file:
                         copyConfigContent = file.read()
-                    copyConfig = CopyConfig.model_validate_json(
-                        copyConfigContent, strict=True
-                    )
+                    copyConfig = CopyConfig.model_validate_json(copyConfigContent, strict=True)
                     copyConfig.process(modelVerDir)
 
                 # get model space config
-                modelSpaceConfig = ModelProjectConfig.Read(
-                    os.path.join(modelVerDir, "model_project.config")
-                )
+                modelSpaceConfig = ModelProjectConfig.Read(os.path.join(modelVerDir, "model_project.config"))
                 modelSpaceConfig.modelInfo.version = int(os.path.basename(modelVerDir))
 
                 # check md
@@ -140,9 +126,7 @@ def main():
                     modelItem.templateName = os.path.basename(modelItem.file)[:-5]
 
                     # read parameter
-                    modelParameter = ModelParameter.Read(
-                        os.path.join(modelVerDir, f"{modelItem.file}.config")
-                    )
+                    modelParameter = ModelParameter.Read(os.path.join(modelVerDir, f"{modelItem.file}.config"))
 
                     # check olive json
                     oliveJsonFile = os.path.join(modelVerDir, modelItem.file)
@@ -152,12 +136,8 @@ def main():
                     modelParameter.Check(parameterTemplate, oliveJson, modelList)
 
                     # check ipynb
-                    ipynbFile = os.path.join(
-                        modelVerDir, f"{modelItem.templateName}_inference_sample.ipynb"
-                    )
-                    hasSpecialIpynb = readCheckIpynb(
-                        ipynbFile, {modelItem.name: modelParameter}
-                    )
+                    ipynbFile = os.path.join(modelVerDir, f"{modelItem.templateName}_inference_sample.ipynb")
+                    hasSpecialIpynb = readCheckIpynb(ipynbFile, {modelItem.name: modelParameter})
                     if not hasSpecialIpynb:
                         if not hasSharedIpynb:
                             printError(f"{ipynbFile} nor {sharedIpynbFile} not exists.")
@@ -171,9 +151,7 @@ def main():
     modelList.Check()
 
     if GlobalVars.olivePath:
-        printWarning(
-            f"Total {GlobalVars.oliveCheck} config files checked against olive json files"
-        )
+        printWarning(f"Total {GlobalVars.oliveCheck} config files checked against olive json files")
 
     result = subprocess.run(
         ["git", "status", "--porcelain"],

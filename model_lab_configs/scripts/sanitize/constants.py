@@ -124,7 +124,9 @@ class OlivePropertyNames:
 
 # Path constants
 outputModelRelativePath = r"\\\"./model/model.onnx\\\""
-outputModelIntelNPURelativePath = r"\\\"./model/(ov_model_st_quant|openvino_model_quant_st|openvino_model_st_quant).onnx\\\""
+outputModelIntelNPURelativePath = (
+    r"\\\"./model/(ov_model_st_quant|openvino_model_quant_st|openvino_model_st_quant).onnx\\\""
+)
 outputModelModelBuilderPath = r"\\\"./model\\\""
 
 # Import constants
