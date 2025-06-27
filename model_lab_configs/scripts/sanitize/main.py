@@ -7,20 +7,20 @@ import subprocess
 import os
 import copy
 from pathlib import Path
-from model_lab import RuntimeFeatureEnum
 
 from sanitize import (
     GlobalVars, ModelList, readCheckParameterTemplate, 
-    ModelProjectConfig, ModelParameter, CopyConfig, EPNames,
-    check_case, process_gitignore, readCheckOliveConfig, readCheckIpynb,
-    printProcess, printError, printWarning, open_ex
+    ModelProjectConfig, ModelParameter, CopyConfig, check_case, process_gitignore, readCheckOliveConfig, readCheckIpynb,
+    printError, printWarning, open_ex
 )
+from scripts.sanitize.constants import ModelStatusEnum
+from scripts.sanitize.model_info import ModelInfo
 
 
-def shouldCheckModel(configDir: str, model) -> str | None:
+def shouldCheckModel(configDir: str, model: ModelInfo) -> str | None:
     modelDir = os.path.join(configDir, model.id)
     # If we have folder, we also check it
-    if model.status.value == "Ready" or os.path.exists(modelDir):
+    if model.status == ModelStatusEnum.Ready or os.path.exists(modelDir):
         return modelDir
     return None
 
@@ -75,8 +75,7 @@ def main():
 
                 # get model space config
                 modelSpaceConfig = ModelProjectConfig.Read(os.path.join(modelVerDir, "model_project.config"))
-                if modelSpaceConfig.modelInfo:
-                    modelSpaceConfig.modelInfo.version = int(os.path.basename(modelVerDir))
+                modelSpaceConfig.modelInfo.version = int(os.path.basename(modelVerDir))
                 
                 # check md
                 mdFile = os.path.join(modelVerDir, "README.md")
@@ -102,7 +101,7 @@ def main():
                     from sanitize import ModelInfoProject
                     modelSpaceConfig.modelInfo = ModelInfoProject(id=modelInVersion.id)
                 
-                for i, modelItem in enumerate(modelSpaceConfig.workflows):
+                for _, modelItem in enumerate(modelSpaceConfig.workflows):
                     # set template
                     modelItem.templateName = os.path.basename(modelItem.file)[:-5]
 

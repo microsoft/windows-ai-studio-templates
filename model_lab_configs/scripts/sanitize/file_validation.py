@@ -18,7 +18,8 @@ from .constants import (
 )
 import json
 import shutil
-
+from .utils import printProcess, GlobalVars
+from model_lab import RuntimeEnum
 
 def check_case(path: Path) -> bool:
     path = Path(path)
@@ -50,11 +51,10 @@ def process_gitignore(modelVerDir: str, configDir: str):
             printError(f"{gitignoreFile} does not have line '{line}'")
 
 
-def readCheckOliveConfig(oliveJsonFile: str, modelParameter):
+def readCheckOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter):
     """
     This will set phases to modelParameter
     """
-    from .utils import printProcess, GlobalVars
     printProcess(oliveJsonFile)
     with open_ex(oliveJsonFile, 'r') as file:
         oliveJson = json.load(file)
@@ -120,11 +120,10 @@ def readCheckOliveConfig(oliveJsonFile: str, modelParameter):
     return oliveJson
 
 
-def readCheckIpynb(ipynbFile: str, modelItems: dict[str, 'ModelParameter']):
+def readCheckIpynb(ipynbFile: str, modelItems: dict[str, ModelParameter]):
     """
     Note this return exists or not, not valid or not
     """
-    from .utils import GlobalVars
     if os.path.exists(ipynbFile):
         with open_ex(ipynbFile, 'r') as file:
             ipynbContent: str = file.read()
@@ -135,32 +134,19 @@ def readCheckIpynb(ipynbFile: str, modelItems: dict[str, 'ModelParameter']):
             if modelParameter.isLLM:
                 testPath = outputModelModelBuilderPath
                 importStr = importOnnxgenairuntime
-            elif (modelParameter.runtime and modelParameter.runtime.values and 
-                  len(modelParameter.runtime.values) == 1 and 
-                  modelParameter.runtime.values[0] == EPNames.OpenVINOExecutionProvider.value):
+            elif len(modelParameter.runtime.values) == 1 and modelParameter.runtime.values[0] == EPNames.OpenVINOExecutionProvider.value:
                 testPath = outputModelIntelNPURelativePath
             for item in [testPath, importStr]:
                 if not re.search(item, ipynbContent):
                     printError(f"{ipynbFile} does not have '{item}' for {name}, please use it as input")
             if modelParameter.evalRuntime:
-                # Convert string to RuntimeEnum if needed
-                from model_lab import RuntimeEnum
-                if isinstance(modelParameter.evalRuntime, str):
-                    try:
-                        eval_runtime_enum = RuntimeEnum(modelParameter.evalRuntime)
-                        runtime = GlobalVars.runtimeToEp[eval_runtime_enum]
-                    except ValueError:
-                        printError(f"Unknown runtime: {modelParameter.evalRuntime}")
-                        continue
-                else:
-                    runtime = GlobalVars.runtimeToEp[modelParameter.evalRuntime]
+                runtime = GlobalVars.runtimeToEp[modelParameter.evalRuntime]
                 if runtime not in allRuntimes:
                     allRuntimes.append(runtime)
             else:
-                if modelParameter.runtime and modelParameter.runtime.values:
-                    for runtime in modelParameter.runtime.values:
-                        if runtime not in allRuntimes:
-                            allRuntimes.append(runtime)
+                for runtime in modelParameter.runtime.values:
+                    if runtime not in allRuntimes:
+                        allRuntimes.append(runtime)
 
         targetEP = None
         if len(allRuntimes) == 2 and EPNames.CPUExecutionProvider.value in allRuntimes:

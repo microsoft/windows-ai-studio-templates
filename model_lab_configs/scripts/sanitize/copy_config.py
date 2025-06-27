@@ -20,11 +20,11 @@ class Replacement(BaseModel):
 class Copy(BaseModel):
     src: str
     dst: str
-    replacements: Optional[List[Replacement]] = None
+    replacements: List[Replacement] = []
 
 
 class CopyConfig(BaseModel):
-    copies: Optional[List[Copy]] = None
+    copies: List[Copy] = []
 
     def process(self, modelVerDir: str):
         if not self.copies:

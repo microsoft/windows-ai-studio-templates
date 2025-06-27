@@ -2,16 +2,15 @@
 Model information and model list classes
 """
 from __future__ import annotations
-from typing import Dict, List, Optional, TYPE_CHECKING
+from typing import Dict, List, Optional
 from pydantic import BaseModel
-
-if TYPE_CHECKING:
-    from model_lab import RuntimeEnum
 
 from .base import BaseModelClass
 from .constants import IconEnum, ArchitectureEnum, ModelStatusEnum
 from .utils import open_ex, printProcess, printError
 
+# This file is import by others
+# To avoid circular import issues, we should carefully manage imports
 
 class ModelInfo(BaseModel):
     displayName: str

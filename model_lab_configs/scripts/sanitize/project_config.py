@@ -3,6 +3,8 @@ Model project configuration classes
 """
 from typing import List, Optional
 from pydantic import BaseModel
+
+from scripts.sanitize.model_info import ModelInfo
 from .base import BaseModelClass
 from .constants import IconEnum
 from .utils import open_ex, printProcess, printError
@@ -11,7 +13,7 @@ from .utils import open_ex, printProcess, printError
 class WorkflowItem(BaseModel):
     name: str
     file: str
-    templateName: Optional[str] = None
+    templateName: str
     # DO NOT ADD ANYTHING ELSE HERE
     # We should add it to the *.json.config
 
@@ -35,7 +37,7 @@ class ModelInfoProject(BaseModel):
     icon: Optional[IconEnum] = None
     modelLink: Optional[str] = None
 
-    def Check(self, modelInfo):
+    def Check(self, modelInfo: ModelInfo):
         if not self.id:
             return False
         if self.displayName and self.displayName != modelInfo.displayName:
@@ -49,7 +51,7 @@ class ModelInfoProject(BaseModel):
 
 class ModelProjectConfig(BaseModelClass):
     workflows: List[WorkflowItem]
-    modelInfo: Optional[ModelInfoProject] = None
+    modelInfo: ModelInfoProject
 
     @staticmethod
     def Read(modelSpaceConfigFile: str):
@@ -62,12 +64,12 @@ class ModelProjectConfig(BaseModelClass):
         return modelSpaceConfig
 
     # after template is set
-    def Check(self, modelInfo):
+    def Check(self, modelInfo: ModelInfo):
         for i, model in enumerate(self.workflows):
             if not model.Check():
                 printError(f"{self._file} model {i} has error")
         
-        if self.modelInfo and not self.modelInfo.Check(modelInfo):
+        if not self.modelInfo.Check(modelInfo):
             printError(f"{self._file} modelInfo has error")
 
         self.writeIfChanged()
