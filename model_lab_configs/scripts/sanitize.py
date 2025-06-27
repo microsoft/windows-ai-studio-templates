@@ -508,15 +508,13 @@ def readCheckParameterTemplate(filePath: str):
 # Model
 
 class WorkflowItem(BaseModel):
-    name: str
+    displayName: str = None
     file: str
     templateName: str = None
     # DO NOT ADD ANYTHING ELSE HERE
     # We should add it to the *.json.config
 
     def Check(self):
-        if not self.name:
-            return False
         if not self.file:
             return False
         if '\\' in self.file:
@@ -1234,7 +1232,8 @@ def main():
                     modelSpaceConfig.modelInfo = ModelInfoProject(id=modelInVersion.id)
                 for i, modelItem in enumerate(modelSpaceConfig.workflows):
                     # set template
-                    modelItem.templateName = os.path.basename(modelItem.file)[:-5]
+                    fileName = os.path.basename(modelItem.file)[:-5]
+                    modelItem.templateName = fileName
 
                     # read parameter
                     modelParameter = ModelParameter.Read(os.path.join(modelVerDir, f"{modelItem.file}.config"))
@@ -1247,13 +1246,14 @@ def main():
                     modelParameter.Check(parameterTemplate, oliveJson, modelList)
 
                     # check ipynb
-                    ipynbFile = os.path.join(modelVerDir, f"{modelItem.templateName}_inference_sample.ipynb")
-                    hasSpecialIpynb = readCheckIpynb(ipynbFile, {modelItem.name: modelParameter})
+                    # although filename and templateName are same here, use fileName to align with Skylight implementation
+                    ipynbFile = os.path.join(modelVerDir, f"{fileName}_inference_sample.ipynb")
+                    hasSpecialIpynb = readCheckIpynb(ipynbFile, {modelItem.file: modelParameter})
                     if not hasSpecialIpynb:
                         if not hasSharedIpynb:
                             printError(f"{ipynbFile} nor {sharedIpynbFile} not exists.")
                         else:
-                            workflowsAgainstShared[modelItem.name] = modelParameter
+                            workflowsAgainstShared[modelItem.file] = modelParameter
                 readCheckIpynb(sharedIpynbFile, workflowsAgainstShared)
                     
                 modelSpaceConfig.Check(modelInVersion)
