@@ -3,12 +3,13 @@ Model project configuration classes
 """
 
 from typing import List, Optional
+
 from pydantic import BaseModel
 
-from .model_info import ModelInfo
 from .base import BaseModelClass
 from .constants import IconEnum
-from .utils import open_ex, printProcess, printError
+from .model_info import ModelInfo
+from .utils import open_ex, printError, printProcess
 
 
 class WorkflowItem(BaseModel):

@@ -1,14 +1,14 @@
 import argparse
+import glob
 import os
+import re
+import zipfile
 
 templateFile = "resources/template.zip"
 templateFileOrigin = "resources/template_origin.zip"
 
 
 def zipTemplate(input, output):
-    import os
-    import zipfile
-
     with zipfile.ZipFile(output, "w", zipfile.ZIP_DEFLATED) as zipf:
         # Iterate over all the files in the folder
         for root, dirs, files in os.walk(input):
@@ -23,11 +23,6 @@ def zipTemplate(input, output):
 
 
 def findFolder():
-    # Finds the latest version of the extension folder: C:\Users\USER\.vscode\extensions\ms-windows-ai-studio.windows-ai-studio-VERSION-os-arch
-    import os
-    import re
-    import glob
-
     user_profile = os.path.expanduser("~")
     vscode_extensions = os.path.join(user_profile, ".vscode", "extensions")
     pattern = os.path.join(vscode_extensions, "ms-windows-ai-studio.windows-ai-studio-*-*")

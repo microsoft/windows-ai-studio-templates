@@ -1,20 +1,22 @@
 from __future__ import annotations
+
 import argparse
+import copy
+import inspect
+import json
+import os
 import re
 import shutil
 import subprocess
-from typing import Any, Dict
-from pydantic import BaseModel, TypeAdapter
-import os
-from enum import Enum
-import copy
-import pydash
-import json
-from pathlib import Path
-from model_lab import RuntimeEnum, RuntimeFeatureEnum
 from contextlib import contextmanager
-import re
-import inspect
+from enum import Enum
+from pathlib import Path
+from typing import Any, Dict
+
+import pydash
+from deepdiff import DeepDiff
+from model_lab import RuntimeEnum, RuntimeFeatureEnum
+from pydantic import BaseModel, TypeAdapter
 
 
 def printProcess(msg: str):
@@ -1027,8 +1029,6 @@ class ModelParameter(BaseModelClass):
         if not self.oliveFile:
             printWarning(f"{self._file} does not have oliveFile")
             return
-        from deepdiff import DeepDiff
-
         with open_ex(os.path.join(GlobalVars.olivePath, "examples", self.oliveFile), "r") as file:
             oliveFileJson = json.load(file)
         diff = DeepDiff(oliveFileJson[OlivePropertyNames.Passes], oliveJson[OlivePropertyNames.Passes])

@@ -3,18 +3,21 @@ Parameter classes for model configuration
 """
 
 from __future__ import annotations
+
 from typing import Any, Dict, List, Optional, Union
+
+import pydash
 from pydantic import BaseModel, TypeAdapter
 
-from .model_info import ModelList
 from .constants import (
-    ParameterTypeEnum,
-    ParameterDisplayTypeEnum,
-    ParameterCheckTypeEnum,
     ParameterActionTypeEnum,
+    ParameterCheckTypeEnum,
+    ParameterDisplayTypeEnum,
     ParameterTagEnum,
+    ParameterTypeEnum,
 )
-from .utils import checkPath, printError, open_ex, printProcess, printWarning
+from .model_info import ModelList
+from .utils import checkPath, open_ex, printError, printProcess, printWarning
 
 
 class ParameterCheck(BaseModel):
@@ -193,8 +196,6 @@ class Parameter(BaseModel):
                     return False
                 # TODO more checks
                 if self.values:
-                    import pydash
-
                     value = pydash.get(oliveJson, self.path)
                     if self.tags and (
                         ParameterTagEnum.EvaluationDataset in self.tags

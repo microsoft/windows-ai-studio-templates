@@ -3,29 +3,21 @@ Main sanitize script
 """
 
 from __future__ import annotations
+
 import argparse
-import subprocess
-import os
 import copy
+import os
+import subprocess
 from pathlib import Path
 
-from . import (
-    GlobalVars,
-    ModelList,
-    readCheckParameterTemplate,
-    ModelProjectConfig,
-    ModelParameter,
-    CopyConfig,
-    check_case,
-    process_gitignore,
-    readCheckOliveConfig,
-    readCheckIpynb,
-    printError,
-    printWarning,
-    open_ex,
-)
 from .constants import ModelStatusEnum
-from .model_info import ModelInfo
+from .copy_config import CopyConfig
+from .file_validation import check_case, process_gitignore, readCheckIpynb, readCheckOliveConfig
+from .model_info import ModelInfo, ModelList
+from .model_parameter import ModelParameter
+from .parameters import readCheckParameterTemplate
+from .project_config import ModelInfoProject, ModelProjectConfig
+from .utils import GlobalVars, open_ex, printError, printWarning
 
 
 def shouldCheckModel(configDir: str, model: ModelInfo) -> str | None:
@@ -117,8 +109,6 @@ def main():
                 if modelSpaceConfig.modelInfo:
                     modelSpaceConfig.modelInfo.id = modelInVersion.id
                 else:
-                    from sanitize import ModelInfoProject
-
                     modelSpaceConfig.modelInfo = ModelInfoProject(id=modelInVersion.id)
 
                 for _, modelItem in enumerate(modelSpaceConfig.workflows):

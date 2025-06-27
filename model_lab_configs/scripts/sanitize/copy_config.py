@@ -2,14 +2,16 @@
 Copy configuration classes
 """
 
-from typing import Any, List, Optional, Union
-from pydantic import BaseModel
-from .constants import ReplaceTypeEnum
-from .utils import printError, printInfo, open_ex
+import json
 import os
 import shutil
-import json
+from typing import Any, List, Union
+
 import pydash
+from pydantic import BaseModel
+
+from .constants import ReplaceTypeEnum
+from .utils import open_ex, printError, printInfo
 
 
 class Replacement(BaseModel):

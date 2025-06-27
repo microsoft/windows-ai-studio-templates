@@ -5,10 +5,14 @@ This script maintains compatibility with the original sanitize.py while using th
 Auto-formats all Python scripts in the scripts directory on every run.
 """
 
-import sys
-import os
 import subprocess
+
+# Import main directly without going through __init__.py
+import sys
 from pathlib import Path
+
+from sanitize.main import main
+from sanitize.utils import GlobalVars, printError, printInfo, printWarning
 
 # Get the absolute path to the project root (parent of scripts)
 project_root = Path(__file__).parent.parent
@@ -19,11 +23,99 @@ sys.path.insert(0, str(project_root))
 sys.path.insert(0, str(scripts_dir))
 
 
+def install_formatter_tools():
+    """
+    Install required formatting tools if not available.
+    """
+    tools = [
+        ("black", "black"),
+        ("isort", "isort"),
+        ("autoflake", "autoflake"),  # Added autoflake for removing unused imports
+    ]
+
+    for tool_name, package_name in tools:
+        try:
+            subprocess.run([tool_name, "--version"], check=True, capture_output=True)
+        except (subprocess.CalledProcessError, FileNotFoundError):
+            printInfo(f"Installing {package_name} formatter...")
+            try:
+                subprocess.run([sys.executable, "-m", "pip", "install", package_name], check=True)
+            except subprocess.CalledProcessError as e:
+                printError(f"Failed to install {package_name}: {e}")
+                return False
+    return True
+
+
+def check_imports_at_top(file_path):
+    """
+    Check if all imports are at the top of the file (after docstring and comments).
+    Returns True if imports are properly placed, False otherwise.
+    """
+    try:
+        with open(file_path, "r", encoding="utf-8") as f:
+            lines = f.readlines()
+
+        # Skip shebang, encoding declarations, and docstrings
+        in_docstring = False
+        docstring_quotes = None
+        non_import_code_found = False
+
+        for i, line in enumerate(lines):
+            stripped = line.strip()
+
+            # Skip empty lines and comments
+            if not stripped or stripped.startswith("#"):
+                continue
+
+            # Handle docstrings
+            if not in_docstring and (stripped.startswith('"""') or stripped.startswith("'''")):
+                docstring_quotes = stripped[:3]
+                if stripped.count(docstring_quotes) >= 2:
+                    # Single line docstring
+                    continue
+                else:
+                    in_docstring = True
+                    continue
+            elif in_docstring and docstring_quotes and docstring_quotes in stripped:
+                in_docstring = False
+                continue
+            elif in_docstring:
+                continue
+
+            # Check for imports and from statements (including multi-line imports)
+            if (
+                stripped.startswith("import ")
+                or stripped.startswith("from ")
+                or (not non_import_code_found and (stripped.endswith(",") or stripped.startswith(")")))
+            ):
+                if non_import_code_found:
+                    printWarning(f"Import found after non-import code in {file_path}:{i+1}")
+                    return False
+            else:
+                # Non-import code found (but ignore special variables and sys.path modifications)
+                if (
+                    stripped
+                    and not stripped.startswith("__")
+                    and not stripped.startswith("sys.path")
+                    and not any(special in stripped for special in ["__all__", "__version__", "__author__"])
+                ):
+                    non_import_code_found = True
+
+        return True
+    except Exception as e:
+        printError(f"Error checking imports in {file_path}: {e}")
+        return True  # Don't fail the entire process
+
+
 def auto_format_scripts():
     """
-    Auto-format all Python scripts in the scripts directory using black with 120 character line length.
+    Auto-format all Python scripts in the scripts directory with comprehensive formatting:
+    - Remove unused imports using autoflake
+    - Sort and organize imports using isort
+    - Format code using black with 120 character line length
+    - Check that all imports are at the top of files
     """
-    print("Auto-formatting Python scripts in scripts directory...")
+    printInfo("Auto-formatting Python scripts in scripts directory...")
 
     # Find all Python files in the scripts directory
     python_files = []
@@ -32,39 +124,111 @@ def auto_format_scripts():
             python_files.append(str(py_file))
 
     if not python_files:
-        print("No Python files found to format.")
+        printInfo("No Python files found to format.")
         return
 
-    try:
-        # Check if black is installed
-        subprocess.run(["black", "--version"], check=True, capture_output=True)
-    except (subprocess.CalledProcessError, FileNotFoundError):
-        print("Installing black formatter...")
-        try:
-            subprocess.run([sys.executable, "-m", "pip", "install", "black"], check=True)
-        except subprocess.CalledProcessError as e:
-            print(f"Failed to install black: {e}")
-            return
+    # Install required tools
+    if not install_formatter_tools():
+        printError("Failed to install required formatting tools.")
+        return
 
-    # Format all Python files with black
+    # Step 1: Remove unused imports with autoflake
+    printInfo("Step 1: Removing unused imports...")
     try:
-        cmd = ["black", "--line-length", "120"] + python_files
-        result = subprocess.run(cmd, capture_output=True, text=True)
+        autoflake_cmd = [
+            "autoflake",
+            "--in-place",  # Modify files in place
+            "--remove-all-unused-imports",  # Remove all unused imports
+            "--remove-unused-variables",  # Remove unused variables
+            "--remove-duplicate-keys",  # Remove duplicate keys in dictionaries
+            "--ignore-init-module-imports",  # Don't remove imports in __init__.py files
+        ] + python_files
+
+        result = subprocess.run(autoflake_cmd, capture_output=True, text=True)
+        if result.returncode == 0:
+            printInfo(f"Successfully removed unused imports from {len(python_files)} files.")
+            if result.stdout:
+                printInfo(result.stdout)
+        else:
+            printError(f"Autoflake failed: {result.stderr}")
+    except Exception as e:
+        printError(f"Error during unused import removal: {e}")
+
+    # Step 2: Sort imports with isort
+    printInfo("Step 2: Sorting and organizing imports...")
+    try:
+        isort_cmd = [
+            "isort",
+            "--line-length",
+            "120",
+            "--multi-line",
+            "3",
+            "--trailing-comma",
+            "--force-grid-wrap",
+            "0",
+            "--combine-as",
+            "--use-parentheses",
+        ] + python_files
+
+        result = subprocess.run(isort_cmd, capture_output=True, text=True)
+        if result.returncode == 0:
+            printInfo(f"Successfully sorted imports in {len(python_files)} files.")
+        else:
+            printError(f"Import sorting failed: {result.stderr}")
+    except Exception as e:
+        printError(f"Error during import sorting: {e}")
+
+    # Step 3: Check import placement
+    printInfo("Step 3: Checking import placement...")
+    for py_file in python_files:
+        check_imports_at_top(py_file)
+
+    # Step 4: Format with black
+    printInfo("Step 4: Formatting code with black...")
+    try:
+        black_cmd = ["black", "--line-length", "120"] + python_files
+        result = subprocess.run(black_cmd, capture_output=True, text=True)
 
         if result.returncode == 0:
-            print(f"Successfully formatted {len(python_files)} Python files with 120 character line length.")
+            printInfo(f"Successfully formatted {len(python_files)} Python files with 120 character line length.")
             if result.stdout:
-                print(result.stdout)
+                printInfo(result.stdout)
         else:
-            print(f"Black formatting failed: {result.stderr}")
+            printError(f"Black formatting failed: {result.stderr}")
     except Exception as e:
-        print(f"Error during formatting: {e}")
+        printError(f"Error during black formatting: {e}")
+
+    printInfo("Auto-formatting completed!")
+
+    modules_to_clear = [name for name in sys.modules.keys() if name.startswith("sanitize")]
+    for module_name in modules_to_clear:
+        if module_name in sys.modules:
+            del sys.modules[module_name]
 
 
 # Import the main function from the new sanitize.main module
-from sanitize.main import main
+# Import here to avoid circular imports after formatting
+def run_main():
+    original_path = sys.path.copy()
+
+    try:
+        # Make sure the project root and scripts dir are in the path
+        if str(project_root) not in sys.path:
+            sys.path.insert(0, str(project_root))
+        if str(scripts_dir) not in sys.path:
+            sys.path.insert(0, str(scripts_dir))
+
+        main()
+    finally:
+        # Restore original sys.path
+        sys.path = original_path
+
 
 if __name__ == "__main__":
+    # Check if verbose mode is requested
+    if "-v" in sys.argv or "--verbose" in sys.argv:
+        GlobalVars.verbose = True
+
     # Auto-format scripts before running sanitize
     auto_format_scripts()
-    main()
+    run_main()

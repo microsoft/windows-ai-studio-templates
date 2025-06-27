@@ -6,11 +6,11 @@ import inspect
 import os
 from contextlib import contextmanager
 from typing import Any
-import pydash
 
-# Import constants and enums at module level
-from .constants import EPNames
+import pydash
 from model_lab import RuntimeEnum
+
+from .constants import EPNames
 
 
 class GlobalVars:

@@ -3,7 +3,9 @@ Base model classes
 """
 
 from typing import Optional
+
 from pydantic import BaseModel
+
 from .utils import open_ex
 
 

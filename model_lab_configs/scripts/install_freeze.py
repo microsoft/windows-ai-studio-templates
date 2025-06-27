@@ -1,8 +1,8 @@
 import argparse
 import os
-from os import path
 import subprocess
-import sys
+from os import path
+
 from model_lab import RuntimeEnum
 
 # This script is used to generate the requirements-*.txt

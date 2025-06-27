@@ -3,29 +3,30 @@ Model parameter configuration classes
 """
 
 from __future__ import annotations
-from typing import Any, Dict, List, Optional
-from pydantic import BaseModel
 
-from model_lab import RuntimeEnum, RuntimeFeatureEnum
-from .model_info import ModelList
-
-from .base import BaseModelClass
-from .constants import EPNames, PhaseTypeEnum, OlivePropertyNames, OlivePassNames
-from .parameters import Parameter, ParameterAction
-from .constants import ParameterTypeEnum, ParameterActionTypeEnum, ParameterTagEnum
-from .utils import (
-    open_ex,
-    printProcess,
-    printError,
-    printWarning,
-    checkPath,
-    GlobalVars,
-)
 import json
+import os
 import re
+from typing import Any, Dict, List, Optional
+
 import pydash
 from deepdiff import DeepDiff
-import os
+from model_lab import RuntimeEnum, RuntimeFeatureEnum
+from pydantic import BaseModel
+
+from .base import BaseModelClass
+from .constants import (
+    EPNames,
+    OlivePassNames,
+    OlivePropertyNames,
+    ParameterActionTypeEnum,
+    ParameterTagEnum,
+    ParameterTypeEnum,
+    PhaseTypeEnum,
+)
+from .model_info import ModelList
+from .parameters import Parameter, ParameterAction
+from .utils import GlobalVars, checkPath, open_ex, printError, printProcess, printWarning
 
 
 class RuntimeOverwrite(BaseModel):
@@ -319,9 +320,6 @@ class ModelParameter(BaseModelClass):
             )
             if not self.runtimeOverwrite.Check(oliveJson):
                 printError(f"{self._file} runtime overwrite has error")
-            # Import runtime features from somewhere
-            from model_lab import RuntimeFeatureEnum
-
             self.executeRuntimeFeatures = [RuntimeFeatureEnum.AutoGptq]
             self.evalRuntimeFeatures = [RuntimeFeatureEnum.Nightly]
 
