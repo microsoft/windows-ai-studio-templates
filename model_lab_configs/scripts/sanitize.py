@@ -12,7 +12,7 @@ import sys
 from pathlib import Path
 
 from sanitize.main import main
-from sanitize.utils import GlobalVars, printError, printInfo, printWarning
+from sanitize.utils import GlobalVars, printError, printInfo, printTip, printWarning
 
 # Get the absolute path to the project root (parent of scripts)
 project_root = Path(__file__).parent.parent
@@ -115,7 +115,7 @@ def auto_format_scripts():
     - Format code using black with 120 character line length
     - Check that all imports are at the top of files
     """
-    printInfo("Auto-formatting Python scripts in scripts directory...")
+    printTip("Auto-formatting Python scripts in scripts directory...")
 
     # Find all Python files in the scripts directory
     python_files = []

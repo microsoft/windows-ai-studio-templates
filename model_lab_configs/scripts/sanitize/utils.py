@@ -48,6 +48,20 @@ def printInfo(msg: str):
         print(msg)
 
 
+def printTip(msg: str):
+    """Print important information with special color formatting (cyan)"""
+    frame = inspect.currentframe()
+    if frame and frame.f_back:
+        frame = frame.f_back
+        filename = os.path.relpath(frame.f_code.co_filename)
+        lineno = frame.f_lineno
+    else:
+        filename = "unknown"
+        lineno = 0
+    # Cyan text with file and line number, clickable in terminal
+    print(f"\033[36mTip: {filename}:{lineno}: {msg}\033[0m")
+
+
 def printError(msg: str):
     frame = inspect.currentframe()
     if frame and frame.f_back:
