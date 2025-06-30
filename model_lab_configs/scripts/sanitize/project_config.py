@@ -13,15 +13,13 @@ from .utils import open_ex, printError, printProcess
 
 
 class WorkflowItem(BaseModel):
-    name: str
+    displayName: Optional[str] = None
     file: str
     templateName: str
     # DO NOT ADD ANYTHING ELSE HERE
     # We should add it to the *.json.config
 
     def Check(self):
-        if not self.name:
-            return False
         if not self.file:
             return False
         if "\\" in self.file:
