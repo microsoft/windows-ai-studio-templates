@@ -1,8 +1,8 @@
 import argparse
 import os
-from os import path
 import subprocess
-import sys
+from os import path
+
 from model_lab import RuntimeEnum
 
 # This script is used to generate the requirements-*.txt
@@ -13,6 +13,7 @@ from model_lab import RuntimeEnum
 # - `# download:`: download from release and save it to cache folder like `# download:onnxruntime-genai-cuda-0.7.0-cp39-cp39-win_amd64.whl`
 uvpipInstallPrefix = "# uvpip:install"
 depsPrefix = "# deps:"
+
 
 def get_requires(name: str, args):
     # TODO for this case, need to install via Model Lab first
@@ -26,15 +27,15 @@ def get_requires(name: str, args):
     elif name.startswith("./"):
         package_name = name[2:].split("-")[0].replace("_", "-")
     else:
-        package_name = name.split('==')[0]  # Remove version if present
+        package_name = name.split("==")[0]  # Remove version if present
     if "[" in package_name:
         package_name = package_name.split("[")[0]
     requires = []
     try:
-        output = subprocess.check_output(["uv", "pip", "show", package_name, "-p", args.python]).decode('utf-8')
+        output = subprocess.check_output(["uv", "pip", "show", package_name, "-p", args.python]).decode("utf-8")
         for line in output.splitlines():
-            if line.startswith('Requires'):
-                requires = line.split(':')[1].strip().split(', ')
+            if line.startswith("Requires"):
+                requires = line.split(":")[1].strip().split(", ")
                 break
     except subprocess.CalledProcessError:
         pass
@@ -149,11 +150,11 @@ def main():
     result = subprocess.run(["uv", "pip", "install", "-r", temp_req, "-p", args.python], text=True)
 
     # Get freeze
-    pip_freeze = subprocess.check_output(["uv", "pip", "freeze", "-p", args.python]).decode('utf-8').splitlines()
+    pip_freeze = subprocess.check_output(["uv", "pip", "freeze", "-p", args.python]).decode("utf-8").splitlines()
     freeze_dict = {}
     for line in pip_freeze:
-        if '==' in line:
-            name, version = line.split('==')
+        if "==" in line:
+            name, version = line.split("==")
             # requires outputs lower case names
             freeze_dict[name.lower()] = version
     print(f"Installed dependencies: {freeze_dict}")
@@ -162,10 +163,13 @@ def main():
     outputFile = path.join(path.dirname(__file__), "..", "docs", f"requirements-{args.runtime}.txt")
     with open(outputFile, "w", newline="\n") as f:
         for name in all:
-            if (name.startswith("#") and not name.startswith(uvpipInstallPrefix) and not name.startswith(depsPrefix)) or name.startswith("--"):
+            if (
+                name.startswith("#") and not name.startswith(uvpipInstallPrefix) and not name.startswith(depsPrefix)
+            ) or name.startswith("--"):
                 f.write(name + "\n")
                 continue
-            if not name.startswith("#"): f.write("# " + name + "\n")
+            if not name.startswith("#"):
+                f.write("# " + name + "\n")
             f.write(name + "\n")
             requires = get_requires(name, args)
             print(f"Requires for {name}: {requires}")
