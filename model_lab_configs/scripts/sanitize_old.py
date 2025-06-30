@@ -1,3 +1,10 @@
+#!/usr/bin/env python3
+"""
+BACKUP: Original monolithic sanitize.py script before modularization
+This file is kept as a backup and reference for the original implementation.
+The new modular version is in the sanitize/ package with sanitize.py as the entry point.
+"""
+
 from __future__ import annotations
 
 import argparse
