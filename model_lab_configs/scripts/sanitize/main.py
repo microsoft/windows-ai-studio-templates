@@ -111,6 +111,7 @@ def main():
                 else:
                     modelSpaceConfig.modelInfo = ModelInfoProject(id=modelInVersion.id)
 
+                hasLLM = False
                 for _, modelItem in enumerate(modelSpaceConfig.workflows):
                     # set template
                     fileName = os.path.basename(modelItem.file)[:-5]
@@ -125,6 +126,7 @@ def main():
 
                     # check parameter
                     modelParameter.Check(parameterTemplate, oliveJson, modelList)
+                    hasLLM = hasLLM or modelParameter.isLLM
 
                     # check ipynb
                     # although filename and templateName are same here, use fileName to align with Skylight implementation
@@ -140,10 +142,19 @@ def main():
 
                 modelSpaceConfig.Check(modelInVersion)
 
+                if hasLLM:
+                    # check inference_model.json
+                    GlobalVars.inferenceModelCheck += 1
+                    inferenceModelFile = os.path.join(modelVerDir, "inference_model.json")
+                    if not os.path.exists(inferenceModelFile):
+                        printWarning(f"{inferenceModelFile} not exists.")
+
     modelList.Check()
 
     if GlobalVars.olivePath:
         printWarning(f"Total {GlobalVars.oliveCheck} config files checked against olive json files")
+
+    GlobalVars.Check(GlobalVars, configDir)
 
     result = subprocess.run(
         ["git", "status", "--porcelain"],
@@ -154,12 +165,6 @@ def main():
     )
 
     if len(GlobalVars.errorList) == 0:
-        # We add this test to make sure the sanity check is working: i.e. paths are checked and files are checked
-        # So the numbers need to be updated whenever the config files change
-        if GlobalVars.configCheck != 37 or GlobalVars.pathCheck != 424:
-            printError(
-                f"Total {GlobalVars.configCheck} config files checked with total {GlobalVars.pathCheck} path checks"
-            )
         # If the output is not empty, there are uncommitted changes
         if bool(result.stdout.strip()):
             printError("Please commit changes!")
