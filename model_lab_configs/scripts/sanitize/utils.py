@@ -3,10 +3,10 @@ Utility functions for the sanitize module
 """
 
 import inspect
+import json
 import os
 from contextlib import contextmanager
 from typing import Any
-import json
 
 import pydash
 from model_lab import RuntimeEnum
@@ -55,14 +55,18 @@ class GlobalVars:
             )
         # We add this test to make sure the sanity check is working: i.e. paths are checked and files are checked
         with open_ex(os.path.join(configDir, "checks.json"), "w") as file:
-            json.dump({
-                "pathCheck": self.pathCheck,
-                "configCheck": self.configCheck,
-                "oliveJsonCheck": self.oliveJsonCheck,
-                "ipynbCheck": self.ipynbCheck,
-                "gitignoreCheck": self.gitignoreCheck,
-                "modelProjectCheck": self.modelProjectCheck,
-            }, file, indent=4)
+            json.dump(
+                {
+                    "pathCheck": self.pathCheck,
+                    "configCheck": self.configCheck,
+                    "oliveJsonCheck": self.oliveJsonCheck,
+                    "ipynbCheck": self.ipynbCheck,
+                    "gitignoreCheck": self.gitignoreCheck,
+                    "modelProjectCheck": self.modelProjectCheck,
+                },
+                file,
+                indent=4,
+            )
 
 
 def printProcess(msg: str):
