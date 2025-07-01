@@ -40,6 +40,8 @@ class GlobalVars:
     ipynbCheck = 0
     gitignoreCheck = 0
     modelProjectCheck = 0
+    # Should align with number of LLM models
+    inferenceModelCheck = 0
 
     olivePath = None
     oliveCheck = 0
@@ -63,6 +65,7 @@ class GlobalVars:
                     "ipynbCheck": self.ipynbCheck,
                     "gitignoreCheck": self.gitignoreCheck,
                     "modelProjectCheck": self.modelProjectCheck,
+                    "inferenceModelCheck": self.inferenceModelCheck,
                 },
                 file,
                 indent=4,

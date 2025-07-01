@@ -144,6 +144,7 @@ def main():
 
                 if hasLLM:
                     # check inference_model.json
+                    GlobalVars.inferenceModelCheck += 1
                     inferenceModelFile = os.path.join(modelVerDir, "inference_model.json")
                     if not os.path.exists(inferenceModelFile):
                         printWarning(f"{inferenceModelFile} not exists.")
