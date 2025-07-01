@@ -9,7 +9,7 @@ from pydantic import BaseModel
 from .base import BaseModelClass
 from .constants import IconEnum
 from .model_info import ModelInfo
-from .utils import open_ex, printError, printProcess
+from .utils import GlobalVars, open_ex, printError, printProcess
 
 
 class WorkflowItem(BaseModel):
@@ -65,6 +65,8 @@ class ModelProjectConfig(BaseModelClass):
 
     # after template is set
     def Check(self, modelInfo: ModelInfo):
+        GlobalVars.modelProjectCheck += 1
+
         for i, model in enumerate(self.workflows):
             if not model.Check():
                 printError(f"{self._file} model {i} has error")

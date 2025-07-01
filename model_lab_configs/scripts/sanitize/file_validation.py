@@ -38,6 +38,8 @@ def check_case(path: Path) -> bool:
 
 
 def process_gitignore(modelVerDir: str, configDir: str):
+    GlobalVars.gitignoreCheck += 1
+
     gitignoreFile = os.path.join(modelVerDir, ".gitignore")
     templateFile = os.path.join(configDir, "gitignore.md")
     if not os.path.exists(gitignoreFile):
@@ -58,6 +60,8 @@ def readCheckOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter):
     """
     This will set phases to modelParameter
     """
+    GlobalVars.oliveJsonCheck += 1
+
     printProcess(oliveJsonFile)
     with open_ex(oliveJsonFile, "r") as file:
         oliveJson = json.load(file)
@@ -139,6 +143,8 @@ def readCheckIpynb(ipynbFile: str, modelItems: dict[str, ModelParameter]):
     Note this return exists or not, not valid or not
     """
     if os.path.exists(ipynbFile):
+        GlobalVars.ipynbCheck += 1
+
         with open_ex(ipynbFile, "r") as file:
             ipynbContent: str = file.read()
         allRuntimes: list[str] = []

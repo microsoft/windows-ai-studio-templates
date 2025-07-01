@@ -6,6 +6,7 @@ import inspect
 import os
 from contextlib import contextmanager
 from typing import Any
+import json
 
 import pydash
 from model_lab import RuntimeEnum
@@ -32,10 +33,36 @@ class GlobalVars:
         # Inference N/A
     }
     verbose = False
+    # Initialize checks
     pathCheck = 0
     configCheck = 0
+    oliveJsonCheck = 0
+    ipynbCheck = 0
+    gitignoreCheck = 0
+    modelProjectCheck = 0
+
     olivePath = None
     oliveCheck = 0
+
+    def Check(self, configDir: str):
+        if self.configCheck != self.oliveJsonCheck:
+            printError(
+                f"Config check {self.configCheck} does not match olive json check {self.oliveJsonCheck} in {configDir}"
+            )
+        if self.gitignoreCheck != self.modelProjectCheck:
+            printError(
+                f"Gitignore check {self.gitignoreCheck} does not match model project check {self.modelProjectCheck} in {configDir}"
+            )
+        # We add this test to make sure the sanity check is working: i.e. paths are checked and files are checked
+        with open_ex(os.path.join(configDir, "checks.json"), "w") as file:
+            json.dump({
+                "pathCheck": self.pathCheck,
+                "configCheck": self.configCheck,
+                "oliveJsonCheck": self.oliveJsonCheck,
+                "ipynbCheck": self.ipynbCheck,
+                "gitignoreCheck": self.gitignoreCheck,
+                "modelProjectCheck": self.modelProjectCheck,
+            }, file, indent=4)
 
 
 def printProcess(msg: str):
