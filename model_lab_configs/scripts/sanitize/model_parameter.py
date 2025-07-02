@@ -124,7 +124,6 @@ class DebugInfo(BaseModel):
     # This kind of config will
     # - could not disable quantization
     # - use modelbuilder for conversion
-    # - output a model folder instead of model file
     useModelBuilder: Optional[str] = None
     # This kind of config will
     # - could not disable quantization
@@ -134,6 +133,11 @@ class DebugInfo(BaseModel):
     # - could not disable quantization
     # - use OpenVINOConversion for conversion
     useOpenVINOOptimumConversion: Optional[str] = None
+    # This kind of config will
+    # TODO
+    # - could not disable quantization
+    # - use OnnxFloatToFloat16 for conversion
+    useOnnxFloatToFloat16: Optional[str] = None
 
     def setupUseX(self, oliveJson: Any):
         # setup useModelBuilder
@@ -163,6 +167,15 @@ class DebugInfo(BaseModel):
         if openVINOOptimumConversion:
             self.useOpenVINOOptimumConversion = openVINOOptimumConversion[0]
 
+        # setup useOnnxFloatToFloat16
+        onnxFloatToFloat16 = [
+            k
+            for k, v in oliveJson[OlivePropertyNames.Passes].items()
+            if v[OlivePropertyNames.Type] == OlivePassNames.OnnxFloatToFloat16
+        ]
+        if onnxFloatToFloat16:
+            self.useOnnxFloatToFloat16 = onnxFloatToFloat16[0]
+
         if (
             sum(
                 bool(v)
@@ -170,11 +183,12 @@ class DebugInfo(BaseModel):
                     self.useModelBuilder,
                     self.useOpenVINOConversion,
                     self.useOpenVINOOptimumConversion,
+                    self.useOnnxFloatToFloat16,
                 ]
             )
             > 1
         ):
-            printError(f"should not have both useModelBuilder and useOpenVINOConversion")
+            printError(f"should only have one useXXX")
             return False
         return True
 
@@ -185,11 +199,18 @@ class DebugInfo(BaseModel):
             return self.useOpenVINOConversion
         elif self.useOpenVINOOptimumConversion:
             return self.useOpenVINOOptimumConversion
+        elif self.useOnnxFloatToFloat16:
+            return self.useOnnxFloatToFloat16
         else:
             return None
 
     def isEmpty(self):
-        return not (self.useModelBuilder or self.useOpenVINOConversion or self.useOpenVINOOptimumConversion)
+        return not (
+            self.useModelBuilder
+            or self.useOpenVINOConversion
+            or self.useOpenVINOOptimumConversion
+            or self.useOnnxFloatToFloat16
+        )
 
 
 class ModelParameter(BaseModelClass):

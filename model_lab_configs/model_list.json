@@ -291,6 +291,19 @@
             "status": "Hide",
             "version": 1,
             "extension": true
+        },
+        {
+            "displayName": "Any TRTRTX Template",
+            "icon": "HuggingFace",
+            "modelLink": "https://huggingface.co/",
+            "id": "extension/any_trtrtx",
+            "runtimes": [
+                "CPU"
+            ],
+            "architecture": "Others",
+            "status": "Hide",
+            "version": 1,
+            "extension": true
         }
     ],
     "HFDatasets": {

@@ -54,6 +54,8 @@ def main():
 
     # check each model
     for model in modelList.allModels():
+        if model.id == "UPDATE_TO_DEBUG":
+            pass
         modelDir = shouldCheckModel(configDir, model)
         if modelDir:
             if not check_case(Path(modelDir)):
@@ -125,6 +127,8 @@ def main():
                     # check olive json
                     oliveJsonFile = os.path.join(modelVerDir, modelItem.file)
                     oliveJson = readCheckOliveConfig(oliveJsonFile, modelParameter)
+                    if not oliveJson:
+                        continue
 
                     # check parameter
                     modelParameter.Check(parameterTemplate, oliveJson, modelList)

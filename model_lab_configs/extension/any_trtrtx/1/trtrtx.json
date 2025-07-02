@@ -1,0 +1,34 @@
+{
+    "input_model": {
+        "type": "HfModel",
+        "model_path": "name"
+    },
+    "systems": {
+        "local_system": {
+            "type": "LocalSystem",
+            "accelerators": [
+                {
+                    "device": "gpu",
+                    "execution_providers": [
+                        "NvTensorRTRTXExecutionProvider"
+                    ]
+                }
+            ]
+        }
+    },
+    "passes": {
+        "conversion": {
+            "type": "OnnxConversion",
+            "target_opset": 17,
+            "save_as_external_data": true
+        },
+        "onnx_float_to_float16": {
+            "type": "OnnxFloatToFloat16"
+        }
+    },
+    "host": "local_system",
+    "target": "local_system",
+    "cache_dir": "cache",
+    "output_dir": "model/trtrtx",
+    "evaluate_input_model": false
+}

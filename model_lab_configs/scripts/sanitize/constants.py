@@ -89,6 +89,7 @@ class EPNames(Enum):
     QNNExecutionProvider = "QNNExecutionProvider"
     OpenVINOExecutionProvider = "OpenVINOExecutionProvider"
     VitisAIExecutionProvider = "VitisAIExecutionProvider"
+    NvTensorRTRTXExecutionProvider = "NvTensorRTRTXExecutionProvider"
 
 
 class OlivePassNames:
@@ -99,6 +100,7 @@ class OlivePassNames:
     ModelBuilder = "ModelBuilder"
     OpenVINOConversion = "OpenVINOConversion"
     OpenVINOOptimumConversion = "OpenVINOOptimumConversion"
+    OnnxFloatToFloat16 = "OnnxFloatToFloat16"
 
 
 class OlivePropertyNames:
