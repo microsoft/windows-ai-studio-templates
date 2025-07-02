@@ -222,7 +222,6 @@ class ModelParameter(BaseModelClass):
     @staticmethod
     def Read(parameterFile: str):
         printProcess(parameterFile)
-        GlobalVars.configCheck += 1
         with open_ex(parameterFile, "r") as file:
             parameterContent = file.read()
         modelParameter = ModelParameter.model_validate_json(parameterContent, strict=True)
@@ -231,6 +230,8 @@ class ModelParameter(BaseModelClass):
         return modelParameter
 
     def Check(self, templates: Dict[str, Parameter], oliveJson: Any, modelList: ModelList):
+        GlobalVars.configCheck += 1
+
         if not self.sections:
             printError(f"{self._file} should have sections")
             return
