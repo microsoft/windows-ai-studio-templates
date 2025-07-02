@@ -10,6 +10,7 @@ import re
 from typing import Any, Dict, List, Optional
 
 import pydash
+from deepdiff import DeepDiff
 from model_lab import RuntimeEnum, RuntimeFeatureEnum
 from pydantic import BaseModel
 
@@ -238,7 +239,6 @@ class ModelParameter(BaseModelClass):
         if not self.checkDebugInfo(oliveJson):
             return
 
-        # TODO Add Convert section
         if self.sections[0].phase == PhaseTypeEnum.Conversion:
             self.sections = self.sections[1:]
         self.sections.insert(
@@ -460,7 +460,6 @@ class ModelParameter(BaseModelClass):
 
         with open_ex(os.path.join(GlobalVars.olivePath, "examples", self.oliveFile), "r") as file:
             oliveFileJson = json.load(file)
-        from deepdiff import DeepDiff
 
         diff = DeepDiff(
             oliveFileJson[OlivePropertyNames.Passes],
