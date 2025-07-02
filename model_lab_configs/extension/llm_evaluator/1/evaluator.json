@@ -5,18 +5,12 @@
             "accelerators": [
                 {
                     "execution_providers": [
-                        "QNNExecutionProvider"
+                        "CPUExecutionProvider"
                     ]
                 }
             ]
         }
     },
-    "data_configs": [
-        {
-        },
-        {
-        }
-    ],
     "evaluators": {
         "modelLab_llm_evaluator": {
             "enabled": true,
@@ -27,10 +21,6 @@
     "passes": {
         "conversion": {
             "type": "OnnxConversion",
-            "save_as_external_data": true
-        },
-        "quantization": {
-            "type": "OnnxStaticQuantization",
             "save_as_external_data": true
         }
     },
