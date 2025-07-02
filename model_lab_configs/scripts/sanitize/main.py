@@ -144,6 +144,9 @@ def main():
                 if not model.extension:
                     readCheckIpynb(sharedIpynbFile, workflowsAgainstShared)
 
+                if model.extension:
+                    GlobalVars.extensionCheck += 1
+
                 modelSpaceConfig.Check(modelInVersion)
 
                 if hasLLM:

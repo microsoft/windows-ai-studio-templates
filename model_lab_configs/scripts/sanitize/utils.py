@@ -40,6 +40,7 @@ class GlobalVars:
     ipynbCheck = 0
     gitignoreCheck = 0
     modelProjectCheck = 0
+    extensionCheck = 0
     # Should align with number of LLM models
     inferenceModelCheck = 0
 
@@ -48,12 +49,10 @@ class GlobalVars:
 
     def Check(self, configDir: str):
         if self.configCheck != self.oliveJsonCheck:
+            printError(f"Config check {self.configCheck} does not match olive json check {self.oliveJsonCheck}")
+        if self.gitignoreCheck != self.modelProjectCheck - self.extensionCheck:
             printError(
-                f"Config check {self.configCheck} does not match olive json check {self.oliveJsonCheck} in {configDir}"
-            )
-        if self.gitignoreCheck != self.modelProjectCheck:
-            printError(
-                f"Gitignore check {self.gitignoreCheck} does not match model project check {self.modelProjectCheck} in {configDir}"
+                f"Gitignore check {self.gitignoreCheck} does not match model project check {self.modelProjectCheck} - {self.extensionCheck}"
             )
         # We add this test to make sure the sanity check is working: i.e. paths are checked and files are checked
         with open_ex(os.path.join(configDir, "checks.json"), "w") as file:
@@ -66,6 +65,7 @@ class GlobalVars:
                     "gitignoreCheck": self.gitignoreCheck,
                     "modelProjectCheck": self.modelProjectCheck,
                     "inferenceModelCheck": self.inferenceModelCheck,
+                    "extensionCheck": self.extensionCheck,
                 },
                 file,
                 indent=4,
