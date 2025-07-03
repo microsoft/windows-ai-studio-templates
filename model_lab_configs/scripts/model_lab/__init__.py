@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class RuntimeEnum(Enum):
     CPU = "CPU"
     QNN = "QNN"
@@ -9,7 +10,7 @@ class RuntimeEnum(Enum):
     WCR = "WCR"
     # Inference
     QNN_LLLM = "QNN_LLM"
-    
+
 
 class RuntimeFeatureEnum(Enum):
     AutoGptq = "AutoGptq"
