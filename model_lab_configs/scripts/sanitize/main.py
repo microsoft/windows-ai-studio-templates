@@ -94,14 +94,16 @@ def main():
                     printError(f"{mdFile} not exists")
 
                 # check requirement.txt
-                requirementFile = os.path.join(modelVerDir, "requirements.txt")
-                if not os.path.exists(requirementFile):
-                    printWarning(f"{requirementFile} not exists.")
+                if not model.extension:
+                    requirementFile = os.path.join(modelVerDir, "requirements.txt")
+                    if not os.path.exists(requirementFile):
+                        printWarning(f"{requirementFile} not exists.")
 
                 # copy .gitignore
-                process_gitignore(modelVerDir, configDir)
+                if not model.extension:
+                    process_gitignore(modelVerDir, configDir)
 
-                # check ipynb
+                # check ipynb & parameter
                 sharedIpynbFile = os.path.join(modelVerDir, "inference_sample.ipynb")
                 hasSharedIpynb = os.path.exists(sharedIpynbFile)
                 workflowsAgainstShared: dict[str, ModelParameter] = {}
@@ -129,16 +131,21 @@ def main():
                     hasLLM = hasLLM or modelParameter.isLLM
 
                     # check ipynb
-                    # although filename and templateName are same here, use fileName to align with Skylight implementation
-                    ipynbFile = os.path.join(modelVerDir, f"{fileName}_inference_sample.ipynb")
-                    hasSpecialIpynb = readCheckIpynb(ipynbFile, {modelItem.file: modelParameter})
-                    if not hasSpecialIpynb:
-                        if not hasSharedIpynb:
-                            printError(f"{ipynbFile} nor {sharedIpynbFile} not exists.")
-                        else:
-                            workflowsAgainstShared[modelItem.file] = modelParameter
+                    if not model.extension:
+                        # although filename and templateName are same here, use fileName to align with Skylight implementation
+                        ipynbFile = os.path.join(modelVerDir, f"{fileName}_inference_sample.ipynb")
+                        hasSpecialIpynb = readCheckIpynb(ipynbFile, {modelItem.file: modelParameter})
+                        if not hasSpecialIpynb:
+                            if not hasSharedIpynb:
+                                printError(f"{ipynbFile} nor {sharedIpynbFile} not exists.")
+                            else:
+                                workflowsAgainstShared[modelItem.file] = modelParameter
 
-                readCheckIpynb(sharedIpynbFile, workflowsAgainstShared)
+                if not model.extension:
+                    readCheckIpynb(sharedIpynbFile, workflowsAgainstShared)
+
+                if model.extension:
+                    GlobalVars.extensionCheck += 1
 
                 modelSpaceConfig.Check(modelInVersion)
 
