@@ -54,8 +54,6 @@ def main():
         ],
         RuntimeEnum.IntelNPU: [
             "torch==2.6.0",
-            # 4.52 breaks optimum[openvino]==1.24.0
-            "transformers==4.51.3"
         ],
     }
     shared = [
@@ -86,6 +84,10 @@ def main():
             "optimum[openvino]==1.24.0",
             # optimum-intel==1.15.0: depends on onnxruntime so we need to use a separate venv
             "onnxruntime-genai==0.7.0",
+            # olive-ai==0.9.1 depends on optimum[openvino]<=1.24
+            # optimum[openvino]==1.24.0 depends on transformers<4.49.0
+            # phi4 depends on transformers>=4.49.0
+            "# uvpip:install transformers==4.49.0;post",
         ],
         # https://onnxruntime.ai/docs/execution-providers/CUDA-ExecutionProvider.html
         RuntimeEnum.NvidiaGPU: [
