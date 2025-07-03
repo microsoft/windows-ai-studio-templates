@@ -54,6 +54,8 @@ def main():
         ],
         RuntimeEnum.IntelNPU: [
             "torch==2.6.0",
+            # 4.52 breaks optimum[openvino]==1.24.0
+            "transformers==4.51.3"
         ],
     }
     shared = [
