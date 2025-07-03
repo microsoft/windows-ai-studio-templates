@@ -110,4 +110,3 @@ transformers==4.48.0
 onnxruntime-genai==0.7.0
 numpy==1.26.4
 onnxruntime==1.21.0
-# uvpip:install transformers==4.49.0;post
