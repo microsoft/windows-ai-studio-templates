@@ -11,27 +11,11 @@ from typing import Any
 import pydash
 from model_lab import RuntimeEnum
 
-from .constants import EPNames
+from .constants import EPNames, OliveDeviceTypes
 
 
 class GlobalVars:
     errorList = []
-    epToName = {
-        EPNames.QNNExecutionProvider.value: "Qualcomm NPU",
-        EPNames.OpenVINOExecutionProvider.value: "Intel NPU",
-        EPNames.VitisAIExecutionProvider.value: "AMD NPU",
-        EPNames.CPUExecutionProvider.value: "CPU",
-        EPNames.CUDAExecutionProvider.value: "NVIDIA GPU",
-    }
-    # Initialize runtime to EP mappings directly
-    runtimeToEp = {
-        RuntimeEnum.CPU: EPNames.CPUExecutionProvider.value,
-        RuntimeEnum.QNN: EPNames.QNNExecutionProvider.value,
-        RuntimeEnum.IntelNPU: EPNames.OpenVINOExecutionProvider.value,
-        RuntimeEnum.AMDNPU: EPNames.VitisAIExecutionProvider.value,
-        RuntimeEnum.NvidiaGPU: EPNames.CUDAExecutionProvider.value,
-        # Inference N/A
-    }
     verbose = False
     # Initialize checks
     pathCheck = 0
@@ -46,30 +30,82 @@ class GlobalVars:
 
     olivePath = None
     oliveCheck = 0
+    RuntimeToEPName = {
+        RuntimeEnum.CPU: EPNames.CPUExecutionProvider,
+        RuntimeEnum.QNN: EPNames.QNNExecutionProvider,
+        RuntimeEnum.IntelAny: EPNames.OpenVINOExecutionProvider,
+        RuntimeEnum.IntelCPU: EPNames.OpenVINOExecutionProvider,
+        RuntimeEnum.IntelNPU: EPNames.OpenVINOExecutionProvider,
+        RuntimeEnum.IntelGPU: EPNames.OpenVINOExecutionProvider,
+        RuntimeEnum.AMDNPU: EPNames.VitisAIExecutionProvider,
+        RuntimeEnum.NvidiaGPU: EPNames.CUDAExecutionProvider,
+    }
+    RuntimeToOliveDeviceType = {
+        RuntimeEnum.CPU: OliveDeviceTypes.CPU,
+        RuntimeEnum.QNN: OliveDeviceTypes.NPU,
+        RuntimeEnum.IntelAny: OliveDeviceTypes.Any,
+        RuntimeEnum.IntelCPU: OliveDeviceTypes.CPU,
+        RuntimeEnum.IntelNPU: OliveDeviceTypes.NPU,
+        RuntimeEnum.IntelGPU: OliveDeviceTypes.GPU,
+        RuntimeEnum.AMDNPU: OliveDeviceTypes.NPU,
+        RuntimeEnum.NvidiaGPU: OliveDeviceTypes.GPU,
+    }
+    RuntimeToDisplayName = {
+        RuntimeEnum.CPU: "CPU",
+        RuntimeEnum.QNN: "Qualcomm NPU",
+        RuntimeEnum.IntelAny: "Intel Any",
+        RuntimeEnum.IntelCPU: "Intel CPU",
+        RuntimeEnum.IntelNPU: "Intel NPU",
+        RuntimeEnum.IntelGPU: "Intel GPU",
+        RuntimeEnum.AMDNPU: "AMD NPU",
+        RuntimeEnum.NvidiaGPU: "NVIDIA GPU",
+        RuntimeEnum.NvidiaTRTRTX: "Nvidia TensorRT RTX",
+    }
 
-    def Check(self, configDir: str):
-        if self.configCheck != self.oliveJsonCheck:
-            printError(f"Config check {self.configCheck} does not match olive json check {self.oliveJsonCheck}")
-        if self.gitignoreCheck != self.modelProjectCheck - self.extensionCheck:
+    @classmethod
+    def Check(cls, configDir: str):
+        if cls.configCheck != cls.oliveJsonCheck:
+            printError(f"Config check {cls.configCheck} does not match olive json check {cls.oliveJsonCheck}")
+        if cls.gitignoreCheck != cls.modelProjectCheck - cls.extensionCheck:
             printError(
-                f"Gitignore check {self.gitignoreCheck} does not match model project check {self.modelProjectCheck} - {self.extensionCheck}"
+                f"Gitignore check {cls.gitignoreCheck} does not match model project check {cls.modelProjectCheck} - {cls.extensionCheck}"
             )
         # We add this test to make sure the sanity check is working: i.e. paths are checked and files are checked
         with open_ex(os.path.join(configDir, "checks.json"), "w") as file:
             json.dump(
                 {
-                    "pathCheck": self.pathCheck,
-                    "configCheck": self.configCheck,
-                    "oliveJsonCheck": self.oliveJsonCheck,
-                    "ipynbCheck": self.ipynbCheck,
-                    "gitignoreCheck": self.gitignoreCheck,
-                    "modelProjectCheck": self.modelProjectCheck,
-                    "inferenceModelCheck": self.inferenceModelCheck,
-                    "extensionCheck": self.extensionCheck,
+                    "pathCheck": cls.pathCheck,
+                    "configCheck": cls.configCheck,
+                    "oliveJsonCheck": cls.oliveJsonCheck,
+                    "ipynbCheck": cls.ipynbCheck,
+                    "gitignoreCheck": cls.gitignoreCheck,
+                    "modelProjectCheck": cls.modelProjectCheck,
+                    "inferenceModelCheck": cls.inferenceModelCheck,
+                    "extensionCheck": cls.extensionCheck,
                 },
                 file,
                 indent=4,
             )
+
+    @classmethod
+    def GetRuntimeRPC(cls, epName: EPNames, oliveDeviceType: OliveDeviceTypes) -> RuntimeEnum:
+        # Accept epName as either Enum or string, convert to Enum if needed
+        if not isinstance(epName, EPNames):
+            epName = EPNames(epName)
+        # Accept oliveDeviceType as either Enum or string, convert to Enum if needed
+        if not isinstance(oliveDeviceType, OliveDeviceTypes):
+            oliveDeviceType = OliveDeviceTypes(oliveDeviceType)
+
+        matching_runtimes = [runtime for runtime, ep in cls.RuntimeToEPName.items() if ep == epName]
+        if not matching_runtimes:
+            raise ValueError(f"No runtime found for EPName: {epName}")
+        if len(matching_runtimes) == 1:
+            return matching_runtimes[0]
+        # If multiple runtimes match, filter by oliveDeviceType
+        for runtime in matching_runtimes:
+            if cls.RuntimeToOliveDeviceType[runtime] == oliveDeviceType:
+                return runtime
+        raise ValueError(f"No matching runtime found for EPName: {epName} and OliveDeviceType: {oliveDeviceType}")
 
 
 def printProcess(msg: str):

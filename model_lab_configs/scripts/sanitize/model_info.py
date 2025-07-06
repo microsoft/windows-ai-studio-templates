@@ -27,7 +27,7 @@ class ModelInfo(BaseModel):
     architecture: ArchitectureEnum
     status: ModelStatusEnum = ModelStatusEnum.Hide
     version: int = -1
-    extension: bool = None
+    extension: Optional[bool] = None
 
     def Check(self):
         if not self.status:

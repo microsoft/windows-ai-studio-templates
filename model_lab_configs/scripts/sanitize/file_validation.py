@@ -85,7 +85,7 @@ def readCheckOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter):
     if len(eps) != 1:
         printError(f"{oliveJsonFile} should have only one execution provider")
         return
-    if eps[0] not in GlobalVars.epToName:
+    if eps[0] not in EPNames:
         printError(f"{oliveJsonFile} has wrong execution provider {eps[0]}")
         return
 
@@ -156,7 +156,6 @@ def readCheckIpynb(ipynbFile: str, modelItems: dict[str, ModelParameter]):
                 importStr = importOnnxgenairuntime
             elif (
                 modelParameter.runtime.values
-                and len(modelParameter.runtime.values) == 1
                 and modelParameter.runtime.values[0] == EPNames.OpenVINOExecutionProvider.value
             ):
                 testPath = outputModelIntelNPURelativePath
@@ -164,14 +163,14 @@ def readCheckIpynb(ipynbFile: str, modelItems: dict[str, ModelParameter]):
                 if not re.search(item, ipynbContent):
                     printError(f"{ipynbFile} does not have '{item}' for {name}, please use it as input")
             if modelParameter.evalRuntime:
-                runtime = GlobalVars.runtimeToEp[modelParameter.evalRuntime]
+                runtime = GlobalVars.RuntimeToEPName[modelParameter.evalRuntime]
                 if runtime not in allRuntimes:
-                    allRuntimes.append(runtime)
+                    allRuntimes.append(str(runtime))
             else:
                 if modelParameter.runtime.values:
                     for runtime in modelParameter.runtime.values:
                         if runtime not in allRuntimes:
-                            allRuntimes.append(runtime)
+                            allRuntimes.append(str(runtime))
 
         targetEP = None
         if len(allRuntimes) == 2 and EPNames.CPUExecutionProvider.value in allRuntimes:

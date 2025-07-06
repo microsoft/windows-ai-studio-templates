@@ -91,6 +91,13 @@ class EPNames(Enum):
     VitisAIExecutionProvider = "VitisAIExecutionProvider"
 
 
+class OliveDeviceTypes(Enum):
+    Any = "any"
+    CPU = "cpu"
+    GPU = "gpu"
+    NPU = "npu"
+
+
 class OlivePassNames:
     OnnxConversion = "OnnxConversion"
     OnnxQuantization = "OnnxQuantization"
@@ -110,6 +117,7 @@ class OlivePropertyNames:
     ExternalData = "save_as_external_data"
     Systems = "systems"
     Accelerators = "accelerators"
+    ExecutionDevice = "device"
     ExecutionProviders = "execution_providers"
     DataConfigs = "data_configs"
     Target = "target"

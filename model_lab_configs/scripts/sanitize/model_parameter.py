@@ -17,6 +17,7 @@ from pydantic import BaseModel
 from .base import BaseModelClass
 from .constants import (
     EPNames,
+    OliveDeviceTypes,
     OlivePassNames,
     OlivePropertyNames,
     ParameterActionTypeEnum,
@@ -97,7 +98,7 @@ class Section(BaseModel):
                 if parameter.values:
                     missing_keys = [key for key in parameter.values if key not in modelList.HFDatasets]
                     if missing_keys:
-                        printError(f"datasets are not in HFDatasets: {', '.join(missing_keys)}")
+                        printError(f"datasets are not in HFDatasets: {', '.join(str(key) for key in missing_keys)}")
             elif parameter.path and parameter.path.endswith("activation_type"):
                 if not parameter.tags or ParameterTagEnum.ActivationType not in parameter.tags:
                     printError(f"{_file} section {sectionId} parameter {i} should have ActivationType tag")
@@ -257,13 +258,24 @@ class ModelParameter(BaseModelClass):
         # Add runtime
         syskey, system = list(oliveJson[OlivePropertyNames.Systems].items())[0]
         currentEp = system[OlivePropertyNames.Accelerators][0][OlivePropertyNames.ExecutionProviders][0]
+        currentOliveDeviceType = system[OlivePropertyNames.Accelerators][0].get(
+            OlivePropertyNames.ExecutionDevice, OliveDeviceTypes.Any.value
+        )
+        currentRuntimeRPC = GlobalVars.GetRuntimeRPC(currentEp, currentOliveDeviceType)
+        # use any fro default
+        if currentEp == EPNames.OpenVINOExecutionProvider.value:
+            currentRuntimeRPC = RuntimeEnum.IntelAny
+
         runtimeValues: List[str] = [currentEp]
-        runtimeDisplayNames = [GlobalVars.epToName[currentEp]]
+        runtimeExtraValues = [[GlobalVars.RuntimeToOliveDeviceType[currentRuntimeRPC]]]
+        runtimeDisplayNames = [GlobalVars.RuntimeToDisplayName[currentRuntimeRPC]]
+
         runtimeActions = None
 
-        if self.addAmdNpu and currentEp != EPNames.VitisAIExecutionProvider.value:
-            runtimeValues.append(EPNames.VitisAIExecutionProvider.value)
-            runtimeDisplayNames.append(GlobalVars.epToName[EPNames.VitisAIExecutionProvider.value])
+        if self.addAmdNpu and currentRuntimeRPC != RuntimeEnum.AMDNPU:
+            runtimeValues.append(GlobalVars.RuntimeToEPName[RuntimeEnum.AMDNPU].value)
+            runtimeExtraValues.append([GlobalVars.RuntimeToOliveDeviceType[RuntimeEnum.AMDNPU]])
+            runtimeDisplayNames.append(GlobalVars.RuntimeToDisplayName[RuntimeEnum.AMDNPU])
             evaluatorName = oliveJson[OlivePropertyNames.Evaluator]
             if evaluatorName and self.addAmdNpu.inferenceSettings:
                 if runtimeActions is None:
@@ -276,10 +288,10 @@ class ModelParameter(BaseModelClass):
                         f"{OlivePropertyNames.Evaluators}.{evaluatorName}.{OlivePropertyNames.Metrics}",
                     )
                 )
-                for i in range(metricsNum):
+                for tmpDevice in range(metricsNum):
                     runtimeActions[-1].append(
                         ParameterAction(
-                            path=f"{OlivePropertyNames.Evaluators}.{evaluatorName}.{OlivePropertyNames.Metrics}[{i}].{OlivePropertyNames.UserConfig}",
+                            path=f"{OlivePropertyNames.Evaluators}.{evaluatorName}.{OlivePropertyNames.Metrics}[{tmpDevice}].{OlivePropertyNames.UserConfig}",
                             type=ParameterActionTypeEnum.Insert,
                             value={
                                 "inference_settings": {
@@ -290,19 +302,33 @@ class ModelParameter(BaseModelClass):
                     )
 
         # CPU always last
-        if self.addCpu != False and currentEp != EPNames.CPUExecutionProvider.value:
-            runtimeValues.append(EPNames.CPUExecutionProvider.value)
-            runtimeDisplayNames.append(GlobalVars.epToName[EPNames.CPUExecutionProvider.value])
+        if self.addCpu != False and currentRuntimeRPC != RuntimeEnum.CPU:
+            runtimeValues.append(GlobalVars.RuntimeToEPName[RuntimeEnum.CPU].value)
+            runtimeExtraValues.append([GlobalVars.RuntimeToOliveDeviceType[RuntimeEnum.CPU]])
+            runtimeDisplayNames.append(GlobalVars.RuntimeToDisplayName[RuntimeEnum.CPU])
             if runtimeActions is not None:
                 runtimeActions.append([])
+
+        if currentEp == EPNames.OpenVINOExecutionProvider.value:
+            for tmpDevice in OliveDeviceTypes:
+                if tmpDevice == OliveDeviceTypes.Any:
+                    continue
+                tmpRuntimeRPC = GlobalVars.GetRuntimeRPC(EPNames.OpenVINOExecutionProvider, tmpDevice)
+                runtimeValues.append(GlobalVars.RuntimeToEPName[tmpRuntimeRPC].value)
+                runtimeExtraValues.append([GlobalVars.RuntimeToOliveDeviceType[tmpRuntimeRPC]])
+                runtimeDisplayNames.append(GlobalVars.RuntimeToDisplayName[tmpRuntimeRPC])
 
         self.runtime = Parameter(
             autoGenerated=True,
             name="Evaluate on",
             type=ParameterTypeEnum.Enum,
             values=runtimeValues,
+            extraValues=runtimeExtraValues,
             displayNames=runtimeDisplayNames,
-            path=f"{OlivePropertyNames.Systems}.{syskey}.accelerators.0.execution_providers.0",
+            path=f"{OlivePropertyNames.Systems}.{syskey}.{OlivePropertyNames.Accelerators}.0.{OlivePropertyNames.ExecutionProviders}.0",
+            extraPaths=[
+                f"{OlivePropertyNames.Systems}.{syskey}.{OlivePropertyNames.Accelerators}.0.{OlivePropertyNames.ExecutionDevice}"
+            ],
             readOnly=False,
         )
         self.runtime.actions = runtimeActions
@@ -324,7 +350,7 @@ class ModelParameter(BaseModelClass):
             self.executeRuntimeFeatures = [RuntimeFeatureEnum.AutoGptq]
             self.evalRuntimeFeatures = [RuntimeFeatureEnum.Nightly]
 
-        for i, section in enumerate(self.sections):
+        for tmpDevice, section in enumerate(self.sections):
             # Add conversion toggle
             if section.phase == PhaseTypeEnum.Conversion:
                 if not section.disableToggleGeneration:
@@ -408,8 +434,8 @@ class ModelParameter(BaseModelClass):
                 if not checkPath(f"{OlivePropertyNames.Evaluators}.{evaluatorName}", oliveJson):
                     printError(f"{self._file} does not have evaluator {evaluatorName}")
 
-            if not section.Check(templates, self._file or "", i, oliveJson, modelList):
-                printError(f"{self._file} section {i} has error")
+            if not section.Check(templates, self._file or "", tmpDevice, oliveJson, modelList):
+                printError(f"{self._file} section {tmpDevice} has error")
 
         if (
             currentEp == EPNames.CUDAExecutionProvider.value

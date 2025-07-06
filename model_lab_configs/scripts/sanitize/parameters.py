@@ -79,6 +79,8 @@ class Parameter(BaseModel):
     displayType: Optional[ParameterDisplayTypeEnum] = None
     path: Optional[str] = None
     values: Optional[List[str | int | float | Any]] = None
+    extraPaths: Optional[List[str]] = None
+    extraValues: Optional[List[List[str | int | float | Any]]] = None
     # TODO update to expression
     selectors: Optional[List[ParameterCheck]] = None
     actions: Optional[List[List[ParameterAction]]] = None
