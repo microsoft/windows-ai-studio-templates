@@ -78,9 +78,9 @@ class Parameter(BaseModel):
     displayNames: Optional[List[str]] = None
     displayType: Optional[ParameterDisplayTypeEnum] = None
     path: Optional[str] = None
-    values: Optional[List[str | int | float | Any]] = None
+    values: Optional[List[Any]] = None
     extraPaths: Optional[List[str]] = None
-    extraValues: Optional[List[List[str | int | float | Any]]] = None
+    extraValues: Optional[List[List[Any]]] = None
     # TODO update to expression
     selectors: Optional[List[ParameterCheck]] = None
     actions: Optional[List[List[ParameterAction]]] = None
@@ -88,7 +88,7 @@ class Parameter(BaseModel):
     customize: Optional[bool] = None
     # When the path does not exist, we will use this value as the default value
     # defaultValue is already used in Skylight, so do not use it
-    fallbackValue: Optional[str | int | bool | float | Any] = None
+    fallbackValue: Optional[Any] = None
     # Template can be:
     # 1. A Parameter object (with its own template field as str)
     # 2. A string (template name)
