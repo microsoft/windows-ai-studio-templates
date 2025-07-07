@@ -173,6 +173,5 @@ def checkPath(path: str, oliveJson: Any, printOnNotExist: bool = True):
     GlobalVars.pathCheck += 1
     if pydash.get(oliveJson, path) is None:
         if printOnNotExist:
-            printError(f"Not in olive json: {path}")
-        return False
+            printWarning(f"Not in olive json: {path}")
     return True

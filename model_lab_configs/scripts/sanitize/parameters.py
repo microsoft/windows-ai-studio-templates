@@ -79,8 +79,6 @@ class Parameter(BaseModel):
     displayType: Optional[ParameterDisplayTypeEnum] = None
     path: Optional[str] = None
     values: Optional[List[Any]] = None
-    extraPaths: Optional[List[str]] = None
-    extraValues: Optional[List[List[Any]]] = None
     # TODO update to expression
     selectors: Optional[List[ParameterCheck]] = None
     actions: Optional[List[List[ParameterAction]]] = None
@@ -219,7 +217,7 @@ class Parameter(BaseModel):
                                 printWarning(
                                     f"Value {value_in_list} not in DatasetSubset for {self.path}. Could be acceptable if it doesn't have subset"
                                 )
-                    elif value not in self.values:
+                    elif value and value not in self.values:
                         printError(f"Value {value} not in values for {self.path}")
                         return False
 

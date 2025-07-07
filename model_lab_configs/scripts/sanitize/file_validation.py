@@ -154,10 +154,7 @@ def readCheckIpynb(ipynbFile: str, modelItems: dict[str, ModelParameter]):
             if modelParameter.isLLM:
                 testPath = outputModelModelBuilderPath
                 importStr = importOnnxgenairuntime
-            elif (
-                modelParameter.runtime.values
-                and modelParameter.runtime.values[0] == EPNames.OpenVINOExecutionProvider.value
-            ):
+            elif modelParameter.runtime.values and modelParameter.isIntel:
                 testPath = outputModelIntelNPURelativePath
             for item in [testPath, importStr]:
                 if not re.search(item, ipynbContent):
@@ -167,7 +164,9 @@ def readCheckIpynb(ipynbFile: str, modelItems: dict[str, ModelParameter]):
                 if runtime not in allRuntimes:
                     allRuntimes.append(str(runtime))
             else:
-                if modelParameter.runtime.values:
+                if modelParameter.isIntel:
+                    allRuntimes.append(EPNames.OpenVINOExecutionProvider.value)
+                elif modelParameter.runtime.values:
                     for runtime in modelParameter.runtime.values:
                         if runtime not in allRuntimes:
                             allRuntimes.append(str(runtime))
