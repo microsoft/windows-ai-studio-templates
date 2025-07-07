@@ -504,19 +504,22 @@ class ModelParameter(BaseModelClass):
                 addRuntimeInConversion(
                     self.runtimeInConversion,
                     f"{OlivePropertyNames.Passes}.{openVINOOptimumConversion[0]}.{OlivePropertyNames.ExtraArgs}.{OlivePropertyNames.Device}",
-                    [e.value for e in OliveDeviceTypes],
+                    # TODO support any after olive release
+                    [e.value for e in OliveDeviceTypes if e != OliveDeviceTypes.Any],
                 )
             if openVINOQuantization:
                 addRuntimeInConversion(
                     self.runtimeInConversion,
                     f"{OlivePropertyNames.Passes}.{openVINOQuantization[0]}.{OlivePropertyNames.TargetDevice}",
-                    [e.value for e in OliveDeviceTypes],
+                    # TODO support any after olive release
+                    [e.value for e in OliveDeviceTypes if e != OliveDeviceTypes.Any],
                 )
             if openVINOEncapsulation:
                 addRuntimeInConversion(
                     self.runtimeInConversion,
                     f"{OlivePropertyNames.Passes}.{openVINOEncapsulation[0]}.{OlivePropertyNames.TargetDevice}",
-                    [e.value for e in OliveDeviceTypes],
+                    # TODO support any after olive release
+                    [e.value for e in OliveDeviceTypes if e != OliveDeviceTypes.Any],
                 )
 
     def checkPhase(self, oliveJson: Any):
