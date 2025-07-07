@@ -475,7 +475,7 @@ class ModelParameter(BaseModelClass):
             None,
         )
 
-        def addRuntimeInPasses(runtime: Parameter, path: str, values: List[Any]):
+        def addRuntimeInConversion(runtime: Parameter, path: str, values: List[Any]):
             if not runtime.path:
                 runtime.path = path
                 runtime.values = values
@@ -501,19 +501,19 @@ class ModelParameter(BaseModelClass):
                 readOnly=True,
             )
             if openVINOOptimumConversion:
-                addRuntimeInPasses(
+                addRuntimeInConversion(
                     self.runtimeInConversion,
                     f"{OlivePropertyNames.Passes}.{openVINOOptimumConversion[0]}.{OlivePropertyNames.ExtraArgs}.{OlivePropertyNames.Device}",
                     [e.value for e in OliveDeviceTypes],
                 )
             if openVINOQuantization:
-                addRuntimeInPasses(
+                addRuntimeInConversion(
                     self.runtimeInConversion,
                     f"{OlivePropertyNames.Passes}.{openVINOQuantization[0]}.{OlivePropertyNames.TargetDevice}",
                     [e.value for e in OliveDeviceTypes],
                 )
             if openVINOEncapsulation:
-                addRuntimeInPasses(
+                addRuntimeInConversion(
                     self.runtimeInConversion,
                     f"{OlivePropertyNames.Passes}.{openVINOEncapsulation[0]}.{OlivePropertyNames.TargetDevice}",
                     [e.value for e in OliveDeviceTypes],
