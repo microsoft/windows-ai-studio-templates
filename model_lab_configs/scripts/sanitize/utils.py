@@ -59,7 +59,7 @@ class GlobalVars:
         RuntimeEnum.IntelGPU: "Intel GPU",
         RuntimeEnum.AMDNPU: "AMD NPU",
         RuntimeEnum.NvidiaGPU: "NVIDIA GPU",
-        RuntimeEnum.NvidiaTRTRTX: "Nvidia TensorRT RTX",
+        RuntimeEnum.NvidiaTRTRTX: "NVIDIA TensorRT for RTX",
     }
 
     @classmethod
