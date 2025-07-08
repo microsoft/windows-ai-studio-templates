@@ -264,7 +264,7 @@ class ModelParameter(BaseModelClass):
             OlivePropertyNames.Device, OliveDeviceTypes.Any.value
         )
         currentRuntimeRPC = GlobalVars.GetRuntimeRPC(currentEp, currentOliveDeviceType)
-        # use any fro default
+        # use any for default
         if currentEp == EPNames.OpenVINOExecutionProvider.value:
             currentRuntimeRPC = RuntimeEnum.IntelAny
 
