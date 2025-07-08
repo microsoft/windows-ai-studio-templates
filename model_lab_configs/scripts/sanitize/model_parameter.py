@@ -443,13 +443,13 @@ class ModelParameter(BaseModelClass):
             self.isGPURequired = True
 
         self.checkPhase(oliveJson)
-        self.CheckPasses(oliveJson)
+        self.CheckRuntimeInConversion(oliveJson)
         self.checkOliveFile(oliveJson)
         if self.debugInfo and self.debugInfo.isEmpty():
             self.debugInfo = None
         self.writeIfChanged()
 
-    def CheckPasses(self, oliveJson: Any):
+    def CheckRuntimeInConversion(self, oliveJson: Any):
         openVINOOptimumConversion = next(
             (
                 (k, v)
@@ -479,6 +479,10 @@ class ModelParameter(BaseModelClass):
             if not runtime.path:
                 runtime.path = path
                 runtime.values = values
+                runtime.displayNames = [
+                    GlobalVars.RuntimeToDisplayName[GlobalVars.GetRuntimeRPC(EPNames.OpenVINOExecutionProvider, e)]
+                    for e in values
+                ]
             else:
                 if runtime.actions is None:
                     runtime.actions = []
