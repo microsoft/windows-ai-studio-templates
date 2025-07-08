@@ -193,7 +193,6 @@ class Parameter(BaseModel):
             else:
                 printError(f"Invalid combination. Check comment")
                 return False
-
             if self.path:
                 if not checkPath(self.path, oliveJson):
                     return False

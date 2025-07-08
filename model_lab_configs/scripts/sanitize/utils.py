@@ -11,7 +11,7 @@ from typing import Any
 import pydash
 from model_lab import RuntimeEnum
 
-from .constants import EPNames, OliveDeviceTypes
+from .constants import EPNames, OliveDeviceTypes, OlivePropertyNames
 
 
 class GlobalVars:
@@ -172,6 +172,11 @@ def checkPath(path: str, oliveJson: Any, printOnNotExist: bool = True):
     printInfo(path)
     GlobalVars.pathCheck += 1
     if pydash.get(oliveJson, path) is None:
+        syskey, system = list(oliveJson[OlivePropertyNames.Systems].items())[0]
+        currentEp = system[OlivePropertyNames.Accelerators][0][OlivePropertyNames.ExecutionProviders][0]
+        if path == f"systems.{syskey}.accelerators.0.device" and currentEp == EPNames.OpenVINOExecutionProvider.value:
+            return True
         if printOnNotExist:
-            printWarning(f"Not in olive json: {path}")
+            printError(f"Not in olive json: {path}")
+            return False
     return True
