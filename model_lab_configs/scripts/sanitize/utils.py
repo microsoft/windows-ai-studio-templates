@@ -9,6 +9,7 @@ from contextlib import contextmanager
 from typing import Any
 
 import pydash
+
 from model_lab import RuntimeEnum
 
 from .constants import EPNames
@@ -22,6 +23,7 @@ class GlobalVars:
         EPNames.VitisAIExecutionProvider.value: "AMD NPU",
         EPNames.CPUExecutionProvider.value: "CPU",
         EPNames.CUDAExecutionProvider.value: "NVIDIA GPU",
+        EPNames.NvTensorRTRTXExecutionProvider.value: "NVIDIA GPU (TRT RTX)",
     }
     # Initialize runtime to EP mappings directly
     runtimeToEp = {
@@ -30,6 +32,7 @@ class GlobalVars:
         RuntimeEnum.IntelNPU: EPNames.OpenVINOExecutionProvider.value,
         RuntimeEnum.AMDNPU: EPNames.VitisAIExecutionProvider.value,
         RuntimeEnum.NvidiaGPU: EPNames.CUDAExecutionProvider.value,
+        RuntimeEnum.NvidiaTRTRTX: EPNames.NvTensorRTRTXExecutionProvider.value,
         # Inference N/A
     }
     verbose = False

@@ -7,7 +7,9 @@ class RuntimeEnum(Enum):
     IntelNPU = "IntelNPU"
     AMDNPU = "AMDNPU"
     NvidiaGPU = "NvidiaGPU"
+    NvidiaTRTRTX = "NvidiaTRTRTX"
     WCR = "WCR"
+    WCR_CUDA = "WCR_CUDA"
     # Inference
     QNN_LLLM = "QNN_LLM"
 

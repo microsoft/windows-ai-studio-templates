@@ -1,10 +1,3 @@
-#!/usr/bin/env python3
-"""
-BACKUP: Original monolithic sanitize.py script before modularization
-This file is kept as a backup and reference for the original implementation.
-The new modular version is in the sanitize/ package with sanitize.py as the entry point.
-"""
-
 from __future__ import annotations
 
 import argparse
@@ -21,7 +14,6 @@ from pathlib import Path
 from typing import Any, Dict
 
 import pydash
-from deepdiff import DeepDiff
 from pydantic import BaseModel, TypeAdapter
 
 from model_lab import RuntimeEnum, RuntimeFeatureEnum
@@ -191,6 +183,7 @@ class EPNames(Enum):
     QNNExecutionProvider = "QNNExecutionProvider"
     OpenVINOExecutionProvider = "OpenVINOExecutionProvider"
     VitisAIExecutionProvider = "VitisAIExecutionProvider"
+    NvTensorRTRTXExecutionProvider = "NvTensorRTRTXExecutionProvider"
 
 
 # Global vars
@@ -204,6 +197,7 @@ class GlobalVars:
         EPNames.VitisAIExecutionProvider.value: "AMD NPU",
         EPNames.CPUExecutionProvider.value: "CPU",
         EPNames.CUDAExecutionProvider.value: "NVIDIA GPU",
+        EPNames.NvTensorRTRTXExecutionProvider.value: "NVIDIA GPU (TRT RTX)",
     }
     runtimeToEp = {
         RuntimeEnum.CPU: EPNames.CPUExecutionProvider.value,
@@ -211,6 +205,7 @@ class GlobalVars:
         RuntimeEnum.IntelNPU: EPNames.OpenVINOExecutionProvider.value,
         RuntimeEnum.AMDNPU: EPNames.VitisAIExecutionProvider.value,
         RuntimeEnum.NvidiaGPU: EPNames.CUDAExecutionProvider.value,
+        RuntimeEnum.NvidiaTRTRTX: EPNames.NvTensorRTRTXExecutionProvider.value,
         # Inference N/A
     }
     verbose = False
@@ -568,6 +563,8 @@ def readCheckParameterTemplate(filePath: str):
 class WorkflowItem(BaseModel):
     name: str
     file: str
+    template: str = None
+    version: int = 0
     templateName: str = None
     # DO NOT ADD ANYTHING ELSE HERE
     # We should add it to the *.json.config
@@ -580,6 +577,10 @@ class WorkflowItem(BaseModel):
         if "\\" in self.file:
             printError("Please use / instead of \\")
             return False
+        if not self.template:
+            return False
+        if self.version <= 0:
+            return False
         if not self.templateName:
             return False
         return True
@@ -587,7 +588,6 @@ class WorkflowItem(BaseModel):
 
 class ModelInfoProject(BaseModel):
     id: str
-    version: int = -1
     displayName: str = None
     icon: IconEnum = None
     modelLink: str = None
@@ -783,7 +783,6 @@ class DebugInfo(BaseModel):
 
 
 class ModelParameter(BaseModelClass):
-    name: str
     oliveFile: str = None
     isLLM: bool = None
     # For template using CUDA and no runtime overwrite, we need to set this so we know the target EP
@@ -1037,6 +1036,8 @@ class ModelParameter(BaseModelClass):
         if not self.oliveFile:
             printWarning(f"{self._file} does not have oliveFile")
             return
+        from deepdiff import DeepDiff
+
         with open_ex(os.path.join(GlobalVars.olivePath, "examples", self.oliveFile), "r") as file:
             oliveFileJson = json.load(file)
         diff = DeepDiff(oliveFileJson[OlivePropertyNames.Passes], oliveJson[OlivePropertyNames.Passes])
@@ -1163,6 +1164,7 @@ def readCheckOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter):
     if jsonUpdated:
         with open_ex(oliveJsonFile, "w") as file:
             json.dump(oliveJson, file, indent=4)
+
     return oliveJson
 
 
@@ -1364,7 +1366,6 @@ def main():
 
                 # get model space config
                 modelSpaceConfig = ModelProjectConfig.Read(os.path.join(modelVerDir, "model_project.config"))
-                modelSpaceConfig.modelInfo.version = int(os.path.basename(modelVerDir))
                 # check md
                 mdFile = os.path.join(modelVerDir, "README.md")
                 if not os.path.exists(mdFile):
@@ -1386,6 +1387,8 @@ def main():
                     modelSpaceConfig.modelInfo = ModelInfoProject(id=modelInVersion.id)
                 for i, modelItem in enumerate(modelSpaceConfig.workflows):
                     # set template
+                    modelItem.template = model.id
+                    modelItem.version = modelInVersion.version
                     modelItem.templateName = os.path.basename(modelItem.file)[:-5]
 
                     # read parameter
@@ -1421,7 +1424,7 @@ def main():
     if len(GlobalVars.errorList) == 0:
         # We add this test to make sure the sanity check is working: i.e. paths are checked and files are checked
         # So the numbers need to be updated whenever the config files change
-        if GlobalVars.configCheck != 37 or GlobalVars.pathCheck != 424:
+        if GlobalVars.configCheck != 48 or GlobalVars.pathCheck != 485:
             printError(
                 f"Total {GlobalVars.configCheck} config files checked with total {GlobalVars.pathCheck} path checks"
             )
