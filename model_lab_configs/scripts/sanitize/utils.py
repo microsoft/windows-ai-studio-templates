@@ -178,5 +178,5 @@ def checkPath(path: str, oliveJson: Any, printOnNotExist: bool = True):
             return True
         if printOnNotExist:
             printError(f"Not in olive json: {path}")
-            return False
+        return False
     return True
