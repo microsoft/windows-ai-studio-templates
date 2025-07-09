@@ -78,7 +78,7 @@ class Parameter(BaseModel):
     displayNames: Optional[List[str]] = None
     displayType: Optional[ParameterDisplayTypeEnum] = None
     path: Optional[str] = None
-    values: Optional[List[str | int | float | Any]] = None
+    values: Optional[List[Any]] = None
     # TODO update to expression
     selectors: Optional[List[ParameterCheck]] = None
     actions: Optional[List[List[ParameterAction]]] = None
@@ -86,7 +86,7 @@ class Parameter(BaseModel):
     customize: Optional[bool] = None
     # When the path does not exist, we will use this value as the default value
     # defaultValue is already used in Skylight, so do not use it
-    fallbackValue: Optional[str | int | bool | float | Any] = None
+    fallbackValue: Optional[Any] = None
     # Template can be:
     # 1. A Parameter object (with its own template field as str)
     # 2. A string (template name)
@@ -193,7 +193,6 @@ class Parameter(BaseModel):
             else:
                 printError(f"Invalid combination. Check comment")
                 return False
-
             if self.path:
                 if not checkPath(self.path, oliveJson):
                     return False
@@ -217,7 +216,7 @@ class Parameter(BaseModel):
                                 printWarning(
                                     f"Value {value_in_list} not in DatasetSubset for {self.path}. Could be acceptable if it doesn't have subset"
                                 )
-                    elif value not in self.values:
+                    elif value and value not in self.values:
                         printError(f"Value {value} not in values for {self.path}")
                         return False
 

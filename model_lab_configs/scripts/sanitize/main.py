@@ -161,7 +161,7 @@ def main():
     if GlobalVars.olivePath:
         printWarning(f"Total {GlobalVars.oliveCheck} config files checked against olive json files")
 
-    GlobalVars.Check(GlobalVars, configDir)
+    GlobalVars.Check(configDir)
 
     result = subprocess.run(
         ["git", "status", "--porcelain"],
