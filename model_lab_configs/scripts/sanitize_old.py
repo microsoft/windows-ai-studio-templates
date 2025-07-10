@@ -22,8 +22,9 @@ from typing import Any, Dict
 
 import pydash
 from deepdiff import DeepDiff
-from model_lab import RuntimeEnum, RuntimeFeatureEnum
 from pydantic import BaseModel, TypeAdapter
+
+from model_lab import RuntimeEnum, RuntimeFeatureEnum
 
 
 def printProcess(msg: str):
