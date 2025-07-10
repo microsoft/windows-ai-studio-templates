@@ -145,7 +145,7 @@ resource acajob 'Microsoft.App/jobs@2023-11-02-preview' = {
     template: {
       containers: [
         {
-          image: 'crsdcbuild2025.azurecr.io/artifact/8d598cc6-26fb-4196-a388-e2074700b6b6/buddy/olive-containers:intel-v1'
+          image: 'crsdcbuild2025.azurecr.io/artifact/8d598cc6-26fb-4196-a388-e2074700b6b6/buddy/olive-containers:intelnpu-v1'
           name: acaJobName
           command: [
             '/bin/bash'
