@@ -92,6 +92,13 @@ class EPNames(Enum):
     NvTensorRTRTXExecutionProvider = "NvTensorRTRTXExecutionProvider"
 
 
+class OliveDeviceTypes(Enum):
+    Any = "any"
+    CPU = "cpu"
+    GPU = "gpu"
+    NPU = "npu"
+
+
 class OlivePassNames:
     OnnxConversion = "OnnxConversion"
     OnnxQuantization = "OnnxQuantization"
@@ -100,6 +107,8 @@ class OlivePassNames:
     ModelBuilder = "ModelBuilder"
     OpenVINOConversion = "OpenVINOConversion"
     OpenVINOOptimumConversion = "OpenVINOOptimumConversion"
+    OpenVINOQuantization = "OpenVINOQuantization"
+    OpenVINOEncapsulation = "OpenVINOEncapsulation"
 
 
 class OlivePropertyNames:
@@ -111,6 +120,8 @@ class OlivePropertyNames:
     ExternalData = "save_as_external_data"
     Systems = "systems"
     Accelerators = "accelerators"
+    Device = "device"
+    TargetDevice = "target_device"
     ExecutionProviders = "execution_providers"
     DataConfigs = "data_configs"
     Target = "target"
@@ -121,6 +132,7 @@ class OlivePropertyNames:
     Metrics = "metrics"
     UserConfig = "user_config"
     CleanCache = "clean_cache"
+    ExtraArgs = "extra_args"
 
 
 # Path constants
