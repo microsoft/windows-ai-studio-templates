@@ -23,7 +23,7 @@ class GlobalVars:
         EPNames.VitisAIExecutionProvider.value: "AMD NPU",
         EPNames.CPUExecutionProvider.value: "CPU",
         EPNames.CUDAExecutionProvider.value: "NVIDIA GPU",
-        EPNames.NvTensorRTRTXExecutionProvider.value: "NVIDIA GPU (TRT RTX)",
+        EPNames.NvTensorRTRTXExecutionProvider.value: "NVIDIA TRT for RTX",
     }
     # Initialize runtime to EP mappings directly
     runtimeToEp = {
