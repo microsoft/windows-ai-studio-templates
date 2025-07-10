@@ -5,7 +5,7 @@
     "models": [
         {
             "displayName": "microsoft/phi-silica",
-            "icon": "microsoft",
+            "icon": "ms",
             "modelLink": "https://bing.com",
             "id": "microsoft/phi-silica",
             "hostedBy": "Microsoft",
