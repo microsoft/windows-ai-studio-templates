@@ -40,7 +40,7 @@ class GlobalVars:
         RuntimeEnum.IntelGPU: EPNames.OpenVINOExecutionProvider,
         RuntimeEnum.AMDNPU: EPNames.VitisAIExecutionProvider,
         RuntimeEnum.NvidiaGPU: EPNames.CUDAExecutionProvider,
-        RuntimeEnum.NvidiaTRTRTX: EPNames.NvTensorRTRTXExecutionProvider.value,
+        RuntimeEnum.NvidiaTRTRTX: EPNames.NvTensorRTRTXExecutionProvider,
     }
     RuntimeToOliveDeviceType = {
         RuntimeEnum.CPU: OliveDeviceTypes.CPU,
