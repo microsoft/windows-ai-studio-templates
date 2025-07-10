@@ -15,10 +15,11 @@ uvpipInstallPrefix = "# uvpip:install"
 depsPrefix = "# deps:"
 cudaExtraUrl = "--extra-index-url https://download.pytorch.org/whl/cu128"
 torchCudaVersion = "torch==2.7.0+cu128"
-onnxruntimeWinmlVersion = f"{uvpipInstallPrefix} onnxruntime-winml==1.22.0.post1 --extra-index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/ORT-Nightly/pypi/simple --no-deps;post",
-onnxruntimeGenaiWinmlVersion = f"{uvpipInstallPrefix} onnxruntime-genai-winml==0.8.0 --extra-index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/ORT-Nightly/pypi/simple --no-deps;post",
-evaluateVersion = "evaluate==0.4.3",
-scikitLearnVersion = "scikit-learn==1.6.1",
+onnxruntimeWinmlVersion = f"{uvpipInstallPrefix} onnxruntime-winml==1.22.0.post1 --extra-index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/ORT-Nightly/pypi/simple --no-deps;post"
+onnxruntimeGenaiWinmlVersion = f"{uvpipInstallPrefix} onnxruntime-genai-winml==0.8.0 --extra-index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/ORT-Nightly/pypi/simple --no-deps;post"
+evaluateVersion = "evaluate==0.4.3"
+scikitLearnVersion = "scikit-learn==1.6.1"
+
 
 def get_requires(name: str, args):
     # TODO for this case, need to install via Model Lab first
@@ -96,6 +97,7 @@ def main():
         ],
         # https://onnxruntime.ai/docs/execution-providers/CUDA-ExecutionProvider.html
         RuntimeEnum.NvidiaGPU: [
+            "torchvision==0.22.0+cu128",
             "onnxruntime-gpu==1.21.0",
             "onnxruntime-genai-cuda==0.7.0",
         ],
@@ -107,6 +109,7 @@ def main():
             scikitLearnVersion,
         ],
         RuntimeEnum.WCR_CUDA: [
+            "torchvision==0.22.0+cu128",
             onnxruntimeWinmlVersion,
             onnxruntimeGenaiWinmlVersion,
             evaluateVersion,
