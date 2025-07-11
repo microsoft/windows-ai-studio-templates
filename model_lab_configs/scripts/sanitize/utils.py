@@ -9,7 +9,6 @@ from contextlib import contextmanager
 from typing import Any
 
 import pydash
-
 from model_lab import RuntimeEnum
 
 from .constants import EPNames, OliveDeviceTypes, OlivePropertyNames

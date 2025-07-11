@@ -9,11 +9,9 @@ import os
 import re
 from typing import Any, Dict, List, Optional
 
-import pydash
 from deepdiff import DeepDiff
-from pydantic import BaseModel
-
 from model_lab import RuntimeEnum, RuntimeFeatureEnum
+from pydantic import BaseModel
 
 from .base import BaseModelClass
 from .constants import (
@@ -274,34 +272,6 @@ class ModelParameter(BaseModelClass):
 
         runtimeActions = None
 
-        if self.addAmdNpu and currentRuntimeRPC != RuntimeEnum.AMDNPU:
-            runtimeValues.append(GlobalVars.RuntimeToEPName[RuntimeEnum.AMDNPU].value)
-            runtimeDisplayNames.append(GlobalVars.RuntimeToDisplayName[RuntimeEnum.AMDNPU])
-            evaluatorName = oliveJson[OlivePropertyNames.Evaluator]
-            if evaluatorName and self.addAmdNpu.inferenceSettings:
-                if runtimeActions is None:
-                    runtimeActions = [[] for _ in range(len(runtimeValues))]
-                else:
-                    runtimeActions.append([])
-                metricsNum = len(
-                    pydash.get(
-                        oliveJson,
-                        f"{OlivePropertyNames.Evaluators}.{evaluatorName}.{OlivePropertyNames.Metrics}",
-                    )
-                )
-                for tmpDevice in range(metricsNum):
-                    runtimeActions[-1].append(
-                        ParameterAction(
-                            path=f"{OlivePropertyNames.Evaluators}.{evaluatorName}.{OlivePropertyNames.Metrics}[{tmpDevice}].{OlivePropertyNames.UserConfig}",
-                            type=ParameterActionTypeEnum.Insert,
-                            value={
-                                "inference_settings": {
-                                    "onnx": self.addAmdNpu.inferenceSettings,
-                                }
-                            },
-                        )
-                    )
-
         # CPU always last
         if self.addCpu != False and currentRuntimeRPC != RuntimeEnum.CPU:
             runtimeValues.append(GlobalVars.RuntimeToEPName[RuntimeEnum.CPU].value)
@@ -331,6 +301,7 @@ class ModelParameter(BaseModelClass):
                 self.runtime.values.append(GlobalVars.RuntimeToOliveDeviceType[tmpRuntimeRPC].value)
                 self.runtime.displayNames.append(GlobalVars.RuntimeToDisplayName[tmpRuntimeRPC])
         self.runtime.actions = runtimeActions
+        self.TryToRemoveReuseCacheInRuntimeAction(oliveJson)
         if not self.runtime.Check(False, oliveJson, modelList):
             printError(f"{self._file} runtime has error")
 
@@ -449,6 +420,33 @@ class ModelParameter(BaseModelClass):
         if self.debugInfo and self.debugInfo.isEmpty():
             self.debugInfo = None
         self.writeIfChanged()
+
+    def TryToRemoveReuseCacheInRuntimeAction(self, oliveJson: Any):
+        if not self.runtime.values:
+            printError(f"{self._file} runtime values is empty, cannot remove reuse_cache")
+            return
+        # Find all passes that have reuse_cache field
+        reuse_cache_paths = []
+        if OlivePropertyNames.Passes in oliveJson:
+            for pass_key, pass_value in oliveJson[OlivePropertyNames.Passes].items():
+                if "reuse_cache" in pass_value:
+                    reuse_cache_path = f"{OlivePropertyNames.Passes}.{pass_key}.reuse_cache"
+                    reuse_cache_paths.append(reuse_cache_path)
+
+        if reuse_cache_paths:
+            if self.runtime.actions is None:
+                self.runtime.actions = []
+            for i in range(len(self.runtime.values)):
+                if i >= len(self.runtime.actions):
+                    self.runtime.actions.append([])
+                for tmpPath in reuse_cache_paths:
+                    self.runtime.actions[i].append(
+                        ParameterAction(
+                            path=tmpPath,
+                            type=ParameterActionTypeEnum.Delete,
+                        )
+                    )
+        return None
 
     def CheckRuntimeInConversion(self, oliveJson: Any, modelList: ModelList):
         openVINOOptimumConversion = next(

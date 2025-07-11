@@ -162,14 +162,14 @@ def readCheckIpynb(ipynbFile: str, modelItems: dict[str, ModelParameter]):
             if modelParameter.evalRuntime:
                 runtime = GlobalVars.RuntimeToEPName[modelParameter.evalRuntime]
                 if runtime not in allRuntimes:
-                    allRuntimes.append(str(runtime))
+                    allRuntimes.append(runtime.value)
             else:
                 if modelParameter.isIntel:
                     allRuntimes.append(EPNames.OpenVINOExecutionProvider.value)
                 elif modelParameter.runtime.values:
                     for runtime in modelParameter.runtime.values:
                         if runtime not in allRuntimes:
-                            allRuntimes.append(str(runtime))
+                            allRuntimes.append(runtime)
 
         targetEP = None
         if len(allRuntimes) == 2 and EPNames.CPUExecutionProvider.value in allRuntimes:
