@@ -13,6 +13,12 @@ from model_lab import RuntimeEnum
 # - `# download:`: download from release and save it to cache folder like `# download:onnxruntime-genai-cuda-0.7.0-cp39-cp39-win_amd64.whl`
 uvpipInstallPrefix = "# uvpip:install"
 depsPrefix = "# deps:"
+cudaExtraUrl = "--extra-index-url https://download.pytorch.org/whl/cu128"
+torchCudaVersion = "torch==2.7.0+cu128"
+onnxruntimeWinmlVersion = f"{uvpipInstallPrefix} onnxruntime-winml==1.22.0.post1 --extra-index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/ORT-Nightly/pypi/simple --no-deps;post"
+onnxruntimeGenaiWinmlVersion = f"{uvpipInstallPrefix} onnxruntime-genai-winml==0.8.0 --extra-index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/ORT-Nightly/pypi/simple --no-deps;post"
+evaluateVersion = "evaluate==0.4.3"
+scikitLearnVersion = "scikit-learn==1.6.1"
 
 
 def get_requires(name: str, args):
@@ -49,8 +55,12 @@ def main():
     torchVision = "torchvision==0.22.0"
     pre = {
         RuntimeEnum.NvidiaGPU: [
-            "--extra-index-url https://download.pytorch.org/whl/cu128",
-            "torch==2.7.0+cu128",
+            cudaExtraUrl,
+            torchCudaVersion,
+        ],
+        RuntimeEnum.WCR_CUDA: [
+            cudaExtraUrl,
+            torchCudaVersion,
         ],
         RuntimeEnum.IntelNPU: [
             "torch==2.6.0",
@@ -93,16 +103,23 @@ def main():
         ],
         RuntimeEnum.WCR: [
             torchVision,
-            "# uvpip:install onnxruntime-winml==1.22.0.post1 --extra-index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/ORT-Nightly/pypi/simple --no-deps;post",
-            "# uvpip:install onnxruntime-genai-winml==0.8.0 --extra-index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/ORT-Nightly/pypi/simple --no-deps;post",
-            "evaluate==0.4.3",
-            "scikit-learn==1.6.1",
+            onnxruntimeWinmlVersion,
+            onnxruntimeGenaiWinmlVersion,
+            evaluateVersion,
+            scikitLearnVersion,
+        ],
+        RuntimeEnum.WCR_CUDA: [
+            "torchvision==0.22.0+cu128",
+            onnxruntimeWinmlVersion,
+            onnxruntimeGenaiWinmlVersion,
+            evaluateVersion,
+            scikitLearnVersion,
         ],
         RuntimeEnum.QNN_LLLM: [
             "ipykernel==6.29.5",
             "ipywidgets==8.1.5",
             "# deps:onnxruntime-winml",
-            "# uvpip:install onnxruntime-genai-winml==0.8.0 --extra-index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/ORT-Nightly/pypi/simple --no-deps;post",
+            onnxruntimeGenaiWinmlVersion,
         ],
     }
 
@@ -182,6 +199,13 @@ def main():
                         f.write(f"{newReq}=={freeze_dict[newReq]}\n")
                     else:
                         raise Exception(f"Cannot find {req} in pip freeze")
+
+    # remove duplicate lines from output file
+    with open(outputFile, "r") as f:
+        lines = f.readlines()
+    unique_lines = list(dict.fromkeys(lines))  # Preserve order and remove duplicates
+    with open(outputFile, "w", newline="\n") as f:
+        f.writelines(unique_lines)
 
 
 if __name__ == "__main__":

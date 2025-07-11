@@ -8,7 +8,8 @@
             "runtimes": [
                 "QNN",
                 "AMDNPU",
-                "IntelNPU"
+                "IntelNPU",
+                "NvidiaTRTRTX"
             ],
             "architecture": "Transformer",
             "status": "Ready",
@@ -22,7 +23,8 @@
             "runtimes": [
                 "QNN",
                 "AMDNPU",
-                "IntelNPU"
+                "IntelNPU",
+                "NvidiaTRTRTX"
             ],
             "architecture": "Transformer",
             "status": "Ready",
@@ -36,7 +38,8 @@
             "runtimes": [
                 "QNN",
                 "AMDNPU",
-                "IntelNPU"
+                "IntelNPU",
+                "NvidiaTRTRTX"
             ],
             "architecture": "CNN",
             "status": "Ready",
@@ -50,7 +53,8 @@
             "runtimes": [
                 "QNN",
                 "AMDNPU",
-                "IntelNPU"
+                "IntelNPU",
+                "NvidiaTRTRTX"
             ],
             "architecture": "CNN",
             "status": "Ready",
@@ -78,7 +82,8 @@
             "runtimes": [
                 "QNN",
                 "AMDNPU",
-                "IntelNPU"
+                "IntelNPU",
+                "NvidiaTRTRTX"
             ],
             "architecture": "CNN",
             "status": "Ready",
@@ -92,7 +97,8 @@
             "runtimes": [
                 "QNN",
                 "AMDNPU",
-                "IntelNPU"
+                "IntelNPU",
+                "NvidiaTRTRTX"
             ],
             "architecture": "CNN",
             "status": "Ready",
@@ -142,7 +148,8 @@
             "runtimes": [
                 "QNN",
                 "AMDNPU",
-                "IntelNPU"
+                "IntelNPU",
+                "NvidiaTRTRTX"
             ],
             "architecture": "Transformer",
             "status": "Ready",

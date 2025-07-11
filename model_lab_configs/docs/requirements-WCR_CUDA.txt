@@ -1,3 +1,13 @@
+--extra-index-url https://download.pytorch.org/whl/cu128
+# torch==2.7.0+cu128
+torch==2.7.0+cu128
+filelock==3.18.0
+fsspec==2024.12.0
+jinja2==3.1.6
+networkx==3.5
+setuptools==80.9.0
+sympy==1.14.0
+typing-extensions==4.14.0
 # onnx==1.17.0
 onnx==1.17.0
 numpy==2.2.4
@@ -9,7 +19,6 @@ optuna==4.2.1
 pandas==2.2.3
 pydantic==2.11.1
 pyyaml==6.0.2
-torch==2.7.0
 torchmetrics==1.7.0
 transformers==4.50.3
 # tabulate==0.9.0
@@ -18,8 +27,6 @@ tabulate==0.9.0
 datasets==3.5.0
 aiohttp==3.11.16
 dill==0.3.8
-filelock==3.18.0
-fsspec==2024.12.0
 huggingface-hub==0.30.1
 multiprocess==0.70.16
 packaging==24.2
@@ -44,13 +51,12 @@ traitlets==5.14.3
 ipywidgets==8.1.5
 jupyterlab-widgets==3.0.13
 widgetsnbextension==4.0.13
-# torchvision==0.22.0
-torchvision==0.22.0
+# torchvision==0.22.0+cu128
+torchvision==0.22.0+cu128
 pillow==11.2.1
 # uvpip:install onnxruntime-winml==1.22.0.post1 --extra-index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/ORT-Nightly/pypi/simple --no-deps;post
 coloredlogs==15.0.1
 flatbuffers==25.2.10
-sympy==1.14.0
 # uvpip:install onnxruntime-genai-winml==0.8.0 --extra-index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/ORT-Nightly/pypi/simple --no-deps;post
 # evaluate==0.4.3
 evaluate==0.4.3
