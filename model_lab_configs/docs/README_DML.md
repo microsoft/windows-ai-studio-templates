@@ -20,12 +20,12 @@ uv run -p C:\Users\hualxie\.aitk\bin\model_lab_runtime\Python-NvidiaGPU-win32-x6
 
 ### Install
 
-uv pip uninstall onnxruntime-winml  -p C:\Users\hualxie\.aitk\bin\model_lab_runtime\Python-WCR-win32-x64-3.12.9
+uv venv -p cpython-3.12.9-windows-x86_64-none C:\Users\hualxie\.aitk\bin\model_lab_runtime\Python-DML
 
-uv pip uninstall onnxruntime-genai-winml  -p C:\Users\hualxie\.aitk\bin\model_lab_runtime\Python-WCR-win32-x64-3.12.9
+uv pip install -r ./requirements-WCR.txt -p C:\Users\hualxie\.aitk\bin\model_lab_runtime\Python-DML
 
-uv pip install onnxruntime-directml==1.22.0 -p C:\Users\hualxie\.aitk\bin\model_lab_runtime\Python-WCR-win32-x64-3.12.9
+uv pip install onnxruntime-directml==1.22.0 -p C:\Users\hualxie\.aitk\bin\model_lab_runtime\Python-DML
 
 ### Conversion & Inference
 
-uv run -p C:\Users\hualxie\.aitk\bin\model_lab_runtime\Python-WCR-win32-x64-3.12.9 -m olive run --config .\bert_dml.json
+uv run -p C:\Users\hualxie\.aitk\bin\model_lab_runtime\Python-DML -m olive run --config .\bert_dml.json
