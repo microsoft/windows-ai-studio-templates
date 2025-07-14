@@ -16,6 +16,8 @@ uv run -p C:\Users\hualxie\.aitk\bin\model_lab_runtime\Python-NvidiaGPU-win32-x6
 
 ### Inference
 
+See Non-LLM
+
 ## Non-LLM
 
 ### Install
@@ -25,6 +27,8 @@ uv venv -p cpython-3.12.9-windows-x86_64-none C:\Users\hualxie\.aitk\bin\model_l
 uv pip install -r ./requirements-WCR.txt -p C:\Users\hualxie\.aitk\bin\model_lab_runtime\Python-DML
 
 uv pip install onnxruntime-directml==1.22.0 -p C:\Users\hualxie\.aitk\bin\model_lab_runtime\Python-DML
+
+uv pip install onnxruntime-genai==0.8.3 --no-deps -p C:\Users\hualxie\.aitk\bin\model_lab_runtime\Python-DML
 
 ### Conversion & Inference
 
