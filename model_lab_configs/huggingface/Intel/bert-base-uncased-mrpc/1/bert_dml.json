@@ -147,5 +147,5 @@
     "host": "host_system",
     "target": "target_system",
     "cache_dir": "cache",
-    "output_dir": "model/bert_ptq_qnn"
+    "output_dir": "model"
 }

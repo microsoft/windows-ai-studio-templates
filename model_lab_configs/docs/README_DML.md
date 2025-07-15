@@ -4,9 +4,9 @@
 
 uv venv -p cpython-3.12.9-windows-x86_64-none C:\Users\hualxie\.aitk\bin\model_lab_runtime\Python-DML
 
-uv pip install -r ./requirements-DML.txt -p C:\Users\hualxie\.aitk\bin\model_lab_runtime\Python-DML
+uv pip install -r ./requirements-DML.txt -p C:\Users\hualxie\.aitk\bin\model_lab_runtime\Python-DML --index-strategy unsafe-best-match
 
-uv pip install autoawq --no-deps -p C:\Users\hualxie\.aitk\bin\model_lab_runtime\Python-NvidiaGPU-win32-x64-3.10.9
+uv pip install autoawq --no-deps -p C:\Users\hualxie\.aitk\bin\model_lab_runtime\Python-DML
 
 ## Conversion
 
