@@ -27,6 +27,10 @@ CPU: Intel(R) Xeon(R) Silver 4108 CPU @ 1.80GHz (1.80 GHz) (2 processors)
 
 GPU: NVIDIA GeForce RTX 2080 Ti
 
+### model_lab_configs\huggingface\microsoft\Phi-3.5-mini-instruct\1\phi3_5_dml_config.json
+
+Tokens per second: 66.63
+
 ### model_lab_configs\huggingface\google\vit-base-patch16-224\1\vit_base_patch16_224_dml.json
 
 +------------+-------------------+-----------------------------+----------------+-------------------------------------------------+
