@@ -67,16 +67,23 @@ torchvision==0.22.0+cu128
 numpy==2.2.4
 pillow==11.2.1
 torch==2.7.0+cu128
-# onnxruntime-directml==1.22.0
-onnxruntime-directml==1.22.0
+# For genai==0.7.0
+# onnxruntime-directml==1.21.0
+onnxruntime-directml==1.21.0
 coloredlogs==15.0.1
 flatbuffers==25.2.10
 numpy==2.2.4
 packaging==24.2
 protobuf==3.20.3
 sympy==1.13.3
-# onnxruntime-genai-directml==0.8.3
-onnxruntime-genai-directml==0.8.3
+# 0.8.3 is not working because 
+# File "C:\Users\hualxie\.aitk\bin\model_lab_runtime\Python-DML\Lib\site-packages\onnxruntime_genai\models\builder.py", line 571, in make_tensor_proto_from_tensor
+#    data_type=self.to_onnx_dtype[tensor.dtype],
+#KeyError: torch.uint8
+# onnxruntime-genai-directml==0.7.0
+onnxruntime-genai-directml==0.7.0
 # for autoawq
 zstandard==0.23.0
 triton-windows==3.3.1.post19
+# for model
+optimum==1.26.1

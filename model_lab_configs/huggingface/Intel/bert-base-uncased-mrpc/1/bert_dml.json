@@ -143,7 +143,7 @@
         }
     },
     "evaluator": "common_evaluator",
-    "evaluate_input_model": false,
+    "evaluate_input_model": true,
     "host": "host_system",
     "target": "target_system",
     "cache_dir": "cache",
