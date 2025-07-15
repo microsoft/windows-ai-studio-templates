@@ -1,13 +1,13 @@
 {
     "popularModels": [
-        "microsoft/phi-silica"
+        "microsoft/phi-silica-3.6"
     ],
     "models": [
         {
             "displayName": "microsoft/phi-silica",
             "icon": "ms",
             "modelLink": "https://bing.com",
-            "id": "microsoft/phi-silica",
+            "id": "microsoft/phi-silica-3.6",
             "hostedBy": "Microsoft",
             "supportLocalFinetuning": false,
             "supportCloudFinetuning": true,

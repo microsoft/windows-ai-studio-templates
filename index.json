@@ -58,9 +58,14 @@
       "supportHistory": true,
       "versions": [
         {
-          "model": "Phi Silica V3.6",
+          "model": "Phi Silica V3.6 LoRA",
           "sdk": "WinApp SDK 1.8-experimental",
-          "workspaceTemplatePath": "configs/phi-silica"
+          "workspaceTemplatePath": "configs/phi-silica-3_6-lora"
+        },
+        {
+          "model": "Phi Silica V3.6 Soft Prompt",
+          "sdk": "WinApp SDK 1.8-experimental",
+          "workspaceTemplatePath": "configs/phi-silica-3_6-soft_prompt"
         }
       ]
     },
