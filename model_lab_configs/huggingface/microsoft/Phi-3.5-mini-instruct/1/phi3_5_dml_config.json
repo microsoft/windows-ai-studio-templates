@@ -4,12 +4,24 @@
         "model_path": "microsoft/Phi-3.5-mini-instruct"
     },
     "systems": {
-        "local_system": {
+        "host_system": {
             "type": "LocalSystem",
             "accelerators": [
                 {
+                    "device":"cpu",
                     "execution_providers": [
                         "CPUExecutionProvider"
+                    ]
+                }
+            ]
+        },
+        "target_system": {
+            "type": "LocalSystem",
+            "accelerators": [
+                {
+                    "device":"gpu",
+                    "execution_providers": [
+                        "DmlExecutionProvider"
                     ]
                 }
             ]
@@ -41,7 +53,8 @@
             "precision": "int4"
         }
     },
-    "target": "local_system",
+    "host": "host_system",
+    "target": "target_system",
     "log_severity_level": 1,
     "output_dir": "model/phi3_5",
     "cache_dir": "cache",
