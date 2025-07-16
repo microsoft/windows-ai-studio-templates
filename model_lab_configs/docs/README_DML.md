@@ -10,7 +10,7 @@ uv pip install autoawq --no-deps -p C:\Users\hualxie\.aitk\bin\model_lab_runtime
 
 ## Conversion
 
-uv run -p C:\Users\hualxie\.aitk\bin\model_lab_runtime\Python-DML -m olive run --config .\bert_dml.json
+uv run -p C:\Users\hualxie\.aitk\bin\model_lab_runtime\Python-DML -m olive run --config .\xxx.json
 
 ## Inference LLM
 
@@ -30,6 +30,10 @@ GPU: NVIDIA GeForce RTX 2080 Ti
 ### model_lab_configs\huggingface\microsoft\Phi-3.5-mini-instruct\1\phi3_5_dml_config.json
 
 Tokens per second: 66.63
+
+### model_lab_configs\huggingface\deepseek-ai\DeepSeek-R1-Distill-Qwen-1.5B\1\deepseek_dml_config.json
+
+Tokens per second: 57.62
 
 ### model_lab_configs\huggingface\google\vit-base-patch16-224\1\vit_base_patch16_224_dml.json
 

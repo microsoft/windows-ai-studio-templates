@@ -85,5 +85,6 @@ onnxruntime-genai-directml==0.7.0
 # for autoawq
 zstandard==0.23.0
 triton-windows==3.3.1.post19
+accelerate==1.6.0
 # for model
 optimum==1.26.1
