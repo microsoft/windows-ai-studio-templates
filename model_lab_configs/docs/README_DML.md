@@ -35,6 +35,10 @@ Tokens per second: 66.63
 
 Tokens per second: 57.62
 
+### model_lab_configs\huggingface\meta-llama\Llama-3.2-1B-Instruct\1\llama3_2_dml_config.json
+
+Tokens per second: 69.53
+
 ### model_lab_configs\huggingface\google\vit-base-patch16-224\1\vit_base_patch16_224_dml.json
 
 +------------+-------------------+-----------------------------+----------------+-------------------------------------------------+
