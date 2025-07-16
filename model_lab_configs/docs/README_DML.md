@@ -10,6 +10,8 @@ uv pip install autoawq --no-deps -p C:\Users\hualxie\.aitk\bin\model_lab_runtime
 
 ## Conversion
 
+https://github.com/microsoft/onnxruntime-genai/blob/main/examples/python/awq-quantized-model.py
+
 uv run -p C:\Users\hualxie\.aitk\bin\model_lab_runtime\Python-DML -m olive run --config .\xxx.json
 
 ## Inference LLM
@@ -38,6 +40,10 @@ Tokens per second: 57.62
 ### model_lab_configs\huggingface\meta-llama\Llama-3.2-1B-Instruct\1\llama3_2_dml_config.json
 
 Tokens per second: 69.53
+
+### model_lab_configs\huggingface\Qwen\Qwen2.5-1.5B-Instruct\1\qwen2_5_dml_config.json
+
+Tokens per second: 50.86
 
 ### model_lab_configs\huggingface\google\vit-base-patch16-224\1\vit_base_patch16_224_dml.json
 
