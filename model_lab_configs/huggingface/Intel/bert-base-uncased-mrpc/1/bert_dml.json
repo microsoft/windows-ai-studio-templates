@@ -12,7 +12,7 @@
             "type": "LocalSystem",
             "accelerators": [
                 {
-                    "device":"cpu",
+                    "device": "cpu",
                     "execution_providers": [
                         "CPUExecutionProvider"
                     ]
@@ -23,7 +23,7 @@
             "type": "LocalSystem",
             "accelerators": [
                 {
-                    "device":"gpu",
+                    "device": "gpu",
                     "execution_providers": [
                         "DmlExecutionProvider"
                     ]
@@ -32,27 +32,6 @@
         }
     },
     "data_configs": [
-        {
-            "name": "glue_mrpc",
-            "type": "HuggingfaceContainer",
-            "load_dataset_config": {
-                "data_name": "glue",
-                "subset": "mrpc",
-                "split": "validation"
-            },
-            "pre_process_data_config": {
-                "max_length": 128,
-                "padding": "max_length",
-                "input_cols": [
-                    "sentence1",
-                    "sentence2"
-                ],
-                "max_samples": 100
-            },
-            "dataloader_config": {
-                "batch_size": 1
-            }
-        },
         {
             "name": "glue_mrpc_eval",
             "type": "HuggingfaceContainer",
@@ -143,9 +122,9 @@
         }
     },
     "evaluator": "common_evaluator",
-    "evaluate_input_model": true,
+    "evaluate_input_model": false,
     "host": "host_system",
     "target": "target_system",
     "cache_dir": "cache",
-    "output_dir": "model"
+    "output_dir": "model/bert_dml"
 }
