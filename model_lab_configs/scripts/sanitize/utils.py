@@ -63,7 +63,7 @@ class GlobalVars:
         RuntimeEnum.AMDNPU: "AMD NPU",
         RuntimeEnum.NvidiaGPU: "NVIDIA GPU",
         RuntimeEnum.NvidiaTRTRTX: "NVIDIA TensorRT for RTX",
-        RuntimeEnum.DML: "DML",
+        RuntimeEnum.DML: "DirectML",
     }
 
     @classmethod
