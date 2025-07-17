@@ -205,13 +205,14 @@ class ModelParameter(BaseModelClass):
     # - setup runtimeOverwrite for CUDA EP and others
     #   + the previous EP is used for EPContextBinaryGeneator by PythonEnvironment
     # - do not support cpu evaluation
-    # - setup executeRuntimeFeatures, evalRuntimeFeatures
+    # - setup executeRuntimeFeatures, pyEnvRuntimeFeatures
     isQNNLLM: Optional[bool] = None
     # SET AUTOMATICALLY
     isGPURequired: Optional[bool] = None
     runtimeOverwrite: Optional[RuntimeOverwrite] = None
     executeRuntimeFeatures: Optional[List[RuntimeFeatureEnum]] = None
-    evalRuntimeFeatures: Optional[List[RuntimeFeatureEnum]] = None
+    evaluationRuntimeFeatures: Optional[List[RuntimeFeatureEnum]] = None
+    pyEnvRuntimeFeatures: Optional[List[RuntimeFeatureEnum]] = None
     # it means default template does not use it
     # for Cpu, None means add
     addCpu: Optional[bool] = None
@@ -318,7 +319,7 @@ class ModelParameter(BaseModelClass):
             if not self.runtimeOverwrite.Check(oliveJson):
                 printError(f"{self._file} runtime overwrite has error")
             self.executeRuntimeFeatures = [RuntimeFeatureEnum.AutoGptq]
-            self.evalRuntimeFeatures = [RuntimeFeatureEnum.Nightly]
+            self.pyEnvRuntimeFeatures = [RuntimeFeatureEnum.Nightly]
 
         for tmpDevice, section in enumerate(self.sections):
             # Add conversion toggle
