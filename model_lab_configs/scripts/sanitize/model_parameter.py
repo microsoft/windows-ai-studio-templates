@@ -10,8 +10,9 @@ import re
 from typing import Any, Dict, List, Optional
 
 from deepdiff import DeepDiff
-from model_lab import RuntimeEnum, RuntimeFeatureEnum
 from pydantic import BaseModel
+
+from model_lab import RuntimeEnum, RuntimeFeatureEnum
 
 from .base import BaseModelClass
 from .constants import (

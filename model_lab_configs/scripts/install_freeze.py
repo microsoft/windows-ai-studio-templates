@@ -114,7 +114,7 @@ def main():
             "winrt-Windows.Foundation==3.2.1",
             "winrt-Windows.Foundation.Collections==3.2.1",
             "winui3-Microsoft.Windows.AI.MachineLearning==1!1.8.250702007.dev4",
-            "winui3-Microsoft.Windows.ApplicationModel.DynamicDependency.Bootstrap==1!1.8.250702007.dev4"
+            "winui3-Microsoft.Windows.ApplicationModel.DynamicDependency.Bootstrap==1!1.8.250702007.dev4",
         ],
         RuntimeEnum.WCR_CUDA: [
             "torchvision==0.22.0+cu128",
@@ -129,7 +129,7 @@ def main():
             "winrt-Windows.Foundation==3.2.1",
             "winrt-Windows.Foundation.Collections==3.2.1",
             "winui3-Microsoft.Windows.AI.MachineLearning==1!1.8.250702007.dev4",
-            "winui3-Microsoft.Windows.ApplicationModel.DynamicDependency.Bootstrap==1!1.8.250702007.dev4"
+            "winui3-Microsoft.Windows.ApplicationModel.DynamicDependency.Bootstrap==1!1.8.250702007.dev4",
         ],
         RuntimeEnum.QNN_LLLM: [
             "ipykernel==6.29.5",
