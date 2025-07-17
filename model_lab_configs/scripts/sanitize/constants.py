@@ -90,6 +90,7 @@ class EPNames(Enum):
     OpenVINOExecutionProvider = "OpenVINOExecutionProvider"
     VitisAIExecutionProvider = "VitisAIExecutionProvider"
     NvTensorRTRTXExecutionProvider = "NvTensorRTRTXExecutionProvider"
+    DmlExecutionProvider = "DmlExecutionProvider"
 
 
 class OliveDeviceTypes(Enum):

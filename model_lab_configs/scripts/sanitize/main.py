@@ -125,6 +125,8 @@ def main():
                     # check olive json
                     oliveJsonFile = os.path.join(modelVerDir, modelItem.file)
                     oliveJson = readCheckOliveConfig(oliveJsonFile, modelParameter)
+                    if not oliveJson:
+                        continue
 
                     # check parameter
                     modelParameter.Check(parameterTemplate, oliveJson, modelList)
