@@ -71,7 +71,7 @@ def checkSystem(oliveJsonFile: str, system):
     return True
 
 
-def readCheckOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter):
+def readCheckOliveConfig(oliveJsonFile: str):
     """
     This will set phases to modelParameter
     """
