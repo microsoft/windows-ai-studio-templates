@@ -49,7 +49,7 @@
             "type": "LocalSystem",
             "accelerators": [
                 {
-                    "device":"cpu",
+                    "device": "cpu",
                     "execution_providers": [
                         "CPUExecutionProvider"
                     ]
@@ -60,7 +60,7 @@
             "type": "LocalSystem",
             "accelerators": [
                 {
-                    "device":"gpu",
+                    "device": "gpu",
                     "execution_providers": [
                         "DmlExecutionProvider"
                     ]
@@ -69,20 +69,6 @@
         }
     },
     "data_configs": [
-        {
-            "name": "quant_data_config",
-            "user_script": "user_script.py",
-            "load_dataset_config": {
-                "type": "clip_dataset",
-                "model_name": "openai/clip-vit-base-patch16",
-                "dataset_name": "nlphuji/flickr30k",
-                "start": 0,
-                "end": 10
-            },
-            "dataloader_config": {
-                "type": "no_auto_batch_dataloader"
-            }
-        },
         {
             "name": "metric_data_config",
             "user_script": "user_script.py",
@@ -200,6 +186,6 @@
     "target": "target_system",
     "cache_dir": "cache",
     "evaluator": "common_evaluator",
-    "evaluate_input_model": true,
-    "output_dir": "model"
+    "evaluate_input_model": false,
+    "output_dir": "model/clip"
 }

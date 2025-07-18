@@ -49,7 +49,7 @@
             "type": "LocalSystem",
             "accelerators": [
                 {
-                    "device":"cpu",
+                    "device": "cpu",
                     "execution_providers": [
                         "CPUExecutionProvider"
                     ]
@@ -60,7 +60,7 @@
             "type": "LocalSystem",
             "accelerators": [
                 {
-                    "device":"gpu",
+                    "device": "gpu",
                     "execution_providers": [
                         "DmlExecutionProvider"
                     ]
@@ -76,11 +76,15 @@
                 "type": "clip_dataset",
                 "model_name": "laion/CLIP-ViT-B-32-laion2B-s34B-b79K",
                 "dataset_name": "nlphuji/flickr30k",
-                "start": 10,
-                "end": 20
+                "start": 0,
+                "end": 10
             },
-            "dataloader_config": { "type": "no_auto_batch_dataloader" },
-            "post_process_data_config": { "type": "clip_post_process" }
+            "dataloader_config": {
+                "type": "no_auto_batch_dataloader"
+            },
+            "post_process_data_config": {
+                "type": "clip_post_process"
+            }
         }
     ],
     "evaluators": {
@@ -92,15 +96,50 @@
                     "backend": "huggingface_metrics",
                     "data_config": "metric_data_config",
                     "sub_types": [
-                        { "name": "accuracy", "priority": 1, "goal": { "type": "max-degradation", "value": 0.05 } }
+                        {
+                            "name": "accuracy",
+                            "priority": 1,
+                            "goal": {
+                                "type": "max-degradation",
+                                "value": 0.05
+                            }
+                        }
                     ]
                 },
                 {
                     "name": "latency",
                     "type": "latency",
+                    "data_config": "metric_data_config",
                     "sub_types": [
-                        { "name": "avg", "priority": 2, "metric_config": { "warmup_num": 20, "repeat_test_num": 100 } },
-                        { "name": "p90", "metric_config": { "warmup_num": 20, "repeat_test_num": 100 } }
+                        {
+                            "name": "avg",
+                            "goal": {
+                                "type": "percent-min-improvement",
+                                "value": 0.1
+                            }
+                        },
+                        {
+                            "name": "max"
+                        },
+                        {
+                            "name": "min"
+                        }
+                    ]
+                },
+                {
+                    "name": "throughput",
+                    "type": "throughput",
+                    "data_config": "metric_data_config",
+                    "sub_types": [
+                        {
+                            "name": "avg"
+                        },
+                        {
+                            "name": "max"
+                        },
+                        {
+                            "name": "min"
+                        }
                     ]
                 }
             ]
@@ -147,6 +186,6 @@
     "target": "target_system",
     "cache_dir": "cache",
     "evaluator": "common_evaluator",
-    "evaluate_input_model": true,
-    "output_dir": "model"
+    "evaluate_input_model": false,
+    "output_dir": "model/clip"
 }
