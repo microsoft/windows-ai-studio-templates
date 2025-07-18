@@ -22,7 +22,6 @@ scikitLearnVersion = "scikit-learn==1.6.1"
 winrtPackage = [
     "--index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/ORT-Nightly/pypi/simple",
     "--extra-index-url https://pypi.org/simple",
-    "onnxruntime-winml==1.22.0.post2",
     "winrt-runtime==3.2.1",
     "winrt-Windows.Foundation==3.2.1",
     "winrt-Windows.Foundation.Collections==3.2.1",
@@ -60,8 +59,8 @@ def get_requires(name: str, args):
 
 def main():
     # Constants
-    # if from git: "git+https://github.com/microsoft/Olive.git@COMMIT_ID#egg=olive_ai
-    oliveAi = "olive-ai@git+https://github.com/microsoft/Olive.git#egg=olive_ai"
+    # if from git: "git+https://github.com/microsoft/Olive.git@COMMIT_ID#egg=olive-ai
+    oliveAi = "olive-ai@git+https://github.com/microsoft/Olive.git#egg=olive-ai"
     torchVision = "torchvision==0.22.0"
     pre = {
         RuntimeEnum.NvidiaGPU: [
