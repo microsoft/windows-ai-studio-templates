@@ -130,6 +130,7 @@ def readCheckOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter):
             OlivePassNames.OnnxQuantization,
             OlivePassNames.OnnxStaticQuantization,
             OlivePassNames.OnnxDynamicQuantization,
+            OlivePassNames.OrtTransformersOptimization,
         ]
     ]
     for conversionPass in supportedPasses:

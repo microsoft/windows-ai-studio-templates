@@ -110,6 +110,7 @@ class OlivePassNames:
     OpenVINOOptimumConversion = "OpenVINOOptimumConversion"
     OpenVINOQuantization = "OpenVINOQuantization"
     OpenVINOEncapsulation = "OpenVINOEncapsulation"
+    OrtTransformersOptimization = "OrtTransformersOptimization"
 
 
 class OlivePropertyNames:

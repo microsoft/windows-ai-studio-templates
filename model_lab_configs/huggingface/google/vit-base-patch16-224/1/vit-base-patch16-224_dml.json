@@ -130,7 +130,8 @@
                 "enable_packed_kv": true,
                 "enable_bias_add": false,
                 "enable_rotary_embeddings": true
-            }
+            },
+            "save_as_external_data": true
         }
     },
     "evaluator": "common_evaluator",
