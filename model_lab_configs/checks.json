@@ -1,8 +1,8 @@
 {
-    "pathCheck": 586,
-    "configCheck": 46,
-    "oliveJsonCheck": 46,
-    "ipynbCheck": 26,
+    "pathCheck": 648,
+    "configCheck": 57,
+    "oliveJsonCheck": 57,
+    "ipynbCheck": 32,
     "gitignoreCheck": 13,
     "modelProjectCheck": 14,
     "inferenceModelCheck": 5,

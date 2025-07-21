@@ -90,6 +90,7 @@ class EPNames(Enum):
     OpenVINOExecutionProvider = "OpenVINOExecutionProvider"
     VitisAIExecutionProvider = "VitisAIExecutionProvider"
     NvTensorRTRTXExecutionProvider = "NvTensorRTRTXExecutionProvider"
+    DmlExecutionProvider = "DmlExecutionProvider"
 
 
 class OliveDeviceTypes(Enum):
@@ -109,6 +110,7 @@ class OlivePassNames:
     OpenVINOOptimumConversion = "OpenVINOOptimumConversion"
     OpenVINOQuantization = "OpenVINOQuantization"
     OpenVINOEncapsulation = "OpenVINOEncapsulation"
+    OrtTransformersOptimization = "OrtTransformersOptimization"
 
 
 class OlivePropertyNames:

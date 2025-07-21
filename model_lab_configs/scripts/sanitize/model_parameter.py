@@ -26,7 +26,7 @@ from .constants import (
 )
 from .model_info import ModelList
 from .parameters import Parameter, ParameterAction
-from .utils import GlobalVars, checkPath, open_ex, printError, printProcess, printWarning
+from .utils import GlobalVars, checkPath, get_target_system, open_ex, printError, printProcess, printWarning
 
 
 class RuntimeOverwrite(BaseModel):
@@ -258,7 +258,7 @@ class ModelParameter(BaseModelClass):
             self.addCpu = False
 
         # Add runtime
-        syskey, system = list(oliveJson[OlivePropertyNames.Systems].items())[0]
+        syskey, system = get_target_system(oliveJson)
         currentEp = system[OlivePropertyNames.Accelerators][0][OlivePropertyNames.ExecutionProviders][0]
         currentOliveDeviceType = system[OlivePropertyNames.Accelerators][0].get(
             OlivePropertyNames.Device, OliveDeviceTypes.Any.value

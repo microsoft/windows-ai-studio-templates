@@ -40,6 +40,7 @@ class GlobalVars:
         RuntimeEnum.AMDNPU: EPNames.VitisAIExecutionProvider,
         RuntimeEnum.NvidiaGPU: EPNames.CUDAExecutionProvider,
         RuntimeEnum.NvidiaTRTRTX: EPNames.NvTensorRTRTXExecutionProvider,
+        RuntimeEnum.DML: EPNames.DmlExecutionProvider,
     }
     RuntimeToOliveDeviceType = {
         RuntimeEnum.CPU: OliveDeviceTypes.CPU,
@@ -50,6 +51,7 @@ class GlobalVars:
         RuntimeEnum.IntelGPU: OliveDeviceTypes.GPU,
         RuntimeEnum.AMDNPU: OliveDeviceTypes.NPU,
         RuntimeEnum.NvidiaGPU: OliveDeviceTypes.GPU,
+        RuntimeEnum.DML: OliveDeviceTypes.GPU,
     }
     RuntimeToDisplayName = {
         RuntimeEnum.CPU: "CPU",
@@ -61,6 +63,7 @@ class GlobalVars:
         RuntimeEnum.AMDNPU: "AMD NPU",
         RuntimeEnum.NvidiaGPU: "NVIDIA GPU",
         RuntimeEnum.NvidiaTRTRTX: "NVIDIA TensorRT for RTX",
+        RuntimeEnum.DML: "DirectML",
     }
 
     @classmethod
@@ -169,12 +172,19 @@ def open_ex(file_path, mode):
         file.close()
 
 
+def get_target_system(oliveJson: Any):
+    syskey = oliveJson[OlivePropertyNames.Target]
+    sysValue = oliveJson[OlivePropertyNames.Systems][syskey]
+    return syskey, sysValue
+
+
 def checkPath(path: str, oliveJson: Any, printOnNotExist: bool = True):
     printInfo(path)
     GlobalVars.pathCheck += 1
     if pydash.get(oliveJson, path) is None:
-        syskey, system = list(oliveJson[OlivePropertyNames.Systems].items())[0]
+        syskey, system = get_target_system(oliveJson)
         currentEp = system[OlivePropertyNames.Accelerators][0][OlivePropertyNames.ExecutionProviders][0]
+        # TODO some ov recipes do not have device but we set it in config
         if path == f"systems.{syskey}.accelerators.0.device" and currentEp == EPNames.OpenVINOExecutionProvider.value:
             return True
         if printOnNotExist:
