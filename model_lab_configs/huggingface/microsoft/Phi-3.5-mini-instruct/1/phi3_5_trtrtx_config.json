@@ -27,18 +27,7 @@
         }
     ],
     "passes": {
-        "builder": { "type": "ModelBuilder", "precision": "fp16", "search": { "max_length": 2048, "min_length": 0 } },
-        "metadata": {
-            "type": "ModelBuilder",
-            "precision": "fp16",
-            "metadata_only": true,
-            "search": { "max_length": 2048, "min_length": 0 }
-        },
-        "session_params_tuning": {
-            "type": "OrtSessionParamsTuning",
-            "data_config": "wikitext2_train",
-            "io_bind": true
-        }
+        "builder": { "type": "ModelBuilder", "precision": "fp16" }
     },
     "target": "local_system",
     "log_severity_level": 1,
