@@ -233,7 +233,7 @@ class ModelParameter(BaseModelClass):
         return modelParameter
 
     def Check(self, templates: Dict[str, Parameter], oliveJson: Any, modelList: ModelList):
-        GlobalVars.configCheck += 1
+        GlobalVars.configCheck.append(self._file)
 
         if not self.sections:
             printError(f"{self._file} should have sections")

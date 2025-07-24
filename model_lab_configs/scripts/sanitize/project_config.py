@@ -65,7 +65,7 @@ class ModelProjectConfig(BaseModelClass):
 
     # after template is set
     def Check(self, modelInfo: ModelInfo):
-        GlobalVars.modelProjectCheck += 1
+        GlobalVars.modelProjectCheck.append(self._file)
 
         for i, model in enumerate(self.workflows):
             if not model.Check():
