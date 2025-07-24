@@ -19,6 +19,7 @@ class IconEnum(Enum):
     DeepSeek = "DeepSeek"
     laion = "laion"
     qwen = "qwen"
+    mistralai = "mistralai"
     HuggingFace = "HuggingFace"
 
 
