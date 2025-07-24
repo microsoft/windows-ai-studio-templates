@@ -7,7 +7,7 @@ from __future__ import annotations
 import json
 import os
 import re
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, Iterator, List, Optional
 
 from deepdiff import DeepDiff
 from model_lab import RuntimeEnum, RuntimeFeatureEnum
@@ -197,6 +197,7 @@ class ModelParameter(BaseModelClass):
     oliveFile: Optional[str] = None
     isLLM: Optional[bool] = None
     isIntel: Optional[bool] = None
+    intelRuntimeValues: Optional[List[OliveDeviceTypes]] = None
     # For template using CUDA and no runtime overwrite, we need to set this so we know the target EP
     evalRuntime: Optional[RuntimeEnum] = None  # Changed to str to avoid forward reference
     debugInfo: Optional[DebugInfo] = None
@@ -231,6 +232,14 @@ class ModelParameter(BaseModelClass):
         modelParameter._file = parameterFile
         modelParameter._fileContent = parameterContent
         return modelParameter
+
+    def getIntelDevices(self) -> Iterator[OliveDeviceTypes]:
+        for tmpDevice in OliveDeviceTypes:
+            if tmpDevice == OliveDeviceTypes.Any:
+                continue
+            if self.intelRuntimeValues and tmpDevice not in self.intelRuntimeValues:
+                continue
+            yield tmpDevice
 
     def Check(self, templates: Dict[str, Parameter], oliveJson: Any, modelList: ModelList):
         GlobalVars.configCheck += 1
@@ -295,12 +304,11 @@ class ModelParameter(BaseModelClass):
             )
             self.runtime.values = []
             self.runtime.displayNames = []
-            for tmpDevice in OliveDeviceTypes:
-                if tmpDevice == OliveDeviceTypes.Any:
-                    continue
+            for tmpDevice in self.getIntelDevices():
                 tmpRuntimeRPC = GlobalVars.GetRuntimeRPC(EPNames.OpenVINOExecutionProvider, tmpDevice)
                 self.runtime.values.append(GlobalVars.RuntimeToOliveDeviceType[tmpRuntimeRPC].value)
                 self.runtime.displayNames.append(GlobalVars.RuntimeToDisplayName[tmpRuntimeRPC])
+
         self.runtime.actions = runtimeActions
         self.TryToRemoveReuseCacheInRuntimeAction(oliveJson)
         if not self.runtime.Check(False, oliveJson, modelList):
@@ -316,7 +324,7 @@ class ModelParameter(BaseModelClass):
                 executeEp=EPNames.CUDAExecutionProvider,
                 evaluateUsedInExecute=True,
             )
-            if not self.runtimeOverwrite.Check(oliveJson):
+            if self.runtimeOverwrite and not self.runtimeOverwrite.Check(oliveJson):
                 printError(f"{self._file} runtime overwrite has error")
             self.executeRuntimeFeatures = [RuntimeFeatureEnum.AutoGptq]
             self.pyEnvRuntimeFeatures = [RuntimeFeatureEnum.Nightly]
@@ -506,21 +514,21 @@ class ModelParameter(BaseModelClass):
                     self.runtimeInConversion,
                     f"{OlivePropertyNames.Passes}.{openVINOOptimumConversion[0]}.{OlivePropertyNames.ExtraArgs}.{OlivePropertyNames.Device}",
                     # TODO support any after olive release
-                    [e.value for e in OliveDeviceTypes if e != OliveDeviceTypes.Any],
+                    [e.value for e in self.getIntelDevices()],
                 )
             if openVINOQuantization:
                 addRuntimeInConversion(
                     self.runtimeInConversion,
                     f"{OlivePropertyNames.Passes}.{openVINOQuantization[0]}.{OlivePropertyNames.TargetDevice}",
                     # TODO support any after olive release
-                    [e.value for e in OliveDeviceTypes if e != OliveDeviceTypes.Any],
+                    [e.value for e in self.getIntelDevices()],
                 )
             if openVINOEncapsulation:
                 addRuntimeInConversion(
                     self.runtimeInConversion,
                     f"{OlivePropertyNames.Passes}.{openVINOEncapsulation[0]}.{OlivePropertyNames.TargetDevice}",
                     # TODO support any after olive release
-                    [e.value for e in OliveDeviceTypes if e != OliveDeviceTypes.Any],
+                    [e.value for e in self.getIntelDevices()],
                 )
             if not self.runtimeInConversion.Check(False, oliveJson, modelList):
                 printError(f"{self._file} runtime in conversion has error")
