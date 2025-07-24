@@ -264,4 +264,5 @@ def readCheckParameterTemplate(filePath: str):
     if newContent != fileContent:
         with open_ex(filePath, "w") as file:
             file.write(newContent)
+            file.write("\n")
     return parameters
