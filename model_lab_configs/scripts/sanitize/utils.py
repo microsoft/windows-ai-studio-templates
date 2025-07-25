@@ -84,6 +84,7 @@ class GlobalVars:
                 for prop in properties
             }
             json.dump(properties, file, indent=4)
+            file.write("\n")
 
     @classmethod
     def GetRuntimeRPC(cls, epName: EPNames, oliveDeviceType: OliveDeviceTypes) -> RuntimeEnum:
