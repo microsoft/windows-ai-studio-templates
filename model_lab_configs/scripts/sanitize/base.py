@@ -20,6 +20,7 @@ class BaseModelClass(BaseModel):
         if newContent != self._fileContent:
             with open_ex(self._file, "w") as file:
                 file.write(newContent)
+                file.write("\n")
 
     class Config:
         arbitrary_types_allowed = True
