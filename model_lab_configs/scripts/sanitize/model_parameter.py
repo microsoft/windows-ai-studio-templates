@@ -136,33 +136,24 @@ class DebugInfo(BaseModel):
     useOpenVINOOptimumConversion: Optional[str] = None
 
     def setupUseX(self, oliveJson: Any):
+        def getPass(passType: str):
+            return next(
+                (
+                    k
+                    for k, v in oliveJson[OlivePropertyNames.Passes].items()
+                    if v[OlivePropertyNames.Type].lower() == passType
+                ),
+                None,
+            )
+
         # setup useModelBuilder
-        modelBuilder = [
-            k
-            for k, v in oliveJson[OlivePropertyNames.Passes].items()
-            if v[OlivePropertyNames.Type] == OlivePassNames.ModelBuilder
-        ]
-        if modelBuilder:
-            self.useModelBuilder = modelBuilder[0]
+        self.useModelBuilder = getPass(OlivePassNames.ModelBuilder)
 
         # setup useOpenVINOConversion
-        openVINOConversion = [
-            k
-            for k, v in oliveJson[OlivePropertyNames.Passes].items()
-            if v[OlivePropertyNames.Type] == OlivePassNames.OpenVINOConversion
-        ]
-        if openVINOConversion:
-            self.useOpenVINOConversion = openVINOConversion[0]
+        self.useOpenVINOConversion = getPass(OlivePassNames.OpenVINOConversion)
 
         # setup useOpenVINOOptimumConversion
-        openVINOOptimumConversion = [
-            k
-            for k, v in oliveJson[OlivePropertyNames.Passes].items()
-            if v[OlivePropertyNames.Type] == OlivePassNames.OpenVINOOptimumConversion
-        ]
-        if openVINOOptimumConversion:
-            self.useOpenVINOOptimumConversion = openVINOOptimumConversion[0]
-
+        self.useOpenVINOOptimumConversion = getPass(OlivePassNames.OpenVINOOptimumConversion)
         if (
             sum(
                 bool(v)
@@ -340,7 +331,7 @@ class ModelParameter(BaseModelClass):
                         conversion = [
                             k
                             for k, v in oliveJson[OlivePropertyNames.Passes].items()
-                            if v[OlivePropertyNames.Type] == OlivePassNames.OnnxConversion
+                            if v[OlivePropertyNames.Type].lower() == OlivePassNames.OnnxConversion
                         ][0]
                     conversionPath = f"{OlivePropertyNames.Passes}.{conversion}"
                     section.toggle = Parameter(
@@ -366,7 +357,7 @@ class ModelParameter(BaseModelClass):
                         quantize = [
                             k
                             for k, v in oliveJson[OlivePropertyNames.Passes].items()
-                            if v[OlivePropertyNames.Type]
+                            if v[OlivePropertyNames.Type].lower()
                             in [
                                 OlivePassNames.OnnxQuantization,
                                 OlivePassNames.OnnxStaticQuantization,
@@ -376,7 +367,7 @@ class ModelParameter(BaseModelClass):
                         conversion = [
                             (k, v)
                             for k, v in oliveJson[OlivePropertyNames.Passes].items()
-                            if v[OlivePropertyNames.Type] == OlivePassNames.OnnxConversion
+                            if v[OlivePropertyNames.Type].lower() == OlivePassNames.OnnxConversion
                         ][0]
                         actions = [
                             ParameterAction(
@@ -458,30 +449,19 @@ class ModelParameter(BaseModelClass):
         return None
 
     def CheckRuntimeInConversion(self, oliveJson: Any, modelList: ModelList):
-        openVINOOptimumConversion = next(
-            (
-                (k, v)
-                for k, v in oliveJson[OlivePropertyNames.Passes].items()
-                if v[OlivePropertyNames.Type] == OlivePassNames.OpenVINOOptimumConversion
-            ),
-            None,
-        )
-        openVINOQuantization = next(
-            (
-                (k, v)
-                for k, v in oliveJson[OlivePropertyNames.Passes].items()
-                if v[OlivePropertyNames.Type] == OlivePassNames.OpenVINOQuantization
-            ),
-            None,
-        )
-        openVINOEncapsulation = next(
-            (
-                (k, v)
-                for k, v in oliveJson[OlivePropertyNames.Passes].items()
-                if v[OlivePropertyNames.Type] == OlivePassNames.OpenVINOEncapsulation
-            ),
-            None,
-        )
+        def getOpenVINOPass(passType: str):
+            return next(
+                (
+                    (k, v)
+                    for k, v in oliveJson[OlivePropertyNames.Passes].items()
+                    if v[OlivePropertyNames.Type].lower() == passType
+                ),
+                None,
+            )
+
+        openVINOOptimumConversion = getOpenVINOPass(OlivePassNames.OpenVINOOptimumConversion)
+        openVINOQuantization = getOpenVINOPass(OlivePassNames.OpenVINOQuantization)
+        openVINOEncapsulation = getOpenVINOPass(OlivePassNames.OpenVINOEncapsulation)
 
         def addRuntimeInConversion(runtime: Parameter, path: str, values: List[Any]):
             if not runtime.path:

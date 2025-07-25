@@ -101,17 +101,18 @@ class OliveDeviceTypes(Enum):
     NPU = "npu"
 
 
+# Pass name is case insensitive, so we use lower case for all pass names
 class OlivePassNames:
-    OnnxConversion = "OnnxConversion"
-    OnnxQuantization = "OnnxQuantization"
-    OnnxStaticQuantization = "OnnxStaticQuantization"
-    OnnxDynamicQuantization = "OnnxDynamicQuantization"
-    ModelBuilder = "ModelBuilder"
-    OpenVINOConversion = "OpenVINOConversion"
-    OpenVINOOptimumConversion = "OpenVINOOptimumConversion"
-    OpenVINOQuantization = "OpenVINOQuantization"
-    OpenVINOEncapsulation = "OpenVINOEncapsulation"
-    OrtTransformersOptimization = "OrtTransformersOptimization"
+    OnnxConversion = "onnxconversion"
+    OnnxQuantization = "onnxquantization"
+    OnnxStaticQuantization = "onnxstaticquantization"
+    OnnxDynamicQuantization = "onnxdynamicquantization"
+    ModelBuilder = "modelbuilder"
+    OpenVINOConversion = "openvinoconversion"
+    OpenVINOOptimumConversion = "openvinooptimumconversion"
+    OpenVINOQuantization = "openvinoquantization"
+    OpenVINOEncapsulation = "openvinoencapsulation"
+    OrtTransformersOptimization = "orttransformersoptimization"
 
 
 class OlivePropertyNames:
