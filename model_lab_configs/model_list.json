@@ -268,12 +268,28 @@
             "icon": "qwen",
             "modelLink": "https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct",
             "id": "huggingface/Qwen/Qwen2.5-1.5B-Instruct",
+            "groupId": "huggingface/Qwen/Qwen2.5-Instruct",
+            "groupItemName": "1.5b",
             "runtimes": [
                 "QNN",
                 "AMDNPU",
                 "IntelCPU",
                 "IntelGPU",
                 "IntelNPU"
+            ],
+            "architecture": "Transformer",
+            "status": "Ready",
+            "version": 1
+        },
+        {
+            "displayName": "Qwen/Qwen2.5-7B-Instruct",
+            "icon": "qwen",
+            "modelLink": "https://huggingface.co/Qwen/Qwen2.5-7B-Instruct",
+            "id": "huggingface/Qwen/Qwen2.5-7B-Instruct",
+            "groupId": "huggingface/Qwen/Qwen2.5-Instruct",
+            "groupItemName": "7b",
+            "runtimes": [
+                "IntelGPU"
             ],
             "architecture": "Transformer",
             "status": "Ready",
