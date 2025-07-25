@@ -124,7 +124,7 @@ def readCheckOliveConfig(oliveJsonFile: str):
     supportedPasses = [
         v
         for k, v in oliveJson[OlivePropertyNames.Passes].items()
-        if v[OlivePropertyNames.Type]
+        if v[OlivePropertyNames.Type].lower()
         in [
             OlivePassNames.OnnxConversion,
             OlivePassNames.OnnxQuantization,
