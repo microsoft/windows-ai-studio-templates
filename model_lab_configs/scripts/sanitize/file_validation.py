@@ -38,9 +38,8 @@ def check_case(path: Path) -> bool:
 
 
 def process_gitignore(modelVerDir: str, configDir: str):
-    GlobalVars.gitignoreCheck += 1
-
     gitignoreFile = os.path.join(modelVerDir, ".gitignore")
+    GlobalVars.gitignoreCheck.append(gitignoreFile)
     templateFile = os.path.join(configDir, "gitignore.md")
     if not os.path.exists(gitignoreFile):
         printWarning(f"{gitignoreFile} not exists. Copy the template one")
@@ -75,7 +74,7 @@ def readCheckOliveConfig(oliveJsonFile: str):
     """
     This will set phases to modelParameter
     """
-    GlobalVars.oliveJsonCheck += 1
+    GlobalVars.oliveJsonCheck.append(oliveJsonFile)
 
     printProcess(oliveJsonFile)
     with open_ex(oliveJsonFile, "r") as file:
@@ -124,7 +123,7 @@ def readCheckOliveConfig(oliveJsonFile: str):
     supportedPasses = [
         v
         for k, v in oliveJson[OlivePropertyNames.Passes].items()
-        if v[OlivePropertyNames.Type]
+        if v[OlivePropertyNames.Type].lower()
         in [
             OlivePassNames.OnnxConversion,
             OlivePassNames.OnnxQuantization,
@@ -141,6 +140,7 @@ def readCheckOliveConfig(oliveJsonFile: str):
     if jsonUpdated:
         with open_ex(oliveJsonFile, "w") as file:
             json.dump(oliveJson, file, indent=4)
+            file.write("\n")
     return oliveJson
 
 
@@ -149,7 +149,7 @@ def readCheckIpynb(ipynbFile: str, modelItems: dict[str, ModelParameter]):
     Note this return exists or not, not valid or not
     """
     if os.path.exists(ipynbFile):
-        GlobalVars.ipynbCheck += 1
+        GlobalVars.ipynbCheck.append(ipynbFile)
 
         with open_ex(ipynbFile, "r") as file:
             ipynbContent: str = file.read()

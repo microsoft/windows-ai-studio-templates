@@ -9,6 +9,7 @@ from typing import Any, Dict, List, Optional, Union
 import pydash
 from pydantic import BaseModel, TypeAdapter
 
+from .base import BaseModelClass
 from .constants import (
     ParameterActionTypeEnum,
     ParameterCheckTypeEnum,
@@ -261,7 +262,5 @@ def readCheckParameterTemplate(filePath: str):
         if not parameter.Check(True):
             printError(f"{filePath} parameter {key} has error")
     newContent = adapter.dump_json(parameters, indent=4, exclude_none=True).decode("utf-8")
-    if newContent != fileContent:
-        with open_ex(filePath, "w") as file:
-            file.write(newContent)
+    BaseModelClass.writeJsonIfChanged(newContent, filePath, fileContent)
     return parameters
