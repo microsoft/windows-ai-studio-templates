@@ -6,5 +6,5 @@
   "ACA_JOB_NAME": null,
   "LOG_ANALYTICS_NAME": null,
   "COMMANDS": [],
-  "ARGS": ["mount/<run_id>/finetune.yaml"]
+  "ARGS": ["mount/<run_id>/soft_prompt.yaml"]
 }

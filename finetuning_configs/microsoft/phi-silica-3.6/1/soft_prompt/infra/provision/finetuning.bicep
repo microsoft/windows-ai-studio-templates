@@ -165,4 +165,4 @@ output FILE_SHARE_NAME string = fileShare.name
 output ACA_JOB_NAME string = acajob.name
 output LOG_ANALYTICS_NAME string = logAnalytics.name
 output COMMANDS array = []
-output ARGS array = ['mount/<run_id>/finetune.yaml']
+output ARGS array = ['mount/<run_id>/soft_prompt.yaml']
