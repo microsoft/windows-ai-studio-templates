@@ -6,5 +6,3 @@ This repository demonstrates the optimization of the [DeepSeek-R1-Distill-Qwen-1
 
 #### **Run Console-Based Chat Interface**
 Execute the provided `inference_sample.ipynb` notebook.
-
-> ⚠️ If got 6033 error, replace `genai_config.json` in `./model` folder
