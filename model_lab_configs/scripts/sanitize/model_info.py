@@ -77,6 +77,9 @@ class ModelList(BaseModelClass):
 
     # Check after set version
     def Check(self):
+        self.models.sort(key=lambda x: x.displayName.lower())
+        # TODO template models order needs manually set
+        # self.template_models.sort(key=lambda x: x.displayName.lower())
         for i, model in enumerate(self.allModels()):
             if not model.Check():
                 printError(f"{self._file} model {i} has error")
