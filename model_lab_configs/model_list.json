@@ -199,7 +199,7 @@
             "modelLink": "https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct",
             "id": "huggingface/Qwen/Qwen2.5-1.5B-Instruct",
             "groupId": "huggingface/Qwen/Qwen2.5-Instruct",
-            "groupItemName": "1.5b",
+            "groupItemName": "1.5B",
             "runtimes": [
                 "QNN",
                 "AMDNPU",
@@ -212,12 +212,126 @@
             "version": 1
         },
         {
+            "displayName": "Qwen/Qwen2.5-0.5B-Instruct",
+            "icon": "qwen",
+            "modelLink": "https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct",
+            "id": "huggingface/Qwen/Qwen2.5-0.5B-Instruct",
+            "groupId": "huggingface/Qwen/Qwen2.5-Instruct",
+            "groupItemName": "0.5B",
+            "runtimes": [
+                "QNN",
+                "AMDNPU",
+                "IntelGPU"
+            ],
+            "architecture": "Transformer",
+            "status": "Ready",
+            "version": 1
+        },
+        {
+            "displayName": "Qwen/Qwen2.5-3B-Instruct",
+            "icon": "qwen",
+            "modelLink": "https://huggingface.co/Qwen/Qwen2.5-3B-Instruct",
+            "id": "huggingface/Qwen/Qwen2.5-3B-Instruct",
+            "groupId": "huggingface/Qwen/Qwen2.5-Instruct",
+            "groupItemName": "3B",
+            "runtimes": [
+                "IntelGPU"
+            ],
+            "architecture": "Transformer",
+            "status": "Ready",
+            "version": 1
+        },
+        {
             "displayName": "Qwen/Qwen2.5-7B-Instruct",
             "icon": "qwen",
             "modelLink": "https://huggingface.co/Qwen/Qwen2.5-7B-Instruct",
             "id": "huggingface/Qwen/Qwen2.5-7B-Instruct",
             "groupId": "huggingface/Qwen/Qwen2.5-Instruct",
-            "groupItemName": "7b",
+            "groupItemName": "7B",
+            "runtimes": [
+                "IntelGPU"
+            ],
+            "architecture": "Transformer",
+            "status": "Ready",
+            "version": 1
+        },
+        {
+            "displayName": "Qwen/Qwen2.5-14B-Instruct",
+            "icon": "qwen",
+            "modelLink": "https://huggingface.co/Qwen/Qwen2.5-14B-Instruct",
+            "id": "huggingface/Qwen/Qwen2.5-14B-Instruct",
+            "groupId": "huggingface/Qwen/Qwen2.5-Instruct",
+            "groupItemName": "14B",
+            "runtimes": [
+                "IntelGPU"
+            ],
+            "architecture": "Transformer",
+            "status": "Ready",
+            "version": 1
+        },
+        {
+            "displayName": "Qwen/Qwen2.5-Coder-1.5B-Instruct",
+            "icon": "qwen",
+            "modelLink": "https://huggingface.co/Qwen/Qwen2.5-Coder-1.5B-Instruct",
+            "id": "huggingface/Qwen/Qwen2.5-Coder-1.5B-Instruct",
+            "groupId": "huggingface/Qwen/Qwen2.5-Coder-Instruct",
+            "groupItemName": "1.5B",
+            "runtimes": [
+                "IntelGPU"
+            ],
+            "architecture": "Transformer",
+            "status": "Ready",
+            "version": 1
+        },
+        {
+            "displayName": "Qwen/Qwen2.5-Coder-0.5B-Instruct",
+            "icon": "qwen",
+            "modelLink": "https://huggingface.co/Qwen/Qwen2.5-Coder-0.5B-Instruct",
+            "id": "huggingface/Qwen/Qwen2.5-Coder-0.5B-Instruct",
+            "groupId": "huggingface/Qwen/Qwen2.5-Coder-Instruct",
+            "groupItemName": "0.5B",
+            "runtimes": [
+                "IntelGPU"
+            ],
+            "architecture": "Transformer",
+            "status": "Ready",
+            "version": 1
+        },
+        {
+            "displayName": "Qwen/Qwen2.5-Coder-3B-Instruct",
+            "icon": "qwen",
+            "modelLink": "https://huggingface.co/Qwen/Qwen2.5-Coder-3B-Instruct",
+            "id": "huggingface/Qwen/Qwen2.5-Coder-3B-Instruct",
+            "groupId": "huggingface/Qwen/Qwen2.5-Coder-Instruct",
+            "groupItemName": "3B",
+            "runtimes": [
+                "IntelGPU"
+            ],
+            "architecture": "Transformer",
+            "status": "Ready",
+            "version": 1
+        },
+        {
+            "displayName": "Qwen/Qwen2.5-Coder-7B-Instruct",
+            "icon": "qwen",
+            "modelLink": "https://huggingface.co/Qwen/Qwen2.5-Coder-7B-Instruct",
+            "id": "huggingface/Qwen/Qwen2.5-Coder-7B-Instruct",
+            "groupId": "huggingface/Qwen/Qwen2.5-Coder-Instruct",
+            "groupItemName": "7B",
+            "runtimes": [
+                "IntelGPU"
+            ],
+            "architecture": "Transformer",
+            "status": "Ready",
+            "version": 1
+        },
+        {
+            "displayName": "Qwen/Qwen2.5-Coder-14B-Instruct",
+            "icon": "qwen",
+            "modelLink": "https://huggingface.co/Qwen/Qwen2.5-Coder-14B-Instruct",
+            "id": "huggingface/Qwen/Qwen2.5-Coder-14B-Instruct",
+            "groupId": "huggingface/Qwen/Qwen2.5-Coder-Instruct",
+            "groupItemName": "14B",
             "runtimes": [
                 "IntelGPU"
             ],
