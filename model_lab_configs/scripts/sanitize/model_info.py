@@ -23,6 +23,8 @@ class ModelInfo(BaseModel):
     icon: IconEnum
     modelLink: str
     id: str
+    groupId: Optional[str] = None
+    groupItemName: Optional[str] = None
     runtimes: List[str]  # Changed to List[str] to avoid forward reference issues
     architecture: ArchitectureEnum
     status: ModelStatusEnum = ModelStatusEnum.Hide
