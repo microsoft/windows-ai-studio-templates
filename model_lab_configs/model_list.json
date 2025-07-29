@@ -147,10 +147,50 @@
             "version": 1
         },
         {
+            "displayName": "microsoft/Phi-4-mini-instruct",
+            "icon": "ms",
+            "modelLink": "https://huggingface.co/microsoft/Phi-4-mini-instruct",
+            "id": "huggingface/microsoft/Phi-4-mini-instruct",
+            "runtimes": [
+                "IntelGPU"
+            ],
+            "architecture": "Transformer",
+            "status": "Ready",
+            "version": 1
+        },
+        {
             "displayName": "microsoft/Phi-4-mini-reasoning",
             "icon": "ms",
             "modelLink": "https://huggingface.co/microsoft/Phi-4-mini-reasoning",
             "id": "huggingface/microsoft/Phi-4-mini-reasoning",
+            "runtimes": [
+                "IntelCPU",
+                "IntelGPU",
+                "IntelNPU"
+            ],
+            "architecture": "Transformer",
+            "status": "Ready",
+            "version": 1
+        },
+        {
+            "displayName": "microsoft/Phi-4-reasoning",
+            "icon": "ms",
+            "modelLink": "https://huggingface.co/microsoft/Phi-4-reasoning",
+            "id": "huggingface/microsoft/Phi-4-reasoning",
+            "runtimes": [
+                "IntelCPU",
+                "IntelGPU",
+                "IntelNPU"
+            ],
+            "architecture": "Transformer",
+            "status": "Ready",
+            "version": 1
+        },
+        {
+            "displayName": "microsoft/Phi-4-reasoning-plus",
+            "icon": "ms",
+            "modelLink": "https://huggingface.co/microsoft/Phi-4-reasoning-plus",
+            "id": "huggingface/microsoft/Phi-4-reasoning-plus",
             "runtimes": [
                 "IntelCPU",
                 "IntelGPU",
