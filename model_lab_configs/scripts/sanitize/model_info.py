@@ -5,6 +5,7 @@ Model information and model list classes
 from __future__ import annotations
 
 import os
+import re
 from typing import Dict, List, Optional
 
 from model_lab import RuntimeEnum
@@ -47,6 +48,14 @@ class ModelInfo(BaseModel):
             return False
         return True
 
+    def GetSortKey(self):
+        lowerName = self.displayName.lower()
+        match = re.search(r"-(\d+(?:\.\d+)?)b", lowerName)
+        if match:
+            return (lowerName.replace(match.group(0), "-0b", 1), float(match.group(1)))
+        else:
+            return (lowerName, 0)
+
 
 class ModelList(BaseModelClass):
     models: List[ModelInfo]
@@ -77,7 +86,7 @@ class ModelList(BaseModelClass):
 
     # Check after set version
     def Check(self):
-        self.models.sort(key=lambda x: x.displayName.lower())
+        self.models.sort(key=lambda x: x.GetSortKey())
         # TODO template models order needs manually set
         # self.template_models.sort(key=lambda x: x.displayName.lower())
         for i, model in enumerate(self.allModels()):
