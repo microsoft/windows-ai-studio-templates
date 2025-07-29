@@ -11,7 +11,7 @@ from model_lab import RuntimeEnum
 from pydantic import BaseModel
 
 from .base import BaseModelClass
-from .constants import ArchitectureEnum, IconEnum
+from .constants import ArchitectureEnum, IconEnum, ModelStatusEnum
 from .utils import open_ex, printError, printProcess
 
 # This file is import by others
@@ -28,21 +28,22 @@ class ModelInfo(BaseModel):
     groupItemName: Optional[str] = None
     runtimes: List[RuntimeEnum]
     architecture: ArchitectureEnum
-    # not shown due to runtime limitation. But all validations should apply
-    hide: Optional[bool] = None
+    status: ModelStatusEnum = ModelStatusEnum.Hide
     version: int = -1
     extension: Optional[bool] = None
 
     def Check(self):
+        if self.status == ModelStatusEnum.Hide:
+            return True
         if not self.displayName:
             return False
         if not self.modelLink:
             return False
-        if not self.id:
+        if not self.id and self.status == ModelStatusEnum.Ready:
             return False
         if not self.runtimes:
             return False
-        if self.version <= 0:
+        if self.version <= 0 and self.status == ModelStatusEnum.Ready:
             return False
         return True
 
