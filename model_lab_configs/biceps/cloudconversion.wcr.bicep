@@ -1,5 +1,4 @@
 param defaultCommands array
-param maximumInstanceCount int
 param timeout int
 param location string = resourceGroup().location
 
@@ -90,8 +89,6 @@ resource environment 'Microsoft.App/managedEnvironments@2023-11-02-preview' = {
       {
         workloadProfileType: 'Consumption-GPU-NC24-A100'
         name: 'Consumption-GPU-NC24-A100'
-        minimumCount: 1
-        maximumCount: maximumInstanceCount
       }
     ]
     appInsightsConfiguration: null
