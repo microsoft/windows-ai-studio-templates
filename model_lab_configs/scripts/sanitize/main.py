@@ -134,12 +134,12 @@ def main():
                     if modelParameter.isIntel:
                         tmpDevices = modelParameter.getIntelDevices()
                         # Remove items containing "intel" (case-insensitive) from runtime values
-                        filteredValues = [v for v in model.runtimes if "intel" not in v.lower()]
+                        filteredValues = [v for v in model.runtimes if "intel" not in v.value.lower()]
                         # Add Intel runtime values
                         intelRuntimes = [
                             GlobalVars.GetRuntimeRPC(EPNames.OpenVINOExecutionProvider, device) for device in tmpDevices
                         ]
-                        filteredValues.extend([runtime.value for runtime in intelRuntimes])
+                        filteredValues.extend([runtime for runtime in intelRuntimes])
                         model.runtimes = filteredValues
 
                     hasLLM = hasLLM or modelParameter.isLLM
