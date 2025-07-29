@@ -1,5 +1,5 @@
 {
-    "input_model": { "type": "HfModel", "model_path": "Qwen/Qwen2.5-Coder-14B-Instruct" },
+    "input_model": { "type": "HfModel", "model_path": "deepseek-ai/DeepSeek-R1-Distill-Qwen-14B" },
     "systems": {
         "local_system": {
             "type": "LocalSystem",
@@ -14,9 +14,7 @@
                 "task": "text-generation-with-past",
                 "weight_format": "int4",
                 "group_size": 128,
-                "ratio": 0.8, 
-                "awq": true, 
-                "dataset": "wikitext2"
+                "ratio": 1
             }
         },
         "io_update": { "type": "OpenVINOIoUpdate", "static": false },
@@ -32,5 +30,5 @@
     "target": "local_system",
     "cache_dir": "cache",
     "evaluate_input_model": false,
-    "output_dir": "model/qwen2_5"
+    "output_dir": "model/deepseek"
 }
