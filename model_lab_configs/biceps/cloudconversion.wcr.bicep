@@ -88,14 +88,8 @@ resource environment 'Microsoft.App/managedEnvironments@2023-11-02-preview' = {
         name: 'Consumption'
       }
       {
-        workloadProfileType: 'NC24-A100'
-        name: 'GPU'
-        minimumCount: 1
-        maximumCount: maximumInstanceCount
-      }
-      {
-        workloadProfileType: 'D16'
-        name: 'Dedicated-D16'
+        workloadProfileType: 'Consumption-GPU-NC24-A100'
+        name: 'Consumption-GPU-NC24-A100'
         minimumCount: 1
         maximumCount: maximumInstanceCount
       }
