@@ -30,12 +30,6 @@ class ArchitectureEnum(Enum):
     Others = "Others"
 
 
-class ModelStatusEnum(Enum):
-    Ready = "Ready"
-    Coming = "Coming"
-    Hide = "Hide"
-
-
 class ParameterTypeEnum(Enum):
     Enum = "enum"
     Int = "int"

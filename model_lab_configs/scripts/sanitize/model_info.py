@@ -7,10 +7,11 @@ from __future__ import annotations
 import os
 from typing import Dict, List, Optional
 
+from model_lab import RuntimeEnum
 from pydantic import BaseModel
 
 from .base import BaseModelClass
-from .constants import ArchitectureEnum, IconEnum, ModelStatusEnum
+from .constants import ArchitectureEnum, IconEnum
 from .utils import open_ex, printError, printProcess
 
 # This file is import by others
@@ -25,26 +26,23 @@ class ModelInfo(BaseModel):
     id: str
     groupId: Optional[str] = None
     groupItemName: Optional[str] = None
-    runtimes: List[str]  # Changed to List[str] to avoid forward reference issues
+    runtimes: List[RuntimeEnum]
     architecture: ArchitectureEnum
-    status: ModelStatusEnum = ModelStatusEnum.Hide
+    # not shown due to runtime limitation. But all validations should apply
+    hide: Optional[bool] = None
     version: int = -1
     extension: Optional[bool] = None
 
     def Check(self):
-        if not self.status:
-            return False
-        if self.status == ModelStatusEnum.Hide:
-            return True
         if not self.displayName:
             return False
         if not self.modelLink:
             return False
-        if not self.id and self.status == ModelStatusEnum.Ready:
+        if not self.id:
             return False
         if not self.runtimes:
             return False
-        if self.version <= 0 and self.status == ModelStatusEnum.Ready:
+        if self.version <= 0:
             return False
         return True
 

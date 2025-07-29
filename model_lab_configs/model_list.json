@@ -14,7 +14,6 @@
                 "IntelNPU"
             ],
             "architecture": "Transformer",
-            "status": "Ready",
             "version": 1
         },
         {
@@ -31,7 +30,6 @@
                 "IntelNPU"
             ],
             "architecture": "Transformer",
-            "status": "Ready",
             "version": 1
         },
         {
@@ -48,7 +46,6 @@
                 "IntelNPU"
             ],
             "architecture": "Transformer",
-            "status": "Ready",
             "version": 1
         },
         {
@@ -65,7 +62,6 @@
                 "IntelNPU"
             ],
             "architecture": "Transformer",
-            "status": "Ready",
             "version": 1
         },
         {
@@ -82,7 +78,6 @@
                 "IntelNPU"
             ],
             "architecture": "Transformer",
-            "status": "Ready",
             "version": 1
         },
         {
@@ -99,7 +94,6 @@
                 "IntelNPU"
             ],
             "architecture": "CNN",
-            "status": "Ready",
             "version": 1
         },
         {
@@ -116,7 +110,6 @@
                 "IntelNPU"
             ],
             "architecture": "Transformer",
-            "status": "Ready",
             "version": 1
         },
         {
@@ -132,7 +125,6 @@
                 "IntelNPU"
             ],
             "architecture": "Transformer",
-            "status": "Ready",
             "version": 1
         },
         {
@@ -148,7 +140,6 @@
                 "IntelNPU"
             ],
             "architecture": "Transformer",
-            "status": "Ready",
             "version": 1
         },
         {
@@ -162,7 +153,6 @@
                 "IntelNPU"
             ],
             "architecture": "Transformer",
-            "status": "Ready",
             "version": 1
         },
         {
@@ -180,7 +170,6 @@
                 "IntelNPU"
             ],
             "architecture": "Transformer",
-            "status": "Ready",
             "version": 1
         },
         {
@@ -194,7 +183,6 @@
                 "IntelGPU"
             ],
             "architecture": "Transformer",
-            "status": "Ready",
             "version": 1
         },
         {
@@ -210,7 +198,6 @@
                 "IntelNPU"
             ],
             "architecture": "Transformer",
-            "status": "Ready",
             "version": 1
         },
         {
@@ -222,7 +209,6 @@
                 "IntelGPU"
             ],
             "architecture": "Transformer",
-            "status": "Ready",
             "version": 1
         }
     ],
@@ -237,7 +223,6 @@
                 "CPU"
             ],
             "architecture": "Others",
-            "status": "Ready",
             "version": 1
         },
         {
@@ -249,7 +234,7 @@
                 "CPU"
             ],
             "architecture": "Others",
-            "status": "Hide",
+            "hide": true,
             "version": 1,
             "extension": true
         }
