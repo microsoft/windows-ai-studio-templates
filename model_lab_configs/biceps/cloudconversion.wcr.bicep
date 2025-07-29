@@ -153,8 +153,8 @@ resource acajob 'Microsoft.App/jobs@2023-11-02-preview' = {
             defaultCommand
           ]
           resources: {
-            cpu: 2
-            memory: '4Gi'
+            cpu: 4
+            memory: '8Gi'
           }
           volumeMounts: [
             {

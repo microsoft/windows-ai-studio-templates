@@ -38,9 +38,8 @@ def check_case(path: Path) -> bool:
 
 
 def process_gitignore(modelVerDir: str, configDir: str):
-    GlobalVars.gitignoreCheck += 1
-
     gitignoreFile = os.path.join(modelVerDir, ".gitignore")
+    GlobalVars.gitignoreCheck.append(gitignoreFile)
     templateFile = os.path.join(configDir, "gitignore.md")
     if not os.path.exists(gitignoreFile):
         printWarning(f"{gitignoreFile} not exists. Copy the template one")
@@ -56,11 +55,26 @@ def process_gitignore(modelVerDir: str, configDir: str):
             printError(f"{gitignoreFile} does not have line '{line}'")
 
 
-def readCheckOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter):
+def checkSystem(oliveJsonFile: str, system):
+    accelerators = system[OlivePropertyNames.Accelerators]
+    if len(accelerators) != 1:
+        printError(f"{oliveJsonFile} should have only one accelerator")
+        return False
+    eps = accelerators[0][OlivePropertyNames.ExecutionProviders]
+    if len(eps) != 1:
+        printError(f"{oliveJsonFile} should have only one execution provider")
+        return False
+    if eps[0] not in EPNames:
+        printError(f"{oliveJsonFile} has wrong execution provider {eps[0]}")
+        return False
+    return True
+
+
+def readCheckOliveConfig(oliveJsonFile: str):
     """
     This will set phases to modelParameter
     """
-    GlobalVars.oliveJsonCheck += 1
+    GlobalVars.oliveJsonCheck.append(oliveJsonFile)
 
     printProcess(oliveJsonFile)
     with open_ex(oliveJsonFile, "r") as file:
@@ -72,30 +86,20 @@ def readCheckOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter):
     if OlivePropertyNames.Evaluator in oliveJson and not isinstance(oliveJson[OlivePropertyNames.Evaluator], str):
         printError(f"{oliveJsonFile} evaluator property should be str")
         return
-    # check if has more than one systems and more than one accelerators
-    if OlivePropertyNames.Systems not in oliveJson or len(oliveJson[OlivePropertyNames.Systems]) != 1:
-        printError(f"{oliveJsonFile} should have only one system")
-        return
-    systemK, systemV = list(oliveJson[OlivePropertyNames.Systems].items())[0]
-    accelerators = systemV[OlivePropertyNames.Accelerators]
-    if len(accelerators) != 1:
-        printError(f"{oliveJsonFile} should have only one accelerator")
-        return
-    eps = accelerators[0][OlivePropertyNames.ExecutionProviders]
-    if len(eps) != 1:
-        printError(f"{oliveJsonFile} should have only one execution provider")
-        return
-    if eps[0] not in EPNames:
-        printError(f"{oliveJsonFile} has wrong execution provider {eps[0]}")
-        return
 
     jsonUpdated = False
 
     # TODO check host
     # check target
-    if OlivePropertyNames.Target not in oliveJson or oliveJson[OlivePropertyNames.Target] != systemK:
-        oliveJson[OlivePropertyNames.Target] = systemK
-        jsonUpdated = True
+    if OlivePropertyNames.Target not in oliveJson:
+        printError(f"{oliveJsonFile} should have target")
+        return
+    target = oliveJson[OlivePropertyNames.Target]
+    if OlivePropertyNames.Systems not in oliveJson or target not in oliveJson[OlivePropertyNames.Systems]:
+        printError(f"{oliveJsonFile} should have {target} system")
+        return
+    if not checkSystem(oliveJsonFile, oliveJson[OlivePropertyNames.Systems][target]):
+        return
 
     # cache / output / evaluate_input_model
     if OlivePropertyNames.CleanCache in oliveJson and oliveJson[OlivePropertyNames.CleanCache]:
@@ -119,12 +123,13 @@ def readCheckOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter):
     supportedPasses = [
         v
         for k, v in oliveJson[OlivePropertyNames.Passes].items()
-        if v[OlivePropertyNames.Type]
+        if v[OlivePropertyNames.Type].lower()
         in [
             OlivePassNames.OnnxConversion,
             OlivePassNames.OnnxQuantization,
             OlivePassNames.OnnxStaticQuantization,
             OlivePassNames.OnnxDynamicQuantization,
+            OlivePassNames.OrtTransformersOptimization,
         ]
     ]
     for conversionPass in supportedPasses:
@@ -135,6 +140,7 @@ def readCheckOliveConfig(oliveJsonFile: str, modelParameter: ModelParameter):
     if jsonUpdated:
         with open_ex(oliveJsonFile, "w") as file:
             json.dump(oliveJson, file, indent=4)
+            file.write("\n")
     return oliveJson
 
 
@@ -143,7 +149,7 @@ def readCheckIpynb(ipynbFile: str, modelItems: dict[str, ModelParameter]):
     Note this return exists or not, not valid or not
     """
     if os.path.exists(ipynbFile):
-        GlobalVars.ipynbCheck += 1
+        GlobalVars.ipynbCheck.append(ipynbFile)
 
         with open_ex(ipynbFile, "r") as file:
             ipynbContent: str = file.read()

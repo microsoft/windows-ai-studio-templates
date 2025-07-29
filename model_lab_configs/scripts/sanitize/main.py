@@ -10,7 +10,7 @@ import os
 import subprocess
 from pathlib import Path
 
-from .constants import ModelStatusEnum
+from .constants import EPNames, ModelStatusEnum
 from .copy_config import CopyConfig
 from .file_validation import check_case, process_gitignore, readCheckIpynb, readCheckOliveConfig
 from .model_info import ModelInfo, ModelList
@@ -124,10 +124,24 @@ def main():
 
                     # check olive json
                     oliveJsonFile = os.path.join(modelVerDir, modelItem.file)
-                    oliveJson = readCheckOliveConfig(oliveJsonFile, modelParameter)
+                    oliveJson = readCheckOliveConfig(oliveJsonFile)
+                    if not oliveJson:
+                        printError(f"{oliveJsonFile} not exists or is not a valid olive json file")
+                        continue
 
                     # check parameter
                     modelParameter.Check(parameterTemplate, oliveJson, modelList)
+                    if modelParameter.isIntel:
+                        tmpDevices = modelParameter.getIntelDevices()
+                        # Remove items containing "intel" (case-insensitive) from runtime values
+                        filteredValues = [v for v in model.runtimes if "intel" not in v.lower()]
+                        # Add Intel runtime values
+                        intelRuntimes = [
+                            GlobalVars.GetRuntimeRPC(EPNames.OpenVINOExecutionProvider, device) for device in tmpDevices
+                        ]
+                        filteredValues.extend([runtime.value for runtime in intelRuntimes])
+                        model.runtimes = filteredValues
+
                     hasLLM = hasLLM or modelParameter.isLLM
 
                     # check ipynb
@@ -151,8 +165,8 @@ def main():
 
                 if hasLLM:
                     # check inference_model.json
-                    GlobalVars.inferenceModelCheck += 1
                     inferenceModelFile = os.path.join(modelVerDir, "inference_model.json")
+                    GlobalVars.inferenceModelCheck.append(inferenceModelFile)
                     if not os.path.exists(inferenceModelFile):
                         printWarning(f"{inferenceModelFile} not exists.")
 

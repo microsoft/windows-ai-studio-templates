@@ -20,14 +20,14 @@ class GlobalVars:
     verbose = False
     # Initialize checks
     pathCheck = 0
-    configCheck = 0
-    oliveJsonCheck = 0
-    ipynbCheck = 0
-    gitignoreCheck = 0
-    modelProjectCheck = 0
+    configCheck = []
+    oliveJsonCheck = []
+    ipynbCheck = []
+    gitignoreCheck = []
+    modelProjectCheck = []
     extensionCheck = 0
     # Should align with number of LLM models
-    inferenceModelCheck = 0
+    inferenceModelCheck = []
 
     olivePath = None
     oliveCheck = 0
@@ -41,6 +41,7 @@ class GlobalVars:
         RuntimeEnum.AMDNPU: EPNames.VitisAIExecutionProvider,
         RuntimeEnum.NvidiaGPU: EPNames.CUDAExecutionProvider,
         RuntimeEnum.NvidiaTRTRTX: EPNames.NvTensorRTRTXExecutionProvider,
+        RuntimeEnum.DML: EPNames.DmlExecutionProvider,
     }
     RuntimeToOliveDeviceType = {
         RuntimeEnum.CPU: OliveDeviceTypes.CPU,
@@ -51,6 +52,7 @@ class GlobalVars:
         RuntimeEnum.IntelGPU: OliveDeviceTypes.GPU,
         RuntimeEnum.AMDNPU: OliveDeviceTypes.NPU,
         RuntimeEnum.NvidiaGPU: OliveDeviceTypes.GPU,
+        RuntimeEnum.DML: OliveDeviceTypes.GPU,
     }
     RuntimeToDisplayName = {
         RuntimeEnum.CPU: "CPU",
@@ -62,32 +64,28 @@ class GlobalVars:
         RuntimeEnum.AMDNPU: "AMD NPU",
         RuntimeEnum.NvidiaGPU: "NVIDIA GPU",
         RuntimeEnum.NvidiaTRTRTX: "NVIDIA TensorRT for RTX",
+        RuntimeEnum.DML: "DirectML",
     }
 
     @classmethod
     def Check(cls, configDir: str):
-        if cls.configCheck != cls.oliveJsonCheck:
-            printError(f"Config check {cls.configCheck} does not match olive json check {cls.oliveJsonCheck}")
-        if cls.gitignoreCheck != cls.modelProjectCheck - cls.extensionCheck:
+        if len(cls.configCheck) != len(cls.oliveJsonCheck):
+            printError(f"Config check {len(cls.configCheck)} does not match olive json check {len(cls.oliveJsonCheck)}")
+        if len(cls.gitignoreCheck) != len(cls.modelProjectCheck) - cls.extensionCheck:
             printError(
-                f"Gitignore check {cls.gitignoreCheck} does not match model project check {cls.modelProjectCheck} - {cls.extensionCheck}"
+                f"Gitignore check {len(cls.gitignoreCheck)} does not match model project check {len(cls.modelProjectCheck)} - {cls.extensionCheck}"
             )
         # We add this test to make sure the sanity check is working: i.e. paths are checked and files are checked
         with open_ex(os.path.join(configDir, "checks.json"), "w") as file:
-            json.dump(
-                {
-                    "pathCheck": cls.pathCheck,
-                    "configCheck": cls.configCheck,
-                    "oliveJsonCheck": cls.oliveJsonCheck,
-                    "ipynbCheck": cls.ipynbCheck,
-                    "gitignoreCheck": cls.gitignoreCheck,
-                    "modelProjectCheck": cls.modelProjectCheck,
-                    "inferenceModelCheck": cls.inferenceModelCheck,
-                    "extensionCheck": cls.extensionCheck,
-                },
-                file,
-                indent=4,
-            )
+            # get class properties and dump all ends with Check
+            properties = [attr for attr in dir(cls) if attr.endswith("Check") and attr != "Check"]
+            # save len if list else save the value
+            properties = {
+                prop: len(getattr(cls, prop)) if isinstance(getattr(cls, prop), list) else getattr(cls, prop)
+                for prop in properties
+            }
+            json.dump(properties, file, indent=4)
+            file.write("\n")
 
     @classmethod
     def GetRuntimeRPC(cls, epName: EPNames, oliveDeviceType: OliveDeviceTypes) -> RuntimeEnum:
@@ -170,12 +168,19 @@ def open_ex(file_path, mode):
         file.close()
 
 
+def get_target_system(oliveJson: Any):
+    syskey = oliveJson[OlivePropertyNames.Target]
+    sysValue = oliveJson[OlivePropertyNames.Systems][syskey]
+    return syskey, sysValue
+
+
 def checkPath(path: str, oliveJson: Any, printOnNotExist: bool = True):
     printInfo(path)
     GlobalVars.pathCheck += 1
     if pydash.get(oliveJson, path) is None:
-        syskey, system = list(oliveJson[OlivePropertyNames.Systems].items())[0]
+        syskey, system = get_target_system(oliveJson)
         currentEp = system[OlivePropertyNames.Accelerators][0][OlivePropertyNames.ExecutionProviders][0]
+        # TODO some ov recipes do not have device but we set it in config
         if path == f"systems.{syskey}.accelerators.0.device" and currentEp == EPNames.OpenVINOExecutionProvider.value:
             return True
         if printOnNotExist:
