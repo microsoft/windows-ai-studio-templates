@@ -26,9 +26,7 @@
             "groupId": "huggingface/deepseek-ai/DeepSeek-R1-Distill-Qwen",
             "groupItemName": "7B",
             "runtimes": [
-                "IntelCPU",
-                "IntelGPU",
-                "IntelNPU"
+                "IntelGPU"
             ],
             "architecture": "Transformer",
             "status": "Ready",
@@ -42,9 +40,7 @@
             "groupId": "huggingface/deepseek-ai/DeepSeek-R1-Distill-Qwen",
             "groupItemName": "14B",
             "runtimes": [
-                "IntelCPU",
-                "IntelGPU",
-                "IntelNPU"
+                "IntelGPU"
             ],
             "architecture": "Transformer",
             "status": "Ready",

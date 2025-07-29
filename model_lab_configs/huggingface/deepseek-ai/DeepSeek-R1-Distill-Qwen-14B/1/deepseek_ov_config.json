@@ -17,7 +17,7 @@
                 "ratio": 1
             }
         },
-        "io_update": { "type": "OpenVINOIoUpdate", "static": false, "reuse_cache": true },
+        "io_update": { "type": "OpenVINOIoUpdate", "static": false },
         "encapsulation": {
             "type": "OpenVINOEncapsulation",
             "target_device": "gpu",
