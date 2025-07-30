@@ -7,7 +7,7 @@ from __future__ import annotations
 import json
 import os
 import re
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, Iterator, List, Optional
 
 from deepdiff import DeepDiff
 from model_lab import RuntimeEnum, RuntimeFeatureEnum
@@ -26,7 +26,7 @@ from .constants import (
 )
 from .model_info import ModelList
 from .parameters import Parameter, ParameterAction
-from .utils import GlobalVars, checkPath, open_ex, printError, printProcess, printWarning
+from .utils import GlobalVars, checkPath, get_target_system, open_ex, printError, printProcess, printWarning
 
 
 class RuntimeOverwrite(BaseModel):
@@ -136,33 +136,24 @@ class DebugInfo(BaseModel):
     useOpenVINOOptimumConversion: Optional[str] = None
 
     def setupUseX(self, oliveJson: Any):
+        def getPass(passType: str):
+            return next(
+                (
+                    k
+                    for k, v in oliveJson[OlivePropertyNames.Passes].items()
+                    if v[OlivePropertyNames.Type].lower() == passType
+                ),
+                None,
+            )
+
         # setup useModelBuilder
-        modelBuilder = [
-            k
-            for k, v in oliveJson[OlivePropertyNames.Passes].items()
-            if v[OlivePropertyNames.Type] == OlivePassNames.ModelBuilder
-        ]
-        if modelBuilder:
-            self.useModelBuilder = modelBuilder[0]
+        self.useModelBuilder = getPass(OlivePassNames.ModelBuilder)
 
         # setup useOpenVINOConversion
-        openVINOConversion = [
-            k
-            for k, v in oliveJson[OlivePropertyNames.Passes].items()
-            if v[OlivePropertyNames.Type] == OlivePassNames.OpenVINOConversion
-        ]
-        if openVINOConversion:
-            self.useOpenVINOConversion = openVINOConversion[0]
+        self.useOpenVINOConversion = getPass(OlivePassNames.OpenVINOConversion)
 
         # setup useOpenVINOOptimumConversion
-        openVINOOptimumConversion = [
-            k
-            for k, v in oliveJson[OlivePropertyNames.Passes].items()
-            if v[OlivePropertyNames.Type] == OlivePassNames.OpenVINOOptimumConversion
-        ]
-        if openVINOOptimumConversion:
-            self.useOpenVINOOptimumConversion = openVINOOptimumConversion[0]
-
+        self.useOpenVINOOptimumConversion = getPass(OlivePassNames.OpenVINOOptimumConversion)
         if (
             sum(
                 bool(v)
@@ -197,6 +188,7 @@ class ModelParameter(BaseModelClass):
     oliveFile: Optional[str] = None
     isLLM: Optional[bool] = None
     isIntel: Optional[bool] = None
+    intelRuntimeValues: Optional[List[OliveDeviceTypes]] = None
     # For template using CUDA and no runtime overwrite, we need to set this so we know the target EP
     evalRuntime: Optional[RuntimeEnum] = None  # Changed to str to avoid forward reference
     debugInfo: Optional[DebugInfo] = None
@@ -205,13 +197,14 @@ class ModelParameter(BaseModelClass):
     # - setup runtimeOverwrite for CUDA EP and others
     #   + the previous EP is used for EPContextBinaryGeneator by PythonEnvironment
     # - do not support cpu evaluation
-    # - setup executeRuntimeFeatures, evalRuntimeFeatures
+    # - setup executeRuntimeFeatures, pyEnvRuntimeFeatures
     isQNNLLM: Optional[bool] = None
     # SET AUTOMATICALLY
     isGPURequired: Optional[bool] = None
     runtimeOverwrite: Optional[RuntimeOverwrite] = None
     executeRuntimeFeatures: Optional[List[RuntimeFeatureEnum]] = None
-    evalRuntimeFeatures: Optional[List[RuntimeFeatureEnum]] = None
+    evaluationRuntimeFeatures: Optional[List[RuntimeFeatureEnum]] = None
+    pyEnvRuntimeFeatures: Optional[List[RuntimeFeatureEnum]] = None
     # it means default template does not use it
     # for Cpu, None means add
     addCpu: Optional[bool] = None
@@ -231,8 +224,16 @@ class ModelParameter(BaseModelClass):
         modelParameter._fileContent = parameterContent
         return modelParameter
 
+    def getIntelDevices(self) -> Iterator[OliveDeviceTypes]:
+        for tmpDevice in OliveDeviceTypes:
+            if tmpDevice == OliveDeviceTypes.Any:
+                continue
+            if self.intelRuntimeValues and tmpDevice not in self.intelRuntimeValues:
+                continue
+            yield tmpDevice
+
     def Check(self, templates: Dict[str, Parameter], oliveJson: Any, modelList: ModelList):
-        GlobalVars.configCheck += 1
+        GlobalVars.configCheck.append(self._file)
 
         if not self.sections:
             printError(f"{self._file} should have sections")
@@ -257,7 +258,7 @@ class ModelParameter(BaseModelClass):
             self.addCpu = False
 
         # Add runtime
-        syskey, system = list(oliveJson[OlivePropertyNames.Systems].items())[0]
+        syskey, system = get_target_system(oliveJson)
         currentEp = system[OlivePropertyNames.Accelerators][0][OlivePropertyNames.ExecutionProviders][0]
         currentOliveDeviceType = system[OlivePropertyNames.Accelerators][0].get(
             OlivePropertyNames.Device, OliveDeviceTypes.Any.value
@@ -294,12 +295,11 @@ class ModelParameter(BaseModelClass):
             )
             self.runtime.values = []
             self.runtime.displayNames = []
-            for tmpDevice in OliveDeviceTypes:
-                if tmpDevice == OliveDeviceTypes.Any:
-                    continue
+            for tmpDevice in self.getIntelDevices():
                 tmpRuntimeRPC = GlobalVars.GetRuntimeRPC(EPNames.OpenVINOExecutionProvider, tmpDevice)
                 self.runtime.values.append(GlobalVars.RuntimeToOliveDeviceType[tmpRuntimeRPC].value)
                 self.runtime.displayNames.append(GlobalVars.RuntimeToDisplayName[tmpRuntimeRPC])
+
         self.runtime.actions = runtimeActions
         self.TryToRemoveReuseCacheInRuntimeAction(oliveJson)
         if not self.runtime.Check(False, oliveJson, modelList):
@@ -315,10 +315,10 @@ class ModelParameter(BaseModelClass):
                 executeEp=EPNames.CUDAExecutionProvider,
                 evaluateUsedInExecute=True,
             )
-            if not self.runtimeOverwrite.Check(oliveJson):
+            if self.runtimeOverwrite and not self.runtimeOverwrite.Check(oliveJson):
                 printError(f"{self._file} runtime overwrite has error")
             self.executeRuntimeFeatures = [RuntimeFeatureEnum.AutoGptq]
-            self.evalRuntimeFeatures = [RuntimeFeatureEnum.Nightly]
+            self.pyEnvRuntimeFeatures = [RuntimeFeatureEnum.Nightly]
 
         for tmpDevice, section in enumerate(self.sections):
             # Add conversion toggle
@@ -331,7 +331,7 @@ class ModelParameter(BaseModelClass):
                         conversion = [
                             k
                             for k, v in oliveJson[OlivePropertyNames.Passes].items()
-                            if v[OlivePropertyNames.Type] == OlivePassNames.OnnxConversion
+                            if v[OlivePropertyNames.Type].lower() == OlivePassNames.OnnxConversion
                         ][0]
                     conversionPath = f"{OlivePropertyNames.Passes}.{conversion}"
                     section.toggle = Parameter(
@@ -357,7 +357,7 @@ class ModelParameter(BaseModelClass):
                         quantize = [
                             k
                             for k, v in oliveJson[OlivePropertyNames.Passes].items()
-                            if v[OlivePropertyNames.Type]
+                            if v[OlivePropertyNames.Type].lower()
                             in [
                                 OlivePassNames.OnnxQuantization,
                                 OlivePassNames.OnnxStaticQuantization,
@@ -367,7 +367,7 @@ class ModelParameter(BaseModelClass):
                         conversion = [
                             (k, v)
                             for k, v in oliveJson[OlivePropertyNames.Passes].items()
-                            if v[OlivePropertyNames.Type] == OlivePassNames.OnnxConversion
+                            if v[OlivePropertyNames.Type].lower() == OlivePassNames.OnnxConversion
                         ][0]
                         actions = [
                             ParameterAction(
@@ -449,30 +449,19 @@ class ModelParameter(BaseModelClass):
         return None
 
     def CheckRuntimeInConversion(self, oliveJson: Any, modelList: ModelList):
-        openVINOOptimumConversion = next(
-            (
-                (k, v)
-                for k, v in oliveJson[OlivePropertyNames.Passes].items()
-                if v[OlivePropertyNames.Type] == OlivePassNames.OpenVINOOptimumConversion
-            ),
-            None,
-        )
-        openVINOQuantization = next(
-            (
-                (k, v)
-                for k, v in oliveJson[OlivePropertyNames.Passes].items()
-                if v[OlivePropertyNames.Type] == OlivePassNames.OpenVINOQuantization
-            ),
-            None,
-        )
-        openVINOEncapsulation = next(
-            (
-                (k, v)
-                for k, v in oliveJson[OlivePropertyNames.Passes].items()
-                if v[OlivePropertyNames.Type] == OlivePassNames.OpenVINOEncapsulation
-            ),
-            None,
-        )
+        def getOpenVINOPass(passType: str):
+            return next(
+                (
+                    (k, v)
+                    for k, v in oliveJson[OlivePropertyNames.Passes].items()
+                    if v[OlivePropertyNames.Type].lower() == passType
+                ),
+                None,
+            )
+
+        openVINOOptimumConversion = getOpenVINOPass(OlivePassNames.OpenVINOOptimumConversion)
+        openVINOQuantization = getOpenVINOPass(OlivePassNames.OpenVINOQuantization)
+        openVINOEncapsulation = getOpenVINOPass(OlivePassNames.OpenVINOEncapsulation)
 
         def addRuntimeInConversion(runtime: Parameter, path: str, values: List[Any]):
             if not runtime.path:
@@ -505,21 +494,21 @@ class ModelParameter(BaseModelClass):
                     self.runtimeInConversion,
                     f"{OlivePropertyNames.Passes}.{openVINOOptimumConversion[0]}.{OlivePropertyNames.ExtraArgs}.{OlivePropertyNames.Device}",
                     # TODO support any after olive release
-                    [e.value for e in OliveDeviceTypes if e != OliveDeviceTypes.Any],
+                    [e.value for e in self.getIntelDevices()],
                 )
             if openVINOQuantization:
                 addRuntimeInConversion(
                     self.runtimeInConversion,
                     f"{OlivePropertyNames.Passes}.{openVINOQuantization[0]}.{OlivePropertyNames.TargetDevice}",
                     # TODO support any after olive release
-                    [e.value for e in OliveDeviceTypes if e != OliveDeviceTypes.Any],
+                    [e.value for e in self.getIntelDevices()],
                 )
             if openVINOEncapsulation:
                 addRuntimeInConversion(
                     self.runtimeInConversion,
                     f"{OlivePropertyNames.Passes}.{openVINOEncapsulation[0]}.{OlivePropertyNames.TargetDevice}",
                     # TODO support any after olive release
-                    [e.value for e in OliveDeviceTypes if e != OliveDeviceTypes.Any],
+                    [e.value for e in self.getIntelDevices()],
                 )
             if not self.runtimeInConversion.Check(False, oliveJson, modelList):
                 printError(f"{self._file} runtime in conversion has error")

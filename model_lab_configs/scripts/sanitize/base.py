@@ -17,8 +17,14 @@ class BaseModelClass(BaseModel):
 
     def writeIfChanged(self):
         newContent = self.model_dump_json(indent=4, exclude_none=True)
-        if newContent != self._fileContent:
-            with open_ex(self._file, "w") as file:
+        if self._file:
+            BaseModelClass.writeJsonIfChanged(newContent, self._file, self._fileContent)
+
+    @classmethod
+    def writeJsonIfChanged(cls, newContent: str, filePath: str, fileContent: str | None):
+        newContent += "\n"
+        if newContent != fileContent:
+            with open_ex(filePath, "w") as file:
                 file.write(newContent)
 
     class Config:

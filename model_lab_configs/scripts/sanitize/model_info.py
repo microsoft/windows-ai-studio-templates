@@ -5,8 +5,10 @@ Model information and model list classes
 from __future__ import annotations
 
 import os
+import re
 from typing import Dict, List, Optional
 
+from model_lab import RuntimeEnum
 from pydantic import BaseModel
 
 from .base import BaseModelClass
@@ -23,15 +25,15 @@ class ModelInfo(BaseModel):
     icon: IconEnum
     modelLink: str
     id: str
-    runtimes: List[str]  # Changed to List[str] to avoid forward reference issues
+    groupId: Optional[str] = None
+    groupItemName: Optional[str] = None
+    runtimes: List[RuntimeEnum]
     architecture: ArchitectureEnum
     status: ModelStatusEnum = ModelStatusEnum.Hide
     version: int = -1
     extension: Optional[bool] = None
 
     def Check(self):
-        if not self.status:
-            return False
         if self.status == ModelStatusEnum.Hide:
             return True
         if not self.displayName:
@@ -45,6 +47,14 @@ class ModelInfo(BaseModel):
         if self.version <= 0 and self.status == ModelStatusEnum.Ready:
             return False
         return True
+
+    def GetSortKey(self):
+        lowerName = self.displayName.lower()
+        match = re.search(r"-(\d+(?:\.\d+)?)b", lowerName)
+        if match:
+            return (lowerName.replace(match.group(0), "-0b", 1), float(match.group(1)))
+        else:
+            return (lowerName, 0)
 
 
 class ModelList(BaseModelClass):
@@ -76,6 +86,9 @@ class ModelList(BaseModelClass):
 
     # Check after set version
     def Check(self):
+        self.models.sort(key=lambda x: x.GetSortKey())
+        # TODO template models order needs manually set
+        # self.template_models.sort(key=lambda x: x.displayName.lower())
         for i, model in enumerate(self.allModels()):
             if not model.Check():
                 printError(f"{self._file} model {i} has error")

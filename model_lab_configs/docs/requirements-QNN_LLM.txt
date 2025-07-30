@@ -26,5 +26,5 @@ numpy==2.2.4
 packaging==24.2
 protobuf==6.30.2
 sympy==1.14.0
-# uvpip:install onnxruntime-genai-winml==0.8.0 --extra-index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/ORT-Nightly/pypi/simple --no-deps;post
+# uvpip:install onnxruntime-genai-winml==0.8.3 --extra-index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/ORT-Nightly/pypi/simple --no-deps;post
 numpy==2.2.4

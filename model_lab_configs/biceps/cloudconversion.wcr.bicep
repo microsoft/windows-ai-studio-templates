@@ -1,5 +1,4 @@
 param defaultCommands array
-param maximumInstanceCount int
 param timeout int
 param location string = resourceGroup().location
 
@@ -88,16 +87,8 @@ resource environment 'Microsoft.App/managedEnvironments@2023-11-02-preview' = {
         name: 'Consumption'
       }
       {
-        workloadProfileType: 'NC24-A100'
-        name: 'GPU'
-        minimumCount: 1
-        maximumCount: maximumInstanceCount
-      }
-      {
-        workloadProfileType: 'D16'
-        name: 'Dedicated-D16'
-        minimumCount: 1
-        maximumCount: maximumInstanceCount
+        workloadProfileType: 'Consumption-GPU-NC24-A100'
+        name: 'Consumption-GPU-NC24-A100'
       }
     ]
     appInsightsConfiguration: null
@@ -153,8 +144,8 @@ resource acajob 'Microsoft.App/jobs@2023-11-02-preview' = {
             defaultCommand
           ]
           resources: {
-            cpu: 2
-            memory: '4Gi'
+            cpu: 4
+            memory: '8Gi'
           }
           volumeMounts: [
             {

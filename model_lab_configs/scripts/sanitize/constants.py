@@ -19,6 +19,7 @@ class IconEnum(Enum):
     DeepSeek = "DeepSeek"
     laion = "laion"
     qwen = "qwen"
+    mistralai = "mistralai"
     HuggingFace = "HuggingFace"
 
 
@@ -90,6 +91,7 @@ class EPNames(Enum):
     OpenVINOExecutionProvider = "OpenVINOExecutionProvider"
     VitisAIExecutionProvider = "VitisAIExecutionProvider"
     NvTensorRTRTXExecutionProvider = "NvTensorRTRTXExecutionProvider"
+    DmlExecutionProvider = "DmlExecutionProvider"
 
 
 class OliveDeviceTypes(Enum):
@@ -99,16 +101,18 @@ class OliveDeviceTypes(Enum):
     NPU = "npu"
 
 
+# Pass name is case insensitive, so we use lower case for all pass names
 class OlivePassNames:
-    OnnxConversion = "OnnxConversion"
-    OnnxQuantization = "OnnxQuantization"
-    OnnxStaticQuantization = "OnnxStaticQuantization"
-    OnnxDynamicQuantization = "OnnxDynamicQuantization"
-    ModelBuilder = "ModelBuilder"
-    OpenVINOConversion = "OpenVINOConversion"
-    OpenVINOOptimumConversion = "OpenVINOOptimumConversion"
-    OpenVINOQuantization = "OpenVINOQuantization"
-    OpenVINOEncapsulation = "OpenVINOEncapsulation"
+    OnnxConversion = "onnxconversion"
+    OnnxQuantization = "onnxquantization"
+    OnnxStaticQuantization = "onnxstaticquantization"
+    OnnxDynamicQuantization = "onnxdynamicquantization"
+    ModelBuilder = "modelbuilder"
+    OpenVINOConversion = "openvinoconversion"
+    OpenVINOOptimumConversion = "openvinooptimumconversion"
+    OpenVINOQuantization = "openvinoquantization"
+    OpenVINOEncapsulation = "openvinoencapsulation"
+    OrtTransformersOptimization = "orttransformersoptimization"
 
 
 class OlivePropertyNames:

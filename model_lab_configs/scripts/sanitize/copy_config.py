@@ -74,3 +74,4 @@ class CopyConfig(BaseModel):
                         pydash.set_(jsonObj, replacement.find, replacement.replace)
                     with open_ex(dst, "w") as file:
                         json.dump(jsonObj, file, indent=4)
+                        file.write("\n")
