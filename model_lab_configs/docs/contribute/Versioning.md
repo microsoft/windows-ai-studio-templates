@@ -12,6 +12,23 @@ We will notify user that there is new version of recipe and user could:
 - Replace everything automatically for the user
 - Manually merge the recipes and update the version
 
+### When developer should increase the version
+
+Developers don't need to increase the version until release, they should do it whenever they changes needed files in pr.
+(So in AITK release, version could jump from 1 to 7 like so)
+
+Should increase:
+
+- Update Olive json for new features
+- Update user script for new features
+- Update inference sample for functional features like how to setup ort etc.
+
+Maynot need:
+
+- Update README.md
+- Update *.json.config
+- Update inference sample for non functional features like metrics, new samples etc.
+
 ## Version match
 
 When versions are same, we could patch automatically for new files for user.
