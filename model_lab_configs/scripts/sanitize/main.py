@@ -12,12 +12,12 @@ from pathlib import Path
 
 from .constants import EPNames, ModelStatusEnum
 from .copy_config import CopyConfig
-from .file_validation import check_case, process_gitignore, readCheckIpynb, readCheckOliveConfig
+from .file_validation import check_case, process_gitignore, readCheckIpynb, readCheckOliveConfig, readCheckRequirements
 from .model_info import ModelInfo, ModelList
 from .model_parameter import ModelParameter
 from .parameters import readCheckParameterTemplate
 from .project_config import ModelInfoProject, ModelProjectConfig
-from .utils import GlobalVars, open_ex, printError, printWarning
+from .utils import GlobalVars, printError, printWarning
 
 
 def shouldCheckModel(configDir: str, model: ModelInfo) -> str | None:
@@ -43,8 +43,6 @@ def main():
     GlobalVars.olivePath = args.olive
 
     # need to resolve due to d:\ vs D:\
-    # Now main.py is in sanitize/ folder, so we need to go up three levels:
-    # sanitize/main.py -> scripts/ -> model_lab_configs/
     configDir = str(Path(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))).resolve(strict=False))
 
     # get model list
@@ -63,10 +61,9 @@ def main():
 
             # get all versions
             allVersions = [int(name) for name in os.listdir(modelDir) if os.path.isdir(os.path.join(modelDir, name))]
-            allVersions.sort()
             model.version = allVersions[-1]
             # check if version is continuous
-            if allVersions[0] != 1 or allVersions[-1] != len(allVersions):
+            if len(allVersions) != 1:
                 printError(f"{modelDir} has wrong versions {allVersions}")
 
             # process each version
@@ -79,10 +76,9 @@ def main():
                 # process copy
                 copyConfigFile = os.path.join(modelVerDir, "_copy.json.config")
                 if os.path.exists(copyConfigFile):
-                    with open_ex(copyConfigFile, "r") as file:
-                        copyConfigContent = file.read()
-                    copyConfig = CopyConfig.model_validate_json(copyConfigContent, strict=True)
+                    copyConfig = CopyConfig.Read(copyConfigFile)
                     copyConfig.process(modelVerDir)
+                    copyConfig.writeIfChanged()
 
                 # get model space config
                 modelSpaceConfig = ModelProjectConfig.Read(os.path.join(modelVerDir, "model_project.config"))
@@ -96,8 +92,7 @@ def main():
                 # check requirement.txt
                 if not model.extension:
                     requirementFile = os.path.join(modelVerDir, "requirements.txt")
-                    if not os.path.exists(requirementFile):
-                        printWarning(f"{requirementFile} not exists.")
+                    readCheckRequirements(requirementFile)
 
                 # copy .gitignore
                 if not model.extension:
