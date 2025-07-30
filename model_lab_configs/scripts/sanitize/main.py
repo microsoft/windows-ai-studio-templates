@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import argparse
 import copy
+import json
 import os
 import subprocess
 from pathlib import Path
@@ -17,7 +18,7 @@ from .model_info import ModelInfo, ModelList
 from .model_parameter import ModelParameter
 from .parameters import readCheckParameterTemplate
 from .project_config import ModelInfoProject, ModelProjectConfig
-from .utils import GlobalVars, printError, printWarning
+from .utils import GlobalVars, open_ex, printError, printWarning
 
 
 def shouldCheckModel(configDir: str, model: ModelInfo) -> str | None:
@@ -164,6 +165,14 @@ def main():
                     GlobalVars.inferenceModelCheck.append(inferenceModelFile)
                     if not os.path.exists(inferenceModelFile):
                         printWarning(f"{inferenceModelFile} not exists.")
+                    else:
+                        with open_ex(inferenceModelFile, "r") as file:
+                            inferenceModelData = json.load(file)
+                        tmpModelName = modelInVersion.id.split("/")[-1]
+                        inferenceModelData["Name"] = tmpModelName
+                        # Write back to file
+                        with open_ex(inferenceModelFile, "w") as file:
+                            json.dump(inferenceModelData, file, indent=4, ensure_ascii=False)
 
     modelList.Check()
 
