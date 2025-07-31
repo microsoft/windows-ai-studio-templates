@@ -94,7 +94,7 @@ class ModelList(BaseModelClass):
         for i, model in enumerate(self.allModels()):
             if not model.Check():
                 printError(f"{self._file} model {i} has error")
-        self.ApplyMap()
+        self.SetupConstants()
         self.writeIfChanged()
 
         self.CheckDataset(self.LoginRequiredDatasets, "LoginRequiredDatasets")
@@ -102,7 +102,7 @@ class ModelList(BaseModelClass):
         self.CheckDataset(self.DatasetSubset.keys(), "DatasetSubset")
         self.CheckModel(self.LoginRequiredModelIds, "LoginRequiredModelIds")
 
-    def ApplyMap(self):
+    def SetupConstants(self):
         self.RuntimeToDisplayName = GlobalVars.RuntimeToDisplayName
         self.DisplayNameToRuntimeRPC = {v: k for k, v in self.RuntimeToDisplayName.items()}
 
