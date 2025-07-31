@@ -3,7 +3,6 @@
 This folder contains a sample use case of Olive to optimize a Phi-3-mini-instruct models using OpenVINO tools.
 
 - Intel® GPU: [Phi 3 Mini 4k Instruct Dynamic Shape Model](https://huggingface.co/microsoft/Phi-3-mini-4k-instruct)
-- Intel® GPU: [Phi 3 mini 128k Instruct Dynamic Shape Model](https://huggingface.co/microsoft/Phi-3-mini-128k-instruct)
 
 ## Quantization Workflows
 
@@ -16,7 +15,6 @@ This workflow performs quantization with Optimum Intel®. It performs the optimi
 The following config files executes the above workflow producing as dynamic shaped model:
 
 1. [Phi-3-mini-4k-instruct-gpu-context-ov-dy.json](Phi-3-mini-4k-instruct-gpu-context-ov-dy.json)
-1. [Phi-3-mini-128k-instruct-gpu-context-ov-dy.json](Phi-3-mini-128k-instruct-gpu-context-ov-dy.json)
 
 ## How to run
 
