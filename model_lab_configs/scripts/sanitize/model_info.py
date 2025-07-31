@@ -32,6 +32,7 @@ class ModelInfo(BaseModel):
     status: ModelStatusEnum = ModelStatusEnum.Hide
     version: int = -1
     extension: Optional[bool] = None
+    relativePath: Optional[str] = None
 
     def Check(self):
         if self.status == ModelStatusEnum.Hide:
