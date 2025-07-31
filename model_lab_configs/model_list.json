@@ -473,5 +473,29 @@
         "nlphuji/flickr30k": [],
         "imagenet-1k": [],
         "timm/mini-imagenet": []
+    },
+    "DisplayNameToRuntimeRPC": {
+        "CPU": "CPU",
+        "Qualcomm NPU": "QNN",
+        "Intel Any": "IntelAny",
+        "Intel CPU": "IntelCPU",
+        "Intel NPU": "IntelNPU",
+        "Intel GPU": "IntelGPU",
+        "AMD NPU": "AMDNPU",
+        "NVIDIA GPU": "NvidiaGPU",
+        "NVIDIA TensorRT for RTX": "NvidiaTRTRTX",
+        "DirectML": "DML"
+    },
+    "RuntimeToDisplayName": {
+        "CPU": "CPU",
+        "QNN": "Qualcomm NPU",
+        "IntelAny": "Intel Any",
+        "IntelCPU": "Intel CPU",
+        "IntelNPU": "Intel NPU",
+        "IntelGPU": "Intel GPU",
+        "AMDNPU": "AMD NPU",
+        "NvidiaGPU": "NVIDIA GPU",
+        "NvidiaTRTRTX": "NVIDIA TensorRT for RTX",
+        "DML": "DirectML"
     }
 }
