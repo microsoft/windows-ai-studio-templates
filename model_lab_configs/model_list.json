@@ -64,6 +64,22 @@
             "version": 1
         },
         {
+            "displayName": "BAAI/bge-small-en-v1.5",
+            "icon": "baai",
+            "modelLink": "https://huggingface.co/BAAI/bge-small-en-v1.5",
+            "id": "huggingface/BAAI/bge-small-en-v1.5",
+            "runtimes": [
+                "QNN",
+                "AMDNPU",
+                "IntelCPU",
+                "IntelGPU",
+                "IntelNPU"
+            ],
+            "architecture": "Transformer",
+            "status": "Ready",
+            "version": 1
+        },
+        {
             "displayName": "google/vit-base-patch16-224",
             "icon": "gemini",
             "modelLink": "https://huggingface.co/google/vit-base-patch16-224",
