@@ -65,7 +65,7 @@
         },
         {
             "displayName": "BAAI/bge-small-en-v1.5",
-            "icon": "gemini",
+            "icon": "baai",
             "modelLink": "https://huggingface.co/BAAI/bge-small-en-v1.5",
             "id": "huggingface/BAAI/bge-small-en-v1.5",
             "runtimes": [
