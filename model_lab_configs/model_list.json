@@ -1,17 +1,46 @@
 {
     "models": [
         {
-            "displayName": "Intel/bert-base-uncased-mrpc",
-            "icon": "intel",
-            "modelLink": "https://huggingface.co/Intel/bert-base-uncased-mrpc",
-            "id": "huggingface/Intel/bert-base-uncased-mrpc",
+            "displayName": "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B",
+            "icon": "DeepSeek",
+            "modelLink": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B",
+            "id": "huggingface/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B",
+            "groupId": "huggingface/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B",
+            "groupItemName": "1.5B",
             "runtimes": [
                 "QNN",
                 "AMDNPU",
-                "NvidiaTRTRTX",
                 "IntelCPU",
                 "IntelGPU",
                 "IntelNPU"
+            ],
+            "architecture": "Transformer",
+            "status": "Ready",
+            "version": 1
+        },
+        {
+            "displayName": "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B",
+            "icon": "DeepSeek",
+            "modelLink": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B",
+            "id": "huggingface/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B",
+            "groupId": "huggingface/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B",
+            "groupItemName": "7B",
+            "runtimes": [
+                "IntelGPU"
+            ],
+            "architecture": "Transformer",
+            "status": "Ready",
+            "version": 1
+        },
+        {
+            "displayName": "deepseek-ai/DeepSeek-R1-Distill-Qwen-14B",
+            "icon": "DeepSeek",
+            "modelLink": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B",
+            "id": "huggingface/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B",
+            "groupId": "huggingface/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B",
+            "groupItemName": "14B",
+            "runtimes": [
+                "IntelGPU"
             ],
             "architecture": "Transformer",
             "status": "Ready",
@@ -35,10 +64,10 @@
             "version": 1
         },
         {
-            "displayName": "openai/clip-vit-base-patch32",
-            "icon": "OpenAI",
-            "modelLink": "https://huggingface.co/openai/clip-vit-base-patch32",
-            "id": "huggingface/openai/clip-vit-base-patch32",
+            "displayName": "google/vit-base-patch16-224",
+            "icon": "gemini",
+            "modelLink": "https://huggingface.co/google/vit-base-patch16-224",
+            "id": "huggingface/google/vit-base-patch16-224",
             "runtimes": [
                 "QNN",
                 "AMDNPU",
@@ -52,10 +81,10 @@
             "version": 1
         },
         {
-            "displayName": "openai/clip-vit-base-patch16",
-            "icon": "OpenAI",
-            "modelLink": "https://huggingface.co/openai/clip-vit-base-patch16",
-            "id": "huggingface/openai/clip-vit-base-patch16",
+            "displayName": "Intel/bert-base-uncased-mrpc",
+            "icon": "intel",
+            "modelLink": "https://huggingface.co/Intel/bert-base-uncased-mrpc",
+            "id": "huggingface/Intel/bert-base-uncased-mrpc",
             "runtimes": [
                 "QNN",
                 "AMDNPU",
@@ -86,31 +115,13 @@
             "version": 1
         },
         {
-            "displayName": "Microsoft/ResNet-50",
-            "icon": "ms",
-            "modelLink": "https://huggingface.co/microsoft/resnet-50",
-            "id": "huggingface/microsoft/resnet-50",
+            "displayName": "meta-llama/Llama-3.2-1B-Instruct",
+            "icon": "meta",
+            "modelLink": "https://huggingface.co/meta-llama/Llama-3.2-1B-Instruct",
+            "id": "huggingface/meta-llama/Llama-3.2-1B-Instruct",
             "runtimes": [
                 "QNN",
                 "AMDNPU",
-                "NvidiaTRTRTX",
-                "IntelCPU",
-                "IntelGPU",
-                "IntelNPU"
-            ],
-            "architecture": "CNN",
-            "status": "Ready",
-            "version": 1
-        },
-        {
-            "displayName": "google/vit-base-patch16-224",
-            "icon": "gemini",
-            "modelLink": "https://huggingface.co/google/vit-base-patch16-224",
-            "id": "huggingface/google/vit-base-patch16-224",
-            "runtimes": [
-                "QNN",
-                "AMDNPU",
-                "NvidiaTRTRTX",
                 "IntelCPU",
                 "IntelGPU",
                 "IntelNPU"
@@ -120,17 +131,31 @@
             "version": 1
         },
         {
-            "displayName": "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B",
-            "icon": "DeepSeek",
-            "modelLink": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B",
-            "id": "huggingface/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B",
+            "displayName": "microsoft/Phi-3-mini-128k-instruct",
+            "icon": "ms",
+            "modelLink": "https://huggingface.co/microsoft/Phi-3-mini-128k-instruct",
+            "id": "huggingface/microsoft/Phi-3-mini-128k-instruct",
+            "groupId": "huggingface/microsoft/Phi-3-mini-4k-instruct",
+            "groupItemName": "128K",
             "runtimes": [
                 "QNN",
                 "AMDNPU",
                 "NvidiaTRTRTX",
-                "IntelCPU",
-                "IntelGPU",
-                "IntelNPU"
+                "IntelGPU"
+            ],
+            "architecture": "Transformer",
+            "status": "Ready",
+            "version": 1
+        },
+        {
+            "displayName": "microsoft/Phi-3-mini-4k-instruct",
+            "icon": "ms",
+            "modelLink": "https://huggingface.co/microsoft/Phi-3-mini-4k-instruct",
+            "id": "huggingface/microsoft/Phi-3-mini-4k-instruct",
+            "groupId": "huggingface/microsoft/Phi-3-mini-4k-instruct",
+            "groupItemName": "4K",
+            "runtimes": [
+                "IntelGPU"
             ],
             "architecture": "Transformer",
             "status": "Ready",
@@ -154,6 +179,18 @@
             "version": 1
         },
         {
+            "displayName": "microsoft/Phi-4-mini-instruct",
+            "icon": "ms",
+            "modelLink": "https://huggingface.co/microsoft/Phi-4-mini-instruct",
+            "id": "huggingface/microsoft/Phi-4-mini-instruct",
+            "runtimes": [
+                "IntelGPU"
+            ],
+            "architecture": "Transformer",
+            "status": "Ready",
+            "version": 1
+        },
+        {
             "displayName": "microsoft/Phi-4-mini-reasoning",
             "icon": "ms",
             "modelLink": "https://huggingface.co/microsoft/Phi-4-mini-reasoning",
@@ -168,12 +205,38 @@
             "version": 1
         },
         {
-            "displayName": "Qwen/Qwen2.5-1.5B-Instruct",
-            "icon": "qwen",
-            "modelLink": "https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct",
-            "id": "huggingface/Qwen/Qwen2.5-1.5B-Instruct",
-            "groupId": "huggingface/Qwen/Qwen2.5-Instruct",
-            "groupItemName": "1.5b",
+            "displayName": "microsoft/Phi-4-reasoning",
+            "icon": "ms",
+            "modelLink": "https://huggingface.co/microsoft/Phi-4-reasoning",
+            "id": "huggingface/microsoft/Phi-4-reasoning",
+            "runtimes": [
+                "IntelCPU",
+                "IntelGPU",
+                "IntelNPU"
+            ],
+            "architecture": "Transformer",
+            "status": "Ready",
+            "version": 1
+        },
+        {
+            "displayName": "microsoft/Phi-4-reasoning-plus",
+            "icon": "ms",
+            "modelLink": "https://huggingface.co/microsoft/Phi-4-reasoning-plus",
+            "id": "huggingface/microsoft/Phi-4-reasoning-plus",
+            "runtimes": [
+                "IntelCPU",
+                "IntelGPU",
+                "IntelNPU"
+            ],
+            "architecture": "Transformer",
+            "status": "Ready",
+            "version": 1
+        },
+        {
+            "displayName": "Microsoft/ResNet-50",
+            "icon": "ms",
+            "modelLink": "https://huggingface.co/microsoft/resnet-50",
+            "id": "huggingface/microsoft/resnet-50",
             "runtimes": [
                 "QNN",
                 "AMDNPU",
@@ -181,6 +244,99 @@
                 "IntelCPU",
                 "IntelGPU",
                 "IntelNPU"
+            ],
+            "architecture": "CNN",
+            "status": "Ready",
+            "version": 1
+        },
+        {
+            "displayName": "mistralai/Mistral-7B-Instruct-v0.3",
+            "icon": "mistralai",
+            "modelLink": "https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3",
+            "id": "huggingface/mistralai/Mistral-7B-Instruct-v0.3",
+            "runtimes": [
+                "IntelGPU"
+            ],
+            "architecture": "Transformer",
+            "status": "Ready",
+            "version": 1
+        },
+        {
+            "displayName": "openai/clip-vit-base-patch16",
+            "icon": "OpenAI",
+            "modelLink": "https://huggingface.co/openai/clip-vit-base-patch16",
+            "id": "huggingface/openai/clip-vit-base-patch16",
+            "runtimes": [
+                "QNN",
+                "AMDNPU",
+                "NvidiaTRTRTX",
+                "IntelCPU",
+                "IntelGPU",
+                "IntelNPU"
+            ],
+            "architecture": "Transformer",
+            "status": "Ready",
+            "version": 1
+        },
+        {
+            "displayName": "openai/clip-vit-base-patch32",
+            "icon": "OpenAI",
+            "modelLink": "https://huggingface.co/openai/clip-vit-base-patch32",
+            "id": "huggingface/openai/clip-vit-base-patch32",
+            "runtimes": [
+                "QNN",
+                "AMDNPU",
+                "NvidiaTRTRTX",
+                "IntelCPU",
+                "IntelGPU",
+                "IntelNPU"
+            ],
+            "architecture": "Transformer",
+            "status": "Ready",
+            "version": 1
+        },
+        {
+            "displayName": "Qwen/Qwen2.5-0.5B-Instruct",
+            "icon": "qwen",
+            "modelLink": "https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct",
+            "id": "huggingface/Qwen/Qwen2.5-0.5B-Instruct",
+            "groupId": "huggingface/Qwen/Qwen2.5-1.5B-Instruct",
+            "groupItemName": "0.5B",
+            "runtimes": [
+                "IntelGPU"
+            ],
+            "architecture": "Transformer",
+            "status": "Ready",
+            "version": 1
+        },
+        {
+            "displayName": "Qwen/Qwen2.5-1.5B-Instruct",
+            "icon": "qwen",
+            "modelLink": "https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct",
+            "id": "huggingface/Qwen/Qwen2.5-1.5B-Instruct",
+            "groupId": "huggingface/Qwen/Qwen2.5-1.5B-Instruct",
+            "groupItemName": "1.5B",
+            "runtimes": [
+                "QNN",
+                "AMDNPU",
+                "NvidiaTRTRTX",
+                "IntelCPU",
+                "IntelGPU",
+                "IntelNPU"
+            ],
+            "architecture": "Transformer",
+            "status": "Ready",
+            "version": 1
+        },
+        {
+            "displayName": "Qwen/Qwen2.5-3B-Instruct",
+            "icon": "qwen",
+            "modelLink": "https://huggingface.co/Qwen/Qwen2.5-3B-Instruct",
+            "id": "huggingface/Qwen/Qwen2.5-3B-Instruct",
+            "groupId": "huggingface/Qwen/Qwen2.5-1.5B-Instruct",
+            "groupItemName": "3B",
+            "runtimes": [
+                "IntelGPU"
             ],
             "architecture": "Transformer",
             "status": "Ready",
@@ -191,8 +347,8 @@
             "icon": "qwen",
             "modelLink": "https://huggingface.co/Qwen/Qwen2.5-7B-Instruct",
             "id": "huggingface/Qwen/Qwen2.5-7B-Instruct",
-            "groupId": "huggingface/Qwen/Qwen2.5-Instruct",
-            "groupItemName": "7b",
+            "groupId": "huggingface/Qwen/Qwen2.5-1.5B-Instruct",
+            "groupItemName": "7B",
             "runtimes": [
                 "IntelGPU"
             ],
@@ -201,27 +357,85 @@
             "version": 1
         },
         {
-            "displayName": "meta-llama/Llama-3.2-1B-Instruct",
-            "icon": "meta",
-            "modelLink": "https://huggingface.co/meta-llama/Llama-3.2-1B-Instruct",
-            "id": "huggingface/meta-llama/Llama-3.2-1B-Instruct",
+            "displayName": "Qwen/Qwen2.5-14B-Instruct",
+            "icon": "qwen",
+            "modelLink": "https://huggingface.co/Qwen/Qwen2.5-14B-Instruct",
+            "id": "huggingface/Qwen/Qwen2.5-14B-Instruct",
+            "groupId": "huggingface/Qwen/Qwen2.5-1.5B-Instruct",
+            "groupItemName": "14B",
             "runtimes": [
                 "QNN",
                 "AMDNPU",
                 "NvidiaTRTRTX",
-                "IntelCPU",
-                "IntelGPU",
-                "IntelNPU"
+                "IntelGPU"
             ],
             "architecture": "Transformer",
             "status": "Ready",
             "version": 1
         },
         {
-            "displayName": "mistralai/Mistral-7B-Instruct-v0.3",
-            "icon": "mistralai",
-            "modelLink": "https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3",
-            "id": "huggingface/mistralai/Mistral-7B-Instruct-v0.3",
+            "displayName": "Qwen/Qwen2.5-Coder-0.5B-Instruct",
+            "icon": "qwen",
+            "modelLink": "https://huggingface.co/Qwen/Qwen2.5-Coder-0.5B-Instruct",
+            "id": "huggingface/Qwen/Qwen2.5-Coder-0.5B-Instruct",
+            "groupId": "huggingface/Qwen/Qwen2.5-Coder-1.5B-Instruct",
+            "groupItemName": "0.5B",
+            "runtimes": [
+                "IntelGPU"
+            ],
+            "architecture": "Transformer",
+            "status": "Ready",
+            "version": 1
+        },
+        {
+            "displayName": "Qwen/Qwen2.5-Coder-1.5B-Instruct",
+            "icon": "qwen",
+            "modelLink": "https://huggingface.co/Qwen/Qwen2.5-Coder-1.5B-Instruct",
+            "id": "huggingface/Qwen/Qwen2.5-Coder-1.5B-Instruct",
+            "groupId": "huggingface/Qwen/Qwen2.5-Coder-1.5B-Instruct",
+            "groupItemName": "1.5B",
+            "runtimes": [
+                "IntelGPU"
+            ],
+            "architecture": "Transformer",
+            "status": "Ready",
+            "version": 1
+        },
+        {
+            "displayName": "Qwen/Qwen2.5-Coder-3B-Instruct",
+            "icon": "qwen",
+            "modelLink": "https://huggingface.co/Qwen/Qwen2.5-Coder-3B-Instruct",
+            "id": "huggingface/Qwen/Qwen2.5-Coder-3B-Instruct",
+            "groupId": "huggingface/Qwen/Qwen2.5-Coder-1.5B-Instruct",
+            "groupItemName": "3B",
+            "runtimes": [
+                "IntelGPU"
+            ],
+            "architecture": "Transformer",
+            "status": "Ready",
+            "version": 1
+        },
+        {
+            "displayName": "Qwen/Qwen2.5-Coder-7B-Instruct",
+            "icon": "qwen",
+            "modelLink": "https://huggingface.co/Qwen/Qwen2.5-Coder-7B-Instruct",
+            "id": "huggingface/Qwen/Qwen2.5-Coder-7B-Instruct",
+            "groupId": "huggingface/Qwen/Qwen2.5-Coder-1.5B-Instruct",
+            "groupItemName": "7B",
+            "runtimes": [
+                "IntelGPU"
+            ],
+            "architecture": "Transformer",
+            "status": "Ready",
+            "version": 1
+        },
+        {
+            "displayName": "Qwen/Qwen2.5-Coder-14B-Instruct",
+            "icon": "qwen",
+            "modelLink": "https://huggingface.co/Qwen/Qwen2.5-Coder-14B-Instruct",
+            "id": "huggingface/Qwen/Qwen2.5-Coder-14B-Instruct",
+            "groupId": "huggingface/Qwen/Qwen2.5-Coder-1.5B-Instruct",
+            "groupItemName": "14B",
             "runtimes": [
                 "IntelGPU"
             ],
@@ -295,5 +509,29 @@
         "nlphuji/flickr30k": [],
         "imagenet-1k": [],
         "timm/mini-imagenet": []
+    },
+    "DisplayNameToRuntimeRPC": {
+        "CPU": "CPU",
+        "Qualcomm NPU": "QNN",
+        "Intel Any": "IntelAny",
+        "Intel CPU": "IntelCPU",
+        "Intel NPU": "IntelNPU",
+        "Intel GPU": "IntelGPU",
+        "AMD NPU": "AMDNPU",
+        "NVIDIA GPU": "NvidiaGPU",
+        "NVIDIA TensorRT for RTX": "NvidiaTRTRTX",
+        "DirectML": "DML"
+    },
+    "RuntimeToDisplayName": {
+        "CPU": "CPU",
+        "QNN": "Qualcomm NPU",
+        "IntelAny": "Intel Any",
+        "IntelCPU": "Intel CPU",
+        "IntelNPU": "Intel NPU",
+        "IntelGPU": "Intel GPU",
+        "AMDNPU": "AMD NPU",
+        "NvidiaGPU": "NVIDIA GPU",
+        "NvidiaTRTRTX": "NVIDIA TensorRT for RTX",
+        "DML": "DirectML"
     }
 }
