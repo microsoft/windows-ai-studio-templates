@@ -1,2 +1,2 @@
 olive-ai
-optimum
+optimum==1.26.0
