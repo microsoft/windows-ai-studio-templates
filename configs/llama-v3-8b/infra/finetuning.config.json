@@ -1,0 +1,13 @@
+{
+  "SUBSCRIPTION_ID": null,
+  "RESOURCE_GROUP_NAME": null,
+  "STORAGE_ACCOUNT_NAME": null,
+  "FILE_SHARE_NAME": null,
+  "ACA_JOB_NAME": null,
+  "COMMANDS": [
+    "cd /mount",
+    "pip install -r ./setup/requirements.txt",
+    "huggingface-cli download meta-llama/Meta-Llama-3-8B --revision main --local-dir ./model-cache/meta-llama/Llama-v3-8b --local-dir-use-symlinks False --cache-dir ./cache/hfdownload",
+    "python3 ./finetuning/invoke_olive.py && find models/ -print | grep adapter/adapter"
+  ]
+}

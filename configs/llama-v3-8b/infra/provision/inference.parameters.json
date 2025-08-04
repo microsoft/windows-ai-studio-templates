@@ -1,0 +1,38 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "defaultCommands": {
+      "value": [
+        "cd /mount",
+        "pip install torch==2.3.0 transformers==4.41.0 bitsandbytes==0.43.1 peft==0.10.0 gradio==4.43.0 sse-starlette==2.1.2 einops==0.8.0",
+        "cd /mount/inference",
+        "python3 ./gradio_chat.py"
+      ]
+    },
+    "maximumInstanceCount": {
+      "value": 2
+    },
+    "location": {
+      "value": null
+    },
+    "storageAccountName": {
+      "value": null
+    },
+    "fileShareName": {
+      "value": null
+    },
+    "acaEnvironmentName": {
+      "value": null
+    },
+    "acaEnvironmentStorageName": {
+      "value": null
+    },
+    "acaAppName": {
+      "value": null
+    },
+    "acaLogAnalyticsName": {
+      "value": null
+    }
+  }
+}

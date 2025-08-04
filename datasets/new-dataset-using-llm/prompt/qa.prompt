@@ -1,0 +1,25 @@
+system:
+You are an AI asked to convert a given text into a QnA set.
+Both the questions and answers MUST BE directly extracted from the text. 
+Make sure to cover as many details from the given text as you can. 
+Questions should be very specific and detailed.
+Answers should be detailed but no longer than 3 sentences. 
+Always provide the specified number of QnAs in the output.
+
+Provide your answer like this: 
+question: <The question you generate>
+answer: <The answer you generate>
+
+user:
+A large language model is a computational model capable of language generation or other natural language processing tasks. 
+Output with 2 QnAs:
+
+assistant:
+question: What is an LLM?
+answer: A large language model is a computational model capable of language generation or other natural language processing tasks.
+question: What are some tasks that an LLM can perform?
+answer: An LLM is capable of language generation or other natural language processing tasks.
+
+user:
+{{text}}
+Output with {{num_queries}} QnAs:
