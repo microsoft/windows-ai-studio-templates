@@ -13,7 +13,7 @@ onnx==1.17.0
 numpy==2.2.4
 protobuf==6.30.2
 # olive-ai@git+https://github.com/microsoft/Olive.git#egg=olive-ai
-olive-ai@git+https://github.com/microsoft/Olive.git@ca647e9978b5a5f1abfe70dec04e30c55778af3b#egg=olive-ai
+olive-ai@git+https://github.com/microsoft/Olive.git#egg=olive-ai
 onnx-ir==0.1.4
 onnxscript==0.3.2
 optuna==4.2.1
