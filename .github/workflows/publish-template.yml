@@ -1,14 +1,9 @@
 name: Publish templates
-run-name: CD-${{ github.run_id }}-${{ inputs.publish-branch }}-${{ inputs.release-type }}
+run-name: CD-${{ github.run_id }}-${{ github.ref_name }}-${{ inputs.release-type }}
 
 on:
   workflow_dispatch:
     inputs:
-      publish-branch:
-        description: "default is 'ai-toolkit'"
-        required: true
-        type: string
-        default: 'ai-toolkit'
       release-type:
         description: "release type(alpha, rc, stable)"
         required: true
@@ -41,7 +36,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          ref: ${{ github.event.inputs.publish-branch }}
 
       - name: Create template ZIP file
         run: zip -r template.zip . -x .git/\* -x .github/\*
@@ -69,5 +63,5 @@ jobs:
         uses: softprops/action-gh-release@v2
         if: ${{ github.event.inputs.add-tag == 'true' }}
         with:
-          tag_name: ${{ env.TIMESTAMP }}-${{ inputs.publish-branch }}-${{ inputs.release-type }}
+          tag_name: ${{ env.TIMESTAMP }}-${{ github.ref_name }}-${{ inputs.release-type }}
           files: template.zip
