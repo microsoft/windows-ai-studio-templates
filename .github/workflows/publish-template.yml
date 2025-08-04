@@ -44,7 +44,7 @@ jobs:
           ref: ${{ github.event.inputs.publish-branch }}
 
       - name: Create template ZIP file
-        run: zip -r template.zip . -x .git/\* -x .github/\*
+        run: zip -r template.zip .
       
       - name: Get current timestamp
         run: echo "TIMESTAMP=$(date +%s)" >> $GITHUB_ENV
