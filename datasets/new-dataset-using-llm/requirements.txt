@@ -1,0 +1,4 @@
+requests
+Jinja2
+pandas
+python-dotenv

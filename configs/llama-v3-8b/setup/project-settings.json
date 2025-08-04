@@ -1,0 +1,244 @@
+[
+  {
+    "groupId": "model_inference",
+    "title": "Model inference settings",
+    "fields": [
+      {
+        "type": "String",
+        "label": "Conda environment name:",
+        "info": "Name of the conda environment to activate in WSL.",
+        "replaceToken": "<conda_env_name>",
+        "defaultValue": "llama-v3-8b-env"
+      },
+      {
+        "type": "String",
+        "label": "Inference prompt template:",
+        "info": "Prompt template used at inference time, make sure it matches the finetuned version.",
+        "replaceToken": "<prompt_template>",
+        "defaultValue": "### Text: {}\\n### The tone is:\\n"
+      }
+    ]
+  },
+  {
+    "groupId": "data_configs",
+    "title": "Data settings",
+    "fields": [
+      {
+        "type": "String",
+        "label": "Dataset name:",
+        "info": "Dataset to train the model from a local file.",
+        "replaceToken": "<data_configs_data_files>",
+        "optionValues": [
+          "dataset/dataset-classification.json"
+        ],
+        "defaultValue": "dataset/dataset-classification.json"
+      },
+      {
+        "type": "String",
+        "label": "Training split:",
+        "info": "Training split name for your dataset.",
+        "replaceToken": "<data_configs_split>",
+        "defaultValue": "train"
+      },
+      {
+        "type": "String",
+        "label": "Dataset type:",
+        "replaceToken": "<dataset_type>",
+        "defaultValue": "corpus"
+      },
+      {
+        "type": "String",
+        "isArray": true,
+        "label": "Text columns:",
+        "info": "Columns that match your dataset to populate the training prompt.",
+        "replaceToken": "<text_cols>",
+        "defaultValue": [
+          "phrase",
+          "tone"
+        ]
+      },
+      {
+        "type": "String",
+        "label": "Text template:",
+        "info": "Prompt template to finetune the model, it uses replacement from with the columns.",
+        "replaceToken": "<text_template>",
+        "defaultValue": "### Text: {phrase}\\n### The tone is:\\n{tone}"
+      },
+      {
+        "type": "String",
+        "label": "Corpus strategy:",
+        "info": "Do you want to join the samples or process them one by one.",
+        "replaceToken": "<line_by_line>",
+        "defaultValue": "join",
+        "optionValues": [
+          "line-by-line",
+          "join"
+        ]
+      },
+      {
+        "type": "Integer",
+        "label": "Source max length:",
+        "info": "Max numbers of tokens per traning sample.",
+        "replaceToken": "<source_max_len>",
+        "defaultValue": 1024
+      },
+      {
+        "type": "Boolean",
+        "label": "Pad to max length:",
+        "info": "Add PAD token to the training sample until the max number of tokens.",
+        "replaceToken": "<pad_to_max_len>",
+        "defaultValue": false
+      }
+    ]
+  },
+  {
+    "groupId": "fine_tune",
+    "title": "Fine tune settings",
+    "fields": [
+      {
+        "type": "String",
+        "label": "Compute dtype:",
+        "info": "Data type for model weights and adapter weights.",
+        "replaceToken": "<compute_dtype>",
+        "optionValues": [
+          "bfloat16",
+          "float16"
+        ],
+        "defaultValue": "bfloat16",
+        "learnMore": "Can you tell me more about the Hugging Face trainer parameter compute_dtype?"
+      },
+      {
+        "type": "String",
+        "label": "Quant type:",
+        "info": "Quantization data type to use. Should be one of fp4 or nf4.",
+        "replaceToken": "<quant_type>",
+        "optionValues": [
+          "nf4",
+          "fp4"
+        ],
+        "defaultValue": "nf4",
+        "learnMore": "Can you tell me more about the Hugging Face trainer parameter quant_type?"
+      },
+      {
+        "type": "Boolean",
+        "label": "Double quant:",
+        "info": "Whether to use nested quantization where the quantization constants from the first quantization are quantized again.",
+        "replaceToken": "<double_quant>",
+        "defaultValue": true,
+        "learnMore": "Can you tell me more about the Hugging Face trainer parameter double_quant?"
+      },
+      {
+        "type": "Integer",
+        "label": "Lora r:",
+        "info": "Lora attention dimension.",
+        "replaceToken": "<lora_r>",
+        "defaultValue": 32,
+        "learnMore": "Can you tell me more about the Hugging Face trainer parameter lora_r?"
+      },
+      {
+        "type": "Integer",
+        "label": "Lora alpha:",
+        "info": "The alpha parameter for Lora scaling",
+        "replaceToken": "<lora_alpha>",
+        "defaultValue": 64,
+        "learnMore": "Can you tell me more about the Hugging Face trainer parameter lora_alpha?"
+      },
+      {
+        "type": "Number",
+        "label": "Lora dropout:",
+        "info": "The dropout probability for Lora layers",
+        "replaceToken": "<lora_dropout>",
+        "defaultValue": 0.1,
+        "learnMore": "Can you tell me more about the Hugging Face trainer parameter lora_dropout?"
+      },
+      {
+        "type": "Integer",
+        "label": "Eval dataset size:",
+        "info": "Size of the validation dataset, a number or 0-1 percentage.",
+        "replaceToken": "<eval_dataset_size>",
+        "defaultValue": 0.3,
+        "learnMore": "Can you tell me more about the Hugging Face trainer parameter eval_dataset_size?"
+      },
+      {
+        "type": "Integer",
+        "label": "Seed:",
+        "info": "Random seed for initialization.",
+        "replaceToken": "<training_args_seed>",
+        "defaultValue": 0,
+        "learnMore": "Can you tell me more about the Hugging Face trainer parameter training_args_seed?"
+      },
+      {
+        "type": "Integer",
+        "label": "Data seed:",
+        "info": "Random seed to be used with data samplers.",
+        "replaceToken": "<training_args_data_seed>",
+        "defaultValue": 42,
+        "learnMore": "Can you tell me more about the Hugging Face trainer parameter training_args_data_seed?"
+      },
+      {
+        "type": "Integer",
+        "label": "Per device train batch size:",
+        "info": "The batch size per GPU for training.",
+        "replaceToken": "<per_device_train_batch_size>",
+        "defaultValue": 8,
+        "learnMore": "Can you tell me more about the Hugging Face trainer parameter per_device_train_batch_size?"
+      },
+      {
+        "type": "Integer",
+        "label": "Per device eval batch size:",
+        "info": "The batch size per GPU for evaluation.",
+        "replaceToken": "<per_device_eval_batch_size>",
+        "defaultValue": 8,
+        "learnMore": "Can you tell me more about the Hugging Face trainer parameter per_device_eval_batch_size?"
+      },
+      {
+        "type": "Integer",
+        "label": "Gradient accumulation steps:",
+        "info": "Number of updates steps to accumulate the gradients for, before performing a backward/update pass",
+        "replaceToken": "<gradient_accumulation_steps>",
+        "defaultValue": 4,
+        "learnMore": "Can you tell me more about the Hugging Face trainer parameter gradient_accumulation_steps?"
+      },
+      {
+        "type": "Boolean",
+        "label": "Enable gradient checkpointing:",
+        "info": "Use gradient checkpointing. Recommended to save the memory.",
+        "replaceToken": "<gradient_checkpointing>",
+        "defaultValue": true,
+        "learnMore": "Can you tell me more about the Hugging Face trainer parameter gradient_checkpointing?"
+      },
+      {
+        "type": "Number",
+        "label": "Learning rate:",
+        "info": "The initial learning rate for AdamW",
+        "replaceToken": "<learning_rate>",
+        "defaultValue": 0.0002,
+        "learnMore": "Can you tell me more about the Hugging Face trainer parameter learning_rate?"
+      },
+      {
+        "type": "Integer",
+        "label": "Number of epochs:",
+        "info": "How many complete passes the model will make over the entire training dataset.",
+        "replaceToken": "<num_train_epochs>",
+        "defaultValue": 3,
+        "learnMore": "Can you tell me more about the Hugging Face trainer parameter num_train_epochs?"
+      },
+      {
+        "type": "Integer",
+        "label": "Max steps:",
+        "info": "Training will be stopped when this number of steps is reached, regardless of the number of epochs.",
+        "replaceToken": "<max_steps>",
+        "defaultValue": 100,
+        "learnMore": "Can you tell me more about the Hugging Face trainer parameter max_steps?"
+      },
+      {
+        "type": "String",
+        "label": "Checkpoint output dir",
+        "info": "Directory to save the checkpoints.",
+        "replaceToken": "<output_dir>",
+        "defaultValue": "models/checkpoints",
+        "learnMore": "Can you tell me more about the Hugging Face trainer parameter output_dir?"
+      }
+    ]
+  }
+]
