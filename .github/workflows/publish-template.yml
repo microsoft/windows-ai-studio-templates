@@ -1,5 +1,5 @@
 name: Publish templates
-run-name: CD-${{ github.run_id }}-${{ github.ref }}-${{ inputs.release-type }}
+run-name: CD-${{ github.run_id }}-${{ github.ref_name }}-${{ inputs.release-type }}
 
 on:
   workflow_dispatch:
@@ -36,7 +36,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          ref: ${{ github.ref }}
 
       - name: Create template ZIP file
         run: zip -r template.zip . -x .git/\* -x .github/\*
@@ -64,5 +63,5 @@ jobs:
         uses: softprops/action-gh-release@v2
         if: ${{ github.event.inputs.add-tag == 'true' }}
         with:
-          tag_name: ${{ env.TIMESTAMP }}-${{ github.ref }}-${{ inputs.release-type }}
+          tag_name: ${{ env.TIMESTAMP }}-${{ github.ref_name }}-${{ inputs.release-type }}
           files: template.zip
