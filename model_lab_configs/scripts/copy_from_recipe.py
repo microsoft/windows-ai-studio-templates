@@ -9,7 +9,7 @@ copied_folders = 0
 def copy_folder(model, models_dir: Path, olive_recipes_dir: Path):
     id = model.get("id")
     version = model.get("version")
-    relative_path = model.get("relativePath")
+    relative_path = model.get("relativePath").replace("\\", "/")
     # make dir
     target_dir = models_dir / Path(id) / Path(str(version))
     target_dir.mkdir(parents=True, exist_ok=True)
