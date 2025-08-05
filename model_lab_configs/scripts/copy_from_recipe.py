@@ -1,8 +1,10 @@
 import shutil
 from pathlib import Path
 import json
+import subprocess
 
 ignore_patterns = ["info.yml", "_copy.json.config"]
+copied_folders = 0
 
 def copy_folder(model, models_dir: Path, olive_recipes_dir: Path):
     id = model.get("id")
@@ -13,7 +15,24 @@ def copy_folder(model, models_dir: Path, olive_recipes_dir: Path):
     target_dir.mkdir(parents=True, exist_ok=True)
     source_dir = olive_recipes_dir / Path(relative_path)
     # copy dir
+    print(f"Copying from {source_dir} to {target_dir}")
     shutil.copytree(source_dir, target_dir, dirs_exist_ok=True, ignore=shutil.ignore_patterns(*ignore_patterns))
+    global copied_folders
+    copied_folders += 1
+
+
+def save_commit_id(models_dir: Path, olive_recipes_dir: Path):
+    result = subprocess.run(
+        ["git", "rev-parse", "HEAD"], 
+        cwd=olive_recipes_dir, 
+        capture_output=True, 
+        text=True, 
+        check=True
+    )
+    commit_id = result.stdout.strip()
+    with open(models_dir / "commit_id.txt", "w") as f:
+        f.write(commit_id)
+
 
 def main():
     root_dir = Path(__file__).parent.parent.parent
@@ -34,6 +53,9 @@ def main():
         olive_list,
         models_dir / "model_list.json",
     )
+    save_commit_id(models_dir, olive_recipes_dir)
+    global copied_folders
+    print(f"Copied {copied_folders} folders from olive-recipes to model_lab_configs.")
 
 
 if __name__ == "__main__":
