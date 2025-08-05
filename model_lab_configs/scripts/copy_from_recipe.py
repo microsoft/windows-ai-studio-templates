@@ -42,6 +42,9 @@ def main():
     olive_list = olive_configs_dir / "model_list.json"
     models_dir = root_dir / "model_lab_configs"
 
+    shutil.rmtree(models_dir / "huggingface", ignore_errors=True)
+    shutil.rmtree(models_dir / "extension", ignore_errors=True)
+
     with open(olive_list, "r") as f:
         list = json.load(f)
 
