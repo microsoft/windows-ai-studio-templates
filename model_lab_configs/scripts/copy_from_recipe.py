@@ -1,10 +1,11 @@
-import shutil
-from pathlib import Path
 import json
+import shutil
 import subprocess
+from pathlib import Path
 
 ignore_patterns = ["info.yml", "_copy.json.config"]
 copied_folders = 0
+
 
 def copy_folder(model, models_dir: Path, olive_recipes_dir: Path):
     id = model.get("id")
@@ -23,11 +24,7 @@ def copy_folder(model, models_dir: Path, olive_recipes_dir: Path):
 
 def save_commit_id(models_dir: Path, olive_recipes_dir: Path):
     result = subprocess.run(
-        ["git", "rev-parse", "HEAD"], 
-        cwd=olive_recipes_dir, 
-        capture_output=True, 
-        text=True, 
-        check=True
+        ["git", "rev-parse", "HEAD"], cwd=olive_recipes_dir, capture_output=True, text=True, check=True
     )
     commit_id = result.stdout.strip()
     with open(models_dir / "commit_id.txt", "w") as f:
@@ -51,7 +48,7 @@ def main():
     for model in list["models"]:
         copy_folder(model, models_dir, olive_recipes_dir)
     for model in list["template_models"]:
-        copy_folder(model, models_dir, olive_recipes_dir)    
+        copy_folder(model, models_dir, olive_recipes_dir)
 
     shutil.copyfile(
         olive_list,

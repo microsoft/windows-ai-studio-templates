@@ -1,6 +1,18 @@
 {
     "models": [
         {
+            "displayName": "deepseek-ai/DeepSeek-R1-Distill-Llama-8B",
+            "icon": "DeepSeek",
+            "modelLink": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-8B",
+            "id": "huggingface/deepseek-ai/DeepSeek-R1-Distill-Llama-8B",
+            "runtimes": [
+                "IntelGPU"
+            ],
+            "architecture": "Transformer",
+            "status": "Hide",
+            "version": 1
+        },
+        {
             "displayName": "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B",
             "icon": "DeepSeek",
             "modelLink": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B",
@@ -10,6 +22,7 @@
             "runtimes": [
                 "QNN",
                 "AMDNPU",
+                "DML",
                 "IntelCPU",
                 "IntelGPU",
                 "IntelNPU"
@@ -55,6 +68,7 @@
                 "QNN",
                 "AMDNPU",
                 "NvidiaTRTRTX",
+                "DML",
                 "IntelCPU",
                 "IntelGPU",
                 "IntelNPU"
@@ -72,6 +86,7 @@
                 "QNN",
                 "AMDNPU",
                 "NvidiaTRTRTX",
+                "DML",
                 "IntelCPU",
                 "IntelGPU",
                 "IntelNPU"
@@ -89,6 +104,7 @@
                 "QNN",
                 "AMDNPU",
                 "NvidiaTRTRTX",
+                "DML",
                 "IntelCPU",
                 "IntelGPU",
                 "IntelNPU"
@@ -106,6 +122,7 @@
                 "QNN",
                 "AMDNPU",
                 "NvidiaTRTRTX",
+                "DML",
                 "IntelCPU",
                 "IntelGPU",
                 "IntelNPU"
@@ -122,6 +139,7 @@
             "runtimes": [
                 "QNN",
                 "AMDNPU",
+                "DML",
                 "IntelCPU",
                 "IntelGPU",
                 "IntelNPU"
@@ -166,6 +184,7 @@
             "runtimes": [
                 "QNN",
                 "AMDNPU",
+                "DML",
                 "IntelCPU",
                 "IntelGPU",
                 "IntelNPU"
@@ -237,6 +256,7 @@
                 "QNN",
                 "AMDNPU",
                 "NvidiaTRTRTX",
+                "DML",
                 "IntelCPU",
                 "IntelGPU",
                 "IntelNPU"
@@ -266,6 +286,7 @@
                 "QNN",
                 "AMDNPU",
                 "NvidiaTRTRTX",
+                "DML",
                 "IntelCPU",
                 "IntelGPU",
                 "IntelNPU"
@@ -283,6 +304,7 @@
                 "QNN",
                 "AMDNPU",
                 "NvidiaTRTRTX",
+                "DML",
                 "IntelCPU",
                 "IntelGPU",
                 "IntelNPU"
@@ -315,6 +337,7 @@
             "runtimes": [
                 "QNN",
                 "AMDNPU",
+                "DML",
                 "IntelCPU",
                 "IntelGPU",
                 "IntelNPU"

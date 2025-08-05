@@ -37,18 +37,8 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Checkout olive-recipes
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          repository: microsoft/olive-recipes
-          path: olive-recipes
-
-      - name: Run copy from recipe script
-        run: python model_lab_configs/scripts/copy_from_recipe.py
-
       - name: Create template ZIP file
-        run: zip -r template.zip . -x .git/\* -x .github/\* -x olive-recipes/\*
+        run: zip -r template.zip . -x .git/\* -x .github/\*
       
       - name: Get current timestamp
         run: echo "TIMESTAMP=$(date +%s)" >> $GITHUB_ENV
