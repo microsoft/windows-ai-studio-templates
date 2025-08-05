@@ -26,6 +26,7 @@ def save_commit_id(models_dir: Path, olive_recipes_dir: Path):
         ["git", "rev-parse", "HEAD"], cwd=olive_recipes_dir, capture_output=True, text=True, check=True
     )
     commit_id = result.stdout.strip()
+    print(f"Current commit ID: {commit_id}")
     with open(models_dir / "commit_id.txt", "w") as f:
         f.write(commit_id)
 
