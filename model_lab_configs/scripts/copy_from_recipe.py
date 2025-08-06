@@ -2,6 +2,7 @@ import json
 import shutil
 import subprocess
 from pathlib import Path
+import argparse
 
 ignore_patterns = ["info.yml", "_copy.json.config"]
 copied_folders = 0
@@ -32,12 +33,20 @@ def save_commit_id(models_dir: Path, olive_recipes_dir: Path):
 
 
 def main():
+    parser = argparse.ArgumentParser(description="Copy model folders from olive-recipes to model_lab_configs.")
+    parser.add_argument("--olive-recipes-dir", type=str, help="Path to the olive-recipes directory.")
+    args = parser.parse_args()
+
     root_dir = Path(__file__).parent.parent.parent
-    olive_recipes_dir = root_dir.parent / "olive-recipes"
-    if not olive_recipes_dir.exists():
-        olive_recipes_dir = root_dir / "olive-recipes"
+    if args.olive_recipes_dir:
+        olive_recipes_dir = Path(args.olive_recipes_dir)
+    else:
+        olive_recipes_dir = root_dir.parent / "olive-recipes"
         if not olive_recipes_dir.exists():
-            raise FileNotFoundError("olive-recipes directory not found.")
+            # Inside project, for github action
+            olive_recipes_dir = root_dir / "olive-recipes"
+    if not olive_recipes_dir.exists():
+        raise FileNotFoundError("olive-recipes directory not found.")
     olive_configs_dir = olive_recipes_dir / ".aitk" / "configs"
     olive_list = olive_configs_dir / "model_list.json"
     models_dir = root_dir / "model_lab_configs"
