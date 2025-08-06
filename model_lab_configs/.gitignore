@@ -1,2 +1,6 @@
 /commit_id.txt
 /model_list.json
+
+# excluded folders
+/extension
+/huggingface
