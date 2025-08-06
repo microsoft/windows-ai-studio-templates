@@ -138,6 +138,9 @@
             "groupId": "huggingface/microsoft/Phi-3-mini-4k-instruct",
             "groupItemName": "128K",
             "runtimes": [
+                "QNN",
+                "AMDNPU",
+                "NvidiaTRTRTX",
                 "IntelGPU"
             ],
             "architecture": "Transformer",
@@ -166,6 +169,7 @@
             "runtimes": [
                 "QNN",
                 "AMDNPU",
+                "NvidiaTRTRTX",
                 "IntelCPU",
                 "IntelGPU",
                 "IntelNPU"
@@ -315,6 +319,7 @@
             "runtimes": [
                 "QNN",
                 "AMDNPU",
+                "NvidiaTRTRTX",
                 "IntelCPU",
                 "IntelGPU",
                 "IntelNPU"
@@ -359,6 +364,9 @@
             "groupId": "huggingface/Qwen/Qwen2.5-1.5B-Instruct",
             "groupItemName": "14B",
             "runtimes": [
+                "QNN",
+                "AMDNPU",
+                "NvidiaTRTRTX",
                 "IntelGPU"
             ],
             "architecture": "Transformer",

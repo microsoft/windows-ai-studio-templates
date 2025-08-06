@@ -8,8 +8,9 @@ import os
 import re
 from typing import Dict, List, Optional
 
-from model_lab import RuntimeEnum
 from pydantic import BaseModel
+
+from model_lab import RuntimeEnum
 
 from .base import BaseModelClass
 from .constants import ArchitectureEnum, IconEnum, ModelStatusEnum
