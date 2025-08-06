@@ -41,6 +41,10 @@ def run_main():
 
 
 if __name__ == "__main__":
+    raise Exception(
+        "This script is deprecated. Keep for finetuning if they want to reuse."
+    )
+
     # Check if verbose mode is requested
     if "-v" in sys.argv or "--verbose" in sys.argv:
         GlobalVars.verbose = True
