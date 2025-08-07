@@ -32,6 +32,12 @@ def save_commit_id(models_dir: Path, olive_recipes_dir: Path):
         f.write(commit_id)
 
 
+def clean_folder(folder: Path):
+    shutil.move(folder / ".keep", folder.parent / ".keep")
+    shutil.rmtree(folder, ignore_errors=True)
+    folder.mkdir(parents=True, exist_ok=True)
+    shutil.move(folder.parent / ".keep", folder / ".keep")
+
 def main():
     parser = argparse.ArgumentParser(description="Copy model folders from olive-recipes to model_lab_configs.")
     parser.add_argument("--olive-recipes-dir", type=str, help="Path to the olive-recipes directory.")
@@ -51,8 +57,8 @@ def main():
     olive_list = olive_configs_dir / "model_list.json"
     models_dir = root_dir / "model_lab_configs"
 
-    shutil.rmtree(models_dir / "huggingface", ignore_errors=True)
-    shutil.rmtree(models_dir / "extension", ignore_errors=True)
+    clean_folder(models_dir / "huggingface")
+    clean_folder(models_dir / "extension")
 
     with open(olive_list, "r") as f:
         list = json.load(f)
