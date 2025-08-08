@@ -59,6 +59,8 @@ def main():
 
     clean_folder(models_dir / "huggingface")
     clean_folder(models_dir / "extension")
+    clean_folder(models_dir / "requirements")
+    shutil.copytree(olive_recipes_dir / ".aitk" / "requirements", models_dir / "requirements", dirs_exist_ok=True)
 
     with open(olive_list, "r") as f:
         list = json.load(f)
