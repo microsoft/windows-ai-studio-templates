@@ -6,7 +6,7 @@ param storageAccountName string = 'aistorage${resourceSuffix}'
 param fileShareName string = 'aifileshare${resourceSuffix}'
 param acaEnvironmentName string = 'aienv${resourceSuffix}'
 param acaEnvironmentStorageName string = 'aienvstorage${resourceSuffix}'
-param acaJobName string = 'aiacajob${resourceSuffix}'
+param acaJobName string = 'aiacajobsoftprompt${resourceSuffix}'
 param acaLogAnalyticsName string = 'ailog${resourceSuffix}'
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2023-01-01' = {
@@ -129,7 +129,7 @@ resource acajob 'Microsoft.App/jobs@2023-11-02-preview' = {
     template: {
       containers: [
         {
-          image: 'crsdcbuild2025.azurecr.io/artifact/e9623811-ed23-4d6c-8c56-a27494f2c808/buddy/phi-silica-fine-tune-containers-soft-prompt:20250605.4'
+          image: 'crsdcbuild2025.azurecr.io/artifact/e9623811-ed23-4d6c-8c56-a27494f2c808/buddy/phi-silica-fine-tune-containers-soft-prompt:20250730.1'
           name: acaJobName
           resources: {
             cpu: 24

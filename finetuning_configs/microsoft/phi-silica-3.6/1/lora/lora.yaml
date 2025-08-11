@@ -7,6 +7,7 @@ eval_accumulation_steps: null
 eval_delay: 0
 eval_steps: 64
 evaluation_strategy: "steps"
+save_dir: "mount/<run_id>/save_dir"
 finetune_dataset: "mount/<run_id>/dataset"
 finetune_test_batch_size: 8
 finetune_test_nsamples: 128
