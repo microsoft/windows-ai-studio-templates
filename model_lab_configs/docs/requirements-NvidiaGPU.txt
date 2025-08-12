@@ -75,6 +75,10 @@ numpy==2.2.4
 packaging==24.2
 protobuf==3.20.3
 sympy==1.13.3
+# 0.8.X is not working for DML LLM because 
+# File "onnxruntime_genai\models\builder.py", line 571, in make_tensor_proto_from_tensor
+#    data_type=self.to_onnx_dtype[tensor.dtype],
+#KeyError: torch.uint8
 # onnxruntime-genai-cuda==0.7.0
 onnxruntime-genai-cuda==0.7.0
 numpy==2.2.4

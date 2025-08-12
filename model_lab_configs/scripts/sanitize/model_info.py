@@ -5,13 +5,15 @@ Model information and model list classes
 from __future__ import annotations
 
 import os
+import re
 from typing import Dict, List, Optional
 
+from model_lab import RuntimeEnum
 from pydantic import BaseModel
 
 from .base import BaseModelClass
 from .constants import ArchitectureEnum, IconEnum, ModelStatusEnum
-from .utils import open_ex, printError, printProcess
+from .utils import GlobalVars, open_ex, printError, printProcess
 
 # This file is import by others
 # To avoid circular import issues, we should carefully manage imports
@@ -23,15 +25,15 @@ class ModelInfo(BaseModel):
     icon: IconEnum
     modelLink: str
     id: str
-    runtimes: List[str]  # Changed to List[str] to avoid forward reference issues
+    groupId: Optional[str] = None
+    groupItemName: Optional[str] = None
+    runtimes: List[RuntimeEnum]
     architecture: ArchitectureEnum
     status: ModelStatusEnum = ModelStatusEnum.Hide
     version: int = -1
     extension: Optional[bool] = None
 
     def Check(self):
-        if not self.status:
-            return False
         if self.status == ModelStatusEnum.Hide:
             return True
         if not self.displayName:
@@ -46,6 +48,14 @@ class ModelInfo(BaseModel):
             return False
         return True
 
+    def GetSortKey(self):
+        lowerName = self.displayName.lower()
+        match = re.search(r"-(\d+(?:\.\d+)?)b", lowerName)
+        if match:
+            return (lowerName.replace(match.group(0), "-0b", 1), float(match.group(1)))
+        else:
+            return (lowerName, 0)
+
 
 class ModelList(BaseModelClass):
     models: List[ModelInfo]
@@ -59,6 +69,8 @@ class ModelList(BaseModelClass):
     # - custom config could provide a combined list for new datasets
     DatasetSplit: Dict[str, List[str]]
     DatasetSubset: Dict[str, List[str]]
+    DisplayNameToRuntimeRPC: Dict[str, RuntimeEnum] = {}
+    RuntimeToDisplayName: Dict[RuntimeEnum, str] = {}
 
     @staticmethod
     def Read(scriptFolder: str):
@@ -76,15 +88,23 @@ class ModelList(BaseModelClass):
 
     # Check after set version
     def Check(self):
+        self.models.sort(key=lambda x: x.GetSortKey())
+        # TODO template models order needs manually set
+        # self.template_models.sort(key=lambda x: x.displayName.lower())
         for i, model in enumerate(self.allModels()):
             if not model.Check():
                 printError(f"{self._file} model {i} has error")
+        self.SetupConstants()
         self.writeIfChanged()
 
         self.CheckDataset(self.LoginRequiredDatasets, "LoginRequiredDatasets")
         self.CheckDataset(self.DatasetSplit.keys(), "DatasetSplit")
         self.CheckDataset(self.DatasetSubset.keys(), "DatasetSubset")
         self.CheckModel(self.LoginRequiredModelIds, "LoginRequiredModelIds")
+
+    def SetupConstants(self):
+        self.RuntimeToDisplayName = GlobalVars.RuntimeToDisplayName
+        self.DisplayNameToRuntimeRPC = {v: k for k, v in self.RuntimeToDisplayName.items()}
 
     def CheckDataset(self, datasetKeys, name: str):
         for key in datasetKeys:

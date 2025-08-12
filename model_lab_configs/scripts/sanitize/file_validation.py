@@ -38,9 +38,8 @@ def check_case(path: Path) -> bool:
 
 
 def process_gitignore(modelVerDir: str, configDir: str):
-    GlobalVars.gitignoreCheck += 1
-
     gitignoreFile = os.path.join(modelVerDir, ".gitignore")
+    GlobalVars.gitignoreCheck.append(gitignoreFile)
     templateFile = os.path.join(configDir, "gitignore.md")
     if not os.path.exists(gitignoreFile):
         printWarning(f"{gitignoreFile} not exists. Copy the template one")
@@ -75,7 +74,7 @@ def readCheckOliveConfig(oliveJsonFile: str):
     """
     This will set phases to modelParameter
     """
-    GlobalVars.oliveJsonCheck += 1
+    GlobalVars.oliveJsonCheck.append(oliveJsonFile)
 
     printProcess(oliveJsonFile)
     with open_ex(oliveJsonFile, "r") as file:
@@ -124,7 +123,7 @@ def readCheckOliveConfig(oliveJsonFile: str):
     supportedPasses = [
         v
         for k, v in oliveJson[OlivePropertyNames.Passes].items()
-        if v[OlivePropertyNames.Type]
+        if v[OlivePropertyNames.Type].lower()
         in [
             OlivePassNames.OnnxConversion,
             OlivePassNames.OnnxQuantization,
@@ -141,6 +140,7 @@ def readCheckOliveConfig(oliveJsonFile: str):
     if jsonUpdated:
         with open_ex(oliveJsonFile, "w") as file:
             json.dump(oliveJson, file, indent=4)
+            file.write("\n")
     return oliveJson
 
 
@@ -149,7 +149,7 @@ def readCheckIpynb(ipynbFile: str, modelItems: dict[str, ModelParameter]):
     Note this return exists or not, not valid or not
     """
     if os.path.exists(ipynbFile):
-        GlobalVars.ipynbCheck += 1
+        GlobalVars.ipynbCheck.append(ipynbFile)
 
         with open_ex(ipynbFile, "r") as file:
             ipynbContent: str = file.read()
@@ -199,3 +199,37 @@ def readCheckIpynb(ipynbFile: str, modelItems: dict[str, ModelParameter]):
             printError(f"{ipynbFile} has no runtime for it!")
         return True
     return False
+
+
+def readCheckRequirements(requirementsFile: str):
+    """
+    Check requirements.txt file
+    """
+    if not os.path.exists(requirementsFile):
+        printWarning(f"{requirementsFile} not exists.")
+        return
+
+    GlobalVars.requirementsCheck.append(requirementsFile)
+    with open_ex(requirementsFile, "r") as file:
+        requirementsContent: str = file.read()
+    requirementsLines = requirementsContent.splitlines()
+
+    oldContents = []
+    newContents = [
+        "# This file will be installed together with AITK runtime requirements",
+        "# For the full requirements, see AITK",
+    ]
+    ready = False
+    if len(requirementsLines) >= len(newContents):
+        ready = True
+        for i in range(len(newContents)):
+            if requirementsLines[i] != newContents[i]:
+                ready = False
+                break
+    if not ready:
+        requirementsLines = [line for line in requirementsLines if line not in oldContents]
+        requirementsLines = newContents + requirementsLines
+    newContent = "\n".join(requirementsLines) + "\n"
+    if requirementsContent != newContent:
+        with open_ex(requirementsFile, "w") as file:
+            file.write(newContent)
