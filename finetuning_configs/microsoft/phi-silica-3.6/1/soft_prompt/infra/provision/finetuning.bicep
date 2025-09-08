@@ -81,7 +81,7 @@ resource environment 'Microsoft.App/managedEnvironments@2023-11-02-preview' = {
     workloadProfiles: [
       {
         workloadProfileType: 'Consumption-GPU-NC24-A100'
-        name: 'Consumption-GPU-NC24-A100'
+        name: 'GPU'
       }
     ]
     appInsightsConfiguration: null
