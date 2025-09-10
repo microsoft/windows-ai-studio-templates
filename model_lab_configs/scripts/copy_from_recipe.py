@@ -7,7 +7,7 @@ import argparse
 ignore_patterns = ["info.yml", "_copy.json.config"]
 copied_folders = 0
 
-def copy_folder(model, models_dir: Path, olive_recipes_dir: Path):
+def copy_folder(model, models_dir: Path, olive_recipes_dir: Path, copy_license: bool = False):
     id = model.get("id")
     version = model.get("version")
     relative_path = model.get("relativePath").replace("\\", "/")
@@ -20,6 +20,13 @@ def copy_folder(model, models_dir: Path, olive_recipes_dir: Path):
     shutil.copytree(source_dir, target_dir, dirs_exist_ok=True, ignore=shutil.ignore_patterns(*ignore_patterns))
     global copied_folders
     copied_folders += 1
+    if copy_license:
+        license_file = source_dir.parent / "LICENSE"
+        # To avoid confusion of license of recipes, license of packages in runtime etc., rename the license file to LICENSE_OF_MODEL.txt
+        license_dst = target_dir / "LICENSE_OF_MODEL.txt"
+        if license_file.exists() and not license_dst.exists():
+            print(f"Copying from {license_file} to {license_dst}")
+            shutil.copyfile(license_file, license_dst)
 
 
 def save_commit_id(models_dir: Path, olive_recipes_dir: Path):
@@ -60,16 +67,18 @@ def main():
     clean_folder(models_dir / "huggingface")
     clean_folder(models_dir / "extension")
     clean_folder(models_dir / "requirements")
+    print(f"Copying requirements from {olive_recipes_dir / '.aitk' / 'requirements'} to {models_dir / 'requirements'}")
     shutil.copytree(olive_recipes_dir / ".aitk" / "requirements", models_dir / "requirements", dirs_exist_ok=True)
 
     with open(olive_list, "r") as f:
         list = json.load(f)
 
     for model in list["models"]:
-        copy_folder(model, models_dir, olive_recipes_dir)
+        copy_folder(model, models_dir, olive_recipes_dir, copy_license=True)
     for model in list["template_models"]:
         copy_folder(model, models_dir, olive_recipes_dir)
 
+    print(f"Copying model list from {olive_list} to {models_dir / 'model_list.json'}")
     shutil.copyfile(
         olive_list,
         models_dir / "model_list.json",
