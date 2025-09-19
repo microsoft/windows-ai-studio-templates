@@ -1,4 +1,3 @@
-param maximumInstanceCount int
 param timeout int
 param location string = resourceGroup().location
 
@@ -7,7 +6,7 @@ param storageAccountName string = 'aistorage${resourceSuffix}'
 param fileShareName string = 'aifileshare${resourceSuffix}'
 param acaEnvironmentName string = 'aienv${resourceSuffix}'
 param acaEnvironmentStorageName string = 'aienvstorage${resourceSuffix}'
-param acaJobName string = 'aiacajob${resourceSuffix}'
+param acaJobName string = 'aiacajoblora${resourceSuffix}'
 param acaLogAnalyticsName string = 'ailog${resourceSuffix}'
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2023-01-01' = {
@@ -130,7 +129,7 @@ resource acajob 'Microsoft.App/jobs@2023-11-02-preview' = {
     template: {
       containers: [
         {
-          image: 'crsdcbuild2025.azurecr.io/artifact/phi-silica-fine-tune:phi_silica_3_6'
+          image: 'crsdcbuild2025.azurecr.io/artifact/e9623811-ed23-4d6c-8c56-a27494f2c808/buddy/phi-silica-fine-tune-containers-lora:20250730.1'
           name: acaJobName
           resources: {
             cpu: 24
@@ -166,4 +165,4 @@ output FILE_SHARE_NAME string = fileShare.name
 output ACA_JOB_NAME string = acajob.name
 output LOG_ANALYTICS_NAME string = logAnalytics.name
 output COMMANDS array = []
-output ARGS array = ['mount/<run_id>/finetune.yaml']
+output ARGS array = ['mount/<run_id>/lora.yaml']

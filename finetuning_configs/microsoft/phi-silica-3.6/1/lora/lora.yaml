@@ -1,0 +1,30 @@
+adam_beta1: !!float 0.9
+adam_beta2: !!float 0.95
+adam_epsilon: !!float 1E-08
+early_stopping_patience: 5
+epochs: 1
+eval_accumulation_steps: null
+eval_delay: 0
+eval_steps: 64
+evaluation_strategy: "steps"
+save_dir: "mount/<run_id>/save_dir"
+finetune_dataset: "mount/<run_id>/dataset"
+finetune_test_batch_size: 8
+finetune_test_nsamples: 128
+finetune_test_seqlen: 2048
+finetune_train_batch_size: 2
+finetune_train_nsamples: 8000
+finetune_train_seqlen: 1024
+gradient_accumulation_steps: 1
+gradient_checkpointing: false
+learning_rate: !!float 0.0002
+lora_dropout: !!float 0.1
+lr_scheduler_type: "linear_with_warmup"
+max_grad_norm: 1
+model: "Phi-3.6-mini-instruct"
+model_path: "model"
+num_training_steps: null
+num_warmup_steps: 400
+save_steps: 64
+seed: 42
+weight_decay: 0

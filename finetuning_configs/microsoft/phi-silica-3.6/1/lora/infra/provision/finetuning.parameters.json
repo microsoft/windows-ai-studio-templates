@@ -2,11 +2,8 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "maximumInstanceCount": {
-      "value": 2
-    },
     "timeout": {
-      "value": 10800
+      "value": 21600
     },
     "location": {
       "value": null

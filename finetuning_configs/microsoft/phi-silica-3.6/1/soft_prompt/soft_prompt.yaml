@@ -1,0 +1,18 @@
+model: "Phi-3.6-mini-instruct"
+model_path: "model"
+save_dir: "mount/<run_id>/save_dir"
+finetune_dataset: "mount/<run_id>/dataset"
+max_input_size: 2048
+init_prompt: "Classify sentiment and topic of financal news in this format: topic=\"?\"; sentiment=\"?\";"
+number_of_virtual_tokens: 64
+learning_rate: !!float 3e-05
+early_stopping_patience: 5
+epochs: 1
+evaluation_strategy: "steps"
+eval_steps: 8
+save_steps: 64
+seed: 42
+finetune_train_nsamples: null
+finetune_test_nsamples: null
+finetune_train_batch_size: 2
+finetune_test_batch_size: 2

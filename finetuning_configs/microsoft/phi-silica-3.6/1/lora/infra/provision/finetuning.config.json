@@ -1,0 +1,10 @@
+{
+  "SUBSCRIPTION_ID": null,
+  "RESOURCE_GROUP_NAME": null,
+  "STORAGE_ACCOUNT_NAME": null,
+  "FILE_SHARE_NAME": null,
+  "ACA_JOB_NAME": null,
+  "LOG_ANALYTICS_NAME": null,
+  "COMMANDS": [],
+  "ARGS": ["mount/<run_id>/lora.yaml"]
+}
