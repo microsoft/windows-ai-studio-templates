@@ -117,7 +117,7 @@ resource acajob 'Microsoft.App/jobs@2023-11-02-preview' = {
       secrets: null
       triggerType: 'Manual'
       replicaTimeout: timeout
-      replicaRetryLimit: 0
+      replicaRetryLimit: 3
       manualTriggerConfig: {
         replicaCompletionCount: 1
         parallelism: 1
