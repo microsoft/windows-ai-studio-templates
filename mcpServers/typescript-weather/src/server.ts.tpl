@@ -7,11 +7,14 @@ const server = new McpServer({
   version: "1.0.0",
 });
 
-server.tool(
+server.registerTool(
   "get_weather",
-  "Get weather for a location",
   {
-    location: z.string().describe("Location to get weather for, e.g., city name, state, or coordinates"),
+    title: "Get Weather",
+    description: "Get weather information for a given location",
+    inputSchema: {
+      location: z.string().describe("Location to get weather for, e.g., city name, state, or coordinates"),
+    },
   },
   async ({ location }) => {
     if (!location) {

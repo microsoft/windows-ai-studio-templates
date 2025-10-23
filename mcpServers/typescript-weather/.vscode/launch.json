@@ -11,53 +11,19 @@
         "hidden": true
       },
       "internalConsoleOptions": "neverOpen",
-      "postDebugTask": "Terminate All Tasks",
+      "postDebugTask": "Terminate All Tasks"
     },
-    {
-      "name": "Launch Inspector (Edge)",
-      "type": "msedge",
-      "request": "launch",
-      "url": "http://localhost:5173?timeout=60000&serverUrl=http://localhost:3001/sse#tools",
-      "cascadeTerminateToConfigurations": [
-        "Attach to Local MCP"
-      ],
-      "presentation": {
-        "hidden": true
-      },
-      "internalConsoleOptions": "neverOpen"
-    },
-    {
-      "name": "Launch Inspector (Chrome)",
-      "type": "chrome",
-      "request": "launch",
-      "url": "http://localhost:5173?timeout=60000&serverUrl=http://localhost:3001/sse#tools",
-      "cascadeTerminateToConfigurations": [
-        "Attach to Local MCP"
-      ],
-      "presentation": {
-        "hidden": true
-      },
-      "internalConsoleOptions": "neverOpen"
-    },
-    {
+        {
       "name": "Launch Inspector with STDIO settings",
       "type": "node",
       "request": "launch",
       "runtimeExecutable": "npm",
       "runtimeArgs": [
         "run",
-        "dev:inspector",
-        "--",
-        "npm",
-        "--silent run dev:stdio"
+        "dev:inspector:stdio"
       ],
       "skipFiles": ["<node_internals>/**"],
       "console": "integratedTerminal",
-      "serverReadyAction": {
-        "action": "openExternally",
-        "pattern": "running at (https?://\\S+)",
-        "uriFormat": "%s?timeout=60000#tools"
-      },
       "presentation": {
         "hidden": true
       },
@@ -72,22 +38,11 @@
       "preLaunchTask": "Open Agent Builder",
     },
     {
-      "name": "Debug SSE in Inspector (Edge)",
+      "name": "Debug StreamableHTTP in Inspector",
       "configurations": [
-        "Launch Inspector (Edge)",
         "Attach to Local MCP"
       ],
       "preLaunchTask": "Start MCP Inspector",
-      "stopAll": true
-    },
-    {
-      "name": "Debug SSE in Inspector (Chrome)",
-      "configurations": [
-        "Launch Inspector (Chrome)",
-        "Attach to Local MCP"
-      ],
-      "preLaunchTask": "Start MCP Inspector",
-      "stopAll": true
     },
     {
       "name": "Debug STDIO in Inspector",

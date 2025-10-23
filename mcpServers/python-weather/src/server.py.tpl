@@ -5,9 +5,13 @@ from mcp.server.fastmcp import FastMCP
 # Initialize FastMCP server
 server = FastMCP("{{SafeProjectNameLowerCase}}")
 
-@server.tool()
+@server.tool(
+    name="get_weather",
+    title="Get Weather",
+    description="Get weather information for a given location"
+)
 async def get_weather(location: str) -> str:
-    """Get weather for a location.
+    """Get weather information for a given location.
 
     Args:
         location: Location to get weather for, e.g., city name, state, or coordinates
