@@ -4,7 +4,7 @@
     {
       "label": "Start MCP Server",
       "type": "shell",
-      "command": "python -m debugpy --listen 127.0.0.1:5678 src/__init__.py sse",
+      "command": "${command:python.interpreterPath} -m debugpy --listen 127.0.0.1:5678 src/__init__.py http",
       "isBackground": true,
       "options": {
         "cwd": "${workspaceFolder}",
@@ -52,7 +52,7 @@
         "background": {
           "activeOnStart": true,
           "beginsPattern": "Starting MCP inspector",
-          "endsPattern": "Proxy server listening on port"
+          "endsPattern": "Proxy server listening on|MCP Inspector is up"
         }
       },
       "dependsOn": [
