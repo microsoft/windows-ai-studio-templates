@@ -1,6 +1,6 @@
 
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
+import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import express from "express";
 import { server } from "./server";
 
@@ -8,21 +8,32 @@ import { server } from "./server";
 async function main() {
   const args = process.argv.slice(2);
   const type = args.at(0) || "stdio";
-  if (type === "sse") {
+  if (type === "http") {
     const app = express();
-    let transport: SSEServerTransport;
-    app.get("/sse", async (req, res) => {
-      transport = new SSEServerTransport("/messages", res);
+    app.use(express.json());
+
+    app.post('/mcp', async (req, res) => {
+      // Create a new transport for each request to prevent request ID collisions
+      const transport = new StreamableHTTPServerTransport({
+          sessionIdGenerator: undefined,
+          enableJsonResponse: true
+      });
+
+      res.on('close', () => {
+          transport.close();
+      });
+
       await server.connect(transport);
+      await transport.handleRequest(req, res, req.body);
     });
-    app.post("/messages", async (req, res) => {
-      // Note: to support multiple simultaneous connections, these messages will
-      // need to be routed to a specific matching transport. (This logic isn't
-      // implemented here, for simplicity.)
-      await transport.handlePostMessage(req, res);
-    });
-    app.listen(process.env.PORT || 3001);
-    console.error("MCP Server running on sse");
+
+  const port = parseInt(process.env.PORT || '3001');
+  app.listen(port, () => {
+      console.log(`MCP Server running on http://localhost:${port}/mcp`);
+  }).on('error', error => {
+      console.error('Server error:', error);
+      throw error;
+  });
   } else if (type === "stdio") {
     const transport = new StdioServerTransport();
     await server.connect(transport);

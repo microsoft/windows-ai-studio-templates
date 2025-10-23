@@ -9,7 +9,7 @@
     {
       "label": "Start MCP Server",
       "type": "shell",
-      "command": "npm run dev:sse",
+      "command": "npm run dev:http",
       "isBackground": true,
       "options": {
         "cwd": "${workspaceFolder}",
@@ -38,7 +38,11 @@
     {
       "label": "Start MCP Inspector",
       "type": "shell",
-      "command": "npm run dev:inspector",
+      "command": "npm",
+      "args": [
+        "run",
+        "dev:inspector:http"
+      ],
       "isBackground": true,
       "options": {
         "cwd": "${workspaceFolder}",
@@ -59,7 +63,7 @@
         "background": {
           "activeOnStart": true,
           "beginsPattern": "Starting MCP inspector",
-          "endsPattern": "Proxy server listening on port"
+          "endsPattern": "Proxy server listening on|MCP Inspector is up"
         }
       },
       "dependsOn": [
