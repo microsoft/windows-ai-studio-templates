@@ -12,6 +12,10 @@ on:
         description: "add tag to the release"
         required: true
         default: "false"
+      olive-recipes-branch:
+        description: "branch of olive-recipes to checkout"
+        required: false
+        default: "release_aitk/latest"
 
 permissions:
   contents: write
@@ -43,6 +47,7 @@ jobs:
           fetch-depth: 0
           repository: microsoft/olive-recipes
           path: olive-recipes
+          ref: ${{ github.event.inputs.olive-recipes-branch }}
 
       - name: Run copy from recipe script
         run: python model_lab_configs/scripts/copy_from_recipe.py
