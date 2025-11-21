@@ -6,7 +6,7 @@
         {
             "displayName": "microsoft/phi-silica",
             "icon": "ms",
-            "modelLink": "https://bing.com",
+            "modelLink": "https://learn.microsoft.com/en-us/windows/ai/apis/phi-silica",
             "id": "microsoft/phi-silica-3.6",
             "hostedBy": "Microsoft",
             "supportLocalFinetuning": false,
