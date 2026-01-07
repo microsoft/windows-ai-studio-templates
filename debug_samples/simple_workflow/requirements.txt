@@ -1,0 +1,11 @@
+# Agent Framework (preview)
+agent-framework-azure-ai
+
+# Azure AI Agent Server for HTTP mode
+azure-ai-agentserver-agentframework
+
+# Azure Identity for authentication
+azure-identity
+
+# Environment variable support
+python-dotenv
