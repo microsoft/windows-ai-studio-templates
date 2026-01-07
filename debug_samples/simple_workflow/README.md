@@ -22,4 +22,5 @@ To export visualization images you also need to [install GraphViz](https://graph
 
 ## Quick Start
 
-[Open in VS Code](vscode-insiders://ms-windows-ai-studio.windows-ai-studio/debug_sample?repo=microsoft/windows-ai-studio-templates/qidon/testsample&files=debug_samples/simple_workflow/README.md,debug_samples/simple_workflow/.env.example,debug_samples/simple_workflow/workflow.py,debug_samples/simple_workflow/requirements.txt)
+[Open in VS Code](https://vscode.dev/redirect?url=vscode-insiders://ms-windows-ai-studio.windows-ai-studio/debug_sample?repo=microsoft/windows-ai-studio-templates/qidon/testsample&files=debug_samples/simple_workflow/README.md,debug_samples/simple_workflow/.env.example,debug_samples/simple_workflow/workflow.py,debug_samples/simple_workflow/requirements.txt)
+
