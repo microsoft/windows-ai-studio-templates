@@ -1,0 +1,11 @@
+{
+  "version": "1.0",
+  "samples": [
+    {
+      "id": "basic-workflow",
+      "path": "samples/basic-workflow",
+      "title": "Basic Workflow Agent",
+      "description": "A basic workflow agent sample to get started with the agent test tool."
+    }
+  ]
+}
