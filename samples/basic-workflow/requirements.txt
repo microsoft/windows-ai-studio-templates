@@ -1,0 +1,17 @@
+# Agent Framework SDK (preview)
+agent-framework-azure-ai
+
+# HTTP Server for production deployment
+azure-ai-agentserver-agentframework
+
+# Environment variable management
+python-dotenv
+
+# Azure authentication
+azure-identity
+
+# Debugging support
+debugpy
+
+# Agent development CLI tool (preview)
+agent-dev-cli
