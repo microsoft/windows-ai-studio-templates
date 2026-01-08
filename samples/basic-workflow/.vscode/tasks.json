@@ -53,7 +53,7 @@
     {
       "label": "Run Agent/Workflow in Terminal",
       "type": "shell",
-      "command": "${command:python.interpreterPath} -m debugpy --listen 127.0.0.1:5679 workflow.py --cli",
+      "command": "${command:python.interpreterPath} -m debugpy --listen 127.0.0.1:5679 workflow.py",
       "isBackground": true,
       "options": {
         "cwd": "${workspaceFolder}"

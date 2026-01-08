@@ -34,6 +34,19 @@ load_dotenv(override=True)
 ENDPOINT = os.getenv("FOUNDRY_PROJECT_ENDPOINT", "")
 MODEL_DEPLOYMENT_NAME = os.getenv("FOUNDRY_MODEL_DEPLOYMENT_NAME", "")
 
+# Validate required environment variables
+if not ENDPOINT or not MODEL_DEPLOYMENT_NAME:
+    missing_vars = []
+    if not ENDPOINT:
+        missing_vars.append("FOUNDRY_PROJECT_ENDPOINT")
+    if not MODEL_DEPLOYMENT_NAME:
+        missing_vars.append("FOUNDRY_MODEL_DEPLOYMENT_NAME")
+    missing_str = ", ".join(missing_vars)
+    raise RuntimeError(
+        f"Missing required environment variable(s): {missing_str}. "
+        "Please set them in your .env file or environment before running this workflow."
+    )
+
 
 class WriterExecutor(Executor):
     """Writer executor that generates content based on user input."""
@@ -52,7 +65,7 @@ class WriterExecutor(Executor):
         
         # Add agent output as event for HTTP server response
         for message in response.messages:
-            if message.role == Role.ASSISTANT:
+            if message.role == Role.ASSISTANT and message.contents:
                 await ctx.add_event(
                     AgentRunUpdateEvent(
                         self.id,
@@ -81,14 +94,14 @@ class ReviewerExecutor(Executor):
         super().__init__(id=id)
 
     @handler
-    async def handle(self, messages: list[ChatMessage], ctx: WorkflowContext[list[ChatMessage], str]) -> None:
+    async def handle(self, messages: list[ChatMessage], ctx: WorkflowContext[list[ChatMessage]]) -> None:
         """Review the content and yield final output."""
         # Run the reviewer agent
         response = await self.agent.run(messages)
         
         # Add agent output as event for HTTP server response
         for message in response.messages:
-            if message.role == Role.ASSISTANT:
+            if message.role == Role.ASSISTANT and message.contents:
                 await ctx.add_event(
                     AgentRunUpdateEvent(
                         self.id,
