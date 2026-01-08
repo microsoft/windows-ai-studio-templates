@@ -51,30 +51,6 @@
       ]
     },
     {
-      "label": "Run Agent/Workflow in Terminal",
-      "type": "shell",
-      "command": "${command:python.interpreterPath} -m debugpy --listen 127.0.0.1:5679 workflow.py",
-      "isBackground": true,
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
-      "problemMatcher": {
-        "pattern": [
-          {
-            "regexp": "^.*$",
-            "file": 0,
-            "location": 1,
-            "message": 2
-          }
-        ],
-        "background": {
-          "activeOnStart": true,
-          "beginsPattern": ".*",
-          "endsPattern": "Application startup complete|running on|Running workflow agent in CLI mode"
-        }
-      }
-    },
-    {
       "label": "Terminate All Tasks",
       "command": "echo ${input:terminate}",
       "type": "shell",
