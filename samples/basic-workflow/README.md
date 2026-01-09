@@ -24,7 +24,13 @@ basic-workflow/
 
 ## Setup
 
-### 1. Install Dependencies
+### Quick Setup with Copilot
+
+Click [Setup Debug Environment](vscode://ms-windows-ai-studio.windows-ai-studio/setup_debug) to automatically configure your debug environment with GitHub Copilot.
+
+### Manual Setup
+
+#### 1. Install Dependencies
 
 **Important**: The `--pre` flag is required while Agent Framework is in preview.
 
@@ -32,7 +38,7 @@ basic-workflow/
 pip install -r requirements.txt --pre
 ```
 
-### 2. Configure Environment
+#### 2. Configure Environment
 
 Copy [.env.example](.env.example) to `.env` and update with your Foundry project details:
 
