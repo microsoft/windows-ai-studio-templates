@@ -58,16 +58,16 @@ Press **F5** in VS Code to start debugging. This will:
 
 ### Option 2: Run in Terminal
 
-Run directly in terminal for quick testing:
+Run as HTTP server (default):
 
 ```bash
 python workflow.py
 ```
 
-Or run as an HTTP server:
+Or run in CLI mode for quick testing:
 
 ```bash
-python workflow.py --server
+python workflow.py --cli
 ```
 
 ## Next Steps

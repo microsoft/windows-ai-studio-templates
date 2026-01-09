@@ -159,13 +159,8 @@ async def main():
             # Convert workflow to agent for HTTP server mode
             agent = workflow.as_agent(name="WriterReviewerWorkflow")
             
-            # Check if running in server mode
-            if "--server" in sys.argv:
-                print("Starting workflow agent HTTP server...")
-                from azure.ai.agentserver.agentframework import from_agent_framework
-                
-                await from_agent_framework(agent).run_async()
-            else:
+            # Check if running in CLI mode (default is server mode)
+            if "--cli" in sys.argv:
                 # CLI mode for testing
                 print("Running workflow agent in CLI mode...")
                 
@@ -181,6 +176,12 @@ async def main():
                         author = msg.author_name or "Assistant"
                         print(f"\n{author}:")
                         print(msg.text)
+            else:
+                # Server mode (default)
+                print("Starting workflow agent HTTP server...")
+                from azure.ai.agentserver.agentframework import from_agent_framework
+                
+                await from_agent_framework(agent).run_async()
 
 
 if __name__ == "__main__":
