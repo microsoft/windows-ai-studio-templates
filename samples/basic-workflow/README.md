@@ -12,9 +12,9 @@ User Input → Writer Agent → Reviewer Agent → Final Output
 ## Prerequisites
 
 - [Python 3.10 or higher](https://www.python.org/downloads/)
-- [Python VS Code extension](https://marketplace.visualstudio.com/items?itemName=ms-windows-ai-studio.windows-ai-studio)
+- [Python VS Code extension](https://marketplace.visualstudio.com/items?itemName=ms-python.python)
 - [AI Toolkit VS Code extension](https://marketplace.visualstudio.com/items?itemName=ms-windows-ai-studio.windows-ai-studio)
-- [Microsoft Foundry Extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.azure-ai-foundry) with [a default project configured and a deployed model](https://learn.microsoft.com/azure/ai-foundry/how-to/develop/get-started-projects-vs-code?view=foundry)
+- [Microsoft Foundry Extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.azure-ai-foundry) with [a default project configured and a deployed model](https://learn.microsoft.com/azure/ai-foundry/how-to/develop/get-started-projects-vs-code)
 - [Azure CLI installed](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli) and [authenticated (for Azure credential authentication)](https://learn.microsoft.com/en-us/cli/azure/authenticate-azure-cli)
 
 ## Setup
