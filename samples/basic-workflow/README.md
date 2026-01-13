@@ -1,36 +1,44 @@
-# Simple Workflow Agent: Writer → Reviewer
+# Simple Workflow Agent
 
-A production-ready workflow agent built with Microsoft Agent Framework SDK demonstrating sequential agent collaboration.
-
-## Project Structure
+This sample demonstrates a **sequential two-agent workflow** pattern using the [Microsoft Agent Framework](https://github.com/microsoft/agent-framework):
 
 ```
-basic-workflow/
-├── workflow.py              # Main workflow implementation
-├── .env.example             # Environment configuration template
-├── requirements.txt         # Python dependencies
-├── README.md                # This file
-└── .vscode/
-    ├── launch.json         # Debug configurations
-    └── tasks.json          # Build/run tasks
+User Input → Writer Agent → Reviewer Agent → Final Output
 ```
+
+* **Writer Agent** - Receives the user's request and generates clear, engaging content
+* **Reviewer Agent** - Reviews the writer's content and provides constructive feedback on clarity, completeness, and quality
 
 ## Prerequisites
 
-- Python 3.10 or higher
-- VS Code with AI Toolkit extension installed
-- Microsoft Foundry project with deployed model
-- Azure authentication configured (`az login`)
+- [Python 3.10 or higher](https://www.python.org/downloads/)
+- [Python VS Code extension](https://marketplace.visualstudio.com/items?itemName=ms-windows-ai-studio.windows-ai-studio)
+- [AI Toolkit VS Code extension](https://marketplace.visualstudio.com/items?itemName=ms-windows-ai-studio.windows-ai-studio)
+- [Microsoft Foundry Extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.azure-ai-foundry) with [a default project configured and a deployed model](https://learn.microsoft.com/azure/ai-foundry/how-to/develop/get-started-projects-vs-code?view=foundry)
+- [Azure CLI installed](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli) and [authenticated (for Azure credential authentication)](https://learn.microsoft.com/en-us/cli/azure/authenticate-azure-cli)
 
 ## Setup
 
-### Quick Setup with Copilot
+### Option 1: Quick Setup with Copilot
 
 Click [Setup Debug Environment](vscode://ms-windows-ai-studio.windows-ai-studio/setup_debug) to automatically configure your debug environment with GitHub Copilot.
 
-### Manual Setup
+### Option 2: Manual Setup
 
-#### 1. Install Dependencies
+#### 1. Create a Python Virtual Environment
+
+You can [create a virtual environment using the Python extension](https://code.visualstudio.com/docs/python/environments#_creating-environments) or by running the following command in the terminal:
+
+```bash
+python -m venv .venv
+```
+
+Then activate the virtual environment:
+
+- **Windows**: `.venv\Scripts\activate`
+- **macOS/Linux**: `source .venv/bin/activate`
+
+#### 2. Install Dependencies
 
 **Important**: The `--pre` flag is required while Agent Framework is in preview.
 
@@ -38,7 +46,7 @@ Click [Setup Debug Environment](vscode://ms-windows-ai-studio.windows-ai-studio/
 pip install -r requirements.txt --pre
 ```
 
-#### 2. Configure Environment
+#### 3. Configure Environment
 
 Copy [.env.example](.env.example) to `.env` and update with your Foundry project details:
 
@@ -103,8 +111,7 @@ Verify your model deployment:
 ## Learn More
 
 - [Agent Framework Documentation](https://github.com/microsoft/agent-framework)
-- [Microsoft Foundry](https://ai.azure.com)
-- [AI Toolkit for VS Code](https://marketplace.visualstudio.com/items?itemName=ms-toolsai.vscode-ai-tools)
+- [AI Toolkit Agent Test Tool](http://aka.ms/AIToolkit/doc/test-tool)
 
 ## Support
 
