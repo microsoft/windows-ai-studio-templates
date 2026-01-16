@@ -53,7 +53,7 @@ FOUNDRY_MODEL_DEPLOYMENT_NAME=<your-model-deployment-name>
 
 Press **F5** in VS Code to start debugging. This will:
 1. Start the HTTP server with debugging enabled
-2. Open the AI Toolkit Test Tool for interactive testing
+2. Open the AI Toolkit Agent Inspector for interactive testing
 3. Allow you to set breakpoints and inspect the workflow
 
 ### Option 2: Run in Terminal

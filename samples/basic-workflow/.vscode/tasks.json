@@ -40,9 +40,9 @@
       }
     },
     {
-      "label": "Open Test Tool",
+      "label": "Open Agent Inspector",
       "type": "shell",
-      "command": "echo '${input:openTestTool}'",
+      "command": "echo '${input:openAgentInspector}'",
       "presentation": {
         "reveal": "never"
       },
@@ -59,7 +59,7 @@
   ],
   "inputs": [
     {
-      "id": "openTestTool",
+      "id": "openAgentInspector",
       "type": "command",
       "command": "ai-mlstudio.openTestTool",
       "args": {

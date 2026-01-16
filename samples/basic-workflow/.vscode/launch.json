@@ -9,7 +9,7 @@
         "host": "localhost",
         "port": 5679
       },
-      "preLaunchTask": "Open Test Tool",
+      "preLaunchTask": "Open Agent Inspector",
       "internalConsoleOptions": "neverOpen",
       "postDebugTask": "Terminate All Tasks"
     }
