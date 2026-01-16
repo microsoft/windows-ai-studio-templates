@@ -1,8 +1,9 @@
-# Agent Framework SDK (preview)
-agent-framework-azure-ai
-
 # HTTP Server for production deployment
 azure-ai-agentserver-agentframework
+
+# Agent Framework SDK (preview)
+agent-framework-core==1.0.0b260107
+agent-framework-azure-ai==1.0.0b260107
 
 # Environment variable management
 python-dotenv
