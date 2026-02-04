@@ -1,6 +1,6 @@
 # HTTP Server for production deployment
-azure-ai-agentserver-agentframework==1.0.0b7
-azure-ai-agentserver-core==1.0.0b7
+azure-ai-agentserver-agentframework==1.0.0b10
+azure-ai-agentserver-core==1.0.0b10
 
 # Agent Framework SDK (preview)
 agent-framework-core==1.0.0b260107
