@@ -2,16 +2,21 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Debug Local Workflow HTTP Server",
+      // preferred - debug HTTP server mode
+      "name": "Debug Local Agent/Workflow HTTP Server",
       "type": "debugpy",
       "request": "attach",
       "connect": {
         "host": "localhost",
+        // the same debugpy port as in tasks.json
         "port": 5679
       },
+      // run the tasks before launching debugger
       "preLaunchTask": "Open Agent Inspector",
       "internalConsoleOptions": "neverOpen",
+      "justMyCode": false,
+      // terminate all tasks after debugging session ends
       "postDebugTask": "Terminate All Tasks"
-    }
+    },
   ]
 }

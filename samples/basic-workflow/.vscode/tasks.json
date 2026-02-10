@@ -15,7 +15,7 @@
     {
       "label": "Run Agent/Workflow HTTP Server",
       "type": "shell",
-      "command": "${command:python.interpreterPath} -m debugpy --listen 127.0.0.1:5679 -m agentdev run workflow.py --verbose --port 8087",
+      "command": "${command:python.interpreterPath} -m debugpy --listen 127.0.0.1:5679 -m agentdev run edge_conditions.py --verbose --port 8087",
       "isBackground": true,
       "options": {
         "cwd": "${workspaceFolder}"
