@@ -77,6 +77,10 @@ def main():
         copy_folder(model, models_dir, olive_recipes_dir, copy_license=True)
     for model in list["template_models"]:
         copy_folder(model, models_dir, olive_recipes_dir)
+    for model in list.get("hf_templates", []):
+        copy_folder(model, models_dir, olive_recipes_dir)
+    for model in list.get("local_templates", []):
+        copy_folder(model, models_dir, olive_recipes_dir)
 
     print(f"Copying model list from {olive_list} to {models_dir / 'model_list.json'}")
     shutil.copyfile(
