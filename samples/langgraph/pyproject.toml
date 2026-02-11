@@ -1,18 +1,18 @@
 [project]
-name = "basic-workflow"
+name = "basic-langgraph"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
-    "agent-framework-azure-ai==1.0.0b260107",
-    "agent-framework-core==1.0.0b260107",
-    "azure-ai-agentserver-agentframework==1.0.0b10",
+    "agent-dev-cli",
     "azure-ai-agentserver-core==1.0.0b10",
+    "azure-ai-agentserver-langgraph==1.0.0b10",
     "azure-identity>=1.26.0b1",
     "azure-monitor-opentelemetry>=1.8.2",
     "debugpy>=1.8.20",
     "python-dotenv>=1.2.1",
+    "websockets>=16.0",
 ]
 [tool.uv]
 prerelease = "allow"
