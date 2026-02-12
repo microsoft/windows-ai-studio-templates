@@ -13,6 +13,7 @@ dependencies = [
     "azure-monitor-opentelemetry>=1.8.2",
     "debugpy>=1.8.20",
     "python-dotenv>=1.2.1",
+    "agent-dev-cli[agent-framework]",
 ]
 [tool.uv]
 prerelease = "allow"
