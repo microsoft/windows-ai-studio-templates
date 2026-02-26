@@ -1,0 +1,13 @@
+# HTTP Server for production deployment
+azure-ai-agentserver-core==1.0.0b10
+azure-ai-agentserver-langgraph==1.0.0b10
+
+# LangGraph / LangChain dependencies
+langchain-openai
+langgraph
+
+# Environment variable management
+python-dotenv
+
+# Debugging support
+debugpy
