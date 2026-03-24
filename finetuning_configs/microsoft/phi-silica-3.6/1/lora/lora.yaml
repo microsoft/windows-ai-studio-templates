@@ -28,3 +28,6 @@ num_warmup_steps: 400
 save_steps: 64
 seed: 42
 weight_decay: 0
+compare_enabled: false
+compare_file: "mount/<run_id>/<compare_file>"
+compare_temperature: !!float 0.9
