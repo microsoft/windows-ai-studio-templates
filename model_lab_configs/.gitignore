@@ -1,7 +1,9 @@
 /commit_id.txt
 /model_list.json
+/wmk_hub_catalog.json
 
 # excluded folders
 /extension
 /huggingface
 /requirements
+/winml

@@ -70,6 +70,21 @@ def main():
     print(f"Copying requirements from {olive_recipes_dir / '.aitk' / 'requirements'} to {models_dir / 'requirements'}")
     shutil.copytree(olive_recipes_dir / ".aitk" / "requirements", models_dir / "requirements", dirs_exist_ok=True)
 
+    # WinML hub: per-model precision configs + flat catalog manifest. Sourced
+    # from olive-recipes/.aitk/winml and .aitk/configs/wmk_hub_catalog.json,
+    # surfaced at model_lab_configs/winml/ and model_lab_configs/wmk_hub_catalog.json
+    # for the AI Toolkit ModelLab template flow.
+    winml_src = olive_recipes_dir / ".aitk" / "winml"
+    if winml_src.exists():
+        clean_folder(models_dir / "winml")
+        print(f"Copying winml configs from {winml_src} to {models_dir / 'winml'}")
+        shutil.copytree(winml_src, models_dir / "winml", dirs_exist_ok=True)
+    wmk_catalog_src = olive_configs_dir / "wmk_hub_catalog.json"
+    if wmk_catalog_src.exists():
+        wmk_catalog_dst = models_dir / "wmk_hub_catalog.json"
+        print(f"Copying {wmk_catalog_src} to {wmk_catalog_dst}")
+        shutil.copyfile(wmk_catalog_src, wmk_catalog_dst)
+
     with open(olive_list, "r") as f:
         list = json.load(f)
 
