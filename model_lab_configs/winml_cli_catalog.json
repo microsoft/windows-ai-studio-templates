@@ -1,0 +1,74 @@
+[
+  {
+    "model_id": "BAAI/bge-large-en-v1.5",
+    "description": "High-capacity English text embedding model (335M params) for semantic similarity.",
+    "model_type": "bert",
+    "task": "sentence-similarity"
+  },
+  {
+    "model_id": "cardiffnlp/twitter-roberta-base-sentiment-latest",
+    "description": "RoBERTa model fine-tuned on ~124M tweets for sentiment analysis (positive/negative/neutral).",
+    "model_type": "roberta",
+    "task": "text-classification"
+  },
+  {
+    "model_id": "deepset/roberta-base-squad2",
+    "description": "RoBERTa-base fine-tuned on SQuAD 2.0 for extractive question answering.",
+    "model_type": "roberta",
+    "task": "question-answering"
+  },
+  {
+    "model_id": "deepset/tinyroberta-squad2",
+    "description": "Compact RoBERTa model fine-tuned on SQuAD 2.0 for lightweight question answering.",
+    "model_type": "roberta",
+    "task": "question-answering"
+  },
+  {
+    "model_id": "facebook/dinov2-base",
+    "description": "DINOv2 base self-supervised vision model for general-purpose image feature extraction.",
+    "model_type": "dinov2",
+    "task": "image-feature-extraction"
+  },
+  {
+    "model_id": "facebook/dinov2-small",
+    "description": "DINOv2 small self-supervised vision model for efficient image feature extraction.",
+    "model_type": "dinov2",
+    "task": "image-feature-extraction"
+  },
+  {
+    "model_id": "google/vit-base-patch16-224-in21k",
+    "description": "Vision Transformer base pretrained on ImageNet-21k for image feature extraction.",
+    "model_type": "vit",
+    "task": "image-feature-extraction"
+  },
+  {
+    "model_id": "laion/CLIP-ViT-B-32-laion2B-s34B-b79K",
+    "description": "LAION CLIP ViT-B/32 trained on 2B image-text pairs for joint image/text feature extraction.",
+    "model_type": "clip",
+    "task": "feature-extraction"
+  },
+  {
+    "model_id": "microsoft/rad-dino",
+    "description": "DINOv2-based vision model fine-tuned on chest X-rays for radiology feature extraction.",
+    "model_type": "dinov2",
+    "task": "image-feature-extraction"
+  },
+  {
+    "model_id": "openai/clip-vit-base-patch16",
+    "description": "CLIP ViT-B/16 model for joint image-text embeddings with 16x16 patch size.",
+    "model_type": "clip",
+    "task": "feature-extraction"
+  },
+  {
+    "model_id": "sentence-transformers/all-MiniLM-L6-v2",
+    "description": "Lightweight sentence embedding model mapping text to 384-dim dense vectors.",
+    "model_type": "bert",
+    "task": "feature-extraction"
+  },
+  {
+    "model_id": "sentence-transformers/all-MiniLM-L6-v2",
+    "description": "Lightweight sentence embedding model optimized for semantic similarity tasks.",
+    "model_type": "bert",
+    "task": "sentence-similarity"
+  }
+]
