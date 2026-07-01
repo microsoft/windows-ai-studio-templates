@@ -1,15 +1,81 @@
 [
   {
+    "model_id": "ahotrod/electra_large_discriminator_squad2_512",
+    "description": "ELECTRA-large discriminator fine-tuned on SQuAD 2.0 with 512-token context for extractive question answering.",
+    "model_type": "electra",
+    "task": "question-answering"
+  },
+  {
+    "model_id": "apple/mobilevit-small",
+    "description": "Lightweight MobileViT-small hybrid CNN/transformer model for efficient image classification.",
+    "model_type": "mobilevit",
+    "task": "image-classification"
+  },
+  {
+    "model_id": "BAAI/bge-base-en-v1.5",
+    "description": "English text embedding model (109M params) for general-purpose feature extraction.",
+    "model_type": "bert",
+    "task": "feature-extraction"
+  },
+  {
+    "model_id": "BAAI/bge-base-en-v1.5",
+    "description": "English text embedding model (109M params) for semantic similarity.",
+    "model_type": "bert",
+    "task": "sentence-similarity"
+  },
+  {
     "model_id": "BAAI/bge-large-en-v1.5",
     "description": "High-capacity English text embedding model (335M params) for semantic similarity.",
     "model_type": "bert",
     "task": "sentence-similarity"
   },
   {
+    "model_id": "BAAI/bge-m3",
+    "description": "Multilingual, multi-granularity BGE-M3 embedding model for feature extraction across 100+ languages.",
+    "model_type": "xlm-roberta",
+    "task": "feature-extraction"
+  },
+  {
+    "model_id": "BAAI/bge-m3",
+    "description": "Multilingual BGE-M3 embedding model for semantic similarity across 100+ languages.",
+    "model_type": "xlm-roberta",
+    "task": "sentence-similarity"
+  },
+  {
+    "model_id": "BAAI/bge-small-en-v1.5",
+    "description": "Compact English text embedding model (33M params) for efficient feature extraction.",
+    "model_type": "bert",
+    "task": "feature-extraction"
+  },
+  {
+    "model_id": "BAAI/bge-small-en-v1.5",
+    "description": "Compact English text embedding model (33M params) for semantic similarity.",
+    "model_type": "bert",
+    "task": "sentence-similarity"
+  },
+  {
+    "model_id": "Babelscape/wikineural-multilingual-ner",
+    "description": "Multilingual BERT fine-tuned on WikiNEuRal for named entity recognition across 9 languages.",
+    "model_type": "bert",
+    "task": "token-classification"
+  },
+  {
     "model_id": "cardiffnlp/twitter-roberta-base-sentiment-latest",
     "description": "RoBERTa model fine-tuned on ~124M tweets for sentiment analysis (positive/negative/neutral).",
     "model_type": "roberta",
     "task": "text-classification"
+  },
+  {
+    "model_id": "dbmdz/bert-large-cased-finetuned-conll03-english",
+    "description": "BERT-large fine-tuned on CoNLL-03 for English named entity recognition.",
+    "model_type": "bert",
+    "task": "token-classification"
+  },
+  {
+    "model_id": "deepset/bert-large-uncased-whole-word-masking-squad2",
+    "description": "BERT-large with whole-word masking fine-tuned on SQuAD 2.0 for extractive question answering.",
+    "model_type": "bert",
+    "task": "question-answering"
   },
   {
     "model_id": "deepset/roberta-base-squad2",
@@ -24,8 +90,56 @@
     "task": "question-answering"
   },
   {
+    "model_id": "dima806/fairface_age_image_detection",
+    "description": "Vision Transformer fine-tuned on FairFace for age-group image classification.",
+    "model_type": "vit",
+    "task": "image-classification"
+  },
+  {
+    "model_id": "distilbert/distilbert-base-cased-distilled-squad",
+    "description": "Cased DistilBERT distilled on SQuAD for fast extractive question answering.",
+    "model_type": "distilbert",
+    "task": "question-answering"
+  },
+  {
+    "model_id": "distilbert/distilbert-base-uncased",
+    "description": "Uncased DistilBERT base model for masked language modeling.",
+    "model_type": "distilbert",
+    "task": "fill-mask"
+  },
+  {
+    "model_id": "distilbert/distilbert-base-uncased-distilled-squad",
+    "description": "Uncased DistilBERT distilled on SQuAD for fast extractive question answering.",
+    "model_type": "distilbert",
+    "task": "question-answering"
+  },
+  {
+    "model_id": "distilbert/distilbert-base-uncased-finetuned-sst-2-english",
+    "description": "DistilBERT fine-tuned on SST-2 for English binary sentiment classification.",
+    "model_type": "distilbert",
+    "task": "text-classification"
+  },
+  {
+    "model_id": "dslim/bert-base-NER",
+    "description": "BERT-base fine-tuned on CoNLL-03 for named entity recognition.",
+    "model_type": "bert",
+    "task": "token-classification"
+  },
+  {
+    "model_id": "facebook/convnext-tiny-224",
+    "description": "ConvNeXt-tiny modern CNN trained on ImageNet for image classification.",
+    "model_type": "convnext",
+    "task": "image-classification"
+  },
+  {
     "model_id": "facebook/dinov2-base",
     "description": "DINOv2 base self-supervised vision model for general-purpose image feature extraction.",
+    "model_type": "dinov2",
+    "task": "image-feature-extraction"
+  },
+  {
+    "model_id": "facebook/dinov2-large",
+    "description": "DINOv2 large self-supervised vision model for high-quality image feature extraction.",
     "model_type": "dinov2",
     "task": "image-feature-extraction"
   },
@@ -36,10 +150,100 @@
     "task": "image-feature-extraction"
   },
   {
+    "model_id": "facebook/dino-vitb16",
+    "description": "DINO self-supervised ViT-B/16 vision model for image feature extraction.",
+    "model_type": "vit",
+    "task": "image-feature-extraction"
+  },
+  {
+    "model_id": "facebook/dino-vits16",
+    "description": "DINO self-supervised ViT-S/16 vision model for efficient image feature extraction.",
+    "model_type": "vit",
+    "task": "image-feature-extraction"
+  },
+  {
+    "model_id": "FacebookAI/roberta-base",
+    "description": "RoBERTa-base model for masked language modeling.",
+    "model_type": "roberta",
+    "task": "fill-mask"
+  },
+  {
+    "model_id": "FacebookAI/roberta-large",
+    "description": "RoBERTa-large model for masked language modeling.",
+    "model_type": "roberta",
+    "task": "fill-mask"
+  },
+  {
+    "model_id": "FacebookAI/xlm-roberta-base",
+    "description": "Multilingual XLM-RoBERTa base model for masked language modeling across 100 languages.",
+    "model_type": "xlm-roberta",
+    "task": "fill-mask"
+  },
+  {
+    "model_id": "google/vit-base-patch16-224",
+    "description": "Vision Transformer base fine-tuned on ImageNet-1k for image classification.",
+    "model_type": "vit",
+    "task": "image-classification"
+  },
+  {
     "model_id": "google/vit-base-patch16-224-in21k",
     "description": "Vision Transformer base pretrained on ImageNet-21k for image feature extraction.",
     "model_type": "vit",
     "task": "image-feature-extraction"
+  },
+  {
+    "model_id": "google-bert/bert-base-multilingual-cased",
+    "description": "Cased multilingual BERT base model for feature extraction across 104 languages.",
+    "model_type": "bert",
+    "task": "feature-extraction"
+  },
+  {
+    "model_id": "google-bert/bert-base-multilingual-cased",
+    "description": "Cased multilingual BERT base model for masked language modeling across 104 languages.",
+    "model_type": "bert",
+    "task": "fill-mask"
+  },
+  {
+    "model_id": "google-bert/bert-base-multilingual-uncased",
+    "description": "Uncased multilingual BERT base model for masked language modeling across 102 languages.",
+    "model_type": "bert",
+    "task": "fill-mask"
+  },
+  {
+    "model_id": "google-bert/bert-base-uncased",
+    "description": "Uncased BERT base model for masked language modeling.",
+    "model_type": "bert",
+    "task": "fill-mask"
+  },
+  {
+    "model_id": "google-bert/bert-large-uncased-whole-word-masking-finetuned-squad",
+    "description": "BERT-large with whole-word masking fine-tuned on SQuAD for extractive question answering.",
+    "model_type": "bert",
+    "task": "question-answering"
+  },
+  {
+    "model_id": "Intel/bert-base-uncased-mrpc",
+    "description": "BERT-base fine-tuned on MRPC for feature extraction.",
+    "model_type": "bert",
+    "task": "feature-extraction"
+  },
+  {
+    "model_id": "Intel/bert-base-uncased-mrpc",
+    "description": "BERT-base fine-tuned on MRPC for paraphrase text classification.",
+    "model_type": "bert",
+    "task": "text-classification"
+  },
+  {
+    "model_id": "Isotonic/distilbert_finetuned_ai4privacy_v2",
+    "description": "DistilBERT fine-tuned on ai4privacy for PII detection via token classification.",
+    "model_type": "distilbert",
+    "task": "token-classification"
+  },
+  {
+    "model_id": "joeddav/xlm-roberta-large-xnli",
+    "description": "XLM-RoBERTa-large fine-tuned on XNLI for multilingual zero-shot classification.",
+    "model_type": "xlm-roberta",
+    "task": "zero-shot-classification"
   },
   {
     "model_id": "laion/CLIP-ViT-B-32-laion2B-s34B-b79K",
@@ -48,16 +252,136 @@
     "task": "feature-extraction"
   },
   {
+    "model_id": "mattmdjaga/segformer_b2_clothes",
+    "description": "SegFormer-B2 fine-tuned for clothing and human-part image segmentation.",
+    "model_type": "segformer",
+    "task": "image-segmentation"
+  },
+  {
     "model_id": "microsoft/rad-dino",
     "description": "DINOv2-based vision model fine-tuned on chest X-rays for radiology feature extraction.",
     "model_type": "dinov2",
     "task": "image-feature-extraction"
   },
   {
+    "model_id": "microsoft/resnet-18",
+    "description": "ResNet-18 CNN trained on ImageNet for image classification.",
+    "model_type": "resnet",
+    "task": "image-classification"
+  },
+  {
+    "model_id": "microsoft/resnet-50",
+    "description": "ResNet-50 CNN trained on ImageNet for image classification.",
+    "model_type": "resnet",
+    "task": "image-classification"
+  },
+  {
+    "model_id": "microsoft/swin-large-patch4-window7-224",
+    "description": "Swin Transformer large hierarchical vision model for image classification.",
+    "model_type": "swin",
+    "task": "image-classification"
+  },
+  {
+    "model_id": "microsoft/swinv2-tiny-patch4-window16-256",
+    "description": "Swin Transformer V2 tiny hierarchical vision model for image classification.",
+    "model_type": "swinv2",
+    "task": "image-classification"
+  },
+  {
+    "model_id": "microsoft/trocr-base-handwritten",
+    "description": "TrOCR base encoder-decoder model for handwritten text recognition (OCR).",
+    "model_type": "vision-encoder-decoder",
+    "task": "image-to-text"
+  },
+  {
+    "model_id": "microsoft/trocr-base-printed",
+    "description": "TrOCR base encoder-decoder model for printed text recognition (OCR).",
+    "model_type": "vision-encoder-decoder",
+    "task": "image-to-text"
+  },
+  {
+    "model_id": "microsoft/trocr-large-handwritten",
+    "description": "TrOCR large encoder-decoder model for high-accuracy handwritten text recognition (OCR).",
+    "model_type": "vision-encoder-decoder",
+    "task": "image-to-text"
+  },
+  {
+    "model_id": "microsoft/trocr-large-printed",
+    "description": "TrOCR large encoder-decoder model for high-accuracy printed text recognition (OCR).",
+    "model_type": "vision-encoder-decoder",
+    "task": "image-to-text"
+  },
+  {
+    "model_id": "monologg/koelectra-small-v2-distilled-korquad-384",
+    "description": "Compact KoELECTRA distilled on KorQuAD for Korean extractive question answering.",
+    "model_type": "electra",
+    "task": "question-answering"
+  },
+  {
+    "model_id": "nvidia/segformer-b1-finetuned-ade-512-512",
+    "description": "SegFormer-B1 fine-tuned on ADE20K for semantic image segmentation.",
+    "model_type": "segformer",
+    "task": "image-segmentation"
+  },
+  {
+    "model_id": "nvidia/segformer-b2-finetuned-ade-512-512",
+    "description": "SegFormer-B2 fine-tuned on ADE20K for semantic image segmentation.",
+    "model_type": "segformer",
+    "task": "image-segmentation"
+  },
+  {
+    "model_id": "nvidia/segformer-b5-finetuned-ade-640-640",
+    "description": "SegFormer-B5 fine-tuned on ADE20K for high-resolution semantic image segmentation.",
+    "model_type": "segformer",
+    "task": "image-segmentation"
+  },
+  {
     "model_id": "openai/clip-vit-base-patch16",
     "description": "CLIP ViT-B/16 model for joint image-text embeddings with 16x16 patch size.",
     "model_type": "clip",
     "task": "feature-extraction"
+  },
+  {
+    "model_id": "openai/clip-vit-base-patch16",
+    "description": "CLIP ViT-B/16 model for zero-shot image classification with 16x16 patch size.",
+    "model_type": "clip",
+    "task": "zero-shot-image-classification"
+  },
+  {
+    "model_id": "openai/clip-vit-base-patch32",
+    "description": "CLIP ViT-B/32 model for joint image-text feature extraction with 32x32 patch size.",
+    "model_type": "clip",
+    "task": "feature-extraction"
+  },
+  {
+    "model_id": "openai/clip-vit-large-patch14",
+    "description": "CLIP ViT-L/14 model for high-quality zero-shot image classification.",
+    "model_type": "clip",
+    "task": "zero-shot-image-classification"
+  },
+  {
+    "model_id": "openai/clip-vit-large-patch14-336",
+    "description": "CLIP ViT-L/14 model at 336px resolution for high-quality zero-shot image classification.",
+    "model_type": "clip",
+    "task": "zero-shot-image-classification"
+  },
+  {
+    "model_id": "ProsusAI/finbert",
+    "description": "FinBERT fine-tuned for financial sentiment text classification.",
+    "model_type": "bert",
+    "task": "text-classification"
+  },
+  {
+    "model_id": "rizvandwiki/gender-classification",
+    "description": "Vision Transformer fine-tuned for gender image classification.",
+    "model_type": "vit",
+    "task": "image-classification"
+  },
+  {
+    "model_id": "Salesforce/blip-image-captioning-base",
+    "description": "BLIP base vision-language model for image captioning.",
+    "model_type": "blip",
+    "task": "image-to-text"
   },
   {
     "model_id": "sentence-transformers/all-MiniLM-L6-v2",
@@ -70,5 +394,59 @@
     "description": "Lightweight sentence embedding model optimized for semantic similarity tasks.",
     "model_type": "bert",
     "task": "sentence-similarity"
+  },
+  {
+    "model_id": "sentence-transformers/all-mpnet-base-v2",
+    "description": "MPNet-based sentence embedding model mapping text to 768-dim dense vectors.",
+    "model_type": "mpnet",
+    "task": "feature-extraction"
+  },
+  {
+    "model_id": "sentence-transformers/all-mpnet-base-v2",
+    "description": "MPNet-based sentence embedding model optimized for semantic similarity.",
+    "model_type": "mpnet",
+    "task": "sentence-similarity"
+  },
+  {
+    "model_id": "sentence-transformers/multi-qa-mpnet-base-dot-v1",
+    "description": "MPNet sentence embedding model tuned for semantic search feature extraction.",
+    "model_type": "mpnet",
+    "task": "feature-extraction"
+  },
+  {
+    "model_id": "sentence-transformers/multi-qa-mpnet-base-dot-v1",
+    "description": "MPNet sentence embedding model tuned for semantic search and similarity.",
+    "model_type": "mpnet",
+    "task": "sentence-similarity"
+  },
+  {
+    "model_id": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+    "description": "Multilingual MiniLM sentence embedding model for feature extraction across 50+ languages.",
+    "model_type": "bert",
+    "task": "feature-extraction"
+  },
+  {
+    "model_id": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+    "description": "Multilingual MiniLM sentence embedding model for semantic similarity across 50+ languages.",
+    "model_type": "bert",
+    "task": "sentence-similarity"
+  },
+  {
+    "model_id": "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
+    "description": "Multilingual MPNet sentence embedding model for semantic similarity across 50+ languages.",
+    "model_type": "xlm-roberta",
+    "task": "sentence-similarity"
+  },
+  {
+    "model_id": "StanfordAIMI/dinov2-base-xray-224",
+    "description": "DINOv2 base vision model fine-tuned on chest X-rays for radiology feature extraction.",
+    "model_type": "dinov2",
+    "task": "image-feature-extraction"
+  },
+  {
+    "model_id": "w11wo/indonesian-roberta-base-posp-tagger",
+    "description": "Indonesian RoBERTa fine-tuned for part-of-speech token classification.",
+    "model_type": "roberta",
+    "task": "token-classification"
   }
 ]

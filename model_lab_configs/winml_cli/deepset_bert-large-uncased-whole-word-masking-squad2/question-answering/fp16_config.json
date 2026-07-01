@@ -1,0 +1,82 @@
+{
+  "export": {
+    "opset_version": 17,
+    "batch_size": 1,
+    "export_params": true,
+    "do_constant_folding": true,
+    "verbose": false,
+    "dynamo": false,
+    "enable_hierarchy_tags": true,
+    "clean_onnx": false,
+    "hierarchy_tag_format": "full",
+    "input_tensors": [
+      {
+        "name": "input_ids",
+        "dtype": "int32",
+        "shape": [
+          1,
+          512
+        ],
+        "value_range": [
+          0,
+          30522
+        ]
+      },
+      {
+        "name": "attention_mask",
+        "dtype": "int32",
+        "shape": [
+          1,
+          512
+        ],
+        "value_range": [
+          0,
+          2
+        ]
+      },
+      {
+        "name": "token_type_ids",
+        "dtype": "int32",
+        "shape": [
+          1,
+          512
+        ],
+        "value_range": [
+          0,
+          2
+        ]
+      }
+    ],
+    "output_tensors": [
+      {
+        "name": "start_logits"
+      },
+      {
+        "name": "end_logits"
+      }
+    ]
+  },
+  "optim": {
+    "clamp_constant_values": true
+  },
+  "quant": null,
+  "loader": {
+    "task": "question-answering",
+    "model_class": "AutoModelForQuestionAnswering",
+    "model_type": "bert"
+  },
+  "eval": {
+    "task": "question-answering",
+    "dataset": {
+      "path": "rajpurkar/squad_v2",
+      "split": "validation",
+      "samples": 100,
+      "columns_mapping": {
+        "question_column": "question",
+        "context_column": "context",
+        "id_column": "id",
+        "label_column": "answers"
+      }
+    }
+  }
+}

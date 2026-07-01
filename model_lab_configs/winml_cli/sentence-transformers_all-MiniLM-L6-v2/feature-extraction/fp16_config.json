@@ -67,6 +67,7 @@
     "dataset": {
       "path": "mteb/stsbenchmark-sts",
       "split": "test",
+      "samples": 100,
       "columns_mapping": {
         "input_column_1": "sentence1",
         "input_column_2": "sentence2",

@@ -72,7 +72,7 @@
     "op_types_to_quantize": null,
     "nodes_to_exclude": null,
     "task": "sentence-similarity",
-    "model_name": "BAAI/bge-large-en-v1.5"
+    "model_id": "BAAI/bge-large-en-v1.5"
   },
   "loader": {
     "task": "sentence-similarity",
@@ -84,6 +84,7 @@
     "dataset": {
       "path": "mteb/stsbenchmark-sts",
       "split": "test",
+      "samples": 1000,
       "columns_mapping": {
         "input_column_1": "sentence1",
         "input_column_2": "sentence2",

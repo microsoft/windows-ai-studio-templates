@@ -48,7 +48,7 @@
     "op_types_to_quantize": null,
     "nodes_to_exclude": null,
     "task": "image-feature-extraction",
-    "model_name": "google/vit-base-patch16-224-in21k"
+    "model_id": "google/vit-base-patch16-224-in21k"
   },
   "loader": {
     "task": "image-feature-extraction",

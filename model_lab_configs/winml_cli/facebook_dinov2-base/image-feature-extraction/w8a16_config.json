@@ -48,7 +48,7 @@
     "op_types_to_quantize": null,
     "nodes_to_exclude": null,
     "task": "image-feature-extraction",
-    "model_name": "facebook/dinov2-base"
+    "model_id": "facebook/dinov2-base"
   },
   "loader": {
     "task": "image-feature-extraction",

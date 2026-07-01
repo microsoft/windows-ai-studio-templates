@@ -66,7 +66,7 @@
     "op_types_to_quantize": null,
     "nodes_to_exclude": null,
     "task": "feature-extraction",
-    "model_name": "laion/CLIP-ViT-B-32-laion2B-s34B-b79K"
+    "model_id": "laion/CLIP-ViT-B-32-laion2B-s34B-b79K"
   },
   "loader": {
     "task": "feature-extraction",
@@ -78,6 +78,7 @@
     "dataset": {
       "path": "mteb/stsbenchmark-sts",
       "split": "test",
+      "samples": 1000,
       "columns_mapping": {
         "input_column_1": "sentence1",
         "input_column_2": "sentence2",

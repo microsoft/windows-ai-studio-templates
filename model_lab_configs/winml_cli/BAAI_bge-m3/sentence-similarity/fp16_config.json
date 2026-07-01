@@ -1,0 +1,67 @@
+{
+  "export": {
+    "opset_version": 17,
+    "batch_size": 1,
+    "export_params": true,
+    "do_constant_folding": true,
+    "verbose": false,
+    "dynamo": false,
+    "enable_hierarchy_tags": true,
+    "clean_onnx": false,
+    "hierarchy_tag_format": "full",
+    "input_tensors": [
+      {
+        "name": "input_ids",
+        "dtype": "int32",
+        "shape": [
+          1,
+          1024
+        ],
+        "value_range": [
+          0,
+          250002
+        ]
+      },
+      {
+        "name": "attention_mask",
+        "dtype": "int32",
+        "shape": [
+          1,
+          1024
+        ],
+        "value_range": [
+          0,
+          2
+        ]
+      }
+    ],
+    "output_tensors": [
+      {
+        "name": "last_hidden_state"
+      }
+    ]
+  },
+  "optim": {
+    "clamp_constant_values": true
+  },
+  "quant": null,
+  "compile": null,
+  "loader": {
+    "task": "sentence-similarity",
+    "model_class": "AutoModel",
+    "model_type": "xlm-roberta"
+  },
+  "eval": {
+    "task": "sentence-similarity",
+    "dataset": {
+      "path": "mteb/stsbenchmark-sts",
+      "split": "test",
+      "samples": 100,
+      "columns_mapping": {
+        "input_column_1": "sentence1",
+        "input_column_2": "sentence2",
+        "score_column": "score"
+      }
+    }
+  }
+}

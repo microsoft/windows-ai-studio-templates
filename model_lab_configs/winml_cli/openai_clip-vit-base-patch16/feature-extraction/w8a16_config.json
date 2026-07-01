@@ -66,7 +66,7 @@
     "op_types_to_quantize": null,
     "nodes_to_exclude": null,
     "task": "feature-extraction",
-    "model_name": "openai/clip-vit-base-patch16"
+    "model_id": "openai/clip-vit-base-patch16"
   },
   "loader": {
     "task": "feature-extraction",
@@ -78,6 +78,7 @@
     "dataset": {
       "path": "mteb/stsbenchmark-sts",
       "split": "test",
+      "samples": 1000,
       "columns_mapping": {
         "input_column_1": "sentence1",
         "input_column_2": "sentence2",

@@ -55,6 +55,7 @@
     "dataset": {
       "path": "tweet_eval",
       "name": "sentiment",
+      "samples": 100,
       "columns_mapping": {
         "input_column": "text"
       }
