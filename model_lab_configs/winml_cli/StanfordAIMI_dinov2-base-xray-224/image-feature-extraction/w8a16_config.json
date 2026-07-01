@@ -48,7 +48,7 @@
     "op_types_to_quantize": null,
     "nodes_to_exclude": null,
     "task": "image-feature-extraction",
-    "model_id": "StanfordAIMI/dinov2-base-xray-224"
+    "model_name": "StanfordAIMI/dinov2-base-xray-224"
   },
   "compile": null,
   "loader": {

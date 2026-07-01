@@ -73,7 +73,7 @@
     "op_types_to_quantize": null,
     "nodes_to_exclude": null,
     "task": "question-answering",
-    "model_id": "ahotrod/electra_large_discriminator_squad2_512"
+    "model_name": "ahotrod/electra_large_discriminator_squad2_512"
   },
   "compile": null,
   "loader": {

@@ -73,7 +73,7 @@
     "op_types_to_quantize": null,
     "nodes_to_exclude": null,
     "task": "question-answering",
-    "model_id": "monologg/koelectra-small-v2-distilled-korquad-384"
+    "model_name": "monologg/koelectra-small-v2-distilled-korquad-384"
   },
   "compile": null,
   "loader": {
