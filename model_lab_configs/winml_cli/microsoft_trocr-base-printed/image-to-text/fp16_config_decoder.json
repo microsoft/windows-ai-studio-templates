@@ -1,0 +1,494 @@
+{
+  "export": {
+    "opset_version": 17,
+    "batch_size": 1,
+    "export_params": true,
+    "do_constant_folding": true,
+    "verbose": false,
+    "dynamo": false,
+    "enable_hierarchy_tags": true,
+    "clean_onnx": false,
+    "hierarchy_tag_format": "full",
+    "input_tensors": [
+      {
+        "name": "decoder_input_ids",
+        "dtype": "int32",
+        "shape": [
+          1,
+          1
+        ],
+        "value_range": [
+          0,
+          50265
+        ]
+      },
+      {
+        "name": "encoder_hidden_states",
+        "dtype": "float32",
+        "shape": [
+          1,
+          577,
+          768
+        ],
+        "value_range": [
+          0,
+          1
+        ]
+      },
+      {
+        "name": "decoder_attention_mask",
+        "dtype": "int64",
+        "shape": [
+          1,
+          512
+        ]
+      },
+      {
+        "name": "cache_position",
+        "dtype": "int64",
+        "shape": [
+          1
+        ]
+      },
+      {
+        "name": "past_0_key",
+        "dtype": "float32",
+        "shape": [
+          1,
+          16,
+          512,
+          64
+        ],
+        "value_range": [
+          0,
+          1
+        ]
+      },
+      {
+        "name": "past_0_value",
+        "dtype": "float32",
+        "shape": [
+          1,
+          16,
+          512,
+          64
+        ],
+        "value_range": [
+          0,
+          1
+        ]
+      },
+      {
+        "name": "past_1_key",
+        "dtype": "float32",
+        "shape": [
+          1,
+          16,
+          512,
+          64
+        ],
+        "value_range": [
+          0,
+          1
+        ]
+      },
+      {
+        "name": "past_1_value",
+        "dtype": "float32",
+        "shape": [
+          1,
+          16,
+          512,
+          64
+        ],
+        "value_range": [
+          0,
+          1
+        ]
+      },
+      {
+        "name": "past_2_key",
+        "dtype": "float32",
+        "shape": [
+          1,
+          16,
+          512,
+          64
+        ],
+        "value_range": [
+          0,
+          1
+        ]
+      },
+      {
+        "name": "past_2_value",
+        "dtype": "float32",
+        "shape": [
+          1,
+          16,
+          512,
+          64
+        ],
+        "value_range": [
+          0,
+          1
+        ]
+      },
+      {
+        "name": "past_3_key",
+        "dtype": "float32",
+        "shape": [
+          1,
+          16,
+          512,
+          64
+        ],
+        "value_range": [
+          0,
+          1
+        ]
+      },
+      {
+        "name": "past_3_value",
+        "dtype": "float32",
+        "shape": [
+          1,
+          16,
+          512,
+          64
+        ],
+        "value_range": [
+          0,
+          1
+        ]
+      },
+      {
+        "name": "past_4_key",
+        "dtype": "float32",
+        "shape": [
+          1,
+          16,
+          512,
+          64
+        ],
+        "value_range": [
+          0,
+          1
+        ]
+      },
+      {
+        "name": "past_4_value",
+        "dtype": "float32",
+        "shape": [
+          1,
+          16,
+          512,
+          64
+        ],
+        "value_range": [
+          0,
+          1
+        ]
+      },
+      {
+        "name": "past_5_key",
+        "dtype": "float32",
+        "shape": [
+          1,
+          16,
+          512,
+          64
+        ],
+        "value_range": [
+          0,
+          1
+        ]
+      },
+      {
+        "name": "past_5_value",
+        "dtype": "float32",
+        "shape": [
+          1,
+          16,
+          512,
+          64
+        ],
+        "value_range": [
+          0,
+          1
+        ]
+      },
+      {
+        "name": "past_6_key",
+        "dtype": "float32",
+        "shape": [
+          1,
+          16,
+          512,
+          64
+        ],
+        "value_range": [
+          0,
+          1
+        ]
+      },
+      {
+        "name": "past_6_value",
+        "dtype": "float32",
+        "shape": [
+          1,
+          16,
+          512,
+          64
+        ],
+        "value_range": [
+          0,
+          1
+        ]
+      },
+      {
+        "name": "past_7_key",
+        "dtype": "float32",
+        "shape": [
+          1,
+          16,
+          512,
+          64
+        ],
+        "value_range": [
+          0,
+          1
+        ]
+      },
+      {
+        "name": "past_7_value",
+        "dtype": "float32",
+        "shape": [
+          1,
+          16,
+          512,
+          64
+        ],
+        "value_range": [
+          0,
+          1
+        ]
+      },
+      {
+        "name": "past_8_key",
+        "dtype": "float32",
+        "shape": [
+          1,
+          16,
+          512,
+          64
+        ],
+        "value_range": [
+          0,
+          1
+        ]
+      },
+      {
+        "name": "past_8_value",
+        "dtype": "float32",
+        "shape": [
+          1,
+          16,
+          512,
+          64
+        ],
+        "value_range": [
+          0,
+          1
+        ]
+      },
+      {
+        "name": "past_9_key",
+        "dtype": "float32",
+        "shape": [
+          1,
+          16,
+          512,
+          64
+        ],
+        "value_range": [
+          0,
+          1
+        ]
+      },
+      {
+        "name": "past_9_value",
+        "dtype": "float32",
+        "shape": [
+          1,
+          16,
+          512,
+          64
+        ],
+        "value_range": [
+          0,
+          1
+        ]
+      },
+      {
+        "name": "past_10_key",
+        "dtype": "float32",
+        "shape": [
+          1,
+          16,
+          512,
+          64
+        ],
+        "value_range": [
+          0,
+          1
+        ]
+      },
+      {
+        "name": "past_10_value",
+        "dtype": "float32",
+        "shape": [
+          1,
+          16,
+          512,
+          64
+        ],
+        "value_range": [
+          0,
+          1
+        ]
+      },
+      {
+        "name": "past_11_key",
+        "dtype": "float32",
+        "shape": [
+          1,
+          16,
+          512,
+          64
+        ],
+        "value_range": [
+          0,
+          1
+        ]
+      },
+      {
+        "name": "past_11_value",
+        "dtype": "float32",
+        "shape": [
+          1,
+          16,
+          512,
+          64
+        ],
+        "value_range": [
+          0,
+          1
+        ]
+      }
+    ],
+    "output_tensors": [
+      {
+        "name": "logits"
+      },
+      {
+        "name": "present_0_key"
+      },
+      {
+        "name": "present_0_value"
+      },
+      {
+        "name": "present_1_key"
+      },
+      {
+        "name": "present_1_value"
+      },
+      {
+        "name": "present_2_key"
+      },
+      {
+        "name": "present_2_value"
+      },
+      {
+        "name": "present_3_key"
+      },
+      {
+        "name": "present_3_value"
+      },
+      {
+        "name": "present_4_key"
+      },
+      {
+        "name": "present_4_value"
+      },
+      {
+        "name": "present_5_key"
+      },
+      {
+        "name": "present_5_value"
+      },
+      {
+        "name": "present_6_key"
+      },
+      {
+        "name": "present_6_value"
+      },
+      {
+        "name": "present_7_key"
+      },
+      {
+        "name": "present_7_value"
+      },
+      {
+        "name": "present_8_key"
+      },
+      {
+        "name": "present_8_value"
+      },
+      {
+        "name": "present_9_key"
+      },
+      {
+        "name": "present_9_value"
+      },
+      {
+        "name": "present_10_key"
+      },
+      {
+        "name": "present_10_value"
+      },
+      {
+        "name": "present_11_key"
+      },
+      {
+        "name": "present_11_value"
+      }
+    ]
+  },
+  "optim": {
+    "gelu_fusion": true,
+    "layer_norm_fusion": true,
+    "matmul_add_fusion": true,
+    "remove_isnan_in_attention_mask": true,
+    "reshape_mergedreshape": true
+  },
+  "quant": null,
+  "compile": null,
+  "loader": {
+    "task": "text2text-generation",
+    "model_class": "VisionDecoderWrapper",
+    "model_type": "vision-encoder-decoder"
+  },
+  "eval": {
+    "task": "image-to-text",
+    "dataset": {
+      "path": "priyank-m/SROIE_2019_text_recognition",
+      "split": "test",
+      "samples": 500,
+      "columns_mapping": {
+        "input_column": "image",
+        "label_column": "text"
+      }
+    }
+  }
+}

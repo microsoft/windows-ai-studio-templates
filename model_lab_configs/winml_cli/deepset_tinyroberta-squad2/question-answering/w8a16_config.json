@@ -75,6 +75,7 @@
     "dataset": {
       "path": "rajpurkar/squad_v2",
       "split": "validation",
+      "samples": 1000,
       "columns_mapping": {
         "question_column": "question",
         "context_column": "context",

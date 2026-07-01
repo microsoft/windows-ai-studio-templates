@@ -43,7 +43,7 @@
     "dataset": {
       "path": "timm/mini-imagenet",
       "split": "test",
-      "samples": 1000
+      "samples": 100
     }
   }
 }
