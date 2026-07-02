@@ -129,7 +129,7 @@ resource acajob 'Microsoft.App/jobs@2023-11-02-preview' = {
     template: {
       containers: [
         {
-          image: 'crsdcbuild2025.azurecr.io/artifact/e9623811-ed23-4d6c-8c56-a27494f2c808/buddy/phi-silica-fine-tune-containers-soft-prompt:20250730.1'
+          image: 'mcr.microsoft.com/foundrytoolkit/soft-prompt:20260630.1'
           name: acaJobName
           resources: {
             cpu: 24
