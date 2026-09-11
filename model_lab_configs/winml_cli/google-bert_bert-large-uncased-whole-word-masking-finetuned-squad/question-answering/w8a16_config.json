@@ -75,7 +75,7 @@
     "op_types_to_quantize": null,
     "nodes_to_exclude": null,
     "task": "question-answering",
-    "model_name": "google-bert/bert-large-uncased-whole-word-masking-finetuned-squad"
+    "model_id": "google-bert/bert-large-uncased-whole-word-masking-finetuned-squad"
   },
   "compile": null,
   "loader": {

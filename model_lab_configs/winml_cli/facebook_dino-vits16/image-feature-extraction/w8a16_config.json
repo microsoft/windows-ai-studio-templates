@@ -48,7 +48,7 @@
     "op_types_to_quantize": null,
     "nodes_to_exclude": null,
     "task": "image-feature-extraction",
-    "model_name": "facebook/dino-vits16"
+    "model_id": "facebook/dino-vits16"
   },
   "loader": {
     "task": "image-feature-extraction",

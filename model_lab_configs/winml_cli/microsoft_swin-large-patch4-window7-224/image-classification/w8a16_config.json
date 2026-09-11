@@ -48,7 +48,7 @@
     "op_types_to_quantize": null,
     "nodes_to_exclude": null,
     "task": "image-classification",
-    "model_name": "microsoft/swin-large-patch4-window7-224"
+    "model_id": "microsoft/swin-large-patch4-window7-224"
   },
   "compile": null,
   "loader": {

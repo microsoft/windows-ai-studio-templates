@@ -60,7 +60,7 @@
     "op_types_to_quantize": null,
     "nodes_to_exclude": null,
     "task": "text-classification",
-    "model_name": "cardiffnlp/twitter-roberta-base-sentiment-latest"
+    "model_id": "cardiffnlp/twitter-roberta-base-sentiment-latest"
   },
   "loader": {
     "task": "text-classification",
@@ -70,7 +70,7 @@
   "eval": {
     "task": "text-classification",
     "dataset": {
-      "path": "tweet_eval",
+      "path": "cardiffnlp/tweet_eval",
       "name": "sentiment",
       "samples": 1000,
       "columns_mapping": {

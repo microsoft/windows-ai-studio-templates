@@ -60,7 +60,7 @@
     "op_types_to_quantize": null,
     "nodes_to_exclude": null,
     "task": "fill-mask",
-    "model_name": "FacebookAI/roberta-large"
+    "model_id": "FacebookAI/roberta-large"
   },
   "compile": null,
   "loader": {

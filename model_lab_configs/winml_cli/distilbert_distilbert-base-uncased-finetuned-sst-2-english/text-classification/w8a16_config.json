@@ -58,7 +58,7 @@
     "op_types_to_quantize": null,
     "nodes_to_exclude": null,
     "task": "text-classification",
-    "model_name": "distilbert/distilbert-base-uncased-finetuned-sst-2-english"
+    "model_id": "distilbert/distilbert-base-uncased-finetuned-sst-2-english"
   },
   "compile": null,
   "loader": {

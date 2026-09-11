@@ -72,7 +72,7 @@
     "op_types_to_quantize": null,
     "nodes_to_exclude": null,
     "task": "fill-mask",
-    "model_name": "google-bert/bert-base-multilingual-cased"
+    "model_id": "google-bert/bert-base-multilingual-cased"
   },
   "compile": null,
   "loader": {

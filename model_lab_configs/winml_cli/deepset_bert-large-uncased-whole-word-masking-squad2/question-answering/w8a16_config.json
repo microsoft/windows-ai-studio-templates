@@ -75,7 +75,7 @@
     "op_types_to_quantize": null,
     "nodes_to_exclude": null,
     "task": "question-answering",
-    "model_name": "deepset/bert-large-uncased-whole-word-masking-squad2"
+    "model_id": "deepset/bert-large-uncased-whole-word-masking-squad2"
   },
   "loader": {
     "task": "question-answering",

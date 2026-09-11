@@ -60,7 +60,7 @@
     "op_types_to_quantize": null,
     "nodes_to_exclude": null,
     "task": "zero-shot-classification",
-    "model_name": "joeddav/xlm-roberta-large-xnli"
+    "model_id": "joeddav/xlm-roberta-large-xnli"
   },
   "compile": null,
   "loader": {

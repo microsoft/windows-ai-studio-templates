@@ -58,7 +58,7 @@
     "op_types_to_quantize": null,
     "nodes_to_exclude": null,
     "task": "fill-mask",
-    "model_name": "distilbert/distilbert-base-uncased"
+    "model_id": "distilbert/distilbert-base-uncased"
   },
   "compile": null,
   "loader": {

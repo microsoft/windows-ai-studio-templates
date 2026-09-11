@@ -60,7 +60,7 @@
     "op_types_to_quantize": null,
     "nodes_to_exclude": null,
     "task": "fill-mask",
-    "model_name": "FacebookAI/xlm-roberta-base"
+    "model_id": "FacebookAI/xlm-roberta-base"
   },
   "loader": {
     "task": "fill-mask",
