@@ -1,6 +1,3 @@
-# Parameters from llmfinetune 2.7.0 (transformers 5.9.0).
-# Training batch size and sequence length follow the Phi Silica A100 defaults.
-# Aion-1.1 loads its bundled architecture and weights from /model.
 adam_beta1: 0.9
 adam_beta2: 0.95
 adam_epsilon: 1.0e-08
