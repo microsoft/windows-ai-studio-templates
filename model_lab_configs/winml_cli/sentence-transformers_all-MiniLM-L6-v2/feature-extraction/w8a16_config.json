@@ -72,7 +72,7 @@
     "op_types_to_quantize": null,
     "nodes_to_exclude": null,
     "task": "feature-extraction",
-    "model_name": "sentence-transformers/all-MiniLM-L6-v2"
+    "model_id": "sentence-transformers/all-MiniLM-L6-v2"
   },
   "loader": {
     "task": "feature-extraction",

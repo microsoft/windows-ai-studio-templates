@@ -60,7 +60,7 @@
     "op_types_to_quantize": null,
     "nodes_to_exclude": null,
     "task": "token-classification",
-    "model_name": "w11wo/indonesian-roberta-base-posp-tagger"
+    "model_id": "w11wo/indonesian-roberta-base-posp-tagger"
   },
   "loader": {
     "task": "token-classification",

@@ -48,7 +48,7 @@
     "op_types_to_quantize": null,
     "nodes_to_exclude": null,
     "task": "image-segmentation",
-    "model_name": "nvidia/segformer-b5-finetuned-ade-640-640"
+    "model_id": "nvidia/segformer-b5-finetuned-ade-640-640"
   },
   "compile": null,
   "loader": {

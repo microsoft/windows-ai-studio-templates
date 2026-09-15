@@ -58,7 +58,7 @@
     "op_types_to_quantize": null,
     "nodes_to_exclude": null,
     "task": "token-classification",
-    "model_name": "Isotonic/distilbert_finetuned_ai4privacy_v2"
+    "model_id": "Isotonic/distilbert_finetuned_ai4privacy_v2"
   },
   "compile": null,
   "loader": {

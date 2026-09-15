@@ -58,7 +58,7 @@
     "op_types_to_quantize": null,
     "nodes_to_exclude": null,
     "task": "sentence-similarity",
-    "model_name": "sentence-transformers/multi-qa-mpnet-base-dot-v1"
+    "model_id": "sentence-transformers/multi-qa-mpnet-base-dot-v1"
   },
   "compile": null,
   "loader": {

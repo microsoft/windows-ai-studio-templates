@@ -72,7 +72,7 @@
     "op_types_to_quantize": null,
     "nodes_to_exclude": null,
     "task": "token-classification",
-    "model_name": "dbmdz/bert-large-cased-finetuned-conll03-english"
+    "model_id": "dbmdz/bert-large-cased-finetuned-conll03-english"
   },
   "compile": null,
   "loader": {

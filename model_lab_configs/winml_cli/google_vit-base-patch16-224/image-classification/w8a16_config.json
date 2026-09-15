@@ -48,7 +48,7 @@
     "op_types_to_quantize": null,
     "nodes_to_exclude": null,
     "task": "image-classification",
-    "model_name": "google/vit-base-patch16-224"
+    "model_id": "google/vit-base-patch16-224"
   },
   "compile": null,
   "loader": {

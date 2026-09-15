@@ -48,7 +48,7 @@
     "op_types_to_quantize": null,
     "nodes_to_exclude": null,
     "task": "image-classification",
-    "model_name": "rizvandwiki/gender-classification"
+    "model_id": "rizvandwiki/gender-classification"
   },
   "loader": {
     "task": "image-classification",

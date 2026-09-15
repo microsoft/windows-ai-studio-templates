@@ -48,7 +48,7 @@
     "op_types_to_quantize": null,
     "nodes_to_exclude": null,
     "task": "image-classification",
-    "model_name": "dima806/fairface_age_image_detection"
+    "model_id": "dima806/fairface_age_image_detection"
   },
   "compile": null,
   "loader": {

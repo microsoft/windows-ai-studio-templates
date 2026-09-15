@@ -63,7 +63,7 @@
     "op_types_to_quantize": null,
     "nodes_to_exclude": null,
     "task": "question-answering",
-    "model_name": "deepset/roberta-base-squad2"
+    "model_id": "deepset/roberta-base-squad2"
   },
   "loader": {
     "task": "question-answering",

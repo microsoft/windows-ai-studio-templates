@@ -60,7 +60,7 @@
     "op_types_to_quantize": null,
     "nodes_to_exclude": null,
     "task": "sentence-similarity",
-    "model_name": "sentence-transformers/paraphrase-multilingual-mpnet-base-v2"
+    "model_id": "sentence-transformers/paraphrase-multilingual-mpnet-base-v2"
   },
   "loader": {
     "task": "sentence-similarity",

@@ -61,7 +61,7 @@
     "op_types_to_quantize": null,
     "nodes_to_exclude": null,
     "task": "question-answering",
-    "model_name": "distilbert/distilbert-base-uncased-distilled-squad"
+    "model_id": "distilbert/distilbert-base-uncased-distilled-squad"
   },
   "compile": null,
   "loader": {

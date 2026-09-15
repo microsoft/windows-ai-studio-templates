@@ -48,7 +48,7 @@
     "op_types_to_quantize": null,
     "nodes_to_exclude": null,
     "task": "image-classification",
-    "model_name": "microsoft/resnet-18"
+    "model_id": "microsoft/resnet-18"
   },
   "compile": null,
   "loader": {

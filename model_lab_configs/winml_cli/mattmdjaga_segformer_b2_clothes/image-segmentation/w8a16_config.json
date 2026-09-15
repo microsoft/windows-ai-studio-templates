@@ -48,7 +48,7 @@
     "op_types_to_quantize": null,
     "nodes_to_exclude": null,
     "task": "image-segmentation",
-    "model_name": "mattmdjaga/segformer_b2_clothes"
+    "model_id": "mattmdjaga/segformer_b2_clothes"
   },
   "compile": null,
   "loader": {
