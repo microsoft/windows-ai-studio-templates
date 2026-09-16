@@ -1,8 +1,20 @@
 {
     "popularModels": [
+        "microsoft/aion-instruct-1.1",
         "microsoft/phi-silica-3.6"
     ],
     "models": [
+        {
+            "displayName": "microsoft/aion-instruct",
+            "icon": "ms",
+            "modelLink": "https://learn.microsoft.com/en-us/windows/ai/apis/phi-silica",
+            "id": "microsoft/aion-instruct-1.1",
+            "hostedBy": "Microsoft",
+            "supportLocalFinetuning": false,
+            "supportCloudFinetuning": true,
+            "modelVersion": "1.1",
+            "version": 1
+        },
         {
             "displayName": "microsoft/phi-silica",
             "icon": "ms",
