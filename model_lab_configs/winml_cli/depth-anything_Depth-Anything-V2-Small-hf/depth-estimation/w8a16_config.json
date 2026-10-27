@@ -1,0 +1,78 @@
+{
+  "export": {
+    "opset_version": 17,
+    "batch_size": 1,
+    "export_params": true,
+    "do_constant_folding": true,
+    "verbose": false,
+    "dynamo": false,
+    "enable_hierarchy_tags": true,
+    "clean_onnx": false,
+    "hierarchy_tag_format": "full",
+    "input_tensors": [
+      {
+        "name": "pixel_values",
+        "dtype": "float32",
+        "shape": [
+          1,
+          3,
+          518,
+          518
+        ],
+        "value_range": [
+          0,
+          1
+        ]
+      }
+    ],
+    "output_tensors": [
+      {
+        "name": "predicted_depth"
+      }
+    ]
+  },
+  "optim": {},
+  "quant": {
+    "mode": "static",
+    "samples": 10,
+    "calibration_method": "minmax",
+    "weight_type": "uint8",
+    "activation_type": "uint16",
+    "per_channel": false,
+    "symmetric": false,
+    "weight_symmetric": null,
+    "activation_symmetric": null,
+    "save_calibration": false,
+    "distribution": "uniform",
+    "seed": null,
+    "calibration_load_path": null,
+    "calibration_save_path": null,
+    "op_types_to_quantize": null,
+    "nodes_to_exclude": null,
+    "task": "depth-estimation",
+    "model_id": "depth-anything/Depth-Anything-V2-Small-hf",
+    "model_type": "depth_anything"
+  },
+  "compile": null,
+  "loader": {
+    "task": "depth-estimation",
+    "model_class": "AutoModelForDepthEstimation",
+    "model_type": "depth_anything"
+  },
+  "eval": {
+    "task": "depth-estimation",
+    "dataset": {
+      "path": "sayakpaul/nyu_depth_v2",
+      "split": "validation",
+      "samples": 200,
+      "shuffle": true,
+      "seed": 42,
+      "columns_mapping": {
+        "input_column": "image",
+        "depth_column": "depth_map",
+        "depth_kind": "disparity"
+      },
+      "revision": "refs/convert/parquet"
+    }
+  }
+}
