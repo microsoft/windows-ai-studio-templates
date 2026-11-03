@@ -1,135 +1,7 @@
 [
   {
-    "model_id": "BAAI/bge-base-en-v1.5",
-    "task": "feature-extraction",
-    "model_type": "bert",
-    "supported_eps": {
-      "cpu": [
-        "CPU"
-      ],
-      "dml": [
-        "GPU"
-      ],
-      "qnn": [
-        "GPU",
-        "NPU"
-      ],
-      "openvino": [
-        "CPU",
-        "GPU",
-        "NPU"
-      ],
-      "vitisai": [
-        "NPU"
-      ],
-      "trtrtx": [
-        "GPU"
-      ],
-      "migraphx": [
-        "GPU"
-      ]
-    },
-    "size_mb": 127.4
-  },
-  {
-    "model_id": "BAAI/bge-base-en-v1.5",
-    "task": "sentence-similarity",
-    "model_type": "bert",
-    "supported_eps": {
-      "cpu": [
-        "CPU"
-      ],
-      "dml": [
-        "GPU"
-      ],
-      "qnn": [
-        "GPU",
-        "NPU"
-      ],
-      "openvino": [
-        "CPU",
-        "GPU",
-        "NPU"
-      ],
-      "vitisai": [
-        "NPU"
-      ],
-      "trtrtx": [
-        "GPU"
-      ],
-      "migraphx": [
-        "GPU"
-      ]
-    },
-    "size_mb": 128.0
-  },
-  {
-    "model_id": "BAAI/bge-large-en-v1.5",
-    "task": "sentence-similarity",
-    "model_type": "bert",
-    "supported_eps": {
-      "cpu": [
-        "CPU"
-      ],
-      "dml": [
-        "GPU"
-      ],
-      "qnn": [
-        "GPU",
-        "NPU"
-      ],
-      "openvino": [
-        "CPU",
-        "GPU",
-        "NPU"
-      ],
-      "vitisai": [
-        "NPU"
-      ],
-      "trtrtx": [
-        "GPU"
-      ],
-      "migraphx": [
-        "GPU"
-      ]
-    },
-    "size_mb": 351.8
-  },
-  {
-    "model_id": "BAAI/bge-m3",
-    "task": "feature-extraction",
-    "model_type": "xlm-roberta",
-    "supported_eps": {
-      "cpu": [
-        "CPU"
-      ],
-      "dml": [
-        "GPU"
-      ],
-      "qnn": [
-        "GPU",
-        "NPU"
-      ],
-      "openvino": [
-        "CPU",
-        "GPU",
-        "NPU"
-      ],
-      "vitisai": [
-        "NPU"
-      ],
-      "trtrtx": [
-        "GPU"
-      ],
-      "migraphx": [
-        "GPU"
-      ]
-    },
-    "size_mb": 796.5
-  },
-  {
-    "model_id": "BAAI/bge-m3",
-    "task": "sentence-similarity",
+    "model_id": "BAAI/bge-reranker-v2-m3",
+    "task": "text-classification",
     "model_type": "xlm-roberta",
     "supported_eps": {
       "cpu": [
@@ -192,70 +64,6 @@
     "size_mb": 43.7
   },
   {
-    "model_id": "BAAI/bge-small-en-v1.5",
-    "task": "sentence-similarity",
-    "model_type": "bert",
-    "supported_eps": {
-      "cpu": [
-        "CPU"
-      ],
-      "dml": [
-        "GPU"
-      ],
-      "qnn": [
-        "GPU",
-        "NPU"
-      ],
-      "openvino": [
-        "CPU",
-        "GPU",
-        "NPU"
-      ],
-      "vitisai": [
-        "NPU"
-      ],
-      "trtrtx": [
-        "GPU"
-      ],
-      "migraphx": [
-        "GPU"
-      ]
-    },
-    "size_mb": 43.9
-  },
-  {
-    "model_id": "Babelscape/wikineural-multilingual-ner",
-    "task": "token-classification",
-    "model_type": "bert",
-    "supported_eps": {
-      "cpu": [
-        "CPU"
-      ],
-      "dml": [
-        "GPU"
-      ],
-      "qnn": [
-        "GPU",
-        "NPU"
-      ],
-      "openvino": [
-        "CPU",
-        "GPU",
-        "NPU"
-      ],
-      "vitisai": [
-        "NPU"
-      ],
-      "trtrtx": [
-        "GPU"
-      ],
-      "migraphx": [
-        "GPU"
-      ]
-    },
-    "size_mb": 257.9
-  },
-  {
     "model_id": "FacebookAI/roberta-base",
     "task": "fill-mask",
     "model_type": "roberta",
@@ -286,38 +94,6 @@
       ]
     },
     "size_mb": 194.7
-  },
-  {
-    "model_id": "FacebookAI/roberta-large",
-    "task": "fill-mask",
-    "model_type": "roberta",
-    "supported_eps": {
-      "cpu": [
-        "CPU"
-      ],
-      "dml": [
-        "GPU"
-      ],
-      "qnn": [
-        "GPU",
-        "NPU"
-      ],
-      "openvino": [
-        "CPU",
-        "GPU",
-        "NPU"
-      ],
-      "vitisai": [
-        "NPU"
-      ],
-      "trtrtx": [
-        "GPU"
-      ],
-      "migraphx": [
-        "GPU"
-      ]
-    },
-    "size_mb": 440.8
   },
   {
     "model_id": "FacebookAI/xlm-roberta-base",
@@ -352,9 +128,9 @@
     "size_mb": 634.4
   },
   {
-    "model_id": "Intel/bert-base-uncased-mrpc",
-    "task": "feature-extraction",
-    "model_type": "bert",
+    "model_id": "Salesforce/blip-image-captioning-base",
+    "task": "image-to-text",
+    "model_type": "blip",
     "supported_eps": {
       "cpu": [
         "CPU"
@@ -381,12 +157,12 @@
         "GPU"
       ]
     },
-    "size_mb": 127.4
+    "size_mb": 944.2
   },
   {
-    "model_id": "Intel/bert-base-uncased-mrpc",
-    "task": "text-classification",
-    "model_type": "bert",
+    "model_id": "ahotrod/electra_large_discriminator_squad2_512",
+    "task": "question-answering",
+    "model_type": "electra",
     "supported_eps": {
       "cpu": [
         "CPU"
@@ -413,103 +189,7 @@
         "GPU"
       ]
     },
-    "size_mb": 128.0
-  },
-  {
-    "model_id": "Isotonic/distilbert_finetuned_ai4privacy_v2",
-    "task": "token-classification",
-    "model_type": "distilbert",
-    "supported_eps": {
-      "cpu": [
-        "CPU"
-      ],
-      "dml": [
-        "GPU"
-      ],
-      "qnn": [
-        "GPU",
-        "NPU"
-      ],
-      "openvino": [
-        "CPU",
-        "GPU",
-        "NPU"
-      ],
-      "vitisai": [
-        "NPU"
-      ],
-      "trtrtx": [
-        "GPU"
-      ],
-      "migraphx": [
-        "GPU"
-      ]
-    },
-    "size_mb": 86.6
-  },
-  {
-    "model_id": "ProsusAI/finbert",
-    "task": "text-classification",
-    "model_type": "bert",
-    "supported_eps": {
-      "cpu": [
-        "CPU"
-      ],
-      "dml": [
-        "GPU"
-      ],
-      "qnn": [
-        "GPU",
-        "NPU"
-      ],
-      "openvino": [
-        "CPU",
-        "GPU",
-        "NPU"
-      ],
-      "vitisai": [
-        "NPU"
-      ],
-      "trtrtx": [
-        "GPU"
-      ],
-      "migraphx": [
-        "GPU"
-      ]
-    },
-    "size_mb": 128.0
-  },
-  {
-    "model_id": "apple/mobilevit-small",
-    "task": "image-classification",
-    "model_type": "mobilevit",
-    "supported_eps": {
-      "cpu": [
-        "CPU"
-      ],
-      "dml": [
-        "GPU"
-      ],
-      "qnn": [
-        "GPU",
-        "NPU"
-      ],
-      "openvino": [
-        "CPU",
-        "GPU",
-        "NPU"
-      ],
-      "vitisai": [
-        "NPU"
-      ],
-      "trtrtx": [
-        "GPU"
-      ],
-      "migraphx": [
-        "GPU"
-      ]
-    },
-    "size_mb": 6.1
+    "size_mb": 1274.8
   },
   {
     "model_id": "cardiffnlp/twitter-roberta-base-sentiment-latest",
@@ -544,6 +224,70 @@
     "size_mb": 157.7
   },
   {
+    "model_id": "cross-encoder/ms-marco-MiniLM-L6-v2",
+    "task": "text-classification",
+    "model_type": "bert",
+    "supported_eps": {
+      "cpu": [
+        "CPU"
+      ],
+      "dml": [
+        "GPU"
+      ],
+      "qnn": [
+        "GPU",
+        "NPU"
+      ],
+      "openvino": [
+        "CPU",
+        "GPU",
+        "NPU"
+      ],
+      "vitisai": [
+        "NPU"
+      ],
+      "trtrtx": [
+        "GPU"
+      ],
+      "migraphx": [
+        "GPU"
+      ]
+    },
+    "size_mb": 43.4
+  },
+  {
+    "model_id": "cross-encoder/nli-deberta-v3-small",
+    "task": "zero-shot-classification",
+    "model_type": "deberta-v2",
+    "supported_eps": {
+      "cpu": [
+        "CPU"
+      ],
+      "dml": [
+        "GPU"
+      ],
+      "qnn": [
+        "GPU",
+        "NPU"
+      ],
+      "openvino": [
+        "CPU",
+        "GPU",
+        "NPU"
+      ],
+      "vitisai": [
+        "NPU"
+      ],
+      "trtrtx": [
+        "GPU"
+      ],
+      "migraphx": [
+        "GPU"
+      ]
+    },
+    "size_mb": 281.9
+  },
+  {
     "model_id": "dbmdz/bert-large-cased-finetuned-conll03-english",
     "task": "token-classification",
     "model_type": "bert",
@@ -576,9 +320,9 @@
     "size_mb": 347.9
   },
   {
-    "model_id": "deepset/bert-large-uncased-whole-word-masking-squad2",
-    "task": "question-answering",
-    "model_type": "bert",
+    "model_id": "depth-anything/Depth-Anything-V2-Small-hf",
+    "task": "depth-estimation",
+    "model_type": "depth_anything",
     "supported_eps": {
       "cpu": [
         "CPU"
@@ -605,199 +349,7 @@
         "GPU"
       ]
     },
-    "size_mb": 350.9
-  },
-  {
-    "model_id": "deepset/roberta-base-squad2",
-    "task": "question-answering",
-    "model_type": "roberta",
-    "supported_eps": {
-      "cpu": [
-        "CPU"
-      ],
-      "dml": [
-        "GPU"
-      ],
-      "qnn": [
-        "GPU",
-        "NPU"
-      ],
-      "openvino": [
-        "CPU",
-        "GPU",
-        "NPU"
-      ],
-      "vitisai": [
-        "NPU"
-      ],
-      "trtrtx": [
-        "GPU"
-      ],
-      "migraphx": [
-        "GPU"
-      ]
-    },
-    "size_mb": 157.2
-  },
-  {
-    "model_id": "deepset/tinyroberta-squad2",
-    "task": "question-answering",
-    "model_type": "roberta",
-    "supported_eps": {
-      "cpu": [
-        "CPU"
-      ],
-      "dml": [
-        "GPU"
-      ],
-      "qnn": [
-        "GPU",
-        "NPU"
-      ],
-      "openvino": [
-        "CPU",
-        "GPU",
-        "NPU"
-      ],
-      "vitisai": [
-        "NPU"
-      ],
-      "trtrtx": [
-        "GPU"
-      ],
-      "migraphx": [
-        "GPU"
-      ]
-    },
-    "size_mb": 116.2
-  },
-  {
-    "model_id": "dima806/fairface_age_image_detection",
-    "task": "image-classification",
-    "model_type": "vit",
-    "supported_eps": {
-      "cpu": [
-        "CPU"
-      ],
-      "dml": [
-        "GPU"
-      ],
-      "qnn": [
-        "GPU",
-        "NPU"
-      ],
-      "openvino": [
-        "CPU",
-        "GPU",
-        "NPU"
-      ],
-      "vitisai": [
-        "NPU"
-      ],
-      "trtrtx": [
-        "GPU"
-      ],
-      "migraphx": [
-        "GPU"
-      ]
-    },
-    "size_mb": 82.8
-  },
-  {
-    "model_id": "distilbert/distilbert-base-cased-distilled-squad",
-    "task": "question-answering",
-    "model_type": "distilbert",
-    "supported_eps": {
-      "cpu": [
-        "CPU"
-      ],
-      "dml": [
-        "GPU"
-      ],
-      "qnn": [
-        "GPU",
-        "NPU"
-      ],
-      "openvino": [
-        "CPU",
-        "GPU",
-        "NPU"
-      ],
-      "vitisai": [
-        "NPU"
-      ],
-      "trtrtx": [
-        "GPU"
-      ],
-      "migraphx": [
-        "GPU"
-      ]
-    },
-    "size_mb": 84.2
-  },
-  {
-    "model_id": "distilbert/distilbert-base-uncased",
-    "task": "fill-mask",
-    "model_type": "distilbert",
-    "supported_eps": {
-      "cpu": [
-        "CPU"
-      ],
-      "dml": [
-        "GPU"
-      ],
-      "qnn": [
-        "GPU",
-        "NPU"
-      ],
-      "openvino": [
-        "CPU",
-        "GPU",
-        "NPU"
-      ],
-      "vitisai": [
-        "NPU"
-      ],
-      "trtrtx": [
-        "GPU"
-      ],
-      "migraphx": [
-        "GPU"
-      ]
-    },
-    "size_mb": 109.5
-  },
-  {
-    "model_id": "distilbert/distilbert-base-uncased-distilled-squad",
-    "task": "question-answering",
-    "model_type": "distilbert",
-    "supported_eps": {
-      "cpu": [
-        "CPU"
-      ],
-      "dml": [
-        "GPU"
-      ],
-      "qnn": [
-        "GPU",
-        "NPU"
-      ],
-      "openvino": [
-        "CPU",
-        "GPU",
-        "NPU"
-      ],
-      "vitisai": [
-        "NPU"
-      ],
-      "trtrtx": [
-        "GPU"
-      ],
-      "migraphx": [
-        "GPU"
-      ]
-    },
-    "size_mb": 86.5
+    "size_mb": 94.4
   },
   {
     "model_id": "distilbert/distilbert-base-uncased-finetuned-sst-2-english",
@@ -832,9 +384,9 @@
     "size_mb": 87.0
   },
   {
-    "model_id": "dslim/bert-base-NER",
-    "task": "token-classification",
-    "model_type": "bert",
+    "model_id": "distilbert/distilbert-base-uncased",
+    "task": "fill-mask",
+    "model_type": "distilbert",
     "supported_eps": {
       "cpu": [
         "CPU"
@@ -861,7 +413,7 @@
         "GPU"
       ]
     },
-    "size_mb": 125.2
+    "size_mb": 109.5
   },
   {
     "model_id": "facebook/convnext-tiny-224",
@@ -896,6 +448,38 @@
     "size_mb": 27.8
   },
   {
+    "model_id": "facebook/detr-resnet-50",
+    "task": "object-detection",
+    "model_type": "detr",
+    "supported_eps": {
+      "cpu": [
+        "CPU"
+      ],
+      "dml": [
+        "GPU"
+      ],
+      "qnn": [
+        "GPU",
+        "NPU"
+      ],
+      "openvino": [
+        "CPU",
+        "GPU",
+        "NPU"
+      ],
+      "vitisai": [
+        "NPU"
+      ],
+      "trtrtx": [
+        "GPU"
+      ],
+      "migraphx": [
+        "GPU"
+      ]
+    },
+    "size_mb": 41.8
+  },
+  {
     "model_id": "facebook/dino-vitb16",
     "task": "image-feature-extraction",
     "model_type": "vit",
@@ -928,39 +512,7 @@
     "size_mb": 83.4
   },
   {
-    "model_id": "facebook/dino-vits16",
-    "task": "image-feature-extraction",
-    "model_type": "vit",
-    "supported_eps": {
-      "cpu": [
-        "CPU"
-      ],
-      "dml": [
-        "GPU"
-      ],
-      "qnn": [
-        "GPU",
-        "NPU"
-      ],
-      "openvino": [
-        "CPU",
-        "GPU",
-        "NPU"
-      ],
-      "vitisai": [
-        "NPU"
-      ],
-      "trtrtx": [
-        "GPU"
-      ],
-      "migraphx": [
-        "GPU"
-      ]
-    },
-    "size_mb": 21.6
-  },
-  {
-    "model_id": "facebook/dinov2-small",
+    "model_id": "facebook/dinov2-base",
     "task": "image-feature-extraction",
     "model_type": "dinov2",
     "supported_eps": {
@@ -989,11 +541,11 @@
         "GPU"
       ]
     },
-    "size_mb": 21.4
+    "size_mb": 163.6
   },
   {
     "model_id": "google-bert/bert-base-multilingual-cased",
-    "task": "feature-extraction",
+    "task": "masked-lm",
     "model_type": "bert",
     "supported_eps": {
       "cpu": [
@@ -1021,71 +573,7 @@
         "GPU"
       ]
     },
-    "size_mb": 257.8
-  },
-  {
-    "model_id": "google-bert/bert-base-multilingual-cased",
-    "task": "fill-mask",
-    "model_type": "bert",
-    "supported_eps": {
-      "cpu": [
-        "CPU"
-      ],
-      "dml": [
-        "GPU"
-      ],
-      "qnn": [
-        "GPU",
-        "NPU"
-      ],
-      "openvino": [
-        "CPU",
-        "GPU",
-        "NPU"
-      ],
-      "vitisai": [
-        "NPU"
-      ],
-      "trtrtx": [
-        "GPU"
-      ],
-      "migraphx": [
-        "GPU"
-      ]
-    },
-    "size_mb": 346.5
-  },
-  {
-    "model_id": "google-bert/bert-base-multilingual-uncased",
-    "task": "fill-mask",
-    "model_type": "bert",
-    "supported_eps": {
-      "cpu": [
-        "CPU"
-      ],
-      "dml": [
-        "GPU"
-      ],
-      "qnn": [
-        "GPU",
-        "NPU"
-      ],
-      "openvino": [
-        "CPU",
-        "GPU",
-        "NPU"
-      ],
-      "vitisai": [
-        "NPU"
-      ],
-      "trtrtx": [
-        "GPU"
-      ],
-      "migraphx": [
-        "GPU"
-      ]
-    },
-    "size_mb": 316.4
+    "size_mb": 346.4
   },
   {
     "model_id": "google-bert/bert-base-uncased",
@@ -1120,9 +608,9 @@
     "size_mb": 150.5
   },
   {
-    "model_id": "google-bert/bert-large-uncased-whole-word-masking-finetuned-squad",
-    "task": "question-answering",
-    "model_type": "bert",
+    "model_id": "google-t5/t5-small",
+    "task": "translation",
+    "model_type": "t5",
     "supported_eps": {
       "cpu": [
         "CPU"
@@ -1149,12 +637,12 @@
         "GPU"
       ]
     },
-    "size_mb": 350.9
+    "size_mb": 121.2
   },
   {
-    "model_id": "google/vit-base-patch16-224",
-    "task": "image-classification",
-    "model_type": "vit",
+    "model_id": "google/flan-t5-base",
+    "task": "summarization",
+    "model_type": "t5",
     "supported_eps": {
       "cpu": [
         "CPU"
@@ -1181,7 +669,39 @@
         "GPU"
       ]
     },
-    "size_mb": 83.6
+    "size_mb": 308.5
+  },
+  {
+    "model_id": "google/siglip-base-patch16-224",
+    "task": "zero-shot-image-classification",
+    "model_type": "siglip",
+    "supported_eps": {
+      "cpu": [
+        "CPU"
+      ],
+      "dml": [
+        "GPU"
+      ],
+      "qnn": [
+        "GPU",
+        "NPU"
+      ],
+      "openvino": [
+        "CPU",
+        "GPU",
+        "NPU"
+      ],
+      "vitisai": [
+        "NPU"
+      ],
+      "trtrtx": [
+        "GPU"
+      ],
+      "migraphx": [
+        "GPU"
+      ]
+    },
+    "size_mb": 218.8
   },
   {
     "model_id": "google/vit-base-patch16-224-in21k",
@@ -1216,9 +736,9 @@
     "size_mb": 83.4
   },
   {
-    "model_id": "joeddav/xlm-roberta-large-xnli",
-    "task": "zero-shot-classification",
-    "model_type": "xlm-roberta",
+    "model_id": "google/vit-base-patch16-224",
+    "task": "image-classification",
+    "model_type": "vit",
     "supported_eps": {
       "cpu": [
         "CPU"
@@ -1245,11 +765,43 @@
         "GPU"
       ]
     },
-    "size_mb": 781.6
+    "size_mb": 83.6
+  },
+  {
+    "model_id": "hustvl/yolos-small",
+    "task": "object-detection",
+    "model_type": "yolos",
+    "supported_eps": {
+      "cpu": [
+        "CPU"
+      ],
+      "dml": [
+        "GPU"
+      ],
+      "qnn": [
+        "GPU",
+        "NPU"
+      ],
+      "openvino": [
+        "CPU",
+        "GPU",
+        "NPU"
+      ],
+      "vitisai": [
+        "NPU"
+      ],
+      "trtrtx": [
+        "GPU"
+      ],
+      "migraphx": [
+        "GPU"
+      ]
+    },
+    "size_mb": 38.1
   },
   {
     "model_id": "laion/CLIP-ViT-B-32-laion2B-s34B-b79K",
-    "task": "feature-extraction",
+    "task": "zero-shot-image-classification",
     "model_type": "clip",
     "supported_eps": {
       "cpu": [
@@ -1277,7 +829,39 @@
         "GPU"
       ]
     },
-    "size_mb": 85.4
+    "size_mb": 170.1
+  },
+  {
+    "model_id": "lxyuan/distilbert-base-multilingual-cased-sentiments-student",
+    "task": "zero-shot-classification",
+    "model_type": "distilbert",
+    "supported_eps": {
+      "cpu": [
+        "CPU"
+      ],
+      "dml": [
+        "GPU"
+      ],
+      "qnn": [
+        "GPU",
+        "NPU"
+      ],
+      "openvino": [
+        "CPU",
+        "GPU",
+        "NPU"
+      ],
+      "vitisai": [
+        "NPU"
+      ],
+      "trtrtx": [
+        "GPU"
+      ],
+      "migraphx": [
+        "GPU"
+      ]
+    },
+    "size_mb": 217.4
   },
   {
     "model_id": "mattmdjaga/segformer_b2_clothes",
@@ -1312,9 +896,9 @@
     "size_mb": 27.4
   },
   {
-    "model_id": "microsoft/resnet-18",
+    "model_id": "microsoft/beit-base-patch16-224-pt22k-ft22k",
     "task": "image-classification",
-    "model_type": "resnet",
+    "model_type": "beit",
     "supported_eps": {
       "cpu": [
         "CPU"
@@ -1341,7 +925,7 @@
         "GPU"
       ]
     },
-    "size_mb": 11.2
+    "size_mb": 109.3
   },
   {
     "model_id": "microsoft/resnet-50",
@@ -1376,9 +960,9 @@
     "size_mb": 24.6
   },
   {
-    "model_id": "microsoft/swin-large-patch4-window7-224",
-    "task": "image-classification",
-    "model_type": "swin",
+    "model_id": "microsoft/table-transformer-structure-recognition",
+    "task": "object-detection",
+    "model_type": "table-transformer",
     "supported_eps": {
       "cpu": [
         "CPU"
@@ -1405,39 +989,7 @@
         "GPU"
       ]
     },
-    "size_mb": 192.8
-  },
-  {
-    "model_id": "microsoft/trocr-base-handwritten",
-    "task": "image-to-text",
-    "model_type": "vision-encoder-decoder",
-    "supported_eps": {
-      "cpu": [
-        "CPU"
-      ],
-      "dml": [
-        "GPU"
-      ],
-      "qnn": [
-        "GPU",
-        "NPU"
-      ],
-      "openvino": [
-        "CPU",
-        "GPU",
-        "NPU"
-      ],
-      "vitisai": [
-        "NPU"
-      ],
-      "trtrtx": [
-        "GPU"
-      ],
-      "migraphx": [
-        "GPU"
-      ]
-    },
-    "size_mb": 419.5
+    "size_mb": 29.7
   },
   {
     "model_id": "microsoft/trocr-base-printed",
@@ -1472,70 +1024,6 @@
     "size_mb": 419.5
   },
   {
-    "model_id": "microsoft/trocr-large-handwritten",
-    "task": "image-to-text",
-    "model_type": "vision-encoder-decoder",
-    "supported_eps": {
-      "cpu": [
-        "CPU"
-      ],
-      "dml": [
-        "GPU"
-      ],
-      "qnn": [
-        "GPU",
-        "NPU"
-      ],
-      "openvino": [
-        "CPU",
-        "GPU",
-        "NPU"
-      ],
-      "vitisai": [
-        "NPU"
-      ],
-      "trtrtx": [
-        "GPU"
-      ],
-      "migraphx": [
-        "GPU"
-      ]
-    },
-    "size_mb": 634.1
-  },
-  {
-    "model_id": "nvidia/segformer-b1-finetuned-ade-512-512",
-    "task": "image-segmentation",
-    "model_type": "segformer",
-    "supported_eps": {
-      "cpu": [
-        "CPU"
-      ],
-      "dml": [
-        "GPU"
-      ],
-      "qnn": [
-        "GPU",
-        "NPU"
-      ],
-      "openvino": [
-        "CPU",
-        "GPU",
-        "NPU"
-      ],
-      "vitisai": [
-        "NPU"
-      ],
-      "trtrtx": [
-        "GPU"
-      ],
-      "migraphx": [
-        "GPU"
-      ]
-    },
-    "size_mb": 13.8
-  },
-  {
     "model_id": "nvidia/segformer-b2-finetuned-ade-512-512",
     "task": "image-segmentation",
     "model_type": "segformer",
@@ -1566,102 +1054,6 @@
       ]
     },
     "size_mb": 27.5
-  },
-  {
-    "model_id": "nvidia/segformer-b5-finetuned-ade-640-640",
-    "task": "image-segmentation",
-    "model_type": "segformer",
-    "supported_eps": {
-      "cpu": [
-        "CPU"
-      ],
-      "dml": [
-        "GPU"
-      ],
-      "qnn": [
-        "GPU",
-        "NPU"
-      ],
-      "openvino": [
-        "CPU",
-        "GPU",
-        "NPU"
-      ],
-      "vitisai": [
-        "NPU"
-      ],
-      "trtrtx": [
-        "GPU"
-      ],
-      "migraphx": [
-        "GPU"
-      ]
-    },
-    "size_mb": 85.1
-  },
-  {
-    "model_id": "openai/clip-vit-base-patch16",
-    "task": "feature-extraction",
-    "model_type": "clip",
-    "supported_eps": {
-      "cpu": [
-        "CPU"
-      ],
-      "dml": [
-        "GPU"
-      ],
-      "qnn": [
-        "GPU",
-        "NPU"
-      ],
-      "openvino": [
-        "CPU",
-        "GPU",
-        "NPU"
-      ],
-      "vitisai": [
-        "NPU"
-      ],
-      "trtrtx": [
-        "GPU"
-      ],
-      "migraphx": [
-        "GPU"
-      ]
-    },
-    "size_mb": 85.5
-  },
-  {
-    "model_id": "openai/clip-vit-base-patch16",
-    "task": "zero-shot-image-classification",
-    "model_type": "clip",
-    "supported_eps": {
-      "cpu": [
-        "CPU"
-      ],
-      "dml": [
-        "GPU"
-      ],
-      "qnn": [
-        "GPU",
-        "NPU"
-      ],
-      "openvino": [
-        "CPU",
-        "GPU",
-        "NPU"
-      ],
-      "vitisai": [
-        "NPU"
-      ],
-      "trtrtx": [
-        "GPU"
-      ],
-      "migraphx": [
-        "GPU"
-      ]
-    },
-    "size_mb": 168.7
   },
   {
     "model_id": "openai/clip-vit-base-patch32",
@@ -1696,9 +1088,9 @@
     "size_mb": 85.5
   },
   {
-    "model_id": "rizvandwiki/gender-classification",
-    "task": "image-classification",
-    "model_type": "vit",
+    "model_id": "openai/clip-vit-large-patch14",
+    "task": "zero-shot-image-classification",
+    "model_type": "clip",
     "supported_eps": {
       "cpu": [
         "CPU"
@@ -1725,39 +1117,7 @@
         "GPU"
       ]
     },
-    "size_mb": 82.8
-  },
-  {
-    "model_id": "sentence-transformers/all-MiniLM-L6-v2",
-    "task": "feature-extraction",
-    "model_type": "bert",
-    "supported_eps": {
-      "cpu": [
-        "CPU"
-      ],
-      "dml": [
-        "GPU"
-      ],
-      "qnn": [
-        "GPU",
-        "NPU"
-      ],
-      "openvino": [
-        "CPU",
-        "GPU",
-        "NPU"
-      ],
-      "vitisai": [
-        "NPU"
-      ],
-      "trtrtx": [
-        "GPU"
-      ],
-      "migraphx": [
-        "GPU"
-      ]
-    },
-    "size_mb": 33.2
+    "size_mb": 447.2
   },
   {
     "model_id": "sentence-transformers/all-MiniLM-L6-v2",
@@ -1793,38 +1153,6 @@
   },
   {
     "model_id": "sentence-transformers/all-mpnet-base-v2",
-    "task": "feature-extraction",
-    "model_type": "mpnet",
-    "supported_eps": {
-      "cpu": [
-        "CPU"
-      ],
-      "dml": [
-        "GPU"
-      ],
-      "qnn": [
-        "GPU",
-        "NPU"
-      ],
-      "openvino": [
-        "CPU",
-        "GPU",
-        "NPU"
-      ],
-      "vitisai": [
-        "NPU"
-      ],
-      "trtrtx": [
-        "GPU"
-      ],
-      "migraphx": [
-        "GPU"
-      ]
-    },
-    "size_mb": 133.4
-  },
-  {
-    "model_id": "sentence-transformers/all-mpnet-base-v2",
     "task": "sentence-similarity",
     "model_type": "mpnet",
     "supported_eps": {
@@ -1886,38 +1214,6 @@
       ]
     },
     "size_mb": 133.4
-  },
-  {
-    "model_id": "sentence-transformers/multi-qa-mpnet-base-dot-v1",
-    "task": "sentence-similarity",
-    "model_type": "mpnet",
-    "supported_eps": {
-      "cpu": [
-        "CPU"
-      ],
-      "dml": [
-        "GPU"
-      ],
-      "qnn": [
-        "GPU",
-        "NPU"
-      ],
-      "openvino": [
-        "CPU",
-        "GPU",
-        "NPU"
-      ],
-      "vitisai": [
-        "NPU"
-      ],
-      "trtrtx": [
-        "GPU"
-      ],
-      "migraphx": [
-        "GPU"
-      ]
-    },
-    "size_mb": 134.0
   },
   {
     "model_id": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
@@ -1952,9 +1248,9 @@
     "size_mb": 204.5
   },
   {
-    "model_id": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
-    "task": "sentence-similarity",
-    "model_type": "bert",
+    "model_id": "tau/splinter-base",
+    "task": "question-answering",
+    "model_type": "splinter",
     "supported_eps": {
       "cpu": [
         "CPU"
@@ -1981,12 +1277,12 @@
         "GPU"
       ]
     },
-    "size_mb": 204.7
+    "size_mb": 128.7
   },
   {
-    "model_id": "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
-    "task": "sentence-similarity",
-    "model_type": "xlm-roberta",
+    "model_id": "timm/mobilenetv3_small_100.lamb_in1k",
+    "task": "image-classification",
+    "model_type": "timm_wrapper",
     "supported_eps": {
       "cpu": [
         "CPU"
@@ -2013,7 +1309,39 @@
         "GPU"
       ]
     },
-    "size_mb": 450.3
+    "size_mb": 2.7
+  },
+  {
+    "model_id": "timpal0l/mdeberta-v3-base-squad2",
+    "task": "question-answering",
+    "model_type": "deberta-v2",
+    "supported_eps": {
+      "cpu": [
+        "CPU"
+      ],
+      "dml": [
+        "GPU"
+      ],
+      "qnn": [
+        "GPU",
+        "NPU"
+      ],
+      "openvino": [
+        "CPU",
+        "GPU",
+        "NPU"
+      ],
+      "vitisai": [
+        "NPU"
+      ],
+      "trtrtx": [
+        "GPU"
+      ],
+      "migraphx": [
+        "GPU"
+      ]
+    },
+    "size_mb": 506.9
   },
   {
     "model_id": "w11wo/indonesian-roberta-base-posp-tagger",
@@ -2046,29 +1374,5 @@
       ]
     },
     "size_mb": 157.2
-  },
-  {
-    "model_id": "onnx-community/sam3-tracker-ONNX",
-    "onnx_path": "onnx/vision_encoder_int8.onnx",
-    "task": "image-feature-extraction",
-    "model_type": "sam3_tracker",
-    "supported_eps": {
-      "cpu": [
-        "CPU"
-      ]
-    },
-    "size_mb": 504.2
-  },
-  {
-    "model_id": "onnx-community/sam3-tracker-ONNX",
-    "onnx_path": "onnx/prompt_encoder_mask_decoder_int8.onnx",
-    "task": "mask-generation",
-    "model_type": "sam3_tracker",
-    "supported_eps": {
-      "cpu": [
-        "CPU"
-      ]
-    },
-    "size_mb": 9.6
   }
 ]
