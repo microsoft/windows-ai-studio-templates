@@ -1,5 +1,16 @@
 [
   {
+    "model_id": "Qwen/Qwen3-0.6B",
+    "task": "text-generation",
+    "model_type": "qwen3",
+    "supported_eps": {
+      "cpu": ["CPU"],
+      "qnn": ["NPU"],
+      "vitisai": ["NPU"],
+      "openvino": ["NPU", "GPU"]
+    }
+  },
+  {
     "model_id": "BAAI/bge-reranker-v2-m3",
     "task": "text-classification",
     "model_type": "xlm-roberta",

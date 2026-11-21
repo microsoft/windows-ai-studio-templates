@@ -1,0 +1,7 @@
+{
+  "recipe_type": "genai-bundle",
+  "model_id": "Qwen/Qwen3-0.6B",
+  "ep": "openvino",
+  "device": "gpu",
+  "precision": "w8a16"
+}

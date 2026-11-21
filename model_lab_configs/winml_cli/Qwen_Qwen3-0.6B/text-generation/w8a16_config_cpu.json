@@ -1,0 +1,7 @@
+{
+  "recipe_type": "genai-bundle",
+  "model_id": "Qwen/Qwen3-0.6B",
+  "ep": "cpu",
+  "device": "cpu",
+  "precision": "w8a16"
+}
